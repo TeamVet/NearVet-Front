@@ -8,6 +8,7 @@ import {
   StoreIcon,
   MailIcon,
 } from "@/lib/icons";
+import { PATHROUTES } from "@/helpers/Pathroutes";
 interface NavItem {
   name: string;
   url: string;
@@ -16,12 +17,12 @@ interface NavItem {
 export const NavItem: Array<NavItem> = [
   {
     name: "Inicio",
-    url: "/",
+    url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
-    name: "Loguearse",
-    url: "/sign",
+    name: "Iniciar Sesion",
+    url: PATHROUTES.LOGIN,
     icon: LoginIcon,
   },
 ];
@@ -29,22 +30,22 @@ export const NavItem: Array<NavItem> = [
 export const NavItemUser: Array<NavItem> = [
   {
     name: "Inicio",
-    url: "/",
+    url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
     name: "Mascotas",
-    url: "/pet",
+    url: PATHROUTES.PET,
     icon: PawIcon,
   },
   {
     name: "Usuario",
-    url: "/userDashboard",
+    url: PATHROUTES.USER_DASHBOARD,
     icon: UserIcon,
   },
   {
     name: "Mensajes",
-    url: "/message",
+    url: "",
     icon: MailIcon,
   },
   {
@@ -57,22 +58,22 @@ export const NavItemUser: Array<NavItem> = [
 export const NavItemAdmin: Array<NavItem> = [
   {
     name: "Inicio",
-    url: "/",
+    url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
     name: "Admin",
-    url: "/adminDashboard",
+    url: PATHROUTES.ADMIN_DASHBOARD,
     icon: StoreIcon,
   },
   {
     name: "Veterinario",
-    url: "/vetDashboard",
+    url: PATHROUTES.VET_DASHBOARD,
     icon: ClipboardIcon,
   },
   {
     name: "Mensajes",
-    url: "/message",
+    url: "",
     icon: MailIcon,
   },
   {
@@ -85,17 +86,17 @@ export const NavItemAdmin: Array<NavItem> = [
 export const NavItemVet: Array<NavItem> = [
   {
     name: "Inicio",
-    url: "/",
+    url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
     name: "Veterinario",
-    url: "/vetDashboard",
+    url: PATHROUTES.VET_DASHBOARD,
     icon: ClipboardIcon,
   },
   {
     name: "Mensajes",
-    url: "/message",
+    url: "",
     icon: MailIcon,
   },
   {
