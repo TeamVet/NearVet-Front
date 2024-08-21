@@ -1,9 +1,17 @@
-export const PATHROUTES = {
+const PATHROUTES = {
   HOME: "/",
-  LOGIN: "/signin",
-  SIGNUP: "/signup",
+  LOGIN: "/login",
+  REGISTER: "/auth/register",
   USER_DASHBOARD: "/userDashboard",
-  VET_DASHBOARD: "/vetDashboard",
   ADMIN_DASHBOARD: "/adminDashboard",
+  VET_DASHBOARD: "/vetDashboard",
   PET: "/pet",
+  CART: "/cart",
+  SEARCH: "/search",
+  FAQ: "/faq",
+  ABOUTUS: "/aboutus",
+  TERMS: "/terms",
+  PRIVACY: "/privacypolicy",
 };
+
+export default PATHROUTES;
