@@ -1,11 +1,12 @@
 "use client";
-import PATHROUTES from "@/helpers/PathRoutes";
+
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import * as Yup from "yup";
 import ButtonCustom from "./ButtonCustom";
 import GoogleButton from "./GoogleButton";
+import PATHROUTES from "@/helpers/path-routes";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()

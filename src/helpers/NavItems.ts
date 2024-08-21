@@ -8,7 +8,8 @@ import {
   StoreIcon,
   MailIcon,
 } from "@/lib/icons";
-import PATHROUTES from "@/helpers/Pathroutes";
+import PATHROUTES from "./path-routes";
+
 interface NavItem {
   name: string;
   url: string;
