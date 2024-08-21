@@ -1,3 +1,4 @@
+import PATHROUTES from "@/helpers/PathRoutes";
 import {
   PawIcon,
   HomeIcon,
@@ -36,7 +37,7 @@ export const NavItemUser: Array<NavItem> = [
   },
   {
     name: "Usuario",
-    url: "/userDashboard",
+    url: PATHROUTES.LOGIN,
     icon: UserIcon,
   },
   {
