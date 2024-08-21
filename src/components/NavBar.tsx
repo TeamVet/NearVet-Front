@@ -3,23 +3,38 @@ import { ThemeIcon } from "@/lib/icons";
 import { NavItem, NavItemUser, NavItemAdmin, NavItemVet } from "@/helpers/NavItems";
 
 import Link from "next/link";
-
+import { useUser } from "@/app/context/UserContext";
 
 
 const NavBar: React.FC = () => {
+  const { logoutContext, user } = useUser();
+  const handleLogOut = () => { logoutContext }
 
-  const handleLogOut = () => { } // logica para manejar el logout
-  const isMail = true //necesitamos un handler para el mail, para saber si es un mail o no
+  const isMail = true //necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
+
+  let navItems;
+  if (!user) {
+    navItems = NavItem; // No logueado
+  } else {
+    switch (user.role) {
+      case "user":
+        navItems = NavItemUser;
+        break;
+      case "admin":
+        navItems = NavItemAdmin;
+        break;
+      case "vet":
+        navItems = NavItemVet;
+        break;
+      default:
+        navItems = NavItem; // fallback
+        break;
+    }
+  }
+
   return (<nav className="w-full flex flex-row shadow-md  justify-between px-5 py-2">
     <Link className="text-2xl font-bold text-detail text-center self-center" href={"/"}>Logo</Link>
     <div className="flex flex-row gap-4 ">
-
-      {/* aca usamos la logica de mapear navitem segun este logueado o no, y el rol que tiene 
-      NO LOGUEADO= NavItem
-      USER = NavItemUser
-      ADMIN = NavItemAdmin
-      VETERINARIO = NavItemVet
-      */}
       {NavItemVet.map((item) => (
 
         item.name != "Salir" ? (
@@ -47,7 +62,7 @@ const NavBar: React.FC = () => {
             </div>
           </button>)))}
 
-      <ThemeIcon isDark={false} />
+      <ThemeIcon isDark={false} /> ///tenemos que realizar un handler para el tema
 
     </div>
   </nav>);
