@@ -93,11 +93,12 @@ const Login: React.FC = () => {
                   />
                 </div>
               </div>
+              {/* <button className="bg-primary text-white"></button> */}
               <ButtonCustom text="Log In" color="white"></ButtonCustom>
             </Form>
           )}
         </Formik>
-        <span className="text-gray-500 font-bold">- OR -</span>
+        <span className="text-gray-400 font-bold">- OR -</span>
         <GoogleButton
           text="Sign in with Google"
           onClick={() => console.log("Google sign-in clicked")}
