@@ -1,4 +1,5 @@
-import { IoPawSharp, IoPerson, IoHome, IoPersonCircle, IoLogOutSharp, IoMoonOutline, IoMoon } from "react-icons/io5";
+import { ThemeIconProps } from "@/app/types/interfaces";
+import { IoPawSharp, IoPerson, IoHome, IoPersonCircle, IoLogOutSharp, IoMoonOutline, IoMoon, IoClipboardSharp, IoStorefrontSharp, IoMailSharp, IoMailOpenSharp } from "react-icons/io5";
 
 export const PawIcon = () => {
   return <IoPawSharp color="#8E44AD" />;
@@ -19,9 +20,20 @@ export const LogOutIcon = () => {
   return <IoLogOutSharp color="#8E44AD" />;
 }
 
-interface ThemeIconProps {
-  isDark: boolean;
+export const ClipboardIcon = () => {
+  return <IoClipboardSharp color="#8E44AD" />;
 }
+
+export const StoreIcon = () => {
+  return <IoStorefrontSharp color="#8E44AD" />
+}
+
+export const MailIcon = (isMail: boolean) => {
+  return isMail ? (<IoMailOpenSharp color="#8E44AD" />) : (<IoMailSharp color="#8E44AD" />)
+}
+
+
+
 export const ThemeIcon: React.FC<ThemeIconProps> = ({ isDark }) => {
   return (
     console.log("tema oscuro?", isDark),
