@@ -1,4 +1,4 @@
-import { ButtonCustomOptionalProps, ButtonCustomProps } from "@/app/types/interfaces";
+import { ButtonCustomOptionalProps, ButtonCustomProps } from "@/types/interfaces";
 import Link from "next/link";
 
 
@@ -11,7 +11,7 @@ const ButtonCustom: React.FC<ButtonCustomProps & Partial<ButtonCustomOptionalPro
     href ? (
       <Link href={href} aria-label={`Link para ${text}`} className={`px-5 py-2 m-auto rounded-lg text-lg ${sizeClass} ${colorClass} ${bgColorClass}`}>{text}</Link>
     ) : (
-      <button onClick={onClick} aria-label={`Boton para ${text}`} className={`px-5 py-2 m-auto rounded-lg text-lg ${sizeClass} ${colorClass} ${bgColorClass}`}>{text}</button>
+      <button onClick={onClick} aria-label={`Boton para ${text}`} className={`px-5 py-2 m-auto rounded-lg text-lg ${sizeClass} ${colorClass} ${bgColorClass} `}>{text}</button>
     )
   );
 };

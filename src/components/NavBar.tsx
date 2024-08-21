@@ -2,9 +2,8 @@
 import { ThemeIcon } from "@/lib/icons";
 import { NavItem, NavItemUser, NavItemAdmin, NavItemVet } from "@/helpers/NavItems";
 import { useEffect, useState } from "react";
-
 import Link from "next/link";
-import { useUser } from "@/app/context/UserContext";
+import { useUser } from "@/context/UserContext";
 
 
 const NavBar: React.FC = () => {
@@ -37,7 +36,7 @@ const NavBar: React.FC = () => {
   const isMail = true //necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
 
   let navItems;
-  if (!user) {
+  if (user === null) {
     navItems = NavItem; // No logueado
   } else {
     switch (user.role) {
@@ -59,7 +58,7 @@ const NavBar: React.FC = () => {
   return (<nav className="dark:bg-navDarkBG dark:border-0 w-full flex flex-row justify-between px-5 py-2 border border-1 shadow-[rgba(0,_0,_0,_0.24)_0px_2px_4px]">
     <Link className="text-2xl font-bold text-detail text-center self-center" href={"/"}>Logo</Link>
     <div className="flex flex-row gap-4 ">
-      {NavItemVet.map((item) => (
+      {navItems.map((item) => (
 
         item.name != "Salir" ? (
           <Link key={item.name} href={item.url} className="text-detail mx-2">

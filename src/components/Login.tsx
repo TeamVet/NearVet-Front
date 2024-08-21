@@ -28,7 +28,7 @@ const initialValues: FormValues = {
   email: "",
   password: "",
 };
-const Login: React.FC = () => {
+const LoginForm: React.FC = () => {
   return (
     <div className="text-lightText dark:text-darkText flex flex-col justify-center items-center p-12">
       <div className="dark:bg-darkBG dark:border-darkBorders w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-20 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
@@ -95,7 +95,7 @@ const Login: React.FC = () => {
                 </div>
               </div>
               {/* <button className="bg-primary text-white"></button> */}
-              <ButtonCustom text="Log In" color="white"></ButtonCustom>
+              <ButtonCustom text="Log In" ></ButtonCustom>
             </Form>
           )}
         </Formik>
@@ -112,4 +112,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

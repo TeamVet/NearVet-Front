@@ -1,4 +1,4 @@
-import { ScreenProps } from "@/app/types/interfaces";
+import { ScreenProps } from "@/types/interfaces";
 
 
 const Screen: React.FC<ScreenProps> = ({ children }) => {
