@@ -16,3 +16,21 @@ export interface ButtonCustomOptionalProps extends ButtonCustomProps {
 export interface ScreenProps {
   children: React.ReactNode;
 }
+
+export interface User {
+  nombre: string;
+  mail: string;
+  token: string;
+  role: string;
+  mascotas: string[];
+  veterinariafavorita: string;
+  mensajes: string[];
+}
+
+export interface UserContextType {
+  user: User | null;
+  loginContext: (userData: User) => Promise<void>;
+  logoutContext: () => void;
+  error: string | null;
+  loading: boolean;
+}

@@ -1,8 +1,13 @@
-//variables para el fetch
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-const url_login = `user/login`; //o el que fuera
+import { useUser } from "@/app/context/UserContext";
+import { User } from "@/app/types/interfaces";
 
-export const fetcher = (url: string, metod: string, data: JSON) =>
+//variables para el fetch despues tenemos que pasarlo a un .env
+const apiUrl = "https://nearvet-latest.onrender.com/api";
+const url_login = `/authGlobal/signin`;
+const url_register = `/authGlobal/signup`;
+
+const { loginContext } = useUser();
+export const fetcher = (url: string, metod: string, data: User) =>
   fetch(`${apiUrl}${url}`, {
     method: metod,
     headers: {
@@ -11,20 +16,29 @@ export const fetcher = (url: string, metod: string, data: JSON) =>
     body: JSON.stringify(data),
   }).then((res) => res.json());
 
-export const fetcherLogin = async (url_login: string, data: JSON) => {
-  //TODO : cambiar JSON por la interface de UserLogin
+export const fetcherLogin = async (url_login: string, data: User) => {
   try {
-    const response = await fetcher(url_login, "GET", data);
+    const response = await fetcher(url_login, "POST", data);
+    return response;
+  } catch (error: any) {
+    alert(error.message);
+  }
+};
+
+export const fetcherRegister = async (url_register: string, data: User) => {
+  try {
+    const response = await fetcher(url_register, "POST", data);
     if (!response) throw new Error("Error");
     if (response.token) {
-      //!seteamos el context con los datos
-      //TODO : notificamos al usuario
+      //TODO : notificamos al usuario e intentamos loguearlo
+      //intenemamos loguear al usuario
+      const data = loginContext(response);
       return data;
     } else {
       //TODO : notificamos al usuario del error o lanzamos error
       return;
     }
   } catch (error: any) {
-    //TODO : notificamos al usuario del error
+    alert(error.message);
   }
 };
