@@ -1,17 +1,7 @@
+import { ButtonCustomOptionalProps, ButtonCustomProps } from "@/app/types/interfaces";
 import Link from "next/link";
 
-interface ButtonCustomProps {
-  text: string;
-}
 
-interface ButtonCustomOptionalProps extends ButtonCustomProps {
-  href: string;
-  size: string;
-  color: string;
-  bgcolor: string;
-  onClick: () => void;
-
-}
 const ButtonCustom: React.FC<ButtonCustomProps & Partial<ButtonCustomOptionalProps>> = ({ href, text, onClick, size = 'base', color = 'white', bgcolor = 'detail' }) => {
   const sizeClass = `text-${size}`;
   const colorClass = `text-${color}`;
