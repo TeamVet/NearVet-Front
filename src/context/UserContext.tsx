@@ -1,6 +1,6 @@
 "use client"
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { User, UserContextType } from '../types/interfaces';
+import { FormValues, User, UserContextType } from '../types/interfaces';
 import { fetcherLogin } from '@/lib/fetcher';
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -16,7 +16,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const loginContext = async (userData: User) => {
+  const loginContext = async (userData: FormValues) => {
     setLoading(true);
     setError(null)
     try {
@@ -24,8 +24,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       if (!response) throw new Error('Error al loguearse');
       if (response.token) {
         document.cookie = `auth-token=${response.token}; path=/`;
-        localStorage.setItem('user', JSON.stringify(userData));
-        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(response));
+        setUser(response);
         //TODO : notificamos al usuario y lo llevamos a la página principal
       }
     } catch (error: any) {

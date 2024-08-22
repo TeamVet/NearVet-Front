@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import ButtonCustom from "./ButtonCustom";
 import GoogleButton from "./GoogleButton";
 import PATHROUTES from "@/helpers/path-routes";
+import { useUser } from "@/context/UserContext";
+import { FormValues, initialValues } from "@/types/interfaces";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -20,15 +22,9 @@ const validationSchema = Yup.object().shape({
     .min(8, "Password must be at least 8 characters.")
     .required("Password is required."),
 });
-interface FormValues {
-  email: string;
-  password: string;
-}
-const initialValues: FormValues = {
-  email: "",
-  password: "",
-};
+
 const LoginForm: React.FC = () => {
+  const { loginContext } = useUser()
   return (
     <div className="text-lightText dark:text-darkText flex flex-col justify-center items-center p-12">
       <div className="dark:bg-darkBG dark:border-darkBorders w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-20 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
@@ -51,7 +47,7 @@ const LoginForm: React.FC = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values: FormValues) => {
-            console.log("Submitted values:", values);
+            loginContext(values);
           }}
         >
           {() => (
@@ -94,8 +90,8 @@ const LoginForm: React.FC = () => {
                   />
                 </div>
               </div>
-              {/* <button className="bg-primary text-white"></button> */}
-              <ButtonCustom text="Log In" ></ButtonCustom>
+
+              <ButtonCustom text="Log In" type="submit"  ></ButtonCustom>
             </Form>
           )}
         </Formik>
