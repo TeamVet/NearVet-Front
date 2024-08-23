@@ -1,7 +1,7 @@
 const PATHROUTES = {
   HOME: "/",
-  LOGIN: "/login",
-  REGISTER: "/auth/register",
+  LOGIN: "/signin",
+  REGISTER: "/auth/signup",
   USER_DASHBOARD: "/userDashboard",
   ADMIN_DASHBOARD: "/adminDashboard",
   VET_DASHBOARD: "/vetDashboard",
