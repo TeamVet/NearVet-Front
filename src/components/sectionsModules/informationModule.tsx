@@ -15,6 +15,7 @@ export const InformationModule: React.FC<InformationInputs> = ({ user, modifyCon
     password: "",
     passwordConfirm: "",
     address: user?.address ?? "",
+    city: user?.city ?? "",
     phone: user?.phone ?? "",
     role: user?.role ?? ""
   };
@@ -42,6 +43,27 @@ export const InformationModule: React.FC<InformationInputs> = ({ user, modifyCon
         .required("Address is required."),
     },
     {
+      name: "city",
+      type: "text",
+      placeholder: "Posadas",
+      label: "Ciudad",
+      validation: Yup.string().required("Indica en que ciudad vives actualmente."),
+    },
+    {
+      name: "birthdate",
+      type: "Date",
+      placeholder: "01/01/2000",
+      label: "Tu fecha de nacimiento",
+      validation: Yup.string().required("Indica tu fecha de nacimiento."),
+    },
+    {
+      name: "phone",
+      type: "number",
+      placeholder: "123456789",
+      label: "Número de Telefono",
+      validation: Yup.string().required("Tu Número de telefono es necesario.")
+    },
+    {
       name: "oldpassword",
       type: "password",
       label: "Actual contraseña",
@@ -65,7 +87,8 @@ export const InformationModule: React.FC<InformationInputs> = ({ user, modifyCon
         .min(8, "Password must be at least 8 characters.")
         .required("Password is required."),
 
-    }
+    },
+
   ];
   return (<div className='w-full'>
     <h3 className="text-xl">Información del {user?.role}</h3>

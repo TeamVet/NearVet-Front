@@ -1,15 +1,79 @@
 import React from 'react';
-import CardCustom from '@/components/cardCustom';
-import Link from 'next/link';
-import PATHROUTES from '@/helpers/path-routes';
-import Image from 'next/image';
 import { useUser } from '@/context/UserContext';
-import { SectionContentProps } from '@/types/interfaces';
+import { SectionContentProps, User } from '@/types/interfaces';
 import { InformationModule } from './informationModule';
+import AppointsModule from './appointsModule';
+import PetsModule from './petsModule';
 
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
-  const { user, loginContext } = useUser();
+  const { loginContext } = useUser();
+
+  //simulacion de user
+  const user: User = {
+    name: "Jorge",
+    lastname: "Perez",
+    password: "123456",
+    token: "123456789",
+    role: "user",
+    email: "jorge@jorge",
+    phone: "123456789",
+    address: "calle 123",
+    city: "Posadas",
+    dni: 123456789,
+    veterinariafavorita: "veterinaria 1",
+    mensajes: [
+      {
+        id: 2,
+        state: "enviado",
+        message: "hola",
+        date: "2022-01-01",
+        hour: "10:00"
+      },
+      {
+        id: 2,
+        state: "enviado",
+        message: "hola",
+        date: "2022-01-01",
+        hour: "10:00"
+      },
+    ],
+    mascotas: [
+      {
+        id: 1,
+        name: "Lolu",
+        type: "perro",
+        raza: "chihuahua",
+        age: 2,
+        image: "/mascota.png",
+        state: "Sano"
+      },
+      {
+        id: 2,
+        name: "Pipi",
+        type: "gato",
+        raza: "siames",
+        age: 2,
+        image: "/mascota.png",
+        state: "Enfermo"
+      }],
+    turnos: [
+      {
+        id: 2,
+        date: "2022-01-01",
+        hour: "10:00",
+        state: "realizado",
+      },
+      {
+        id: 3,
+        date: "2022-01-01",
+        hour: "10:00",
+        state: "pendiente",
+      },
+    ]
+
+  }
+
 
   switch (section) {
     case "sinUser":
@@ -22,52 +86,25 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       );
     case "Mascotas":
       return (
-        <div className='w-full'>
-          <h3 className="text-xl">Mascotas</h3>
-          <div className='flex flex-row gap-5 m-5 '>
-            {user?.mascotas?.map((mascota, index) => (
-              <CardCustom key={index} isSelect={"not"} size='300px'>
-                <Link href={PATHROUTES.PET}>
-                  <Image src={"/mascota.png"} alt={`Imagen de `} width={100} height={100} />
-                  <h3 className='text-xl text-black dark:text-white'>
-                    Nombre: { }
-                  </h3 >
-                  <p className='text-black dark:text-white'>Tipo: { }</p>
-                  <p className='text-black dark:text-white'>Edad: { }</p>
-                  Editar</Link>
-              </CardCustom>
-            ))}
-          </div>
-        </div>
+        <PetsModule user={user} />
       );
     case "Turnos":
+
       return (
-        <div>
-          <h3 className="text-xl">Turnos</h3>
-
-          {user && user?.turnos ?
-            (<div>
-              <h3>
-                Turnos agendados
-              </h3>
-
-              <ul>
-                {user?.turnos?.map((turno, index) => (
-                  <li key={index}>{turno}</li>
-                ))}
-              </ul>
-            </div>)
-            :
-            (<p>No hay turnos agendados</p>)
-
-          }
-        </div>
+        <AppointsModule user={user} />
       );
     case "Facturas":
       return (
         <div>
           <h3 className="text-xl">Facturas</h3>
           {/* Renderizar las facturas */}
+        </div>
+      );
+    case "Cupones de descuento":
+      return (
+        <div>
+          <h3 className="text-xl">Cupones de descuento</h3>
+          {/* Renderizar los Cupones de descuento */}
         </div>
       );
     case "Veterinaria Favorita":
