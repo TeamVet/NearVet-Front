@@ -4,7 +4,7 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get("auth-token"); // Suponiendo que el token de autenticación está en las cookies
 
   if (!token) {
-    return NextResponse.redirect(new URL("/sign", req.url));
+    return NextResponse.redirect(new URL("/signin", req.url));
   }
 
   return NextResponse.next();
