@@ -9,13 +9,9 @@ import {
   MailIcon,
 } from "@/lib/icons";
 import PATHROUTES from "./path-routes";
+import { NavItemProps } from "@/types/interfaces";
 
-interface NavItem {
-  name: string;
-  url: string;
-  icon: (arg: any) => JSX.Element;
-}
-export const NavItem: Array<NavItem> = [
+export const NavItem: Array<NavItemProps> = [
   {
     name: "Inicio",
     url: PATHROUTES.HOME,
@@ -28,7 +24,7 @@ export const NavItem: Array<NavItem> = [
   },
 ];
 
-export const NavItemUser: Array<NavItem> = [
+export const NavItemUser: Array<NavItemProps> = [
   {
     name: "Inicio",
     url: PATHROUTES.HOME,
@@ -56,7 +52,7 @@ export const NavItemUser: Array<NavItem> = [
   },
 ];
 
-export const NavItemAdmin: Array<NavItem> = [
+export const NavItemAdmin: Array<NavItemProps> = [
   {
     name: "Inicio",
     url: PATHROUTES.HOME,
@@ -84,7 +80,7 @@ export const NavItemAdmin: Array<NavItem> = [
   },
 ];
 
-export const NavItemVet: Array<NavItem> = [
+export const NavItemVet: Array<NavItemProps> = [
   {
     name: "Inicio",
     url: PATHROUTES.HOME,

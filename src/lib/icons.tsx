@@ -1,7 +1,5 @@
-interface IconProps {
-  size?: string
-  isMail?: boolean
-}
+
+import { IconProps } from "@/types/interfaces";
 import { IoPawSharp, IoPerson, IoHome, IoPersonCircle, IoLogOutSharp, IoMoonOutline, IoMoon, IoClipboardSharp, IoStorefrontSharp, IoMailSharp, IoMailOpenSharp, IoInformationCircleSharp, IoTicketSharp, IoMedicalSharp, IoPersonAddSharp } from "react-icons/io5";
 export const PawIcon: React.FC<IconProps> = ({ size }) => <IoPawSharp color="#8E44AD" className={`text-${size}`} />;
 export const HomeIcon: React.FC<IconProps> = ({ size }) => <IoHome color="#8E44AD" className={`text-${size}`} />;

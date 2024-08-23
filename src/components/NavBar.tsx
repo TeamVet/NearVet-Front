@@ -1,7 +1,7 @@
 "use client";
-import { ThemeIcon } from "@/lib/icons";
+import { MailIcon, ThemeIcon } from "@/lib/icons";
 import { NavItem, NavItemUser, NavItemAdmin, NavItemVet } from "@/helpers/NavItems";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 
@@ -10,7 +10,6 @@ const NavBar: React.FC = () => {
   const { logoutContext, user } = useUser();
   const handleLogOut = () => { logoutContext }
   const [isDark, setIsDark] = useState(false);
-
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -64,9 +63,9 @@ const NavBar: React.FC = () => {
           <Link key={item.name} href={item.url} className="text-detail mx-2">
 
             <div className="flex flex-col gap-2 items-center text-2xl">
-              {
-                item.icon(isMail)
-              }
+
+              {React.cloneElement(<item.icon />, item.icon === MailIcon ? { isMail } : { size: "default" })}
+
               <p className="text-base">
 
                 {item.name}
@@ -75,9 +74,9 @@ const NavBar: React.FC = () => {
           </Link>) : (
           <button key={item.name} className="text-detail mx-2" onClick={handleLogOut}>
             <div className="flex flex-col gap-2 items-center text-2xl">
-              {
-                item.icon(isMail)
-              }
+
+
+              {item.icon({ size: "default" })}
               <p className="text-base">
 
                 {item.name}

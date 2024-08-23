@@ -39,6 +39,19 @@ export interface SectionContentProps {
   section: string | null;
 }
 
+///# Interfaces de Iconos y NavBar
+
+export interface IconProps {
+  isMail?: boolean;
+  size?: string;
+}
+
+export interface NavItemProps {
+  name: string;
+  url: string;
+  icon: React.FC<Partial<IconProps>>;
+}
+
 ///# Iterfaces de Modulos
 
 export interface AppointsProps {

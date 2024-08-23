@@ -2,7 +2,7 @@ import { FormValues, User } from "@/types/interfaces";
 import { useUser } from "@/context/UserContext";
 
 //variables para el fetch despues tenemos que pasarlo a un .env
-const apiUrl = "https://nearvet-latest.onrender.com/api";
+const apiUrl = "https://nearvet-latest.onrender.com";
 const url_login = `/authGlobal/signin`;
 const url_register = `/authGlobal/signup`;
 
