@@ -29,6 +29,28 @@ export const userCards: UserCard[] = [
   }
 ];
 
+export const userPetsCards: UserCard[] = [
+  {
+    text: "Vacunas",
+    icon: <InformationIcon size="2xl" />,
+  },
+  {
+    text: "Desparasitaciones",
+    icon: <MedicalIcon size="2xl" />,
+  },
+  {
+    text: "Enfermedades",
+    icon: <MedicalIcon size="2xl" />,
+  },
+  {
+    text: "Medicamentos",
+    icon: <MedicalIcon size="2xl" />,
+  },
+  {
+    text: "Visitas",
+    icon: <MedicalIcon size="2xl" />,
+  }
+]
 export const adminCards: UserCard[] = [
   {
     text: "Información",

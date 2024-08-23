@@ -6,14 +6,21 @@ const apiUrl = "https://nearvet-latest.onrender.com";
 const url_login = `/authGlobal/signin`;
 const url_register = `/authGlobal/signup`;
 
-export const fetcher = (url: string, metod: string, data: FormValues) =>
-  fetch(`${apiUrl}${url}`, {
-    method: metod,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then((res) => res.json());
+export const fetcher = async (url: string, metod: string, data: FormValues) => {
+  try {
+    const responseFetch = await fetch(`${apiUrl}${url}`, {
+      method: metod,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const responseData = await responseFetch.json();
+    return responseData;
+  } catch (error: any) {
+    alert(error.message);
+  }
+};
 
 export const fetcherLogin = async (url_login: string, data: FormValues) => {
   try {

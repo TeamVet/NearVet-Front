@@ -48,21 +48,24 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const registerContext = async (values: FormRegisterValues | FormValues) => {
     setLoading(true);
     setError(null)
-    values = { ...values, role: 'user' };
+    values = { ...values, isAdmin: true, birthdate: "2000-01-01", startDate: "2000-01-01", phone: 2, address: " Desconocido", role: "adminVet" };
 
     try {
       const response = await fetcherRegister(url_register, values);
-      if (!response) throw new Error('Error al Registrarse');
-      if (response.ok) {
+      console.log(response)
+
+      if (response.id) {
         let valuesForLogin = {
           email: values.email, password: values.password
         }
         const loginResponse = await loginContext(valuesForLogin);
+        alert('Logueado con exito');
         return loginResponse;
       }
       return response
     } catch (error: any) {
-      setError(`Error al Registrarse, por favor verifique los datos que ingresaste. :  ${error.message}`);
+      setError(`Error al Registrarse:  ${error.message}`);
+      alert(`Error al Registrarse:  ${error.message}`)
     }
 
     finally {

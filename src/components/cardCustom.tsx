@@ -5,9 +5,9 @@ const CardCustom: React.FC<Partial<CardCustomProps>> = ({ children, text, icon, 
   let select = 'bg-white dark:bg-darkBG text-black dark:text-white'
   let minSize = `min-w-[${size}]`
   if (isSelect === text) {
-    select = 'bg-green-700 dark:bg-green-700 text-white'
+    select = 'bg-cyan-500 dark:bg-blue-700'
   }
-  return (<button onClick={onClick} className={`flex flex-col gap-4 items-center justify-center p-4 rounded-md border border-gray-300 shadow-md text-lg ${select} md:${minSize} `}>
+  return (<button onClick={onClick} className={`flex flex-col gap-4 items-center justify-center p-4 border border-gray-300 shadow-md text-lg ${select} md:${minSize}`}>
     {icon}
     {text && <p className="text-black dark:text-white">{text}</p>}
     {children}

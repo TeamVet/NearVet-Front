@@ -1,17 +1,11 @@
 "use client";
 import CardCustom from "@/components/cardCustom";
-import Screen from "@/components/Screen";
-import { useUser } from "@/context/UserContext";
 import { useState } from "react";
-import { UserCard, SectionContentProps } from "@/types/interfaces";
+import { DashboardProps } from "@/types/interfaces";
 
-interface DashboardProps {
-  cards: UserCard[];
-  renderSection: (props: SectionContentProps) => React.ReactNode;
-}
+
 
 const Dashboard: React.FC<DashboardProps> = ({ cards, renderSection }) => {
-  const { user } = useUser();
   const [section, setSection] = useState<string | null>(null);
 
   const handleSection = (typeSection: string) => {
@@ -19,11 +13,8 @@ const Dashboard: React.FC<DashboardProps> = ({ cards, renderSection }) => {
   };
 
   return (
-    <Screen>
-      <h2 className="text-3xl">
-        ¡Hola {user?.name}! ¿Qué quieres hacer?
-      </h2>
-      <div className="flex flex-row flex-wrap gap-4 m-auto my-5">
+    <>
+      <div className="flex flex-row flex-wrap m-auto my-5 justify-center">
         {cards.map((item) => (
           <CardCustom
             key={item.text}
@@ -41,7 +32,8 @@ const Dashboard: React.FC<DashboardProps> = ({ cards, renderSection }) => {
           </div>
         )}
       </div>
-    </Screen>
+
+    </>
   );
 };
 

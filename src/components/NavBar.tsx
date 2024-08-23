@@ -10,7 +10,7 @@ const NavBar: React.FC = () => {
   const { logoutContext, user } = useUser();
   const handleLogOut = () => { logoutContext }
   const [isDark, setIsDark] = useState(false);
-
+  // console.log(user)
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") {
@@ -42,10 +42,10 @@ const NavBar: React.FC = () => {
       case "user":
         navItems = NavItemUser;
         break;
-      case "admin":
+      case "adminVet":
         navItems = NavItemAdmin;
         break;
-      case "vet":
+      case "veterinarian":
         navItems = NavItemVet;
         break;
       default:

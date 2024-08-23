@@ -18,9 +18,9 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
   //vista de la mascota 
   // all data
 
-  return (<div className='w-full'>
+  return (<div className='w-full m-5'>
     <h3 className="text-xl">Mascotas</h3>
-    <div className='flex flex-col md:flex-row gap-5 m-5 justify-center'>
+    <div className='flex flex-col md:flex-row md:flex-wrap gap-5 m-5 justify-center'>
       {mascotas.map((mascota) => (
         <CardCustom key={mascota.id} isSelect={"not"} >
           <Link href={PATHROUTES.PET + `/${mascota.id}`}>
@@ -32,11 +32,12 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
             <p className='text-black dark:text-white'>Raza: {mascota.raza}</p>
             <p className='text-black dark:text-white mb-2'>Edad: {mascota.age}</p>
 
-            <ButtonCustom text="Editar" />
+            <ButtonCustom text="Editar" href={PATHROUTES.PET + `/${mascota.id}`} />
           </Link>
         </CardCustom>
       ))}
     </div>
+    <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
   </div>);
 };
 

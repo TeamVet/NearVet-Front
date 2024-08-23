@@ -16,11 +16,11 @@ const RegisterForm: React.FC = () => {
       validation: Yup.string().required("Tu nombre es necesario.").min(3, "Tu nombre debe tener almenos 3 caracteres."),
     },
     {
-      name: "lastname",
+      name: "lastName",
       type: "text",
       placeholder: "Perez",
       label: "Apellido",
-      validation: Yup.string().required("Tu Apellido es necesario.").min(3, "Tu Apellido debe tener almenos 3 caracteres."),
+      validation: Yup.string().required("Tu Apellido es necesario.").min(2, "Tu Apellido debe tener almenos 2 caracteres."),
     },
     {
       name: "dni",
@@ -48,8 +48,8 @@ const RegisterForm: React.FC = () => {
       placeholder: "******",
       label: "Contraseña",
       validation: Yup.string()
-        .min(8, "La contraseña debe tener almenos 8 caracteres.")
-        .required("La contraseña es necesaria."),
+        .min(6, "La contraseña debe tener almenos 6 caracteres.")
+        .required("La contraseña es necesaria.").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/, "La contraseña debe tener almenos 6 caracteres, una letra mayúscula, una letra minúscula, un numero y un caracter especial."),
     },
     {
       name: "passwordConfirm",

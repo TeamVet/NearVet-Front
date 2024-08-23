@@ -56,6 +56,39 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         age: 2,
         image: "/mascota.png",
         state: "Enfermo"
+      }, {
+        id: 2,
+        name: "Pipi",
+        type: "gato",
+        raza: "siames",
+        age: 2,
+        image: "/mascota.png",
+        state: "Enfermo"
+      }, {
+        id: 2,
+        name: "Pipi",
+        type: "gato",
+        raza: "siames",
+        age: 2,
+        image: "/mascota.png",
+        state: "Enfermo"
+      },
+      {
+        id: 2,
+        name: "Pipi",
+        type: "gato",
+        raza: "siames",
+        age: 2,
+        image: "/mascota.png",
+        state: "Enfermo"
+      }, {
+        id: 2,
+        name: "Pipi",
+        type: "gato",
+        raza: "siames",
+        age: 2,
+        image: "/mascota.png",
+        state: "Enfermo"
       }],
     turnos: [
       {
@@ -70,6 +103,12 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         hour: "10:00",
         state: "pendiente",
       },
+      {
+        id: 4,
+        date: "2022-01-01",
+        hour: "10:00",
+        state: "pendiente",
+      },
     ]
 
   }
@@ -80,6 +119,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       return (
         <p>No hay datos de usuario</p>
       )
+    ///# Secciones User
     case "Información":
       return (
         <InformationModule user={user} modifyContext={loginContext} />
@@ -89,7 +129,6 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         <PetsModule user={user} />
       );
     case "Turnos":
-
       return (
         <AppointsModule user={user} />
       );
@@ -100,13 +139,6 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
           {/* Renderizar las facturas */}
         </div>
       );
-    case "Cupones de descuento":
-      return (
-        <div>
-          <h3 className="text-xl">Cupones de descuento</h3>
-          {/* Renderizar los Cupones de descuento */}
-        </div>
-      );
     case "Veterinaria Favorita":
       return (
         <div>
@@ -115,6 +147,37 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
           <button>change</button>
         </div>
       );
+    ///# Secciones Pets
+    case "Vacunas":
+      return (
+        <>Vacunas</>
+      );
+    case "Desparasitaciones":
+      return (
+        <>Desparasitaciones</>
+      );
+    case "Enfermedades":
+      return (
+        <>Enfermedades</>
+      );
+    case "Medicamentos":
+      return (
+        <>Medicamentos</>
+      );
+    case "Visitas":
+      return (
+        <>Visitas</>
+      );
+    ///# Secciones Admin
+    case "Cupones de descuento":
+      return (
+        <div>
+          <h3 className="text-xl">Cupones de descuento</h3>
+          {/* Renderizar los Cupones de descuento */}
+        </div>
+      );
+    ///# Secciones Veterinario
+    ///# Seccion default
     default:
       return null;
   }

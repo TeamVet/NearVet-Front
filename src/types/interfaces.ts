@@ -19,8 +19,13 @@ export interface ButtonCustomOptionalProps extends ButtonCustomProps {
 
 export interface ScreenProps {
   children: React.ReactNode;
+  width?: string;
 }
 
+export interface DashboardProps {
+  cards: UserCard[];
+  renderSection: (props: SectionContentProps) => React.ReactNode;
+}
 export interface CardCustomProps {
   children: React.ReactNode;
   text: string;
@@ -131,8 +136,11 @@ export interface FormRegisterValues {
   password: string;
   passwordConfirm: string;
   address: string;
-  phone: string;
-  role: string;
+  phone: number;
+  birthdate: string;
+  startDate: string;
+  isAdmin: boolean;
+  role: "user" | "adminVet" | "veterinarian";
 }
 export interface InputField {
   name: string;
