@@ -61,7 +61,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
                     {field.label}
                   </label>
                   <Field
-                    className="w-full bg-transparent border-[.2em] border-gray-600 placeholder:text-gray-400 p-1 rounded-md"
+                    className="w-full bg-transparent border-[.2em] border-gray-600 placeholder:text-gray-400 p-1 rounded-md text-center"
                     id={field.name}
                     name={field.name}
                     type={field.type}

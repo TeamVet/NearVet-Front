@@ -23,6 +23,13 @@ const RegisterForm: React.FC = () => {
       validation: Yup.string().required("Tu Apellido es necesario.").min(3, "Tu Apellido debe tener almenos 3 caracteres."),
     },
     {
+      name: "dni",
+      type: "number",
+      placeholder: "30350201",
+      label: "Documento de Identidad",
+      validation: Yup.string().required("El DNI es necesario.").min(7, "El DNI debe tener almenos 7 caracteres.").matches(/^[0-9]+$/, "El DNI solo puede contener números, sin guiones ni espacios."),
+    },
+    {
       name: "email",
       type: "email",
       placeholder: "example@mail.com",
@@ -53,48 +60,7 @@ const RegisterForm: React.FC = () => {
         .min(8, "La contraseña debe tener almenos 8 caracteres.")
         .required("La contraseña es necesaria.").oneOf([Yup.ref("password")], "Las contraseña no coinciden."),
     },
-    {
-      name: "birthdate",
-      type: "Date",
-      placeholder: "01/01/2000",
-      label: "Tu fecha de nacimiento",
-      validation: Yup.string().required("Indica tu fecha de nacimiento."),
-    },
-    {
-      name: "address",
-      type: "text",
-      placeholder: "Calle san pepe 123",
-      label: "Dirección",
-      validation: Yup.string().required("Indica en que ciudad vives actualmente."),
-    },
-    {
-      name: "city",
-      type: "text",
-      placeholder: "Posadas",
-      label: "Ciudad",
-      validation: Yup.string().required("Indica en que ciudad vives actualmente."),
-    },
-    // {
-    //   name: "province",
-    //   type: "text",
-    //   placeholder: "Cordoba",
-    //   label: "Ciudad",
-    //   validation: Yup.string().required("Indica en que Provincia vives actualmente."),
-    // },
-    // {
-    //   name: "zipCode",
-    //   type: "number",
-    //   placeholder: "3300",
-    //   label: "Codigo Postal",
-    //   validation: Yup.string().required("Indica el codigo postal."),
-    // },
-    {
-      name: "phone",
-      type: "number",
-      placeholder: "123456789",
-      label: "Número de Telefono",
-      validation: Yup.string().required("Tu Número de telefono es necesario.")
-    }
+
   ];
 
   return (
