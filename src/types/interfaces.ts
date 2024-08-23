@@ -39,20 +39,57 @@ export interface SectionContentProps {
   section: string | null;
 }
 
+///# Iterfaces de Modulos
+
+export interface AppointsProps {
+  user: User | null;
+}
+
+export interface PetsModuleProps {
+  user: User | null;
+}
+
 ///# Interfaces de context
 export interface User {
   name: string;
   lastname: string;
+  dni: number;
   email: string;
   password: string;
   address: string;
+  city: string;
   phone: string;
   token: string;
   role: string;
   veterinariafavorita: string;
-  mascotas: string[];
-  mensajes: string[];
-  turnos: string[];
+  mascotas: Mascota[];
+  mensajes: Mensajes[];
+  turnos: Turnos[];
+}
+
+export interface Mascota {
+  id: number;
+  name: string;
+  type: string;
+  raza: string;
+  age: number;
+  image: string;
+  state: string;
+}
+
+export interface Turnos {
+  id: number;
+  date: string;
+  hour: string;
+  state: string;
+}
+
+export interface Mensajes {
+  id: number;
+  date: string;
+  hour: string;
+  message: string;
+  state: string;
 }
 
 export interface UserContextType {
