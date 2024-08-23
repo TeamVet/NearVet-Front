@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { FormValues, User, UserContextType } from '../types/interfaces';
-import { fetcherLogin } from '@/lib/fetcher';
+import { FormRegisterValues, FormValues, User, UserContextType } from '../types/interfaces';
+import { fetcherLogin, fetcherRegister } from '@/lib/fetcher';
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -9,6 +9,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const url_login = `/authGlobal/signin`;
+  const url_register = `/authGlobal/signup`;
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -19,6 +20,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const loginContext = async (userData: FormValues) => {
     setLoading(true);
     setError(null)
+
     try {
       const response = await fetcherLogin(url_login, userData);
       if (!response) throw new Error('Error al loguearse');
@@ -29,7 +31,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         //TODO : notificamos al usuario y lo llevamos a la página principal
       }
     } catch (error: any) {
-      setError('Error al loguearse, por favor verifique su usuario y contraseña.');
+      setError(`Error al loguearse, por favor verifique su usuario y contraseña. ${error.message}`);
     }
     finally {
       setLoading(false);
@@ -42,8 +44,34 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   };
 
+
+  const registerContext = async (values: FormRegisterValues | FormValues) => {
+    setLoading(true);
+    setError(null)
+    values = { ...values, role: 'user' };
+
+    try {
+      const response = await fetcherRegister(url_register, values);
+      if (!response) throw new Error('Error al Registrarse');
+      if (response.ok) {
+        let valuesForLogin = {
+          email: values.email, password: values.password
+        }
+        const loginResponse = await loginContext(valuesForLogin);
+        return loginResponse;
+      }
+      return response
+    } catch (error: any) {
+      setError(`Error al Registrarse, por favor verifique los datos que ingresaste. :  ${error.message}`);
+    }
+
+    finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <UserContext.Provider value={{ user, loginContext, logoutContext, error, loading }}>
+    <UserContext.Provider value={{ user, loginContext, logoutContext, error, loading, registerContext }}>
       {children}
     </UserContext.Provider>
   );
