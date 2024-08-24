@@ -88,11 +88,18 @@ export interface User {
 export interface Mascota {
   id: number;
   name: string;
-  type: string;
+  birthdate: string;
+  startDate: string;
+  endDate: string;
+  color: string;
+  sexo: string;
   raza: string;
+  especie: string;
+  usuario: string;
+  ///a implementar
   age: number;
   image: string;
-  state: string;
+  stateSalud: string;
 }
 
 export interface Turnos {
@@ -144,7 +151,9 @@ export interface FormRegisterValues {
 }
 export interface InputField {
   name: string;
-  type: string;
+  type: string | null;
+  as?: string;
+  option?: string[];
   placeholder?: string;
   label: string;
   validation: Yup.StringSchema;

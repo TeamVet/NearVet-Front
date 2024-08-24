@@ -27,7 +27,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   );
 
   return (
-    <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4  flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-20 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+    <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4  flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
       {title ? (
         <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center ">
           <img src="" alt="[logo]" />
@@ -66,7 +66,15 @@ const AuthForm: React.FC<AuthFormProps> = ({
                   name={field.name}
                   type={field.type}
                   placeholder={field?.placeholder}
-                />
+                  as={field?.as}
+
+                >
+                  {field?.option &&
+                    field.option.map((optionSelect) => {
+                      return <option key={optionSelect} value={optionSelect}>{optionSelect}</option>
+                    })
+                  }
+                </Field>
                 <div className="h-4">
                   <ErrorMessage
                     name={field.name}
