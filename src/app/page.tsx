@@ -1,5 +1,10 @@
+import Main from "@/components/Main";
 import Screen from "@/components/Screen";
 
 export default function Home() {
-  return <Screen>NearVet Home</Screen>;
+  return (
+    <Screen>
+      <Main />
+    </Screen>
+  );
 }

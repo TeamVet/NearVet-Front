@@ -10,7 +10,7 @@ const ButtonCustom: React.FC<ButtonCustomProps & Partial<ButtonCustomOptionalPro
 
   return (
     href ? (
-      <Link href={href} aria-label={`Link para ${text}`} className={`px-5 py-2 m-auto rounded-lg  bg-detail text-white ${sizeClass} ${colorClass} ${bgColorClass}  hove:scale-105 `}>{text}</Link>
+      <Link href={href} aria-label={`Link para ${text}`} className={`px-5 py-2 m-auto rounded-lg  bg-detail text-white ${sizeClass} ${colorClass} ${bgColorClass}  hover:scale-105 `}>{text}</Link>
     ) : (
       <button type={type} onClick={onClick} aria-label={`Boton para ${text}`} className={`px-5 py-2 m-auto rounded-lg text-lg bg-detail text-white ${sizeClass} ${colorClass} ${bgColorClass} `}>{text}</button>
     )
