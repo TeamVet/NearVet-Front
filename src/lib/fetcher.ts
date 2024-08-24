@@ -38,18 +38,13 @@ export const fetcherRegister = async (
   try {
     const response = await fetcher(url_register, "POST", data);
     if (!response) throw new Error(`"Error" al registrarse`);
-    if (response.token) {
+    console.log("fetcher", response);
+    if (response.id) {
       //TODO : notificamos al usuario e intentamos loguearlo
-      //intenemamos loguear al usuario
-      const { loginContext } = useUser();
-      const data = loginContext(response);
-      alert(`"Registrado y logueado correctamente"`);
+      alert("Registrado correctamente");
       return response;
-    } else {
-      //TODO : notificamos al usuario del error o lanzamos error
-
-      return;
     }
+    return response;
   } catch (error: any) {
     alert(`"Error" al registrarse, ${error.message}`);
   }

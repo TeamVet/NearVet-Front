@@ -42,54 +42,19 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       {
         id: 1,
         name: "Lolu",
-        type: "perro",
+        especie: "perro",
         raza: "chihuahua",
         age: 2,
         image: "/mascota.png",
-        state: "Sano"
+        birthdate: "2022-01-01",
+        startDate: "2022-01-01",
+        endDate: "2022-01-01",
+        color: "blanco",
+        sexo: "macho",
+        stateSalud: "sano",
+        usuario: "jorge@jorge",
       },
-      {
-        id: 2,
-        name: "Pipi",
-        type: "gato",
-        raza: "siames",
-        age: 2,
-        image: "/mascota.png",
-        state: "Enfermo"
-      }, {
-        id: 2,
-        name: "Pipi",
-        type: "gato",
-        raza: "siames",
-        age: 2,
-        image: "/mascota.png",
-        state: "Enfermo"
-      }, {
-        id: 2,
-        name: "Pipi",
-        type: "gato",
-        raza: "siames",
-        age: 2,
-        image: "/mascota.png",
-        state: "Enfermo"
-      },
-      {
-        id: 2,
-        name: "Pipi",
-        type: "gato",
-        raza: "siames",
-        age: 2,
-        image: "/mascota.png",
-        state: "Enfermo"
-      }, {
-        id: 2,
-        name: "Pipi",
-        type: "gato",
-        raza: "siames",
-        age: 2,
-        image: "/mascota.png",
-        state: "Enfermo"
-      }],
+    ],
     turnos: [
       {
         id: 2,

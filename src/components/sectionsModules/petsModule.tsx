@@ -28,7 +28,7 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
             <h3 className='text-xl text-black dark:text-white mx-10'>
               Nombre: {mascota.name}
             </h3 >
-            <p className='text-black dark:text-white'>Tipo: {mascota.type}</p>
+            <p className='text-black dark:text-white'>Tipo: {mascota.especie}</p>
             <p className='text-black dark:text-white'>Raza: {mascota.raza}</p>
             <p className='text-black dark:text-white mb-2'>Edad: {mascota.age}</p>
 

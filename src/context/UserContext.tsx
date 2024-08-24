@@ -2,12 +2,16 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { FormRegisterValues, FormValues, User, UserContextType } from '../types/interfaces';
 import { fetcherLogin, fetcherRegister } from '@/lib/fetcher';
+import { useRouter } from 'next/navigation';
+
+
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter()
   const url_login = `/authGlobal/signin`;
   const url_register = `/authGlobal/signup`;
   useEffect(() => {
@@ -20,18 +24,20 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const loginContext = async (userData: FormValues) => {
     setLoading(true);
     setError(null)
-
     try {
       const response = await fetcherLogin(url_login, userData);
       if (!response) throw new Error('Error al loguearse');
-      if (response.token) {
+      if (response.id) {
         document.cookie = `auth-token=${response.token}; path=/`;
         localStorage.setItem('user', JSON.stringify(response));
         setUser(response);
         //TODO : notificamos al usuario y lo llevamos a la página principal
+        alert('Logueado correctamente');
+        router.push('/userDashboard');
       }
     } catch (error: any) {
-      setError(`Error al loguearse, por favor verifique su usuario y contraseña. ${error.message}`);
+      setError(`Error al loguearse ${error.message}`);
+      alert(`Error al loguearse ${error.message}`);
     }
     finally {
       setLoading(false);
@@ -39,9 +45,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logoutContext = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+    console.log('Saliendo...'),
+      localStorage.removeItem('user');
     document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    setUser(null);
+    router.push('/');
   };
 
 
@@ -52,9 +60,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       const response = await fetcherRegister(url_register, values);
-      console.log(response)
-
       if (response.id) {
+        alert("Vamos a intentar loguearte");
         let valuesForLogin = {
           email: values.email, password: values.password
         }
