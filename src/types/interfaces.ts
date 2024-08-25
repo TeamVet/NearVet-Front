@@ -103,6 +103,13 @@ export interface Mascota {
   vacunas: string[];
   desparacitaciones: string[];
 }
+// Veterninarias [Missing info]
+export interface Veterinaria{
+  id: number;
+  name: string;
+  nameCompany: string,
+  logo: string,  
+}
 
 export interface Turnos {
   id: number;
