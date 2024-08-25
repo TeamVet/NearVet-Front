@@ -22,37 +22,28 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     city: "Posadas",
     dni: 123456789,
     veterinariafavorita: "veterinaria 1",
-    mensajes: [
-      {
-        id: 2,
-        state: "enviado",
-        message: "hola",
-        date: "2022-01-01",
-        hour: "10:00"
-      },
-      {
-        id: 2,
-        state: "enviado",
-        message: "hola",
-        date: "2022-01-01",
-        hour: "10:00"
-      },
-    ],
+
+
     mascotas: [
       {
-        id: 1,
+        id: "1",
         name: "Lolu",
-        especie: "perro",
-        raza: "chihuahua",
+        especie: ["perro"],
+        raza: ["chihuahua"],
         age: 2,
         image: "/mascota.png",
         birthdate: "2022-01-01",
         startDate: "2022-01-01",
         endDate: "2022-01-01",
         color: "blanco",
-        sexo: "macho",
+        sexo: ["Macho"],
         stateSalud: "sano",
         usuario: "jorge@jorge",
+        redCondition: "sano",
+        historiaClinica: "sano",
+        enfermedades: ["sano"],
+        vacunas: ["sano"],
+        desparacitaciones: ["sano"],
       },
     ],
     turnos: [

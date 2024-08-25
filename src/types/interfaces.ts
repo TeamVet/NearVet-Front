@@ -80,6 +80,8 @@ export interface User {
   token: string;
   role: string; //viene por token
   veterinariafavorita: string;
+  turnos: Turnos[];
+  mascotas: Mascota[];
 }
 
 export interface Mascota {
@@ -104,11 +106,11 @@ export interface Mascota {
   desparacitaciones: string[];
 }
 // Veterninarias [Missing info]
-export interface Veterinaria{
+export interface Veterinaria {
   id: number;
   name: string;
-  nameCompany: string,
-  logo: string,  
+  nameCompany: string;
+  logo: string;
 }
 
 export interface Turnos {
