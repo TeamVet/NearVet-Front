@@ -101,6 +101,13 @@ export interface Mascota {
   image: string;
   stateSalud: string;
 }
+// Veterninarias [Missing info]
+export interface Veterinaria{
+  id: number;
+  name: string;
+  nameCompany: string,
+  logo: string,  
+}
 
 export interface Turnos {
   id: number;
