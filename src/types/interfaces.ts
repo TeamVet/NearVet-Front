@@ -73,33 +73,35 @@ export interface User {
   lastname: string;
   dni: number;
   email: string;
-  password: string;
+  password: string; //viene por token
   address: string;
   city: string;
   phone: string;
   token: string;
-  role: string;
+  role: string; //viene por token
   veterinariafavorita: string;
-  mascotas: Mascota[];
-  mensajes: Mensajes[];
-  turnos: Turnos[];
 }
 
 export interface Mascota {
-  id: number;
+  id: string;
   name: string;
   birthdate: string;
   startDate: string;
   endDate: string;
   color: string;
-  sexo: string;
-  raza: string;
-  especie: string;
+  sexo: string[];
+  raza: string[];
+  especie: string[];
   usuario: string;
+  redCondition: string;
   ///a implementar
   age: number;
   image: string;
   stateSalud: string;
+  historiaClinica: string;
+  enfermedades: string[];
+  vacunas: string[];
+  desparacitaciones: string[];
 }
 
 export interface Turnos {
