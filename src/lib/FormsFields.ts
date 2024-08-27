@@ -34,7 +34,7 @@ export const registerFields: InputField[] = [
   },
   {
     name: "birthdate",
-    type: "date",
+    type: "Date",
     placeholder: "dd/mm/aaaa",
     label: "Fecha de Nacimiento",
     validation: Yup.string().required("La fecha es necesaria."),

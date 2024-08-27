@@ -75,14 +75,18 @@ export interface User {
   lastname: string;
   dni: number;
   email: string;
-  password: string; //viene por token
+  password: string; //viene por token?
   address: string;
   city: string;
   phone: string;
   token: string;
   starDate: Date;
   endDate: string | null;
-  role: string; //viene por token
+  imgProfile: string;
+  role: {
+    id: string;
+    role: string;
+  }; //viene por token
   veterinariafavorita: string;
   turnos: Turnos[];
   mascotas: Mascota[];
@@ -143,18 +147,20 @@ export interface FormValues {
 export interface FormRegisterValues extends FormValues {
   name: string;
   lastname: string;
+  birthDate: string;
   email: string;
   address: string;
   city: string;
-  phone: string;
-  role: string;
+  phone: number;
+  rol: string;
   startDate: Date;
+  imgProfile: string;
 }
 
 export interface FormNewPet {
   name: string;
   startDate: Date;
-  birthdate: string;
+  birthdate: Date;
   color: string;
   weightCurrent: number;
   observation: string;

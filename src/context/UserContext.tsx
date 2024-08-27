@@ -76,10 +76,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true);
     setError(null);
     const startDate = new Date();
-    values = { ...values, role: "user", startDate };
+    values = {
+      ...values,
+      rol: "user",
+      startDate,
+      phone: 1168775654,
+      address: "Avenida Importante 4000",
+      imgProfile: "image.jpg",
+      city: "Example City",
+      birthDate: "1988-01-02T00:00:00.000Z",
+    };
     try {
       const response = await register(values);
-      if (response.token) {
+      if (response.id) {
         alert("Te registramos con éxito. Vamos a intentar loguearte.");
         const loginResponse = await handleLogin({
           dni: values.dni,
@@ -113,14 +122,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       specieId: "21131006-7eae-47f8-93c2-1264c6be49cb",
       raceId: "21131006-7eae-47f8-93c2-1264c6be49cb",
       sexId: "21131006-7eae-47f8-93c2-1264c6be49cb",
+      birthdate: new Date(values.birthdate),
     };
+    const token = user?.token as string;
     try {
-      const response = await addPet(values);
+      const response = await addPet(values, token);
       if (response.id) {
         alert("Mascota registrada con éxito");
         router.push(PATHROUTES.PET);
         return response;
-      }
+      } else throw new Error();
     } catch (error: any) {
       setError(`Error al registrar la mascota: ${error.message}`);
       alert(`Error al registrar la mascota: ${error.message}`);

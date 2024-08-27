@@ -29,11 +29,12 @@ export const register = async (values: FormRegisterValues) => {
   return response.json();
 };
 
-export const addPet = async (values: FormNewPet) => {
+export const addPet = async (values: FormNewPet, token: string) => {
   const response = await fetch(`${API_BASE_URL}/pets`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(values),
   });
