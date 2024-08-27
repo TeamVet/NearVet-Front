@@ -7,7 +7,7 @@ export const fetcher = async (
   method: "GET" | "POST" | "PUT" | "DELETE",
   data?: any
 ) => {
-  const response = await fetch(url, {
+  const response = await fetch(`${apiUrl}${url}`, {
     method,
     headers: {
       "Content-Type": "application/json",

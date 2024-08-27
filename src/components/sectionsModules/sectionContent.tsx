@@ -5,6 +5,7 @@ import { SectionContentProps, User } from "@/types/interfaces";
 import AppointsModule from "./appointsModule";
 import PetsModule from "./petsModule";
 import Image from "next/image";
+import ButtonCustom from "../ButtonCustom";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   const { user } = useUser();
@@ -19,14 +20,24 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         <>
           {/* <Image src={user!.imgProfile} alt="Logo" width={100} height={100} />
            */}
-          <img
-            src={user?.imgProfile}
-            alt="Imagen del usuario"
-            width={100}
-            height={100}
-          />
-          {user?.imgProfile}
-          Hola
+          <p>Información del usuario</p>
+          {user && (
+            <>
+              <div className=" p-2 m-2">
+                <img
+                  src={user?.imgProfile}
+                  alt="Foto de usuario"
+                  width={100}
+                  height={100}
+                  className="rounded m-auto"
+                />
+                <p>Nombre: {user?.name}</p>
+                <p>Email: {user?.email}</p>
+                <p>Telefono: {user?.phone}</p>
+              </div>
+              <ButtonCustom text="Editar" />
+            </>
+          )}
         </>
       );
     case "Mascotas":

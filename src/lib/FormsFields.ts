@@ -108,7 +108,7 @@ export const newPetFields: InputField[] = [
   },
   {
     name: "birthdate",
-    type: "date",
+    type: "Date",
     placeholder: "dd/mm/aaaa",
     label: "Fecha de Nacimiento de tu animal",
     validation: Yup.string(),
@@ -119,29 +119,5 @@ export const newPetFields: InputField[] = [
     placeholder: "Negro",
     label: "Color",
     validation: Yup.string().required("El color es necesario."),
-  },
-  {
-    name: "sexId",
-    type: undefined,
-    as: "select",
-    option: ["Macho", "Hembra", "Desconocido"],
-    placeholder: "Macho.. Hembra...",
-    label: "Sexo",
-    validation: Yup.string().required("El sexo es necesario."),
-  },
-  {
-    name: "specieId",
-    as: "select",
-    option: ["Gato", "Perro"],
-    placeholder: "Tipo de animal",
-    label: "Especie",
-    validation: Yup.string(),
-  },
-  {
-    name: "raceId",
-    type: "text",
-    placeholder: "Caniche",
-    label: "Raza",
-    validation: Yup.string(),
   },
 ];

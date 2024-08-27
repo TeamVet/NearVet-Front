@@ -40,3 +40,25 @@ export const addPet = async (values: FormNewPet, token: string) => {
   });
   return response.json();
 };
+
+export const SpeciesAndRace = async (token: string) => {
+  const response = await fetch(`${API_BASE_URL}/pets/SpeciesAndRace`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+};
+
+export const SexType = async (token: string) => {
+  const response = await fetch(`${API_BASE_URL}/pets/sex`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+};

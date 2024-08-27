@@ -119,10 +119,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       ...values,
       userId: user!.id,
       startDate,
-      specieId: "21131006-7eae-47f8-93c2-1264c6be49cb",
-      raceId: "21131006-7eae-47f8-93c2-1264c6be49cb",
-      sexId: "21131006-7eae-47f8-93c2-1264c6be49cb",
-      birthdate: new Date(values.birthdate),
     };
     const token = user?.token as string;
     try {

@@ -187,6 +187,7 @@ export interface InputField {
   type?: string; // Hacer tipo opcional
   as?: string;
   option?: string[];
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   placeholder?: string;
   label: string;
   validation: Yup.StringSchema;
