@@ -95,11 +95,6 @@ const NewPet: React.FC = () => {
           linkHref=""
           inputFields={fields}
           onSubmit={newPet}
-          onFieldChange={(e, setFieldValue) => {
-            if (e.target.name === "specieId") {
-              handleSpeciesChange(e, setFieldValue);
-            }
-          }}
         />
       )}
     </Screen>

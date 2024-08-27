@@ -15,13 +15,7 @@ const AuthForm = <T,>({
   onSubmit,
   inputFields,
   googleButtonText,
-  onFieldChange,
-}: AuthFormProps<T> & {
-  onFieldChange?: (
-    e: React.ChangeEvent<HTMLSelectElement>,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
-  ) => void;
-}) => {
+}: AuthFormProps<T>) => {
   const validationSchema = Yup.object().shape(
     inputFields.reduce((schema, field) => {
       schema[field.name] = field.validation;
@@ -76,11 +70,6 @@ const AuthForm = <T,>({
                   type={field.type}
                   placeholder={field.placeholder}
                   as={field.as}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    if (field.as === "select" && onFieldChange) {
-                      onFieldChange(e, setFieldValue);
-                    }
-                  }}
                 >
                   {field.option &&
                     field.option.map((optionSelect) => (
