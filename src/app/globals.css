@@ -29,7 +29,7 @@
 }
 
 body {
-  @apply bg-lightBG text-lightText;
+  @apply bg-lightBG text-lightText dark:bg-darkBG dark:text-darkText;
 }
 
 h1,
@@ -41,17 +41,18 @@ h6 {
   @apply text-lightHline;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* body {
+/* @media (prefers-color-scheme: dark) {
+  body {
     @apply bg-darkBG text-darkText;
-  } */
+  }
 
-  /* h1,
+
+  h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
     @apply text-darkHline;
-  } */
-}
+  }
+} */
