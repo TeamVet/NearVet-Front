@@ -7,7 +7,7 @@ const Main: React.FC = () => {
     <div className="flex flex-col w-full gap-12">
       <div className="flex gap-28 p-10">
         <div className="w-full flex flex-col gap-5">
-          <h1 className="text-start font-bold text-4xl">
+          <h1 className="text-start font-bold text-4xl dark:text-darkHline">
             Encuentra la veterinaria perfecta para tu mascota
           </h1>
           <p className="text-justify text-xl">
@@ -35,8 +35,8 @@ const Main: React.FC = () => {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-5 bg-secondary p-10 rounded-md">
-        <span className="text-detail w-full text-center font-extrabold text-lg">
+      <div className="flex flex-col gap-5 bg-secondary dark:bg-darkBG p-10 rounded-md">
+        <span className="text-detail w-full text-center font-extrabold text-lg dark:text-darkHline">
           Nuestros Servicios
         </span>
         <h1 className="text-center font-bold text-4xl">
@@ -74,7 +74,7 @@ const Main: React.FC = () => {
                 </li>
                 <li>
                   <span className="text-detail font-bold flex">
-                    <FaGreaterThan className="text-detail pt-2" />
+                    <FaGreaterThan className="text-detail pt-2 " />
                     Cuidado especializado
                   </span>
                   <p>
@@ -107,10 +107,25 @@ const Main: React.FC = () => {
           match perfecto para tu mascota.
         </p>
         <div className="flex gap-20 justify-between">
-            {/* Hacer aquí el map de vets para mostrar las VetCards. */}
-            <VetCard id={1} logo="example" name="Dra. Clauida Armendariz Rodríguez" nameCompany="FurryFriends"></VetCard>
-            <VetCard id={1} logo="example" name="Dra. Clauida Armendariz Rodríguez" nameCompany="FurryFriends"></VetCard>
-            <VetCard id={1} logo="example" name="Dra. Clauida Armendariz Rodríguez" nameCompany="FurryFriends"></VetCard>
+          {/* Hacer aquí el map de vets para mostrar las VetCards. */}
+          <VetCard
+            id={1}
+            logo="example"
+            name="Dra. Clauida Armendariz Rodríguez"
+            nameCompany="FurryFriends"
+          ></VetCard>
+          <VetCard
+            id={1}
+            logo="example"
+            name="Dra. Clauida Armendariz Rodríguez"
+            nameCompany="FurryFriends"
+          ></VetCard>
+          <VetCard
+            id={1}
+            logo="example"
+            name="Dra. Clauida Armendariz Rodríguez"
+            nameCompany="FurryFriends"
+          ></VetCard>
         </div>
       </div>
     </div>

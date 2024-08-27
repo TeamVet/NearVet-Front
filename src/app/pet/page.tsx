@@ -1,4 +1,7 @@
+"use client";
 import Screen from "@/components/Screen";
+import PetsModule from "@/components/sectionsModules/petsModule";
+import { useUser } from "@/context/UserContext";
 
 //ver lista de mascotas
 //agregar mascota
@@ -9,7 +12,14 @@ import Screen from "@/components/Screen";
 //--> transferir mascota
 
 const Pet: React.FC = () => {
-  return (<Screen>Pet</Screen>);
+  const { user } = useUser();
+  return (
+    <Screen>
+      <div className="mx-auto mt-5 min-h-28 dark:text-white ">
+        <PetsModule user={user} />
+      </div>
+    </Screen>
+  );
 };
 
 export default Pet;
