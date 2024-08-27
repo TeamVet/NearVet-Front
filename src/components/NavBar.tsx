@@ -44,23 +44,25 @@ const NavBar: React.FC = () => {
     if (user === null) {
       setNavItems(NavItem); // No logueado
     } else {
-      const tokenResponse = verifyToken(user!.token);
-      console.log("tokenResponse:", tokenResponse);
-
-      //aca iria la logica para utilizar el role que viene por token...
-      switch (user.endDate) {
-        case null:
-          setNavItems(NavItemUser);
-          break;
-        case "adminVet":
-          setNavItems(NavItemAdmin);
-          break;
-        case "veterinarian":
-          setNavItems(NavItemVet);
-          break;
-        default:
-          setNavItems(NavItem); // fallback
-          break;
+      {
+        //aca iria la logica para utilizar el role que viene por token...
+        // console.log(user);
+        // const tokenResponse = verifyToken(user!.token);
+        // console.log("tokenResponse:", tokenResponse);
+        switch (user.role.role) {
+          case "user":
+            setNavItems(NavItemUser);
+            break;
+          case "adminVet":
+            setNavItems(NavItemAdmin);
+            break;
+          case "veterinarian":
+            setNavItems(NavItemVet);
+            break;
+          default:
+            setNavItems(NavItem); // fallback
+            break;
+        }
       }
     }
   }, [user]);

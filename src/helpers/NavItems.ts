@@ -42,7 +42,7 @@ export const NavItemUser: Array<NavItemProps> = [
   },
   {
     name: "Mensajes",
-    url: "",
+    url: "", //TODO Deberiamos abrir la modal de mensajes
     icon: MailIcon,
   },
   {
