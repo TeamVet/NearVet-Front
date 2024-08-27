@@ -1,3 +1,4 @@
+import { FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 //# Interfaces de componentes
@@ -69,6 +70,7 @@ export interface PetsModuleProps {
 
 ///# Interfaces de context
 export interface User {
+  id: string;
   name: string;
   lastname: string;
   dni: number;
@@ -78,6 +80,8 @@ export interface User {
   city: string;
   phone: string;
   token: string;
+  starDate: Date;
+  endDate: string | null;
   role: string; //viene por token
   veterinariafavorita: string;
   turnos: Turnos[];
@@ -88,17 +92,19 @@ export interface Mascota {
   id: string;
   name: string;
   birthdate: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
   color: string;
-  sexo: string[];
-  raza: string[];
-  especie: string[];
-  usuario: string;
-  redCondition: string;
+  weightCurrent: number;
+  observation: string;
+  image: string;
+  userId: string;
+  specieId: string;
+  raceId: string;
+  sexId: string;
+  repConditionId: string;
+  imgProfile: string;
   ///a implementar
   age: number;
-  image: string;
   stateSalud: string;
   historiaClinica: string;
   enfermedades: string[];
@@ -128,56 +134,66 @@ export interface Mensajes {
   state: string;
 }
 
-export interface UserContextType {
-  user: User | null;
-  loginContext: (userData: FormValues) => Promise<void>;
-  logoutContext: () => void;
-  error: string | null;
-  loading: boolean;
-  registerContext: (values: FormRegisterValues | FormValues) => Promise<void>;
-}
-
-///# Interfaces de formularios
+// interfaces.ts
 export interface FormValues {
-  email: string;
+  dni: number;
   password: string;
 }
-export const initialValues: FormValues = {
-  email: "",
-  password: "",
-};
 
-export interface FormRegisterValues {
+export interface FormRegisterValues extends FormValues {
   name: string;
   lastname: string;
   email: string;
-  password: string;
-  passwordConfirm: string;
   address: string;
-  phone: number;
-  birthdate: string;
-  startDate: string;
-  isAdmin: boolean;
-  role: "user" | "adminVet" | "veterinarian";
+  city: string;
+  phone: string;
+  role: string;
+  startDate: Date;
 }
+
+export interface FormNewPet {
+  name: string;
+  startDate: Date;
+  birthdate: string;
+  color: string;
+  weightCurrent: number;
+  observation: string;
+  image: string;
+  specieId: string;
+  raceId: string;
+  sexId: string;
+  userId: string;
+}
+
+export interface UserContextType {
+  user: User | null;
+  loginContext: (userData: FormValues) => Promise<User | undefined>; // Cambiado a void
+  logoutContext: () => void;
+  error: string | null;
+  loading: boolean;
+  registerContext: (values: FormRegisterValues) => Promise<User | undefined>; // Cambiado a void
+  newPet: (values: FormNewPet) => Promise<Mascota | undefined>; // Cambiado a void
+}
+
+///
 export interface InputField {
   name: string;
-  type: string | null;
+  type?: string; // Hacer tipo opcional
   as?: string;
   option?: string[];
   placeholder?: string;
   label: string;
   validation: Yup.StringSchema;
+  initialValue?: string; // Valor inicial opcional
 }
 
-export interface AuthFormProps {
+export interface AuthFormProps<T> {
   title?: string;
   subtitle: string;
   linkText: string;
   linkHref: string;
   buttonText: string;
-  onSubmit: (values: FormValues | FormRegisterValues) => Promise<void>;
+  onSubmit: any;
   inputFields: InputField[];
-  inputValues?: FormValues | FormRegisterValues;
   googleButtonText?: string;
 }

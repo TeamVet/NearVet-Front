@@ -33,6 +33,13 @@ export const registerFields: InputField[] = [
       ),
   },
   {
+    name: "birthdate",
+    type: "date",
+    placeholder: "dd/mm/aaaa",
+    label: "Fecha de Nacimiento",
+    validation: Yup.string().required("La fecha es necesaria."),
+  },
+  {
     name: "email",
     type: "email",
     placeholder: "example@mail.com",
@@ -72,17 +79,11 @@ export const registerFields: InputField[] = [
 
 export const loginFields: InputField[] = [
   {
-    name: "email",
-    type: "email",
-    placeholder: "example@mail.com",
-    label: "Email",
-    validation: Yup.string()
-      .email("Enter a valid email. Example abc@example.com")
-      .required("Email is required.")
-      .matches(
-        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/,
-        "Enter a valid email. Example abc@example.com"
-      ),
+    name: "dni",
+    type: "number",
+    placeholder: "40236159",
+    label: "Documento de Identidad",
+    validation: Yup.string().required("Tu DNI es necesario."),
   },
   {
     name: "password",
@@ -90,8 +91,8 @@ export const loginFields: InputField[] = [
     placeholder: "******",
     label: "Password",
     validation: Yup.string()
-      .min(8, "Password must be at least 8 characters.")
-      .required("Password is required."),
+      .min(8, "Tu contraseña tiene como minimo 8 caracteres.")
+      .required("Debes ingresar tu contraseña."),
   },
 ];
 
@@ -110,33 +111,34 @@ export const newPetFields: InputField[] = [
     type: "date",
     placeholder: "dd/mm/aaaa",
     label: "Fecha de Nacimiento de tu animal",
-    validation: Yup.string().required("La fecha de nacimiento es necesaria."),
+    validation: Yup.string(),
   },
   {
     name: "color",
     type: "text",
     placeholder: "Negro",
     label: "Color",
-    validation: Yup.string(),
+    validation: Yup.string().required("El color es necesario."),
   },
   {
-    name: "sexo",
-    type: null,
+    name: "sexId",
+    type: undefined,
     as: "select",
     option: ["Macho", "Hembra", "Desconocido"],
     placeholder: "Macho.. Hembra...",
     label: "Sexo",
-    validation: Yup.string(),
+    validation: Yup.string().required("El sexo es necesario."),
   },
   {
-    name: "especie",
-    type: "text",
-    placeholder: "Canino",
+    name: "specieId",
+    as: "select",
+    option: ["Gato", "Perro"],
+    placeholder: "Tipo de animal",
     label: "Especie",
     validation: Yup.string(),
   },
   {
-    name: "raza",
+    name: "raceId",
     type: "text",
     placeholder: "Caniche",
     label: "Raza",

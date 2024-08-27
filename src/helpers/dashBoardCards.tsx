@@ -8,7 +8,6 @@ import {
 } from "@/lib/icons";
 import { UserCard } from "@/types/interfaces";
 
-
 export const userCards: UserCard[] = [
   {
     text: "Información",
@@ -17,16 +16,19 @@ export const userCards: UserCard[] = [
   {
     text: "Mascotas",
     icon: <PawIcon size="2xl" />,
-  }, {
+  },
+  {
     text: "Turnos",
     icon: <MedicalIcon size="2xl" />,
-  }, {
+  },
+  {
     text: "Facturas",
     icon: <TicketIcon size="2xl" />,
-  }, {
-    text: "Veterinaria Favorita",
-    icon: <StoreIcon size="2xl" />,
-  }
+  },
+  // {
+  //   text: "Veterinaria Favorita",
+  //   icon: <StoreIcon size="2xl" />,
+  // }
 ];
 
 export const userPetsCards: UserCard[] = [
@@ -49,8 +51,8 @@ export const userPetsCards: UserCard[] = [
   {
     text: "Visitas",
     icon: <MedicalIcon size="2xl" />,
-  }
-]
+  },
+];
 export const adminCards: UserCard[] = [
   {
     text: "Información",
@@ -71,8 +73,8 @@ export const adminCards: UserCard[] = [
   {
     text: "Empleados",
     icon: <EmployeeIcon size="2xl" />,
-  }
-]
+  },
+];
 
 export const vetCards: UserCard[] = [
   {
@@ -86,6 +88,5 @@ export const vetCards: UserCard[] = [
   {
     text: "Historial de turnos",
     icon: <MedicalIcon size="2xl" />,
-  }
-
-]
+  },
+];

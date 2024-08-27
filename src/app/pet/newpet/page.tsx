@@ -1,24 +1,26 @@
-"use client"
+"use client";
+
 import AuthForm from "@/components/AuthForm";
 import Screen from "@/components/Screen";
 import { useUser } from "@/context/UserContext";
 import { newPetFields } from "@/lib/FormsFields";
+import { FormNewPet } from "@/types/interfaces";
 
 const NewPet: React.FC = () => {
-  const { loginContext } = useUser()
-  return (<Screen>
-
-    <AuthForm
-      title="Agregar una mascota"
-      subtitle="Cuentanos de tu mejor amigo..."
-      buttonText="Agregar Mascota"
-      linkText=""
-      linkHref=""
-      inputFields={newPetFields}
-      onSubmit={loginContext}
-    />
-  </Screen>);
+  const { newPet } = useUser();
+  return (
+    <Screen>
+      <AuthForm<FormNewPet>
+        title="Agregar una mascota"
+        subtitle="Cuéntanos de tu mejor amigo..."
+        buttonText="Agregar Mascota"
+        linkText=""
+        linkHref=""
+        inputFields={newPetFields}
+        onSubmit={newPet}
+      />
+    </Screen>
+  );
 };
 
 export default NewPet;
-//name, birthdate, startDate, endDate, color string, sexo, raza, especie, usuario. 

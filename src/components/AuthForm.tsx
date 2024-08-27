@@ -1,14 +1,14 @@
-"use client";
-
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import Link from "next/link";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import ButtonCustom from "./ButtonCustom";
 import GoogleButton from "./GoogleButton";
-import { AuthFormProps, initialValues, User } from "@/types/interfaces";
+import Link from "next/link";
+import { AuthFormProps } from "@/types/interfaces";
 
-const AuthForm: React.FC<AuthFormProps> = ({
+
+
+const AuthForm = <T,>({
   title,
   subtitle,
   linkText,
@@ -16,9 +16,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
   buttonText,
   onSubmit,
   inputFields,
-  inputValues,
   googleButtonText,
-}) => {
+}: AuthFormProps<T>) => {
   const validationSchema = Yup.object().shape(
     inputFields.reduce((schema, field) => {
       schema[field.name] = field.validation;
@@ -27,9 +26,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
   );
 
   return (
-    <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4  flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+    <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
       {title ? (
-        <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center ">
+        <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center">
           <img src="" alt="[logo]" />
           <span>NearVet</span>
         </div>
@@ -46,18 +45,18 @@ const AuthForm: React.FC<AuthFormProps> = ({
         </p>
       </div>
       <Formik
-        initialValues={inputValues ? inputValues : initialValues}
+        initialValues={inputFields.reduce((initialValues, field) => {
+          initialValues[field.name] = field.initialValue || "";
+          return initialValues;
+        }, {} as Record<string, string>)}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {() => (
-          <Form className="sm:w-[35vw] lg:w-[25vw] mx-auto flex flex-col text-[1em]">
+        {({ handleSubmit }) => (
+          <Form className="sm:w-[35vw] lg:w-[25vw] mx-auto flex flex-col text-[1em]" onSubmit={handleSubmit}>
             {inputFields.map((field) => (
               <div className="mb-3" key={field.name}>
-                <label
-                  className="text-detail font-semibold"
-                  htmlFor={field.name}
-                >
+                <label className="text-detail font-semibold" htmlFor={field.name}>
                   {field.label}
                 </label>
                 <Field
@@ -65,15 +64,12 @@ const AuthForm: React.FC<AuthFormProps> = ({
                   id={field.name}
                   name={field.name}
                   type={field.type}
-                  placeholder={field?.placeholder}
-                  as={field?.as}
-
+                  placeholder={field.placeholder}
+                  as={field.as}
                 >
-                  {field?.option &&
-                    field.option.map((optionSelect) => {
-                      return <option key={optionSelect} value={optionSelect}>{optionSelect}</option>
-                    })
-                  }
+                  {field.option && field.option.map((optionSelect) => (
+                    <option key={optionSelect} value={optionSelect}>{optionSelect}</option>
+                  ))}
                 </Field>
                 <div className="h-4">
                   <ErrorMessage

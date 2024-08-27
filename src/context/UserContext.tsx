@@ -1,9 +1,25 @@
-"use client"
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { FormRegisterValues, FormValues, User, UserContextType } from '../types/interfaces';
-import { fetcherLogin, fetcherRegister } from '@/lib/fetcher';
-import { useRouter } from 'next/navigation';
+// userContext.tsx
+"use client";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import {
+  FormNewPet,
+  FormRegisterValues,
+  FormValues,
+  Mascota,
+  User,
+  UserContextType,
+} from "../types/interfaces";
 
+import verifyToken from "@/lib/token";
+import PATHROUTES from "@/helpers/path-routes";
+import { useRouter } from "next/navigation";
+import { addPet, login, register } from "@/lib/authService";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -11,77 +27,120 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter()
-  const url_login = `/authGlobal/signin`;
-  const url_register = `/authGlobal/signup`;
+  const router = useRouter();
+
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  const loginContext = async (userData: FormValues) => {
+  const handleLogin = async (
+    userData: FormValues
+  ): Promise<User | undefined> => {
     setLoading(true);
-    setError(null)
+    setError(null);
+    alert("Logueando...");
     try {
-      const response = await fetcherLogin(url_login, userData);
-      if (!response) throw new Error('Error al loguearse');
-      if (response.id) {
+      const response = await login(userData);
+      if (response.token) {
         document.cookie = `auth-token=${response.token}; path=/`;
-        localStorage.setItem('user', JSON.stringify(response));
+        localStorage.setItem("user", JSON.stringify(response));
         setUser(response);
-        //TODO : notificamos al usuario y lo llevamos a la página principal
-        alert('Logueado correctamente');
-        router.push('/userDashboard');
+        const decodedData = verifyToken(response.token);
+        console.log("decodedData :", decodedData);
+        alert("Logueado correctamente");
+        router.push("/userDashboard");
+        return response;
       }
     } catch (error: any) {
-      setError(`Error al loguearse ${error.message}`);
-      alert(`Error al loguearse ${error.message}`);
-    }
-    finally {
+      setError(`Error al loguearse: ${error.message}`);
+      alert(`Error al loguearse: ${error.message}`);
+    } finally {
       setLoading(false);
     }
   };
 
-  const logoutContext = () => {
-    console.log('Saliendo...'),
-      localStorage.removeItem('user');
-    document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    document.cookie =
+      "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     setUser(null);
-    router.push('/');
+    router.push("/");
   };
 
-
-  const registerContext = async (values: FormRegisterValues | FormValues) => {
+  const handleRegister = async (
+    values: FormRegisterValues
+  ): Promise<User | undefined> => {
     setLoading(true);
-    setError(null)
-    values = { ...values, isAdmin: true, birthdate: "2000-01-01", startDate: "2000-01-01", phone: 2, address: " Desconocido", role: "adminVet" };
-
+    setError(null);
+    const startDate = new Date();
+    values = { ...values, role: "user", startDate };
     try {
-      const response = await fetcherRegister(url_register, values);
-      if (response.id) {
-        alert("Vamos a intentar loguearte");
-        let valuesForLogin = {
-          email: values.email, password: values.password
+      const response = await register(values);
+      if (response.token) {
+        alert("Te registramos con éxito. Vamos a intentar loguearte.");
+        const loginResponse = await handleLogin({
+          dni: values.dni,
+          password: values.password,
+        });
+        if (loginResponse?.token) {
+          alert("Logueado correctamente...");
+          router.push("/userDashboard");
+          return loginResponse;
         }
-        const loginResponse = await loginContext(valuesForLogin);
-        alert('Logueado con exito');
-        return loginResponse;
       }
-      return response
+      return response;
     } catch (error: any) {
-      setError(`Error al Registrarse:  ${error.message}`);
-      alert(`Error al Registrarse:  ${error.message}`)
-    }
-
-    finally {
+      setError(`Error al registrarse: ${error.message}`);
+      alert(`Error al registrarse: ${error.message}`);
+    } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const handleAddPet = async (
+    values: FormNewPet
+  ): Promise<Mascota | undefined> => {
+    setLoading(true);
+    setError(null);
+    const startDate = new Date();
+    values = {
+      ...values,
+      userId: user!.id,
+      startDate,
+      specieId: "21131006-7eae-47f8-93c2-1264c6be49cb",
+      raceId: "21131006-7eae-47f8-93c2-1264c6be49cb",
+      sexId: "21131006-7eae-47f8-93c2-1264c6be49cb",
+    };
+    try {
+      const response = await addPet(values);
+      if (response.id) {
+        alert("Mascota registrada con éxito");
+        router.push(PATHROUTES.PET);
+        return response;
+      }
+    } catch (error: any) {
+      setError(`Error al registrar la mascota: ${error.message}`);
+      alert(`Error al registrar la mascota: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <UserContext.Provider value={{ user, loginContext, logoutContext, error, loading, registerContext }}>
+    <UserContext.Provider
+      value={{
+        user,
+        loginContext: handleLogin,
+        logoutContext: handleLogout,
+        error,
+        loading,
+        registerContext: handleRegister,
+        newPet: handleAddPet,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -90,7 +149,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

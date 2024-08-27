@@ -1,73 +1,73 @@
 import React from 'react';
 import { useUser } from '@/context/UserContext';
 import { SectionContentProps, User } from '@/types/interfaces';
-import { InformationModule } from './informationModule';
+
 import AppointsModule from './appointsModule';
 import PetsModule from './petsModule';
 
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
-  const { loginContext } = useUser();
+  const { loginContext, user } = useUser();
 
-  //simulacion de user
-  const user: User = {
-    name: "Jorge",
-    lastname: "Perez",
-    password: "123456",
-    token: "123456789",
-    role: "user",
-    email: "jorge@jorge",
-    phone: "123456789",
-    address: "calle 123",
-    city: "Posadas",
-    dni: 123456789,
-    veterinariafavorita: "veterinaria 1",
+  // //simulacion de user
+  // const user: User = {
+  //   name: "Jorge",
+  //   lastname: "Perez",
+  //   password: "123456",
+  //   token: "123456789",
+  //   role: "user",
+  //   email: "jorge@jorge",
+  //   phone: "123456789",
+  //   address: "calle 123",
+  //   city: "Posadas",
+  //   dni: 123456789,
+  //   veterinariafavorita: "veterinaria 1",
 
 
-    mascotas: [
-      {
-        id: "1",
-        name: "Lolu",
-        especie: ["perro"],
-        raza: ["chihuahua"],
-        age: 2,
-        image: "/mascota.png",
-        birthdate: "2022-01-01",
-        startDate: "2022-01-01",
-        endDate: "2022-01-01",
-        color: "blanco",
-        sexo: ["Macho"],
-        stateSalud: "sano",
-        usuario: "jorge@jorge",
-        redCondition: "sano",
-        historiaClinica: "sano",
-        enfermedades: ["sano"],
-        vacunas: ["sano"],
-        desparacitaciones: ["sano"],
-      },
-    ],
-    turnos: [
-      {
-        id: 2,
-        date: "2022-01-01",
-        hour: "10:00",
-        state: "realizado",
-      },
-      {
-        id: 3,
-        date: "2022-01-01",
-        hour: "10:00",
-        state: "pendiente",
-      },
-      {
-        id: 4,
-        date: "2022-01-01",
-        hour: "10:00",
-        state: "pendiente",
-      },
-    ]
+  //   mascotas: [
+  //     {
+  //       id: "1",
+  //       name: "Lolu",
+  //       especie: ["perro"],
+  //       raza: ["chihuahua"],
+  //       age: 2,
+  //       image: "/mascota.png",
+  //       birthdate: "2022-01-01",
+  //       startDate: "2022-01-01",
+  //       endDate: "2022-01-01",
+  //       color: "blanco",
+  //       sexo: ["Macho"],
+  //       stateSalud: "sano",
+  //       usuario: "jorge@jorge",
+  //       redCondition: "sano",
+  //       historiaClinica: "sano",
+  //       enfermedades: ["sano"],
+  //       vacunas: ["sano"],
+  //       desparacitaciones: ["sano"],
+  //     },
+  //   ],
+  //   turnos: [
+  //     {
+  //       id: 2,
+  //       date: "2022-01-01",
+  //       hour: "10:00",
+  //       state: "realizado",
+  //     },
+  //     {
+  //       id: 3,
+  //       date: "2022-01-01",
+  //       hour: "10:00",
+  //       state: "pendiente",
+  //     },
+  //     {
+  //       id: 4,
+  //       date: "2022-01-01",
+  //       hour: "10:00",
+  //       state: "pendiente",
+  //     },
+  //   ]
 
-  }
+  // }
 
 
   switch (section) {
@@ -78,7 +78,8 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     ///# Secciones User
     case "Información":
       return (
-        <InformationModule user={user} modifyContext={loginContext} />
+        // <InformationModule user={user} modifyContext={loginContext} />
+        <></>
       );
     case "Mascotas":
       return (
