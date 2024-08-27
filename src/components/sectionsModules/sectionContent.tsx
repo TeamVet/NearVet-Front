@@ -1,94 +1,38 @@
-import React from 'react';
-import { useUser } from '@/context/UserContext';
-import { SectionContentProps, User } from '@/types/interfaces';
+import React from "react";
+import { useUser } from "@/context/UserContext";
+import { SectionContentProps, User } from "@/types/interfaces";
 
-import AppointsModule from './appointsModule';
-import PetsModule from './petsModule';
-
+import AppointsModule from "./appointsModule";
+import PetsModule from "./petsModule";
+import Image from "next/image";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
-  const { loginContext, user } = useUser();
-
-  // //simulacion de user
-  // const user: User = {
-  //   name: "Jorge",
-  //   lastname: "Perez",
-  //   password: "123456",
-  //   token: "123456789",
-  //   role: "user",
-  //   email: "jorge@jorge",
-  //   phone: "123456789",
-  //   address: "calle 123",
-  //   city: "Posadas",
-  //   dni: 123456789,
-  //   veterinariafavorita: "veterinaria 1",
-
-
-  //   mascotas: [
-  //     {
-  //       id: "1",
-  //       name: "Lolu",
-  //       especie: ["perro"],
-  //       raza: ["chihuahua"],
-  //       age: 2,
-  //       image: "/mascota.png",
-  //       birthdate: "2022-01-01",
-  //       startDate: "2022-01-01",
-  //       endDate: "2022-01-01",
-  //       color: "blanco",
-  //       sexo: ["Macho"],
-  //       stateSalud: "sano",
-  //       usuario: "jorge@jorge",
-  //       redCondition: "sano",
-  //       historiaClinica: "sano",
-  //       enfermedades: ["sano"],
-  //       vacunas: ["sano"],
-  //       desparacitaciones: ["sano"],
-  //     },
-  //   ],
-  //   turnos: [
-  //     {
-  //       id: 2,
-  //       date: "2022-01-01",
-  //       hour: "10:00",
-  //       state: "realizado",
-  //     },
-  //     {
-  //       id: 3,
-  //       date: "2022-01-01",
-  //       hour: "10:00",
-  //       state: "pendiente",
-  //     },
-  //     {
-  //       id: 4,
-  //       date: "2022-01-01",
-  //       hour: "10:00",
-  //       state: "pendiente",
-  //     },
-  //   ]
-
-  // }
-
+  const { user } = useUser();
 
   switch (section) {
     case "sinUser":
-      return (
-        <p>No hay datos de usuario</p>
-      )
+      return <p>No hay datos de usuario</p>;
     ///# Secciones User
     case "Información":
       return (
         // <InformationModule user={user} modifyContext={loginContext} />
-        <></>
+        <>
+          {/* <Image src={user!.imgProfile} alt="Logo" width={100} height={100} />
+           */}
+          <img
+            src={user?.imgProfile}
+            alt="Imagen del usuario"
+            width={100}
+            height={100}
+          />
+          {user?.imgProfile}
+          Hola
+        </>
       );
     case "Mascotas":
-      return (
-        <PetsModule user={user} />
-      );
+      return <PetsModule user={user} />;
     case "Turnos":
-      return (
-        <AppointsModule user={user} />
-      );
+      return <AppointsModule user={user} />;
     case "Facturas":
       return (
         <div>
@@ -106,25 +50,15 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       );
     ///# Secciones Pets
     case "Vacunas":
-      return (
-        <>Vacunas</>
-      );
+      return <>Vacunas</>;
     case "Desparasitaciones":
-      return (
-        <>Desparasitaciones</>
-      );
+      return <>Desparasitaciones</>;
     case "Enfermedades":
-      return (
-        <>Enfermedades</>
-      );
+      return <>Enfermedades</>;
     case "Medicamentos":
-      return (
-        <>Medicamentos</>
-      );
+      return <>Medicamentos</>;
     case "Visitas":
-      return (
-        <>Visitas</>
-      );
+      return <>Visitas</>;
     ///# Secciones Admin
     case "Cupones de descuento":
       return (

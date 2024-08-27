@@ -2,11 +2,13 @@ import { Veterinaria } from "@/types/interfaces";
 import { FaRegStar } from "react-icons/fa6";
 const VetCard: React.FC<Veterinaria> = (vet) => {
   return (
-    <div className="flex flex-col bg-secondary p-5 rounded-lg gap-5 w-[30em] shadow-lg">
+    <div className="flex flex-col bg-secondary p-5 rounded-lg gap-5 w-[30em] shadow-lg dark:bg-darkBG">
       <div className="flex justify-between">
         <div className="flex">
           <img src={vet.logo} alt="[vetLogo]" />
-          <h1 className="text-lg font-extrabold">{vet.nameCompany}</h1>
+          <h1 className="text-lg font-extrabold dark:text-darkHline">
+            {vet.nameCompany}
+          </h1>
         </div>
         <span className="text-primary text-md font-semibold flex">
           <FaRegStar className="pt-1 text-md" /> 4.9
