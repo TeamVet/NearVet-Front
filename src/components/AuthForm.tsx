@@ -6,8 +6,6 @@ import GoogleButton from "./GoogleButton";
 import Link from "next/link";
 import { AuthFormProps } from "@/types/interfaces";
 
-
-
 const AuthForm = <T,>({
   title,
   subtitle,
@@ -17,7 +15,13 @@ const AuthForm = <T,>({
   onSubmit,
   inputFields,
   googleButtonText,
-}: AuthFormProps<T>) => {
+  onFieldChange,
+}: AuthFormProps<T> & {
+  onFieldChange?: (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+  ) => void;
+}) => {
   const validationSchema = Yup.object().shape(
     inputFields.reduce((schema, field) => {
       schema[field.name] = field.validation;
@@ -52,11 +56,17 @@ const AuthForm = <T,>({
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ handleSubmit }) => (
-          <Form className="sm:w-[35vw] lg:w-[25vw] mx-auto flex flex-col text-[1em]" onSubmit={handleSubmit}>
+        {({ handleSubmit, setFieldValue }) => (
+          <Form
+            className="sm:w-[35vw] lg:w-[25vw] mx-auto flex flex-col text-[1em]"
+            onSubmit={handleSubmit}
+          >
             {inputFields.map((field) => (
               <div className="mb-3" key={field.name}>
-                <label className="text-detail font-semibold" htmlFor={field.name}>
+                <label
+                  className="text-detail font-semibold"
+                  htmlFor={field.name}
+                >
                   {field.label}
                 </label>
                 <Field
@@ -66,10 +76,18 @@ const AuthForm = <T,>({
                   type={field.type}
                   placeholder={field.placeholder}
                   as={field.as}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    if (field.as === "select" && onFieldChange) {
+                      onFieldChange(e, setFieldValue);
+                    }
+                  }}
                 >
-                  {field.option && field.option.map((optionSelect) => (
-                    <option key={optionSelect} value={optionSelect}>{optionSelect}</option>
-                  ))}
+                  {field.option &&
+                    field.option.map((optionSelect) => (
+                      <option key={optionSelect} value={optionSelect}>
+                        {optionSelect}
+                      </option>
+                    ))}
                 </Field>
                 <div className="h-4">
                   <ErrorMessage
