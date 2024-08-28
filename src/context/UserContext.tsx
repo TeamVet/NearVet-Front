@@ -121,6 +121,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       startDate,
     };
     const token = user?.token as string;
+    console.log("token :", token);
     try {
       const response = await addPet(values, token);
       if (response.id) {

@@ -164,10 +164,10 @@ export interface FormNewPet {
   color: string;
   weightCurrent: number;
   observation: string;
-  image: string;
+  image?: string;
   specieId: string;
   raceId: string;
-  sexId: string;
+  sexId: number;
   userId: string;
 }
 
@@ -203,4 +203,5 @@ export interface AuthFormProps<T> {
   onSubmit: any;
   inputFields: InputField[];
   googleButtonText?: string;
+  onFieldChange?: any;
 }

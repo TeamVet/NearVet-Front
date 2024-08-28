@@ -41,8 +41,14 @@ export const addPet = async (values: FormNewPet, token: string) => {
   return response.json();
 };
 
-export const SpeciesAndRace = async () => {
-  const response = await fetch(`${API_BASE_URL}/pets/SpecieAndRaces`, {
+export const Species = async () => {
+  const response = await fetch(`${API_BASE_URL}/pets/species`, {
+    method: "GET",
+  });
+  return response.json();
+};
+export const Races = async (especie: string) => {
+  const response = await fetch(`${API_BASE_URL}/pets/races/${especie}`, {
     method: "GET",
   });
   return response.json();

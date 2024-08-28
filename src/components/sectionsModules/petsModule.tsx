@@ -19,6 +19,7 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
             },
           }
         );
@@ -46,31 +47,26 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
         {mascotas.length >= 1 ? (
           mascotas.map((mascota) => (
             <CardCustom key={mascota.id} isSelect={"not"}>
-              <Link href={PATHROUTES.PET + `/${mascota.id}`}>
+              <div className="my-2">
                 <Image
                   src={mascota.imgProfile}
                   alt={`Imagen de ${mascota.name}`}
                   width={100}
                   height={100}
+                  className="mx-auto my-2"
                 />
                 <h3 className="text-xl text-black dark:text-white mx-10">
                   Nombre: {mascota.name}
                 </h3>
                 <p className="text-black dark:text-white">
-                  Tipo: {mascota.specieId}
+                  Color: {mascota.color}
                 </p>
-                <p className="text-black dark:text-white">
-                  Raza: {mascota.raceId}
-                </p>
-                <p className="text-black dark:text-white mb-2">
-                  Edad: {mascota.age}
-                </p>
+              </div>
 
-                <ButtonCustom
-                  text="Editar"
-                  href={PATHROUTES.PET + `/${mascota.id}`}
-                />
-              </Link>
+              <ButtonCustom
+                text="Editar"
+                href={PATHROUTES.PET + `/${mascota.id}`}
+              />
             </CardCustom>
           ))
         ) : (
