@@ -22,7 +22,7 @@ const ModalCustom: React.FC<ModalCustomProps> = ({
   input,
 }) => {
   const router = useRouter();
-  const { setUser } = useUser();
+
   const [formValues, setFormValues] = useState({ dni: 0 });
   const [error, setError] = useState<string | null>(null);
   if (!isOpen) return null;
