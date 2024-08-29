@@ -96,7 +96,6 @@ const AuthForm = <T,>({
           <span className="text-gray-400 font-bold">- OR -</span>
           <GoogleButton
             text={googleButtonText}
-            onClick={() => console.log("Google sign-in clicked")}
             size="lg"
             color="blue-600"
             bgcolor="#f8f8f8"
