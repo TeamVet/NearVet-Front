@@ -1,8 +1,9 @@
+// src/components/GoogleButton.tsx
+
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/context/UserContext";
+import ModalCustom from "./ModalCustom";
 
 interface GoogleButtonProps {
   text?: string;
@@ -12,43 +13,64 @@ interface GoogleButtonProps {
 }
 
 const GoogleButton: React.FC<GoogleButtonProps> = ({
-  text = "Sign in with Google",
+  text = "Iniciar con Google",
   size = "base",
   color = "black",
   bgcolor = "white",
 }) => {
-  const sizeClass = `text-${size}`;
-  const colorClass = `text-${color}`;
-  const router = useRouter();
-  const {} = useUser();
+  const [open, setOpen] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    async function fetchAuth() {
-      const response = await fetch(
-        "https://nearvet-latest.onrender.com/authGlobal/google",
-        {
-          method: "POST",
-        }
-      );
-      const data = await response.json();
-      if (data.url) {
-        router.push(data.url);
-        //TODO implementar logica para loguearnos con la infor que vuelve
-      }
-    }
+    setOpen(true);
   };
 
+  // Mapeo de colores para Tailwind
+  const bgColorMap: { [key: string]: string } = {
+    "red-500": "bg-red-500",
+    "blue-600": "bg-blue-600",
+    white: "bg-white",
+    // Añade más colores según tus necesidades
+  };
+
+  const finalBgColorClass = bgcolor ? bgColorMap[bgcolor] || "" : "bg-detail";
+
+  // Mapeo de tamaños para Tailwind
+  const sizeMap: { [key: string]: string } = {
+    small: "text-sm",
+    base: "text-base",
+    lg: "text-lg",
+    // Añade más tamaños según tus necesidades
+  };
+
+  const finalSizeClass = size ? sizeMap[size] || "" : "";
+
+  // Mapeo de colores de texto para Tailwind
+  const colorMap: { [key: string]: string } = {
+    black: "text-black",
+    "blue-600": "text-blue-600",
+    // Añade más colores de texto según tus necesidades
+  };
+
+  const finalColorClass = color ? colorMap[color] || "" : "";
+
   return (
-    <button
-      onClick={handleClick}
-      className={`flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:shadow-md ${sizeClass} ${colorClass}`}
-      style={{ backgroundColor: bgcolor }}
-      aria-label={text}
-    >
-      <FcGoogle className="mr-2" size={24} />
-      {text}
-    </button>
+    <>
+      <button
+        onClick={handleClick}
+        className={`flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:shadow-md ${finalSizeClass} ${finalColorClass} ${finalBgColorClass}`}
+        aria-label={text}
+      >
+        <FcGoogle className="mr-2" size={24} />
+        {text}
+      </button>
+      <ModalCustom
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        text="Último paso, necesitamos tu DNI para validarte"
+        input="DNI:"
+      />
+    </>
   );
 };
 

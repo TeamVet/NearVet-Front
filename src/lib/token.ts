@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
-const secretKey = "clavesecreta01";
+const secret = "clavesecreta01";
 
-const verifyToken = (token: string) => {
+const verifyToken = (token: string, secretKey: string = secret) => {
   try {
     // Verifica y decodifica el token
     const decoded = jwt.verify(token, secretKey);
