@@ -62,7 +62,7 @@ export const registerFields: InputField[] = [
       .required("La contraseña es necesaria.")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
-        "La contraseña debe tener almenos 6 caracteres, una letra mayúscula, una letra minúscula, un numero y un caracter especial."
+        "Debes ingresar al menos una letra Mayuscula, una minuscula, un numero y un caracter especial."
       ),
   },
   {

@@ -141,7 +141,7 @@ export interface Mensajes {
 // interfaces.ts
 export interface FormValues {
   dni: number;
-  password: string;
+  password?: string;
 }
 
 export interface FormRegisterValues extends FormValues {
@@ -175,7 +175,6 @@ export interface UserContextType {
   user: User | null;
   loginContext: (userData: FormValues) => Promise<User | undefined>; // Cambiado a void
   logoutContext: () => void;
-  error: string | null;
   loading: boolean;
   registerContext: (values: FormRegisterValues) => Promise<User | undefined>; // Cambiado a void
   newPet: (values: FormNewPet) => Promise<Mascota | undefined>; // Cambiado a void
@@ -204,4 +203,5 @@ export interface AuthFormProps<T> {
   inputFields: InputField[];
   googleButtonText?: string;
   onFieldChange?: any;
+  register?: boolean;
 }

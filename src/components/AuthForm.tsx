@@ -15,6 +15,7 @@ const AuthForm = <T,>({
   onSubmit,
   inputFields,
   googleButtonText,
+  register = false,
 }: AuthFormProps<T>) => {
   const validationSchema = Yup.object().shape(
     inputFields.reduce((schema, field) => {
@@ -78,11 +79,11 @@ const AuthForm = <T,>({
                       </option>
                     ))}
                 </Field>
-                <div className="h-4">
+                <div className="h-7 ">
                   <ErrorMessage
                     name={field.name}
                     component="div"
-                    className="text-primary text-wrap"
+                    className="text-red-500 text-wrap text-xs "
                   />
                 </div>
               </div>
@@ -94,13 +95,23 @@ const AuthForm = <T,>({
       {googleButtonText && (
         <>
           <span className="text-gray-400 font-bold">- OR -</span>
-          <GoogleButton
-            text={googleButtonText}
-            onClick={() => console.log("Google sign-in clicked")}
-            size="lg"
-            color="blue-600"
-            bgcolor="#f8f8f8"
-          />
+          {register ? (
+            <GoogleButton
+              text={googleButtonText}
+              size="lg"
+              color="blue-600"
+              bgcolor="#f8f8f8"
+              register={true}
+            />
+          ) : (
+            <GoogleButton
+              text={googleButtonText}
+              size="lg"
+              color="blue-600"
+              bgcolor="#f8f8f8"
+              register={false}
+            />
+          )}
         </>
       )}
     </div>

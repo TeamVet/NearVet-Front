@@ -20,12 +20,17 @@ import verifyToken from "@/lib/token";
 import PATHROUTES from "@/helpers/path-routes";
 import { useRouter } from "next/navigation";
 import { addPet, login, register } from "@/lib/authService";
+import {
+  ErrorNotify,
+  InfoNotify,
+  PromessNotify,
+  SuccessNotify,
+} from "@/lib/toastyfy";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -40,29 +45,32 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     userData: FormValues
   ): Promise<User | undefined> => {
     setLoading(true);
-    setError(null);
-    alert("Logueando...");
+
     try {
-      const response = await login(userData);
+      const response = await PromessNotify(
+        "Logueándote...",
+        "Logueado exitosamente",
+        login(userData)
+      );
+
       if (response.token) {
         document.cookie = `auth-token=${response.token}; path=/`;
         localStorage.setItem("user", JSON.stringify(response));
         setUser(response);
-        const decodedData = verifyToken(response.token);
-        console.log("decodedData :", decodedData);
-        alert("Logueado correctamente");
+        // const decodedData = verifyToken(response.token);
+        // console.log("decodedData :", decodedData);
         router.push("/userDashboard");
         return response;
       }
     } catch (error: any) {
-      setError(`Error al loguearse: ${error.message}`);
-      alert(`Error al loguearse: ${error.message}`);
+      ErrorNotify(`Error al loguearse: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
   const handleLogout = () => {
+    SuccessNotify("Sesión cerrada");
     localStorage.removeItem("user");
     document.cookie =
       "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
@@ -74,7 +82,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     values: FormRegisterValues
   ): Promise<User | undefined> => {
     setLoading(true);
-    setError(null);
+
     const startDate = new Date();
     values = {
       ...values,
@@ -87,23 +95,25 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       birthDate: "1988-01-02T00:00:00.000Z",
     };
     try {
-      const response = await register(values);
+      const response = await PromessNotify(
+        "Registrandote...",
+        "Registrado exitosamente",
+        register(values)
+      );
       if (response.id) {
-        alert("Te registramos con éxito. Vamos a intentar loguearte.");
+        InfoNotify("Vamos a intentar loguearte");
         const loginResponse = await handleLogin({
           dni: values.dni,
           password: values.password,
         });
         if (loginResponse?.token) {
-          alert("Logueado correctamente...");
           router.push("/userDashboard");
           return loginResponse;
         }
       }
       return response;
     } catch (error: any) {
-      setError(`Error al registrarse: ${error.message}`);
-      alert(`Error al registrarse: ${error.message}`);
+      ErrorNotify(`Error al registrarte: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -113,7 +123,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     values: FormNewPet
   ): Promise<Mascota | undefined> => {
     setLoading(true);
-    setError(null);
     const startDate = new Date();
     values = {
       ...values,
@@ -123,15 +132,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const token = user?.token as string;
     console.log("token :", token);
     try {
-      const response = await addPet(values, token);
+      const response = await PromessNotify(
+        "Registrando...",
+        "Registrado exitosamente",
+        addPet(values, token)
+      );
       if (response.id) {
-        alert("Mascota registrada con éxito");
         router.push(PATHROUTES.PET);
         return response;
       } else throw new Error();
     } catch (error: any) {
-      setError(`Error al registrar la mascota: ${error.message}`);
-      alert(`Error al registrar la mascota: ${error.message}`);
+      ErrorNotify(`Error al registrarte: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -143,7 +154,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         user,
         loginContext: handleLogin,
         logoutContext: handleLogout,
-        error,
+
         loading,
         registerContext: handleRegister,
         newPet: handleAddPet,
