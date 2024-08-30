@@ -27,37 +27,26 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({
     if (register) {
       setOpen(true);
     } else {
-      alert("Te estamos logueando");
+      //aca la logica para iniciar con google
     }
   };
 
-  // Mapeo de colores para Tailwind
   const bgColorMap: { [key: string]: string } = {
     "red-500": "bg-red-500",
     "blue-600": "bg-blue-600",
     white: "bg-white",
-    // Añade más colores según tus necesidades
   };
-
   const finalBgColorClass = bgcolor ? bgColorMap[bgcolor] || "" : "bg-detail";
-
-  // Mapeo de tamaños para Tailwind
   const sizeMap: { [key: string]: string } = {
     small: "text-sm",
     base: "text-base",
     lg: "text-lg",
-    // Añade más tamaños según tus necesidades
   };
-
   const finalSizeClass = size ? sizeMap[size] || "" : "";
-
-  // Mapeo de colores de texto para Tailwind
   const colorMap: { [key: string]: string } = {
     black: "text-black",
     "blue-600": "text-blue-600",
-    // Añade más colores de texto según tus necesidades
   };
-
   const finalColorClass = color ? colorMap[color] || "" : "";
 
   return (
@@ -74,7 +63,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({
         <ModalCustom
           isOpen={open}
           onClose={() => setOpen(false)}
-          text="Último paso, necesitamos tu DNI para validarte"
+          text="Previo a registrarte necesitamos tu DNI para validarte"
           input="DNI:"
         />
       )}

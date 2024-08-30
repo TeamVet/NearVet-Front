@@ -96,7 +96,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
     try {
       const response = await PromessNotify(
-        "Logueándote...",
+        "Registrandote...",
         "Registrado exitosamente",
         register(values)
       );

@@ -141,7 +141,7 @@ export interface Mensajes {
 // interfaces.ts
 export interface FormValues {
   dni: number;
-  password: string;
+  password?: string;
 }
 
 export interface FormRegisterValues extends FormValues {

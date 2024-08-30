@@ -5,6 +5,9 @@ import ButtonCustom from "./ButtonCustom";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import verifyToken from "@/lib/token";
+import { log } from "console";
+import { RegisterWithGoogle } from "@/lib/authService";
+import { ErrorNotify, PromessNotify } from "@/lib/toastyfy";
 
 interface ModalCustomProps {
   isOpen: boolean;
@@ -12,7 +15,6 @@ interface ModalCustomProps {
   text: string;
   icon?: React.ReactNode;
   input?: string;
- 
 }
 
 const ModalCustom: React.FC<ModalCustomProps> = ({
@@ -23,10 +25,18 @@ const ModalCustom: React.FC<ModalCustomProps> = ({
   input,
 }) => {
   const router = useRouter();
-
   const [formValues, setFormValues] = useState({ dni: 0 });
   const [error, setError] = useState<string | null>(null);
-  if (!isOpen) return null;
+  const [isVisible, setIsVisible] = useState(isOpen);
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      setTimeout(() => setIsVisible(false), 300); // Duración de la animación
+    }
+  }, [isOpen]);
+
+  if (!isVisible) return null;
 
   const handleBackdropClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -54,38 +64,36 @@ const ModalCustom: React.FC<ModalCustomProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (error) return;
-    alert("Logueando...");
-    // try {
-    //   const response = await fetch(
-    //     "https://nearvet-latest.onrender.com/authGlobal/google",
-    //     {
-    //       method: "POST",
-    //       credentials: "include",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ formValues }),
-    //     }
-    //   );
-    //   const data = await response.json();
-    //   if (data.url) {
-    //     window.location.href = data.url; // Redirige al usuario a la URL de Google para autenticar
-    //   } else {
-    //     console.error("No URL received for Google authentication");
-    //   }
-    // } catch (error) {
-    //   console.error("Error during Google authentication:", error);
-    // }
+    try {
+      const data = await PromessNotify(
+        "Registrandote...",
+        "Registrado exitosamente",
+        RegisterWithGoogle(formValues)
+      );
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("No URL received for Google authentication");
+      }
+    } catch (error: any) {
+      ErrorNotify(`Error: ${error.message}`);
+    }
 
     onClose();
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-1000 ${
+        isOpen ? "opacity-100" : "opacity-0"
+      }`}
       onClick={handleBackdropClick}
     >
-      <div className="p-5 m-auto flex flex-col rounded-md shadow-lg bg-gradient-to-r from-slate-400 to-detail text-black font-semibold ">
+      <div
+        className={`p-5 m-auto flex flex-col rounded-md shadow-lg bg-lightBG dark:bg-darkBG dark:text-darkHline text-black font-semibold transition-transform duration-700 transform ${
+          isOpen ? "scale-100" : "scale-60"
+        }`}
+      >
         <div className="px-2 sm:text-lg">{text}</div>
         {icon && <div>{icon}</div>}
 
@@ -93,14 +101,14 @@ const ModalCustom: React.FC<ModalCustomProps> = ({
           {input && (
             <form onSubmit={handleSubmit}>
               <div className="flex flex-row gap-3 p-2">
-                <label htmlFor="dni" className="sm:text-lg">
+                <label htmlFor="dni" className="sm:text-lg ">
                   {input}
                 </label>
                 <input
                   type="number"
                   name="dni"
                   id="dni"
-                  className="rounded text-center sm:text-lg"
+                  className="rounded text-center sm:text-lg bg-slate-200"
                   placeholder="40236159"
                   required
                   pattern="\d{6,8}"
