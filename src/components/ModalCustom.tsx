@@ -12,6 +12,7 @@ interface ModalCustomProps {
   text: string;
   icon?: React.ReactNode;
   input?: string;
+ 
 }
 
 const ModalCustom: React.FC<ModalCustomProps> = ({

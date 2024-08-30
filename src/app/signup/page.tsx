@@ -20,11 +20,10 @@ const RegisterForm: React.FC = () => {
         onSubmit={registerContext}
         inputFields={registerFields}
         googleButtonText="Registrarte con Google"
+        register
       />
     </Screen>
   );
 };
 
 export default RegisterForm;
-
-

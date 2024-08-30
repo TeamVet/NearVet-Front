@@ -10,6 +10,7 @@ interface GoogleButtonProps {
   size?: string;
   color?: string;
   bgcolor?: string;
+  register: boolean;
 }
 
 const GoogleButton: React.FC<GoogleButtonProps> = ({
@@ -17,12 +18,17 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({
   size = "base",
   color = "black",
   bgcolor = "white",
+  register = false,
 }) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setOpen(true);
+    if (register) {
+      setOpen(true);
+    } else {
+      alert("Te estamos logueando");
+    }
   };
 
   // Mapeo de colores para Tailwind
@@ -64,12 +70,14 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({
         <FcGoogle className="mr-2" size={24} />
         {text}
       </button>
-      <ModalCustom
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        text="Último paso, necesitamos tu DNI para validarte"
-        input="DNI:"
-      />
+      {register && (
+        <ModalCustom
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          text="Último paso, necesitamos tu DNI para validarte"
+          input="DNI:"
+        />
+      )}
     </>
   );
 };
