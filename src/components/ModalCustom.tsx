@@ -70,6 +70,7 @@ const ModalCustom: React.FC<ModalCustomProps> = ({
         "Registrado exitosamente",
         RegisterWithGoogle(formValues)
       );
+      console.log(data);
       if (data.url) {
         window.location.href = data.url;
       } else {

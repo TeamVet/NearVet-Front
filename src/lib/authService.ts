@@ -85,11 +85,11 @@ export const LoginWithGoogle = async () => {};
 export const RegisterWithGoogle = async (values: FormValues) => {
   try {
     const response = await fetch("https://nearvet-latest.onrender.com/login", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ values }),
+      // body: JSON.stringify({ values }),
     });
     const data = await response.json();
     if (!data) throw new Error(data.message);

@@ -6,6 +6,7 @@ import { useUser } from "@/context/UserContext";
 import Screen from "@/components/Screen";
 import { registerFields } from "@/lib/FormsFields";
 import { FormRegisterValues } from "@/types/interfaces";
+import Link from "next/link";
 
 const RegisterForm: React.FC = () => {
   const { registerContext } = useUser();

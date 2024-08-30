@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import ModalCustom from "./ModalCustom";
+import { useRouter } from "next/navigation";
 
 interface GoogleButtonProps {
   text?: string;
@@ -21,13 +22,14 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({
   register = false,
 }) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (register) {
       setOpen(true);
     } else {
-      //aca la logica para iniciar con google
+      router.push("/login");
     }
   };
 
