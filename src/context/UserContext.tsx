@@ -85,7 +85,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     SuccessNotify("Sesión cerrada");
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    document.cookie =
+      "auth-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     setUser(null);
     signOut();
