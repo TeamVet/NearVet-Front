@@ -103,13 +103,22 @@ export interface Mascota {
   birthdate: string;
   startDate: Date;
   color: string;
-  weightCurrent: number;
+  weightCurrent: string;
   observation: string;
   image: string;
   userId: string | undefined;
-  specieId: string;
-  raceId: string;
-  sexId: string;
+  specie: {
+    id: string;
+    specie: string;
+  };
+  race: {
+    id: string;
+    race: string;
+  };
+  sex: {
+    id: string;
+    sex: string;
+  };
   repConditionId: string;
   imgProfile: string;
   ///a implementar
@@ -173,14 +182,50 @@ export interface FormNewPet {
   color: string;
   specieId: string;
   raceId: string;
-  sexId: number;
+  sexId: string;
   birthdate: Date;
   weightCurrent: number;
   observation: string;
   image?: string;
-  userId: string | undefined;
+  userId: string;
+  [key: string]: string | number | Date | undefined;
 }
 
+export interface EspecieOption {
+  id: string;
+  specie: string;
+}
+
+export interface RazaOption {
+  id: string;
+  race: string;
+}
+
+export interface SexoOption {
+  id: string;
+  sex: string;
+}
+
+export interface NewPetProps {
+  especies: EspecieOption[];
+  razas: RazaOption[];
+  sexos: SexoOption[];
+}
+
+export interface NewPetField {
+  name: string;
+  type?: string | undefined;
+  label: string;
+  validation: Yup.Schema<any>;
+  as?: string;
+  options?: { value: string; label: string }[];
+  placeholder?: string;
+}
+export interface NewPetProps {
+  especies: { id: string; specie: string }[];
+  razas: { id: string; race: string }[];
+  sexos: { id: string; sex: string }[];
+}
 export interface UserContextType {
   user: User | null;
   loginContext: (userData: FormValues) => Promise<User | undefined>;
