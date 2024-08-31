@@ -95,23 +95,12 @@ const AuthForm = <T,>({
       {googleButtonText && (
         <>
           <span className="text-gray-400 font-bold">- OR -</span>
-          {register ? (
-            <GoogleButton
-              text={googleButtonText}
-              size="lg"
-              color="blue-600"
-              bgcolor="#f8f8f8"
-              register={true}
-            />
-          ) : (
-            <GoogleButton
-              text={googleButtonText}
-              size="lg"
-              color="blue-600"
-              bgcolor="#f8f8f8"
-              register={false}
-            />
-          )}
+          <GoogleButton
+            text={googleButtonText}
+            size="lg"
+            color="blue-600"
+            bgcolor="#f8f8f8"
+          />
         </>
       )}
     </div>

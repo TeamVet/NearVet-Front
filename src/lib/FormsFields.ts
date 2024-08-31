@@ -33,13 +33,6 @@ export const registerFields: InputField[] = [
       ),
   },
   {
-    name: "birthdate",
-    type: "Date",
-    placeholder: "dd/mm/aaaa",
-    label: "Fecha de Nacimiento",
-    validation: Yup.string().required("La fecha es necesaria."),
-  },
-  {
     name: "email",
     type: "email",
     placeholder: "example@mail.com",

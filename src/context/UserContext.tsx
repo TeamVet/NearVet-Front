@@ -1,38 +1,59 @@
-// userContext.tsx
 "use client";
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
-import {
-  FormNewPet,
-  FormRegisterValues,
-  FormValues,
-  Mascota,
-  User,
-  UserContextType,
-} from "../types/interfaces";
-
-import verifyToken from "@/lib/token";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { FormRegisterValues, FormValues, User } from "@/types/interfaces";
 import PATHROUTES from "@/helpers/path-routes";
-import { useRouter } from "next/navigation";
-import { addPet, login, register } from "@/lib/authService";
 import {
-  ErrorNotify,
-  InfoNotify,
-  PromessNotify,
-  SuccessNotify,
-} from "@/lib/toastyfy";
+  LoginController,
+  RegisterController,
+  RegisterWithGoogleController,
+} from "@/lib/authController";
+import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
+import { useRouter } from "next/navigation";
+
+interface UserContextType {
+  session: any;
+  status: string;
+  user: User | null;
+  loginWithGoogle: () => Promise<void>;
+  loginWithCredentials: (values: FormValues) => Promise<void>;
+  logout: () => void;
+  registerWithCredentials: (values: FormRegisterValues) => Promise<void>;
+}
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser && session) {
+        InfoNotify("Iniciando sesión...");
+        const values = {
+          name: session?.user?.name!,
+          email: session?.user?.email!,
+          imgProfile: session?.user?.image!,
+          startDate: new Date(),
+        };
+        const register = await RegisterWithGoogleController(values);
+        if (register?.id) {
+          localStorage.setItem("user", JSON.stringify(register));
+          document.cookie = `auth-token=${JSON.stringify(
+            register.token
+          )}; path=/;`;
+          setUser(register);
+          router.push(PATHROUTES.USER_DASHBOARD);
+        }
+      }
+    };
+    fetchUser();
+  }, [session]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -41,123 +62,57 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const handleLogin = async (
-    userData: FormValues
-  ): Promise<User | undefined> => {
-    setLoading(true);
+  const loginWithGoogle = async () => {
+    await PromessNotify(
+      "Iniciando sesión...",
+      "Iniciaste sesión exitosamente",
+      signIn("google", {
+        redirect: false,
+        callbackUrl: PATHROUTES.USER_DASHBOARD,
+      })
+    );
+  };
 
-    try {
-      const response = await PromessNotify(
-        "Logueándote...",
-        "Logueado exitosamente",
-        login(userData)
-      );
-
-      if (response.token) {
-        document.cookie = `auth-token=${response.token}; path=/`;
-        localStorage.setItem("user", JSON.stringify(response));
-        setUser(response);
-        // const decodedData = verifyToken(response.token);
-        // console.log("decodedData :", decodedData);
-        router.push("/userDashboard");
-        return response;
-      }
-    } catch (error: any) {
-      ErrorNotify(`Error al loguearse: ${error.message}`);
-    } finally {
-      setLoading(false);
+  const loginWithCredentials = async (values: FormValues) => {
+    const login = await LoginController(values);
+    if (login.id) {
+      localStorage.setItem("user", JSON.stringify(login));
+      document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
+      setUser(login);
+      router.push(PATHROUTES.USER_DASHBOARD);
     }
   };
 
-  const handleLogout = () => {
+  const logout = () => {
     SuccessNotify("Sesión cerrada");
-    localStorage.removeItem("user");
-    document.cookie =
-      "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     setUser(null);
-    router.push("/");
+    signOut();
+    localStorage.clear();
   };
 
-  const handleRegister = async (
-    values: FormRegisterValues
-  ): Promise<User | undefined> => {
-    setLoading(true);
-
-    const startDate = new Date();
-    values = {
-      ...values,
-      rol: "user",
-      startDate,
-      phone: 1168775654,
-      address: "Avenida Importante 4000",
-      imgProfile: "image.jpg",
-      city: "Example City",
-      birthDate: "1988-01-02T00:00:00.000Z",
-    };
-    try {
-      const response = await PromessNotify(
-        "Registrandote...",
-        "Registrado exitosamente",
-        register(values)
-      );
-      if (response.id) {
-        InfoNotify("Vamos a intentar loguearte");
-        const loginResponse = await handleLogin({
-          dni: values.dni,
-          password: values.password,
-        });
-        if (loginResponse?.token) {
-          router.push("/userDashboard");
-          return loginResponse;
-        }
-      }
-      return response;
-    } catch (error: any) {
-      ErrorNotify(`Error al registrarte: ${error.message}`);
-    } finally {
-      setLoading(false);
+  const registerWithCredentials = async (values: FormRegisterValues) => {
+    const register = await RegisterController(values);
+    if (register.id) {
+      InfoNotify("Intentamos loguearte");
+      const loginValues = { dni: values.dni!, password: values.password! };
+      loginWithCredentials(loginValues);
+      localStorage.setItem("user", JSON.stringify(register));
+      document.cookie = `auth-token=${JSON.stringify(register.token)}; path=/;`;
+      setUser(register);
     }
   };
-
-  const handleAddPet = async (
-    values: FormNewPet
-  ): Promise<Mascota | undefined> => {
-    setLoading(true);
-    const startDate = new Date();
-    values = {
-      ...values,
-      userId: user!.id,
-      startDate,
-    };
-    const token = user?.token as string;
-    console.log("token :", token);
-    try {
-      const response = await PromessNotify(
-        "Registrando...",
-        "Registrado exitosamente",
-        addPet(values, token)
-      );
-      if (response.id) {
-        router.push(PATHROUTES.PET);
-        return response;
-      } else throw new Error();
-    } catch (error: any) {
-      ErrorNotify(`Error al registrarte: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <UserContext.Provider
       value={{
+        session,
+        status,
         user,
-        loginContext: handleLogin,
-        logoutContext: handleLogout,
-
-        loading,
-        registerContext: handleRegister,
-        newPet: handleAddPet,
+        loginWithGoogle,
+        loginWithCredentials,
+        logout,
+        registerWithCredentials,
       }}
     >
       {children}
@@ -167,7 +122,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;

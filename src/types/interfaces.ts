@@ -1,4 +1,3 @@
-import { FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 //# Interfaces de componentes
@@ -18,6 +17,12 @@ export interface ButtonCustomOptionalProps extends ButtonCustomProps {
   onClick: () => void;
 }
 
+export interface GoogleButtonProps {
+  text?: string;
+  size?: string;
+  color?: string;
+  bgcolor?: string;
+}
 export interface ScreenProps {
   children: React.ReactNode;
   width?: string;
@@ -70,26 +75,26 @@ export interface PetsModuleProps {
 
 ///# Interfaces de context
 export interface User {
-  id: string;
+  id?: string;
   name: string;
   lastname: string;
-  dni: number;
+  dni?: number;
   email: string;
-  password: string; //viene por token?
-  address: string;
-  city: string;
-  phone: string;
-  token: string;
-  starDate: Date;
-  endDate: string | null;
+  password?: string; //viene por token?
+  address?: string;
+  city?: string;
+  phone?: number;
+  token?: string;
+  startDate: Date;
+  endDate?: string;
   imgProfile: string;
   role: {
-    id: string;
+    id?: string;
     role: string;
   }; //viene por token
-  veterinariafavorita: string;
-  turnos: Turnos[];
-  mascotas: Mascota[];
+  veterinariafavorita?: string;
+  turnos?: Turnos[];
+  mascotas?: Mascota[];
 }
 
 export interface Mascota {
@@ -101,7 +106,7 @@ export interface Mascota {
   weightCurrent: number;
   observation: string;
   image: string;
-  userId: string;
+  userId: string | undefined;
   specieId: string;
   raceId: string;
   sexId: string;
@@ -141,43 +146,49 @@ export interface Mensajes {
 // interfaces.ts
 export interface FormValues {
   dni: number;
-  password?: string;
+  password: string;
 }
 
-export interface FormRegisterValues extends FormValues {
+export interface FormRegisterValues {
+  name: string;
+  lastname?: string;
+  dni?: number;
+  email: string;
+  startDate: Date;
+  password?: string;
+  passwordConfirm?: string;
+}
+
+export interface FormRegisterGoogleValues {
   name: string;
   lastname: string;
-  birthDate: string;
-  email: string;
-  address: string;
-  city: string;
-  phone: number;
-  rol: string;
+  email: string | null | undefined;
+  imgProfile: string | null | undefined;
   startDate: Date;
-  imgProfile: string;
 }
 
 export interface FormNewPet {
   name: string;
   startDate: Date;
-  birthdate: Date;
   color: string;
-  weightCurrent: number;
-  observation: string;
-  image?: string;
   specieId: string;
   raceId: string;
   sexId: number;
-  userId: string;
+  birthdate: Date;
+  weightCurrent: number;
+  observation: string;
+  image?: string;
+  userId: string | undefined;
 }
 
 export interface UserContextType {
   user: User | null;
-  loginContext: (userData: FormValues) => Promise<User | undefined>; // Cambiado a void
+  loginContext: (userData: FormValues) => Promise<User | undefined>;
   logoutContext: () => void;
+  handleGoogleSignIn: () => Promise<any | undefined>;
   loading: boolean;
-  registerContext: (values: FormRegisterValues) => Promise<User | undefined>; // Cambiado a void
-  newPet: (values: FormNewPet) => Promise<Mascota | undefined>; // Cambiado a void
+  registerContext: (values: FormRegisterValues) => Promise<User | undefined>;
+  newPet: (values: FormNewPet) => Promise<Mascota | undefined>;
 }
 
 ///

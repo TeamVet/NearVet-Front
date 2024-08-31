@@ -1,3 +1,4 @@
+"use client";
 import { FaGreaterThan } from "react-icons/fa";
 import ButtonCustom from "./ButtonCustom";
 import VetCard from "./VetCard";
@@ -5,6 +6,7 @@ import VetCard from "./VetCard";
 const Main: React.FC = () => {
   return (
     <div className="flex flex-col w-full gap-12">
+      <h1>NearVet</h1>
       <div className="flex gap-28 p-10">
         <div className="w-full flex flex-col gap-5">
           <h1 className="text-start font-bold text-4xl dark:text-darkHline">

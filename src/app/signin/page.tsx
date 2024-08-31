@@ -2,13 +2,15 @@
 
 import React from "react";
 import AuthForm from "../../components/AuthForm";
-import { useUser } from "@/context/UserContext";
 import Screen from "@/components/Screen";
 import { loginFields } from "@/lib/FormsFields";
 import { FormValues } from "@/types/interfaces";
-
-const LoginForm: React.FC = () => {
-  const { loginContext } = useUser();
+import { useUser } from "@/context/UserContext";
+const SignIn: React.FC = () => {
+  const { loginWithCredentials } = useUser();
+  const handleSubmit = async (values: FormValues) => {
+    loginWithCredentials(values);
+  };
   return (
     <Screen>
       <AuthForm<FormValues>
@@ -17,7 +19,7 @@ const LoginForm: React.FC = () => {
         linkText="Registrarse"
         linkHref="/signup"
         buttonText="Iniciar"
-        onSubmit={loginContext}
+        onSubmit={handleSubmit}
         inputFields={loginFields}
         googleButtonText="Iniciar con Google"
       />
@@ -25,4 +27,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default SignIn;
