@@ -2,13 +2,16 @@
 
 import ButtonCustom from "@/components/ButtonCustom";
 import Screen from "@/components/Screen";
-import { useUser } from "@/context/UserContext";
-import { Species, SexType, Races } from "@/lib/authService";
+
+import { Species, SexType, Races, addPet } from "@/lib/authService";
 import { FormNewPet } from "@/types/interfaces";
 import { useEffect, useState } from "react";
+import { PetController } from "@/lib/authController";
+import { useRouter } from "next/navigation";
+import PATHROUTES from "@/helpers/path-routes";
 
 const NewPet: React.FC = () => {
-  const { newPet, user } = useUser();
+  const router = useRouter();
   const [especies, setEspecies] = useState<{ id: string; specie: string }[]>(
     []
   );
@@ -21,7 +24,7 @@ const NewPet: React.FC = () => {
     color: "",
     weightCurrent: 0,
     observation: "",
-    userId: user?.id || "",
+    userId: "",
     specieId: "",
     raceId: "",
     sexId: 1,
@@ -76,14 +79,10 @@ const NewPet: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    formValues.sexId = Number(formValues.sexId);
-    console.log(formValues);
-    try {
-      await newPet(formValues);
-      // Manejar el éxito, por ejemplo, mostrar un mensaje de éxito o redirigir
-    } catch (error) {
-      console.error("Error al crear la mascota", error);
+    const response = await PetController(formValues, "", "");
+    if (response) {
+      router.push(PATHROUTES.PET);
+      return response;
     }
   };
 

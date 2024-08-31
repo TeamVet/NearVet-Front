@@ -1,10 +1,8 @@
 "use client";
-import ButtonCustom from "@/components/ButtonCustom";
 import Dashboard from "@/components/dashboardCustom";
 import Screen from "@/components/Screen";
 import SectionContent from "@/components/sectionsModules/sectionContent";
 import { userPetsCards } from "@/helpers/dashBoardCards";
-import { fetcher } from "@/lib/fetcher";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
 import { useParams } from "next/navigation";

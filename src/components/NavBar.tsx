@@ -8,13 +8,11 @@ import {
 } from "@/helpers/NavItems";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+
 import { useUser } from "@/context/UserContext";
-import verifyToken from "@/lib/token";
+
 const NavBar: React.FC = () => {
-  const { logoutContext, user } = useUser();
-  const handleLogOut = () => {
-    logoutContext();
-  };
+  const { user, logout } = useUser();
   const [isDark, setIsDark] = useState(false);
   const [navItems, setNavItems] = useState(NavItem);
 
@@ -41,32 +39,26 @@ const NavBar: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user === null) {
-      setNavItems(NavItem); // No logueado
-    } else {
-      {
-        //aca iria la logica para utilizar el role que viene por token...
-        // console.log(user);
-        // const tokenResponse = verifyToken(user!.token);
-        // console.log("tokenResponse:", tokenResponse);
-        switch (user.role.role) {
-          case "user":
-            setNavItems(NavItemUser);
-            break;
-          case "adminVet":
-            setNavItems(NavItemAdmin);
-            break;
-          case "veterinarian":
-            setNavItems(NavItemVet);
-            break;
-          default:
-            setNavItems(NavItem); // fallback
-            break;
-        }
+    if (user) {
+      switch (user.role.role) {
+        case "user":
+          setNavItems(NavItemUser);
+          break;
+        case "adminVet":
+          setNavItems(NavItemAdmin);
+          break;
+        case "veterinarian":
+          setNavItems(NavItemVet);
+          break;
+        default:
+          setNavItems(NavItem); // Caso error con el role
+          break;
       }
+    } else {
+      setNavItems(NavItem);
     }
   }, [user]);
-  const isMail = true; //necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
+  const isMail = true; //TODO necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
 
   return (
     <nav className="dark:bg-navDarkBG dark:border-0 w-full flex flex-row justify-between px-5 py-2 border border-1 shadow-[rgba(0,_0,_0,_0.24)_0px_2px_4px]">
@@ -93,7 +85,7 @@ const NavBar: React.FC = () => {
             <button
               key={item.name}
               className="text-detail mx-2"
-              onClick={handleLogOut}
+              onClick={() => logout()}
             >
               <div className="flex flex-col gap-2 items-center text-2xl">
                 {item.icon({ size: "default" })}
