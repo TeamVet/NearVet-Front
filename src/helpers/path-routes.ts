@@ -12,6 +12,7 @@ const PATHROUTES = {
   ABOUTUS: "/aboutus",
   TERMS: "/terms",
   PRIVACY: "/privacypolicy",
+  APPOINTMENT: "/appointment",
 };
 
 export default PATHROUTES;

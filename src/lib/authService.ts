@@ -4,6 +4,7 @@ import {
   FormNewPet,
   User,
 } from "../types/interfaces";
+import { ErrorNotify } from "./toastyfy";
 
 const API_BASE_URL = "https://nearvet-latest.onrender.com";
 
@@ -81,7 +82,9 @@ export const addPet = async (values: FormNewPet, token: string) => {
     if (!data) throw new Error(data.message);
     if (!data.id) throw new Error(data.message);
     return data;
-  } catch (error: any) {}
+  } catch (error: any) {
+    ErrorNotify(`Error: ${error.message}`);
+  }
 };
 
 export const Species = async () => {
