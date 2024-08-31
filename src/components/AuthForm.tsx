@@ -10,12 +10,11 @@ const AuthForm = <T,>({
   title,
   subtitle,
   linkText,
-  linkHref,
+  linkHref = "#",
   buttonText,
   onSubmit,
   inputFields,
   googleButtonText,
-  register = false,
 }: AuthFormProps<T>) => {
   const validationSchema = Yup.object().shape(
     inputFields.reduce((schema, field) => {
