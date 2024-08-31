@@ -78,6 +78,7 @@ export const addPet = async (values: FormNewPet, token: string) => {
       body: JSON.stringify(values),
     });
     const data = await response.json();
+    if (!data) throw new Error(data.message);
     if (!data.id) throw new Error(data.message);
     return data;
   } catch (error: any) {}

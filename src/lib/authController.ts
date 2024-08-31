@@ -6,8 +6,6 @@ import {
 } from "@/types/interfaces";
 import { addPet, login, register, registerGoogle } from "./authService";
 import { ErrorNotify, PromessNotify } from "./toastyfy";
-import { signIn } from "next-auth/react";
-import PATHROUTES from "@/helpers/path-routes";
 
 export const PetController = async (
   values: FormNewPet,
@@ -18,7 +16,7 @@ export const PetController = async (
     ...values,
     userId: userId,
     startDate: new Date(),
-    sexId: Number(values.sexId),
+    weightCurrent: Number(values.weightCurrent),
   };
   try {
     const response = await PromessNotify(
@@ -26,9 +24,8 @@ export const PetController = async (
       "Registrado exitosamente",
       addPet(values, token)
     );
-    if (response.id) {
-      return response;
-    } else throw new Error("Error al registrarte");
+    if (!response) throw new Error("Error al registrar la mascota");
+    return response;
   } catch (error: any) {
     ErrorNotify(`Error al registrarte: ${error.message}`);
   }

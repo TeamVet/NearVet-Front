@@ -1,4 +1,4 @@
-import { InputField } from "@/types/interfaces";
+import { InputField, NewPetProps } from "@/types/interfaces";
 import * as Yup from "yup";
 export const registerFields: InputField[] = [
   {
@@ -89,7 +89,7 @@ export const loginFields: InputField[] = [
   },
 ];
 
-export const newPetFields: InputField[] = [
+export const newPetFields = ({ especies, razas, sexos }: NewPetProps) => [
   {
     name: "name",
     type: "text",
@@ -97,14 +97,13 @@ export const newPetFields: InputField[] = [
     label: "Nombre",
     validation: Yup.string()
       .required("El nombre es necesario.")
-      .min(3, "El nombre debe tener almenos 3 caracteres."),
+      .min(3, "El nombre debe tener al menos 3 caracteres."),
   },
   {
     name: "birthdate",
-    type: "Date",
-    placeholder: "dd/mm/aaaa",
+    type: "date",
     label: "Fecha de Nacimiento de tu animal",
-    validation: Yup.string(),
+    validation: Yup.date().required("La fecha de nacimiento es necesaria."),
   },
   {
     name: "color",
@@ -112,5 +111,49 @@ export const newPetFields: InputField[] = [
     placeholder: "Negro",
     label: "Color",
     validation: Yup.string().required("El color es necesario."),
+  },
+  {
+    name: "specieId",
+    as: "select",
+    options: especies.map((especie: { id: string; specie: string }) => ({
+      value: especie.id,
+      label: especie.specie,
+    })),
+    label: "Especie",
+    validation: Yup.string().required("La especie es necesaria."),
+  },
+  {
+    name: "raceId",
+    as: "select",
+    options: razas.map((race: { id: string; race: string }) => ({
+      value: race.id,
+      label: race.race,
+    })),
+    label: "Raza",
+    validation: Yup.string().required("La raza es necesaria."),
+  },
+  {
+    name: "sexId",
+    as: "select",
+    options: sexos.map((sex: { id: string; sex: string }) => ({
+      value: sex.id,
+      label: sex.sex,
+    })),
+    label: "Sexo",
+    validation: Yup.string().required("El sexo del animal es necesario."),
+  },
+  {
+    name: "weightCurrent",
+    type: "number",
+    placeholder: "0kg",
+    label: "Peso actual (kg)",
+    validation: Yup.number().positive("El peso debe ser positivo."),
+  },
+  {
+    name: "observation",
+    type: "text",
+    placeholder: "Observaciones...",
+    label: "Observaciones",
+    validation: Yup.string(),
   },
 ];
