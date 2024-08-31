@@ -3,7 +3,6 @@ import {
   FormRegisterValues,
   FormNewPet,
   User,
-  FormRegisterGoogleValues,
 } from "../types/interfaces";
 
 const API_BASE_URL = "https://nearvet-latest.onrender.com";
@@ -48,7 +47,9 @@ export const register = async (values: FormRegisterValues) => {
   }
 };
 
-export const registerGoogle = async (values: FormRegisterGoogleValues) => {
+export const registerGoogle: (
+  values: FormRegisterValues
+) => Promise<User> = async (values: FormRegisterValues) => {
   try {
     const response = await fetch(`${API_BASE_URL}/authGlobal/signupGoogle`, {
       method: "POST",
@@ -59,6 +60,7 @@ export const registerGoogle = async (values: FormRegisterGoogleValues) => {
     });
     const data = await response.json();
     if (!data.id) throw new Error(data.message);
+
     return data;
   } catch (error: any) {
     throw new Error(error.message);

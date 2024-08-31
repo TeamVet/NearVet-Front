@@ -3,7 +3,11 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FormRegisterValues, FormValues, User } from "@/types/interfaces";
 import PATHROUTES from "@/helpers/path-routes";
-import { LoginController, RegisterController } from "@/lib/authController";
+import {
+  LoginController,
+  RegisterController,
+  RegisterWithGoogleController,
+} from "@/lib/authController";
 import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
 import { useRouter } from "next/navigation";
 
@@ -27,6 +31,31 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser && session) {
+        InfoNotify("Iniciando sesión...");
+        const values = {
+          name: session?.user?.name!,
+          email: session?.user?.email!,
+          imgProfile: session?.user?.image!,
+          startDate: new Date(),
+        };
+        const register = await RegisterWithGoogleController(values);
+        if (register?.id) {
+          localStorage.setItem("user", JSON.stringify(register));
+          document.cookie = `auth-token=${JSON.stringify(
+            register.token
+          )}; path=/;`;
+          setUser(register);
+          router.push(PATHROUTES.USER_DASHBOARD);
+        }
+      }
+    };
+    fetchUser();
+  }, [session]);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -34,10 +63,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const loginWithGoogle = async () => {
-    const response = await PromessNotify(
+    await PromessNotify(
       "Iniciando sesión...",
       "Iniciaste sesión exitosamente",
-      signIn("google", { callbackUrl: PATHROUTES.USER_DASHBOARD })
+      signIn("google", {
+        redirect: false,
+        callbackUrl: PATHROUTES.USER_DASHBOARD,
+      })
     );
   };
 
@@ -45,7 +77,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     const login = await LoginController(values);
     if (login.id) {
       localStorage.setItem("user", JSON.stringify(login));
-      document.cookie = `user=${JSON.stringify(login.token)}; path=/;`;
+      document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
       setUser(login);
       router.push(PATHROUTES.USER_DASHBOARD);
     }
@@ -53,19 +85,21 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     SuccessNotify("Sesión cerrada");
-    localStorage.clear();
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    setUser(null);
     signOut();
+    localStorage.clear();
   };
 
   const registerWithCredentials = async (values: FormRegisterValues) => {
     const register = await RegisterController(values);
     if (register.id) {
       InfoNotify("Intentamos loguearte");
-      const loginValues = { dni: values.dni, password: values.password };
+      const loginValues = { dni: values.dni!, password: values.password! };
       loginWithCredentials(loginValues);
       localStorage.setItem("user", JSON.stringify(register));
-      document.cookie = `user=${JSON.stringify(register.token)}; path=/;`;
+      document.cookie = `auth-token=${JSON.stringify(register.token)}; path=/;`;
       setUser(register);
     }
   };

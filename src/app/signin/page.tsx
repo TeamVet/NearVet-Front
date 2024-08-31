@@ -5,9 +5,6 @@ import AuthForm from "../../components/AuthForm";
 import Screen from "@/components/Screen";
 import { loginFields } from "@/lib/FormsFields";
 import { FormValues } from "@/types/interfaces";
-
-import { useRouter } from "next/navigation";
-import PATHROUTES from "@/helpers/path-routes";
 import { useUser } from "@/context/UserContext";
 const SignIn: React.FC = () => {
   const { loginWithCredentials } = useUser();

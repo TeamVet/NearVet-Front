@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { PetController } from "@/lib/authController";
 import { useRouter } from "next/navigation";
 import PATHROUTES from "@/helpers/path-routes";
+import { useUser } from "@/context/UserContext";
 
 const NewPet: React.FC = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const NewPet: React.FC = () => {
     raceId: "",
     sexId: 1,
   });
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +69,7 @@ const NewPet: React.FC = () => {
 
   const handleSpecieChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSpecieId = e.target.value;
-    setFormValues({ ...formValues, specieId: selectedSpecieId, raceId: "" }); // Resetear la raza al cambiar de especie
+    setFormValues({ ...formValues, specieId: selectedSpecieId, raceId: "" });
   };
 
   const handleInputChange = (
@@ -79,7 +81,11 @@ const NewPet: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await PetController(formValues, "", "");
+    const response = await PetController(
+      formValues,
+      user?.id as string,
+      user?.token as string
+    );
     if (response) {
       router.push(PATHROUTES.PET);
       return response;

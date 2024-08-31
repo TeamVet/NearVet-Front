@@ -149,14 +149,14 @@ export interface FormValues {
   password: string;
 }
 
-export interface FormRegisterValues extends FormValues {
+export interface FormRegisterValues {
   name: string;
-  lastname: string;
-  dni: number;
+  lastname?: string;
+  dni?: number;
   email: string;
   startDate: Date;
-  password: string;
-  passwordConfirm: string;
+  password?: string;
+  passwordConfirm?: string;
 }
 
 export interface FormRegisterGoogleValues {

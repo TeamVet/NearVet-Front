@@ -4,27 +4,27 @@ import {
   FormValues,
   User,
 } from "@/types/interfaces";
-import { addPet, login, register } from "./authService";
+import { addPet, login, register, registerGoogle } from "./authService";
 import { ErrorNotify, PromessNotify } from "./toastyfy";
 import { signIn } from "next-auth/react";
 import PATHROUTES from "@/helpers/path-routes";
 
 export const PetController = async (
   values: FormNewPet,
-  sesionId: string,
+  userId: string,
   token: string
 ) => {
   values = {
     ...values,
-    userId: sesionId,
+    userId: userId,
     startDate: new Date(),
     sexId: Number(values.sexId),
   };
   try {
     const response = await PromessNotify(
-      "Registrando...",
+      "Registrando tu mascota...",
       "Registrado exitosamente",
-      addPet(values, sesionId)
+      addPet(values, token)
     );
     if (response.id) {
       return response;
@@ -55,6 +55,17 @@ export const RegisterController = async (values: FormRegisterValues) => {
       "Registrado exitosamente",
       register(values)
     );
+    return response;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrarte: ${error.message}`);
+  }
+};
+
+export const RegisterWithGoogleController = async (
+  values: FormRegisterValues
+) => {
+  try {
+    const response = await registerGoogle(values);
     return response;
   } catch (error: any) {
     ErrorNotify(`Error al registrarte: ${error.message}`);
