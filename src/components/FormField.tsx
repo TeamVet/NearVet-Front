@@ -32,7 +32,7 @@ const FormField: React.FC<FormFieldProps> = ({
         <Field
           as="select"
           name={field.name}
-          className="form-control w-full bg-transparent border-[.2em] border-gray-600 placeholder:text-gray-600 p-1 rounded-md text-center"
+          className="form-control w-full bg-transparent border-[.2em] border-gray-600 text-black font-semibold placeholder:text-gray-600 p-1 rounded-md text-center"
           onChange={
             field.name === "specieId" ? handleSpecieChange : onInputChange
           }

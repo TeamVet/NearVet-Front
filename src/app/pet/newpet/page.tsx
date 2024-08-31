@@ -53,8 +53,9 @@ const NewPet: React.FC = () => {
       if (formValues.specieId) {
         try {
           const selectedSpecie = especies.find(
-            (specie) => specie.specie === formValues.specieId
+            (specie) => specie.id === formValues.specieId
           );
+
           if (selectedSpecie) {
             const racesData = await Races(selectedSpecie.specie);
             setRazas(racesData);

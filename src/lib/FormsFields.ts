@@ -157,3 +157,32 @@ export const newPetFields = ({ especies, razas, sexos }: NewPetProps) => [
     validation: Yup.string(),
   },
 ];
+
+export const newAppointmentFields: InputField[] = [
+  {
+    name: "date",
+    type: "date",
+    label: "Fecha del turno",
+    validation: Yup.string().required("La fecha del turno es necesaria."),
+  },
+  {
+    name: "time",
+    type: "time",
+    label: "Hora del turno",
+    validation: Yup.string().required("La hora del turno es necesaria."),
+  },
+  {
+    name: "reason",
+    type: "text",
+    placeholder: "Motivo del turno",
+    label: "Motivo del turno",
+    validation: Yup.string().required("El motivo del turno es necesario."),
+  },
+  {
+    name: "petId",
+    as: "select",
+    option: [],
+    label: "Mascota",
+    validation: Yup.string().required("La mascota es necesaria."),
+  },
+];

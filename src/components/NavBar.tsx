@@ -129,6 +129,7 @@ const NavBar: React.FC = () => {
                   key={item.name}
                   href={item.url}
                   className="text-detail my-4 text-2xl"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <div className="flex flex-col gap-2 items-center">
                     {React.cloneElement(

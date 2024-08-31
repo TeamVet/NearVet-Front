@@ -27,7 +27,8 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
           throw new Error("Error al obtener mascotas");
         }
         const data = await response.json();
-        setMascotas([data]);
+        console.log(data);
+        setMascotas([...mascotas, data]);
       } catch (error) {
         ErrorNotify(`Error al obtener tus mascotas: ${error}`);
       } finally {

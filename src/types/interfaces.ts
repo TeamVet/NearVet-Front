@@ -239,25 +239,24 @@ export interface UserContextType {
 ///
 export interface InputField {
   name: string;
-  type?: string; // Hacer tipo opcional
+  type?: string;
   as?: string;
   option?: string[];
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   placeholder?: string;
   label: string;
   validation: Yup.StringSchema;
-  initialValue?: string; // Valor inicial opcional
+  initialValue?: string;
 }
 
 export interface AuthFormProps<T> {
   title?: string;
   subtitle: string;
-  linkText: string;
-  linkHref: string;
+  linkText?: string;
+  linkHref?: string;
   buttonText: string;
   onSubmit: any;
   inputFields: InputField[];
   googleButtonText?: string;
   onFieldChange?: any;
-  register?: boolean;
 }

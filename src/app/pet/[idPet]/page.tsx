@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 //aca renderimos el perfil de la mascota
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
-  const [section, setSection] = useState<string | null>(null);
   const { user, session } = useUser();
   const idUrl = useParams();
 
@@ -43,9 +42,6 @@ const PetIndividual: React.FC = () => {
     }
   }, [session]);
 
-  const handleSection = (typeSection: string) => {
-    setSection(typeSection);
-  };
   return (
     <div className="w-full flex flex-col md:flex-row justify-center gap-1 my-2 m-auto">
       {mascota && (
