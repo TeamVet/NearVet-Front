@@ -12,12 +12,14 @@ const Appointments: React.FC = () => {
   const handleSubmit = async (values: any) => {};
   return (
     <Screen>
-      <ReusableForm
-        formTitle="Registro de Turno"
-        inputs={InputsRegisterAppoint}
-        onSubmit={handleSubmit}
-        submitButtonLabel="Registrar Mascota"
-      />
+      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+        <ReusableForm
+          formTitle="Registro de Turno"
+          inputs={InputsRegisterAppoint}
+          onSubmit={handleSubmit}
+          submitButtonLabel="Registrar Mascota"
+        />
+      </div>
     </Screen>
   );
 };

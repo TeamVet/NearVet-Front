@@ -73,6 +73,7 @@ export const InputsRegisterPet: InputField[] = [
     name: "name",
     type: "text",
     label: "Nombre",
+    placeholder: "Firulais",
     validation: petCreationValidationSchema.nombre,
   },
   {

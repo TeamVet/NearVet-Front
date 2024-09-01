@@ -39,7 +39,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
   });
 
   return (
-    <div className="dark:bg-darkBG  md:w-3/4 flex flex-col items-center justify-center p-5 md:p-10 gap-5  text-sm mx-auto">
+    <div className="dark:bg-darkBG  md:w-3/4 flex flex-col items-center justify-center p-5 md:p-10 gap-5  text-sm mx-auto ">
       <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center">
         <img src="" alt="[logo]" />
         <span>NearVet</span>
@@ -71,7 +71,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                   onInputChange?.(e.target.value);
                 }}
                 onBlur={formik.handleBlur}
-                className={`m-1 block w-full p-2 border ${
+                className={`m-1 block w-full p-2 bg-transparent border ${
                   formik.touched[input.name] && formik.errors[input.name]
                     ? "border-red-500"
                     : "border-gray-300"
@@ -103,7 +103,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 disabled={input.disable}
-                className={`w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 p-1 rounded-md text-center ${
+                className={`w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders ${
                   formik.touched[input.name] && formik.errors[input.name]
                     ? "border-red-500"
                     : "border-gray-300"
