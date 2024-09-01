@@ -64,14 +64,14 @@ const PetIndividual: React.FC = () => {
               />
             </div>
             <div className="flex flex-col text-justify p-2">
-              {/* <h2>Nombre: {mascota?.name}</h2>
+              <h2>Nombre: {mascota?.name}</h2>
 
               <p>Tipo: {mascota?.specie.specie}</p>
               <p>Raza: {mascota.race.race}</p>
               <p>Color: {mascota?.color}</p>
               <p>Sexo: {mascota?.sex.sex}</p>
               <p>Fecha de Nacimiento: {mascota.birthdate}</p>
-              <p>Edad: {mascota.age} años </p> */}
+              <p>Edad: {mascota.age} años </p>
               <ButtonCustom text="Editar" />
               <br />
               <ButtonCustom text="Necesita Atención medica" />

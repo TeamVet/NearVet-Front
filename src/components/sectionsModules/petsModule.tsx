@@ -30,7 +30,7 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
         if (data.length === 0) {
           return;
         }
-        setMascotas([...mascotas, data]);
+        setMascotas(data);
       } catch (error) {
         ErrorNotify(`Error al obtener tus mascotas: ${error}`);
       } finally {
