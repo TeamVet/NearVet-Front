@@ -1,20 +1,22 @@
 "use client";
-import AuthForm from "@/components/AuthForm";
+import ReusableForm from "@/components/Form/FormCustom";
 import Screen from "@/components/Screen";
-import { newAppointmentFields } from "@/lib/FormsFields";
-const handleSubmit = {};
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import PATHROUTES from "@/helpers/path-routes";
+import { InputsRegisterAppoint } from "@/components/Form/InputsForms";
+
 const Appointments: React.FC = () => {
+  const router = useRouter();
+  const { user } = useUser();
+  const handleSubmit = async (values: any) => {};
   return (
     <Screen>
-      <AuthForm
-        title="Agendar nuevo turno"
-        subtitle=""
-        linkText=""
-        linkHref=""
-        buttonText="Agendar"
+      <ReusableForm
+        formTitle="Registro de Turno"
+        inputs={InputsRegisterAppoint}
         onSubmit={handleSubmit}
-        inputFields={newAppointmentFields}
-        googleButtonText=""
+        submitButtonLabel="Registrar Mascota"
       />
     </Screen>
   );
