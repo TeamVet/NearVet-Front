@@ -1,15 +1,15 @@
 "use client";
 import ButtonCustom from "@/components/ButtonCustom";
 import Dashboard from "@/components/dashboardCustom";
-import Screen from "@/components/Screen";
 import SectionContent from "@/components/sectionsModules/sectionContent";
 import { useUser } from "@/context/UserContext";
 import { calculateAge } from "@/helpers/calcularEdad";
 import { userPetsCards } from "@/helpers/dashBoardCards";
+import PATHROUTES from "@/helpers/path-routes";
 import { ErrorNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 //aca renderimos el perfil de la mascota
@@ -17,8 +17,13 @@ const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
   const { user, session } = useUser();
   const idUrl = useParams();
+  const router = useRouter();
 
   useEffect(() => {
+    if (idUrl.idPet === "undefined") {
+      router.push(PATHROUTES.USER_DASHBOARD);
+      return;
+    }
     const fetchMascotas = async () => {
       const response = await fetch(
         `https://nearvet-latest.onrender.com/pets/${idUrl?.idPet}`,
@@ -29,10 +34,12 @@ const PetIndividual: React.FC = () => {
           },
         }
       );
-      if (!response.ok) {
+      if (!response) {
         ErrorNotify("Error al obtener la mascota");
+        return;
       }
       const data = await response.json();
+      console.log(data);
       const dataAndAge = { ...data, age: calculateAge(data.birthdate) };
       setMascota(dataAndAge);
     };
@@ -44,7 +51,7 @@ const PetIndividual: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col md:flex-row justify-center gap-1 my-2 m-auto">
-      {mascota && (
+      {mascota ? (
         <>
           <div className=" md:w-1/4 shadow-lg">
             <div className="  m-2 ">
@@ -57,14 +64,14 @@ const PetIndividual: React.FC = () => {
               />
             </div>
             <div className="flex flex-col text-justify p-2">
-              <h2>Nombre: {mascota?.name}</h2>
+              {/* <h2>Nombre: {mascota?.name}</h2>
 
               <p>Tipo: {mascota?.specie.specie}</p>
               <p>Raza: {mascota.race.race}</p>
               <p>Color: {mascota?.color}</p>
               <p>Sexo: {mascota?.sex.sex}</p>
               <p>Fecha de Nacimiento: {mascota.birthdate}</p>
-              <p>Edad: {mascota.age} años </p>
+              <p>Edad: {mascota.age} años </p> */}
               <ButtonCustom text="Editar" />
               <br />
               <ButtonCustom text="Necesita Atención medica" />
@@ -75,6 +82,8 @@ const PetIndividual: React.FC = () => {
           </div>
           <div className="bg-slate-600 md:w-1/4">Historia Clinica</div>
         </>
+      ) : (
+        <>Cargando ...</>
       )}
     </div>
   );

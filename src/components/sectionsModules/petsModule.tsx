@@ -23,11 +23,13 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
             },
           }
         );
-        if (!response.ok) {
+        if (!response) {
           throw new Error("Error al obtener mascotas");
         }
         const data = await response.json();
-        console.log(data);
+        if (data.length === 0) {
+          return;
+        }
         setMascotas([...mascotas, data]);
       } catch (error) {
         ErrorNotify(`Error al obtener tus mascotas: ${error}`);
@@ -44,13 +46,13 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
   return (
     <div className="w-full m-5">
       <h3 className="text-xl">Tus Mascotas</h3>
-      {loading ? ( // Mostrar estado de carga
+      {loading ? (
         <div className="flex justify-center items-center h-64">
           <p>Cargando tus mascotas...</p>
         </div>
       ) : (
         <div className="flex flex-col md:flex-row md:flex-wrap gap-5 m-5 justify-center">
-          {mascotas.length === 0 ? ( // Mostrar mensaje si no hay mascotas
+          {mascotas.length === 0 ? (
             <p>Aún no tienes mascotas</p>
           ) : (
             mascotas &&
