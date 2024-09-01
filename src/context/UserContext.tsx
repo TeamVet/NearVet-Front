@@ -75,7 +75,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const loginWithCredentials = async (values: FormValues) => {
     const login = await LoginController(values);
-    if (login.id) {
+
+    if (login) {
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
       setUser(login);
