@@ -237,17 +237,6 @@ export interface UserContextType {
 }
 
 ///
-export interface InputField {
-  name: string;
-  type?: string;
-  as?: string;
-  option?: string[];
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  placeholder?: string;
-  label: string;
-  validation: Yup.StringSchema;
-  initialValue?: string;
-}
 
 export interface AuthFormProps<T> {
   title?: string;
@@ -259,4 +248,19 @@ export interface AuthFormProps<T> {
   inputFields: InputField[];
   googleButtonText?: string;
   onFieldChange?: any;
+}
+
+// FORMS
+export interface InputField {
+  name: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+  initialValue?: any;
+  validation?: Yup.AnySchema;
+  disable?: boolean;
+  options?:
+    | { id: string; specie: string }[]
+    | { id: string; race: string }[]
+    | { id: string; sex: string }[];
 }

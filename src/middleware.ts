@@ -16,5 +16,6 @@ export const config = {
     "/userDashboard/:path*",
     "/vet/:path*",
     "/adminDasboardh/:path*",
+    "/appointment/:path*",
   ],
 };

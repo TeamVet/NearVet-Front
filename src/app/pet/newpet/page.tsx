@@ -1,94 +1,80 @@
 "use client";
+import ReusableForm from "@/components/Form/FormCustom";
 import Screen from "@/components/Screen";
-import { Species, SexType, Races } from "@/lib/authService";
-import { FormNewPet } from "@/types/interfaces";
+import { SexType, Species, Races } from "@/lib/authService";
+import { ErrorNotify } from "@/lib/toastyfy";
 import { useEffect, useState } from "react";
+import { InputsRegisterPet as originalInputsRegisterPet } from "@/components/Form/InputsForms";
+import { FormNewPet } from "@/types/interfaces";
 import { PetController } from "@/lib/authController";
 import { useRouter } from "next/navigation";
-import PATHROUTES from "@/helpers/path-routes";
 import { useUser } from "@/context/UserContext";
-import NewPetForm from "@/components/PetForm";
+import PATHROUTES from "@/helpers/path-routes";
 
-const NewPet: React.FC = () => {
+const NewPetForm: React.FC = () => {
+  const [formFields, setFormFields] = useState([...originalInputsRegisterPet]); // Copia del array de inputs
+  const [loading, setLoading] = useState(true);
+  const [especieSelect, setEspecieSelect] = useState("");
+  const [especie, setEspecie] = useState<{ id: string; specie: string }[]>([]);
   const router = useRouter();
-  const [especies, setEspecies] = useState<{ id: string; specie: string }[]>(
-    []
-  );
-  const [razas, setRazas] = useState<{ id: string; race: string }[]>([
-    { id: "2", race: "Caniche" },
-  ]);
-  const [sexos, setSexos] = useState<{ id: string; sex: string }[]>([]);
-  const [formValues, setFormValues] = useState<FormNewPet>({
-    name: "",
-    startDate: new Date(),
-    birthdate: new Date(),
-    color: "",
-    weightCurrent: 0,
-    observation: "",
-    userId: "",
-    specieId: "",
-    raceId: "",
-    sexId: "",
-  });
   const { user } = useUser();
-  const [loading, setLoading] = useState(true); // Agregado
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const speciesData = await Species();
-        setEspecies(speciesData);
-        const sexData = await SexType();
-        setSexos(sexData);
+        const speciesData = await Species(); // Obtener especies
+        const sexData = await SexType(); // Obtener sexos
+        setEspecie(speciesData);
+        const updatedInputs = originalInputsRegisterPet.map((input) => {
+          if (input.name === "specieId") {
+            return { ...input, options: speciesData };
+          }
+          if (input.name === "sexId") {
+            return { ...input, options: sexData };
+          }
+          return input;
+        });
+        setFormFields(updatedInputs);
+      } catch (error: any) {
+        ErrorNotify(`Error: ${error.message}`);
+      } finally {
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data", error);
       }
     };
+
     fetchData();
   }, []);
 
+  // UseEffect para cargar las razas según la especie seleccionada
   useEffect(() => {
-    const fetchRazas = async () => {
-      if (formValues.specieId) {
-        try {
-          const selectedSpecie = especies.find(
-            (specie) => specie.id === formValues.specieId
-          );
-
-          if (selectedSpecie) {
-            const racesData = await Races(selectedSpecie.specie);
-            setRazas(racesData);
+    if (!especieSelect) return; // No hacer nada si no hay una especie seleccionada
+    const fetchRaces = async () => {
+      try {
+        const raceData = await Races(especieSelect); // Obtener razas
+        const updatedInputs = formFields.map((input) => {
+          if (input.name === "raceId") {
+            return { ...input, options: raceData };
           }
-        } catch (error) {
-          console.error("Error fetching races", error);
-        }
-      } else {
-        setRazas([]); // Resetear las razas si no hay especie seleccionada
+          return input;
+        });
+        setFormFields(updatedInputs);
+      } catch (error: any) {
+        ErrorNotify(`Error: ${error.message}`);
       }
     };
-    fetchRazas();
-  }, [formValues.specieId, especies]);
 
-  const handleSpecieChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedSpecieId = e.target.value;
-    setFormValues({ ...formValues, specieId: selectedSpecieId });
+    fetchRaces();
+  }, [especieSelect]);
+  const handleSpeciesChange = (value: string) => {
+    especie &&
+      especie.map((specie) => {
+        if (specie.id === value) {
+          setEspecieSelect(specie.specie);
+        }
+      });
   };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = async (values: FormNewPet) => {
-    event?.preventDefault();
     const response = await PetController(
-      formValues,
+      values,
       user?.id as string,
       user?.token as string
     );
@@ -110,19 +96,17 @@ const NewPet: React.FC = () => {
 
   return (
     <Screen>
-      <div className="dark:bg-darkBG dark:border-darkBorders">
-        <NewPetForm
-          especies={especies}
-          razas={razas}
-          sexos={sexos}
-          onSpecieChange={handleSpecieChange}
-          formValues={formValues}
-          onInputChange={handleInputChange}
-          onSubmite={handleSubmit}
+      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+        <ReusableForm
+          formTitle="Registro de Mascota"
+          inputs={formFields}
+          onInputChange={handleSpeciesChange}
+          onSubmit={handleSubmit}
+          submitButtonLabel="Registrar Mascota"
         />
       </div>
     </Screen>
   );
 };
 
-export default NewPet;
+export default NewPetForm;
