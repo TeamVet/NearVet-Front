@@ -16,15 +16,15 @@ export const registrationValidationSchema = {
       /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/,
       "Ingresa un email valido. Ejemplo: abc@example.com"
     ),
-  contrasenia: Yup.string()
+  password: Yup.string()
     .min(6, "Contraseña debe tener al menos 6 caracteres")
     .required("Contraseña es obligatoria")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
       "Debes ingresar al menos una letra Mayuscula, una minuscula, un numero y un caracter especial."
     ),
-  confirmacionContrasenia: Yup.string()
-    .oneOf([Yup.ref("contrasenia")], "Las contraseñas no coinciden")
+  passwordConfirm: Yup.string()
+    .oneOf([Yup.ref("password"), undefined], "Las contraseñas no coinciden")
     .required("Confirmación de contraseña es obligatoria"),
 };
 

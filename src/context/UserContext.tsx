@@ -8,7 +8,12 @@ import {
   RegisterController,
   RegisterWithGoogleController,
 } from "@/lib/authController";
-import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
+import {
+  ErrorNotify,
+  InfoNotify,
+  PromessNotify,
+  SuccessNotify,
+} from "@/lib/toastyfy";
 import { useRouter } from "next/navigation";
 
 interface UserContextType {
@@ -34,7 +39,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchUser = async () => {
       const storedUser = localStorage.getItem("user");
       if (!storedUser && session) {
-        InfoNotify("Iniciando sesión...");
         const values = {
           name: session?.user?.name!,
           email: session?.user?.email!,
@@ -96,13 +100,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const registerWithCredentials = async (values: FormRegisterValues) => {
     const register = await RegisterController(values);
-    if (register.id) {
+    if (register) {
       InfoNotify("Intentamos loguearte");
       const loginValues = { dni: values.dni!, password: values.password! };
       loginWithCredentials(loginValues);
-      localStorage.setItem("user", JSON.stringify(register));
-      document.cookie = `auth-token=${JSON.stringify(register.token)}; path=/;`;
-      setUser(register);
     }
   };
   return (

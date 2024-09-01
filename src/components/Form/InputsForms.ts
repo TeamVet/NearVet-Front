@@ -40,14 +40,14 @@ export const InputsRegisterUser: InputField[] = [
     type: "password",
     placeholder: "******",
     label: "Contraseña",
-    validation: registrationValidationSchema.contrasenia,
+    validation: registrationValidationSchema.password,
   },
   {
     name: "passwordConfirm",
     type: "password",
     placeholder: "******",
     label: "Confirmación de Contraseña",
-    validation: registrationValidationSchema.confirmacionContrasenia,
+    validation: registrationValidationSchema.passwordConfirm,
   },
 ];
 export const InputsModifyUser = [];

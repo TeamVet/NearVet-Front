@@ -4,89 +4,70 @@ import {
   FormNewPet,
   User,
 } from "../types/interfaces";
-import { ErrorNotify } from "./toastyfy";
+import { fetcher } from "./fetcher";
 
 const API_BASE_URL = "https://nearvet-latest.onrender.com";
 
-export const login = async (userData: FormValues) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/authGlobal/signin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-
-    const data = await response.json();
-    if (!data.id) throw new Error(data.message);
-    return data;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
-};
-
-export const register = async (values: FormRegisterValues) => {
-  values = {
-    ...values,
-    startDate: new Date(),
+export const LoginService = async (userData: FormValues) => {
+  const dataLogin = {
+    url: `/authGlobal/signin`, //TODO despues pasarlo a .env
+    method: "POST" as const,
+    data: userData,
   };
-  console.log(values);
   try {
-    const response = await fetch(`${API_BASE_URL}/authGlobal/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    const data = await response.json();
-    if (!data.id) throw new Error(data.message);
-    return data;
+    const responseLogin = await fetcher(dataLogin);
+    if (!responseLogin.id) throw new Error(responseLogin.message);
+    return responseLogin;
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
 
-export const registerGoogle: (
-  values: FormRegisterValues
-) => Promise<User> = async (values: FormRegisterValues) => {
+export const registerService = async (values: FormRegisterValues) => {
+  const dataRegister = {
+    url: `/authGlobal/signup`, //TODO despues pasarlo a .env
+    method: "POST" as const,
+    data: values,
+  };
   try {
-    const response = await fetch(`${API_BASE_URL}/authGlobal/signupGoogle`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    const data = await response.json();
-    if (!data.id) throw new Error(data.message);
-
-    return data;
+    const responseRegister = await fetcher(dataRegister);
+    if (!responseRegister.id) throw new Error(responseRegister.message);
+    return responseRegister;
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
 
-export const addPet = async (values: FormNewPet, token: string) => {
+export const registerGoogleService = async (values: FormRegisterValues) => {
+  const dataRegister = {
+    url: `/authGlobal/signupGoogle`, //TODO despues pasarlo a .env
+    method: "POST" as const,
+    data: values,
+  };
   try {
-    const response = await fetch(`${API_BASE_URL}/pets`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(values),
-    });
-    const data = await response.json();
-    if (!data) throw new Error(data.message);
-    if (!data.id) throw new Error(data.message);
-    return data;
+    const responseRegister = await fetcher(dataRegister);
+    if (!responseRegister.id) throw new Error(responseRegister.message);
+    return responseRegister;
   } catch (error: any) {
-    ErrorNotify(`Error: ${error.message}`);
+    throw new Error(error.message);
   }
 };
 
+export const addPetService = async (values: FormNewPet, token: string) => {
+  const dataPet = {
+    url: `/pets`, //TODO despues pasarlo a .env
+    method: "POST" as const,
+    data: values,
+    token,
+  };
+  try {
+    const responsePet = await fetcher(dataPet);
+    if (!responsePet.id) throw new Error(responsePet.message);
+    return responsePet;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
 export const Species = async () => {
   const response = await fetch(`${API_BASE_URL}/pets/species`, {
     method: "GET",
