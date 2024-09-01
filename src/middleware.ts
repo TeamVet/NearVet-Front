@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("auth-token"); // Suponiendo que el token de autenticación está en las cookies
+  const token = req.cookies.get("auth-token");
 
   if (!token) {
     return NextResponse.redirect(new URL("/signin", req.url));
@@ -16,5 +16,6 @@ export const config = {
     "/userDashboard/:path*",
     "/vet/:path*",
     "/adminDasboardh/:path*",
+    "/appointment/:path*",
   ],
 };

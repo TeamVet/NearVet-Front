@@ -14,12 +14,10 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     case "sinUser":
       return <p>No hay datos de usuario</p>;
     ///# Secciones User
-    case "Información":
+    case "Ver Información":
       return (
         // <InformationModule user={user} modifyContext={loginContext} />
         <>
-          {/* <Image src={user!.imgProfile} alt="Logo" width={100} height={100} />
-           */}
           <p>Información del usuario</p>
           {user && (
             <>
@@ -40,18 +38,18 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
           )}
         </>
       );
-    case "Mascotas":
+    case "Ver Mascotas":
       return <PetsModule user={user} />;
-    case "Turnos":
+    case "Ver Turnos":
       return <AppointsModule user={user} />;
-    case "Facturas":
+    case "Ver Facturas":
       return (
         <div>
           <h3 className="text-xl">Facturas</h3>
           {/* Renderizar las facturas */}
         </div>
       );
-    case "Veterinaria Favorita":
+    case "Ver Veterinaria Favorita":
       return (
         <div>
           <h3 className="text-xl">Veterinaria Favorita</h3>

@@ -8,15 +8,14 @@ import {
 } from "@/helpers/NavItems";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+
 import { useUser } from "@/context/UserContext";
-import verifyToken from "@/lib/token";
+
 const NavBar: React.FC = () => {
-  const { logoutContext, user } = useUser();
-  const handleLogOut = () => {
-    logoutContext();
-  };
+  const { user, logout } = useUser();
   const [isDark, setIsDark] = useState(false);
   const [navItems, setNavItems] = useState(NavItem);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -41,32 +40,26 @@ const NavBar: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user === null) {
-      setNavItems(NavItem); // No logueado
-    } else {
-      {
-        //aca iria la logica para utilizar el role que viene por token...
-        // console.log(user);
-        // const tokenResponse = verifyToken(user!.token);
-        // console.log("tokenResponse:", tokenResponse);
-        switch (user.role.role) {
-          case "user":
-            setNavItems(NavItemUser);
-            break;
-          case "adminVet":
-            setNavItems(NavItemAdmin);
-            break;
-          case "veterinarian":
-            setNavItems(NavItemVet);
-            break;
-          default:
-            setNavItems(NavItem); // fallback
-            break;
-        }
+    if (user) {
+      switch (user.role.role) {
+        case "user":
+          setNavItems(NavItemUser);
+          break;
+        case "adminVet":
+          setNavItems(NavItemAdmin);
+          break;
+        case "veterinarian":
+          setNavItems(NavItemVet);
+          break;
+        default:
+          setNavItems(NavItem); // Caso error con el role
+          break;
       }
+    } else {
+      setNavItems(NavItem);
     }
   }, [user]);
-  const isMail = true; //necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
+  const isMail = true; //TODO necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
 
   return (
     <nav className="dark:bg-navDarkBG dark:border-0 w-full flex flex-row justify-between px-5 py-2 border border-1 shadow-[rgba(0,_0,_0,_0.24)_0px_2px_4px]">
@@ -76,34 +69,92 @@ const NavBar: React.FC = () => {
       >
         Logo
       </Link>
-      <div className="flex flex-row gap-4 ">
-        {navItems.map((item) =>
-          item.name != "Salir" ? (
-            <Link key={item.name} href={item.url} className="text-detail mx-2">
-              <div className="flex flex-col gap-2 items-center text-2xl">
-                {React.cloneElement(
-                  <item.icon />,
-                  item.icon === MailIcon ? { isMail } : { size: "default" }
-                )}
-
-                <p className="text-base">{item.name}</p>
-              </div>
-            </Link>
-          ) : (
-            <button
-              key={item.name}
-              className="text-detail mx-2"
-              onClick={handleLogOut}
-            >
-              <div className="flex flex-col gap-2 items-center text-2xl">
-                {item.icon({ size: "default" })}
-                <p className="text-base">{item.name}</p>
-              </div>
-            </button>
-          )
-        )}
-
-        <ThemeIcon isDark={isDark} onChange={toggleTheme} />
+      <div className="flex flex-row items-center gap-4">
+        {/* Button to toggle menu on mobile */}
+        <button
+          className="block lg:hidden text-2xl"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {/* Icon for menu button (hamburger icon) */}
+          <span>☰</span>
+        </button>
+        {/* Menu for desktop */}
+        <div className="hidden lg:flex flex-row gap-4">
+          {navItems.map((item) =>
+            item.name !== "Salir" ? (
+              <Link
+                key={item.name}
+                href={item.url}
+                className="text-detail mx-2"
+              >
+                <div className="flex flex-col gap-2 items-center text-2xl">
+                  {React.cloneElement(
+                    <item.icon />,
+                    item.icon === MailIcon ? { isMail } : { size: "default" }
+                  )}
+                  <p className="text-base">{item.name}</p>
+                </div>
+              </Link>
+            ) : (
+              <button
+                key={item.name}
+                className="text-detail mx-2"
+                onClick={() => logout()}
+              >
+                <div className="flex flex-col gap-2 items-center text-2xl">
+                  {item.icon({ size: "default" })}
+                  <p className="text-base">{item.name}</p>
+                </div>
+              </button>
+            )
+          )}
+          <ThemeIcon isDark={isDark} onChange={toggleTheme} />
+        </div>
+        {/* Menu for mobile */}
+        <div
+          className={`lg:hidden fixed top-0 right-0 w-2/3 h-full bg-white dark:bg-gray-800 transition-transform transform ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <button
+            className="absolute top-4 left-4 text-2xl"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            ×
+          </button>
+          <div className="flex flex-col items-center mt-16">
+            {navItems.map((item) =>
+              item.name !== "Salir" ? (
+                <Link
+                  key={item.name}
+                  href={item.url}
+                  className="text-detail my-4 text-2xl"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="flex flex-col gap-2 items-center">
+                    {React.cloneElement(
+                      <item.icon />,
+                      item.icon === MailIcon ? { isMail } : { size: "default" }
+                    )}
+                    <p className="text-base">{item.name}</p>
+                  </div>
+                </Link>
+              ) : (
+                <button
+                  key={item.name}
+                  className="text-detail my-4 text-2xl"
+                  onClick={() => logout()}
+                >
+                  <div className="flex flex-col gap-2 items-center">
+                    {item.icon({ size: "default" })}
+                    <p className="text-base">{item.name}</p>
+                  </div>
+                </button>
+              )
+            )}
+            <ThemeIcon isDark={isDark} onChange={toggleTheme} />
+          </div>
+        </div>
       </div>
     </nav>
   );

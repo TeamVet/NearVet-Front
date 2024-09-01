@@ -1,44 +1,90 @@
-// authService.ts
 import {
   FormValues,
   FormRegisterValues,
   FormNewPet,
+  User,
 } from "../types/interfaces";
+import { ErrorNotify } from "./toastyfy";
 
 const API_BASE_URL = "https://nearvet-latest.onrender.com";
 
 export const login = async (userData: FormValues) => {
-  const response = await fetch(`${API_BASE_URL}/authGlobal/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/authGlobal/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+    if (!data.id) throw new Error(data.message);
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
 
 export const register = async (values: FormRegisterValues) => {
-  const response = await fetch(`${API_BASE_URL}/authGlobal/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(values),
-  });
-  return response.json();
+  values = {
+    ...values,
+    startDate: new Date(),
+  };
+  console.log(values);
+  try {
+    const response = await fetch(`${API_BASE_URL}/authGlobal/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const data = await response.json();
+    if (!data.id) throw new Error(data.message);
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const registerGoogle: (
+  values: FormRegisterValues
+) => Promise<User> = async (values: FormRegisterValues) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/authGlobal/signupGoogle`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const data = await response.json();
+    if (!data.id) throw new Error(data.message);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
 
 export const addPet = async (values: FormNewPet, token: string) => {
-  const response = await fetch(`${API_BASE_URL}/pets`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(values),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/pets`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(values),
+    });
+    const data = await response.json();
+    if (!data) throw new Error(data.message);
+    if (!data.id) throw new Error(data.message);
+    return data;
+  } catch (error: any) {
+    ErrorNotify(`Error: ${error.message}`);
+  }
 };
 
 export const Species = async () => {

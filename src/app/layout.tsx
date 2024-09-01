@@ -3,8 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import { UserProvider } from "@/context/UserContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+import Providers from "./Providers";
+import { UserProvider } from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,14 +22,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UserProvider>
-      <html lang="es">
-        <body className={inter.className}>
-          <NavBar />
-          {children}
-          <Footer />
-        </body>
-      </html>
-    </UserProvider>
+    <html lang="es">
+      <body className={inter.className}>
+        <Providers>
+          <UserProvider>
+            <NavBar />
+            {children}
+            <Footer />
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          </UserProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }

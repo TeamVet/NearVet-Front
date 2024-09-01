@@ -1,7 +1,7 @@
 const PATHROUTES = {
   HOME: "/",
   LOGIN: "/signin",
-  REGISTER: "/auth/signup",
+  REGISTER: "/signup",
   USER_DASHBOARD: "/userDashboard",
   ADMIN_DASHBOARD: "/adminDashboard",
   VET_DASHBOARD: "/vetDashboard",
@@ -12,6 +12,7 @@ const PATHROUTES = {
   ABOUTUS: "/aboutus",
   TERMS: "/terms",
   PRIVACY: "/privacypolicy",
+  APPOINTMENT: "/appointment",
 };
 
 export default PATHROUTES;

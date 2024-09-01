@@ -10,19 +10,19 @@ import { UserCard } from "@/types/interfaces";
 
 export const userCards: UserCard[] = [
   {
-    text: "Información",
+    text: "Ver Información",
     icon: <InformationIcon size="2xl" />,
   },
   {
-    text: "Mascotas",
+    text: "Ver Mascotas",
     icon: <PawIcon size="2xl" />,
   },
   {
-    text: "Turnos",
+    text: "Ver Turnos",
     icon: <MedicalIcon size="2xl" />,
   },
   {
-    text: "Facturas",
+    text: "Ver Facturas",
     icon: <TicketIcon size="2xl" />,
   },
   // {

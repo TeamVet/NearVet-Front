@@ -1,4 +1,3 @@
-import { FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 //# Interfaces de componentes
@@ -18,6 +17,12 @@ export interface ButtonCustomOptionalProps extends ButtonCustomProps {
   onClick: () => void;
 }
 
+export interface GoogleButtonProps {
+  text?: string;
+  size?: string;
+  color?: string;
+  bgcolor?: string;
+}
 export interface ScreenProps {
   children: React.ReactNode;
   width?: string;
@@ -70,26 +75,26 @@ export interface PetsModuleProps {
 
 ///# Interfaces de context
 export interface User {
-  id: string;
+  id?: string;
   name: string;
   lastname: string;
-  dni: number;
+  dni?: number;
   email: string;
-  password: string; //viene por token?
-  address: string;
-  city: string;
-  phone: string;
-  token: string;
-  starDate: Date;
-  endDate: string | null;
+  password?: string; //viene por token?
+  address?: string;
+  city?: string;
+  phone?: number;
+  token?: string;
+  startDate: Date;
+  endDate?: string;
   imgProfile: string;
   role: {
-    id: string;
+    id?: string;
     role: string;
   }; //viene por token
-  veterinariafavorita: string;
-  turnos: Turnos[];
-  mascotas: Mascota[];
+  veterinariafavorita?: string;
+  turnos?: Turnos[];
+  mascotas?: Mascota[];
 }
 
 export interface Mascota {
@@ -98,13 +103,22 @@ export interface Mascota {
   birthdate: string;
   startDate: Date;
   color: string;
-  weightCurrent: number;
+  weightCurrent: string;
   observation: string;
   image: string;
-  userId: string;
-  specieId: string;
-  raceId: string;
-  sexId: string;
+  userId: string | undefined;
+  specie: {
+    id: string;
+    specie: string;
+  };
+  race: {
+    id: string;
+    race: string;
+  };
+  sex: {
+    id: string;
+    sex: string;
+  };
   repConditionId: string;
   imgProfile: string;
   ///a implementar
@@ -144,64 +158,109 @@ export interface FormValues {
   password: string;
 }
 
-export interface FormRegisterValues extends FormValues {
+export interface FormRegisterValues {
+  name: string;
+  lastname?: string;
+  dni?: number;
+  email: string;
+  startDate: Date;
+  password?: string;
+  passwordConfirm?: string;
+}
+
+export interface FormRegisterGoogleValues {
   name: string;
   lastname: string;
-  birthDate: string;
-  email: string;
-  address: string;
-  city: string;
-  phone: number;
-  rol: string;
+  email: string | null | undefined;
+  imgProfile: string | null | undefined;
   startDate: Date;
-  imgProfile: string;
 }
 
 export interface FormNewPet {
   name: string;
   startDate: Date;
-  birthdate: Date;
   color: string;
+  specieId: string;
+  raceId: string;
+  sexId: string;
+  birthdate: Date;
   weightCurrent: number;
   observation: string;
   image?: string;
-  specieId: string;
-  raceId: string;
-  sexId: number;
   userId: string;
+  [key: string]: string | number | Date | undefined;
 }
 
+export interface EspecieOption {
+  id: string;
+  specie: string;
+}
+
+export interface RazaOption {
+  id: string;
+  race: string;
+}
+
+export interface SexoOption {
+  id: string;
+  sex: string;
+}
+
+export interface NewPetProps {
+  especies: EspecieOption[];
+  razas: RazaOption[];
+  sexos: SexoOption[];
+}
+
+export interface NewPetField {
+  name: string;
+  type?: string | undefined;
+  label: string;
+  validation: Yup.Schema<any>;
+  as?: string;
+  options?: { value: string; label: string }[];
+  placeholder?: string;
+}
+export interface NewPetProps {
+  especies: { id: string; specie: string }[];
+  razas: { id: string; race: string }[];
+  sexos: { id: string; sex: string }[];
+}
 export interface UserContextType {
   user: User | null;
-  loginContext: (userData: FormValues) => Promise<User | undefined>; // Cambiado a void
+  loginContext: (userData: FormValues) => Promise<User | undefined>;
   logoutContext: () => void;
-  error: string | null;
+  handleGoogleSignIn: () => Promise<any | undefined>;
   loading: boolean;
-  registerContext: (values: FormRegisterValues) => Promise<User | undefined>; // Cambiado a void
-  newPet: (values: FormNewPet) => Promise<Mascota | undefined>; // Cambiado a void
+  registerContext: (values: FormRegisterValues) => Promise<User | undefined>;
+  newPet: (values: FormNewPet) => Promise<Mascota | undefined>;
 }
 
 ///
-export interface InputField {
-  name: string;
-  type?: string; // Hacer tipo opcional
-  as?: string;
-  option?: string[];
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  placeholder?: string;
-  label: string;
-  validation: Yup.StringSchema;
-  initialValue?: string; // Valor inicial opcional
-}
 
 export interface AuthFormProps<T> {
   title?: string;
   subtitle: string;
-  linkText: string;
-  linkHref: string;
+  linkText?: string;
+  linkHref?: string;
   buttonText: string;
   onSubmit: any;
   inputFields: InputField[];
   googleButtonText?: string;
   onFieldChange?: any;
+}
+
+// FORMS
+export interface InputField {
+  name: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+  initialValue?: any;
+  validation?: Yup.AnySchema;
+  disable?: boolean;
+  options?:
+    | { id: string; specie: string }[]
+    | { id: string; race: string }[]
+    | { id: string; sex: string }[];
 }

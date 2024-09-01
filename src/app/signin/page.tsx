@@ -1,28 +1,39 @@
 "use client";
 
-import React from "react";
-import AuthForm from "../../components/AuthForm";
-import { useUser } from "@/context/UserContext";
 import Screen from "@/components/Screen";
-import { loginFields } from "@/lib/FormsFields";
 import { FormValues } from "@/types/interfaces";
-
-const LoginForm: React.FC = () => {
-  const { loginContext } = useUser();
+import { useUser } from "@/context/UserContext";
+import GoogleButton from "@/components/GoogleButton";
+import ReusableForm from "@/components/Form/FormCustom";
+import { InputsLogin } from "@/components/Form/InputsForms";
+import Link from "next/link";
+import PATHROUTES from "@/helpers/path-routes";
+const SignIn: React.FC = () => {
+  const { loginWithCredentials } = useUser();
+  const handleSubmit = async (values: FormValues) => {
+    loginWithCredentials(values);
+  };
   return (
     <Screen>
-      <AuthForm<FormValues>
-        title="Acceder con tu cuenta"
-        subtitle="¿No tienes una cuenta todavía?"
-        linkText="Registrarse"
-        linkHref="/signup"
-        buttonText="Iniciar"
-        onSubmit={loginContext}
-        inputFields={loginFields}
-        googleButtonText="Iniciar con Google"
-      />
+      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+        <ReusableForm
+          formTitle="Iniciar Sesión"
+          inputs={InputsLogin}
+          onSubmit={handleSubmit}
+          submitButtonLabel="Iniciar"
+        />
+        <Link
+          className="text-primary font-bold flex flex-row"
+          href={PATHROUTES.REGISTER}
+        >
+          <h3 className="px-1">¿Aún sin cuenta? </h3>
+          Registrarte
+        </Link>
+        <span className="text-gray-400 font-bold">- OR -</span>
+        <GoogleButton />
+      </div>
     </Screen>
   );
 };
 
-export default LoginForm;
+export default SignIn;
