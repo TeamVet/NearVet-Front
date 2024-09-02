@@ -69,18 +69,27 @@ export interface AppointsProps {
   user: User | null;
 }
 
-export interface PetsModuleProps {
+///# Interfaces de context
+
+export interface UserContextType {
+  session: any;
+  status: string;
   user: User | null;
+  loginWithGoogle: () => Promise<void>;
+  loginWithCredentials: (values: FormValues) => Promise<void>;
+  logout: () => void;
+  registerWithCredentials: (values: FormRegisterValues) => Promise<void>;
+  registerPet: (values: FormNewPet) => Promise<void>;
 }
 
-///# Interfaces de context
+///# Interfaces de Objetos
 export interface User {
   id?: string;
   name: string;
   lastname: string;
   dni?: number;
   email: string;
-  password?: string; //viene por token?
+  password?: string; //TODO viene por token?
   address?: string;
   city?: string;
   phone?: number;
@@ -93,8 +102,7 @@ export interface User {
     role: string;
   }; //viene por token
   veterinariafavorita?: string;
-  turnos?: Turnos[];
-  mascotas?: Mascota[];
+  [key: string]: any;
 }
 
 export interface Mascota {
@@ -128,6 +136,7 @@ export interface Mascota {
   enfermedades: string[];
   vacunas: string[];
   desparacitaciones: string[];
+  [key: string]: any;
 }
 // Veterninarias [Missing info]
 export interface Veterinaria {
@@ -152,13 +161,15 @@ export interface Mensajes {
   state: string;
 }
 
-// interfaces.ts
+// Control de values para formularios
 export interface FormValues {
+  //login
   dni: number;
   password: string;
 }
 
 export interface FormRegisterValues {
+  //registerUser
   name: string;
   lastname?: string;
   dni?: number;
@@ -169,6 +180,7 @@ export interface FormRegisterValues {
 }
 
 export interface FormRegisterGoogleValues {
+  //loginwithGoogle
   name: string;
   lastname: string;
   email: string | null | undefined;
@@ -177,6 +189,7 @@ export interface FormRegisterGoogleValues {
 }
 
 export interface FormNewPet {
+  //register pet
   name: string;
   startDate: Date;
   color: string;
@@ -189,65 +202,6 @@ export interface FormNewPet {
   image?: string;
   userId: string;
   [key: string]: string | number | Date | undefined;
-}
-
-export interface EspecieOption {
-  id: string;
-  specie: string;
-}
-
-export interface RazaOption {
-  id: string;
-  race: string;
-}
-
-export interface SexoOption {
-  id: string;
-  sex: string;
-}
-
-export interface NewPetProps {
-  especies: EspecieOption[];
-  razas: RazaOption[];
-  sexos: SexoOption[];
-}
-
-export interface NewPetField {
-  name: string;
-  type?: string | undefined;
-  label: string;
-  validation: Yup.Schema<any>;
-  as?: string;
-  options?: { value: string; label: string }[];
-  placeholder?: string;
-}
-export interface NewPetProps {
-  especies: { id: string; specie: string }[];
-  razas: { id: string; race: string }[];
-  sexos: { id: string; sex: string }[];
-}
-export interface UserContextType {
-  user: User | null;
-  loginContext: (userData: FormValues) => Promise<User | undefined>;
-  logoutContext: () => void;
-  handleGoogleSignIn: () => Promise<any | undefined>;
-  loading: boolean;
-  registerContext: (values: FormRegisterValues) => Promise<User | undefined>;
-  newPet: (values: FormNewPet) => Promise<Mascota | undefined>;
-}
-
-///
-
-export interface AuthFormProps<T> {
-  title?: string;
-  subtitle: string;
-  linkText?: string;
-  linkHref?: string;
-  buttonText: string;
-  onSubmit: any;
-  inputFields: InputField[];
-  googleButtonText?: string;
-  onFieldChange?: any;
 }
 
 // FORMS
@@ -263,4 +217,14 @@ export interface InputField {
     | { id: string; specie: string }[]
     | { id: string; race: string }[]
     | { id: string; sex: string }[];
+}
+
+export interface ReusableFormProps {
+  notLogo?: boolean;
+  displayRow?: boolean;
+  formTitle: string;
+  inputs: InputField[];
+  onSubmit: (values: any) => void;
+  onInputChange?: (value: string) => void;
+  submitButtonLabel: string;
 }
