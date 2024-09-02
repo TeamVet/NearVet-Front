@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ReusableFormProps } from "@/types/interfaces";
+import Image from "next/image";
 
 const ReusableForm: React.FC<ReusableFormProps> = ({
   notLogo = false,
@@ -35,9 +36,9 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
   return (
     <div className="dark:bg-darkBG  w-full flex flex-col items-center justify-center p-5 md:p-10 gap-5 text-sm mx-auto">
       {notLogo ? null : (
-        <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center">
-          <img src="" alt="[logo]" />
-          <span>NearVet</span>
+        <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center items-center">
+          <Image src="/logo.svg" alt="Logo Nearvet" width={64} height={64} />{" "}
+          NearVet
         </div>
       )}
       <h2 className="sm:text-xl md:text-3xl text-lightHline dark:text-darkHline">

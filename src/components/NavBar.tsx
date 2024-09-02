@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import useLoading from "@/hooks/LoadingHook";
+import Image from "next/image";
 
 const NavBar: React.FC = () => {
   const { user, logout } = useUser();
@@ -68,7 +69,7 @@ const NavBar: React.FC = () => {
         className="text-2xl font-bold text-detail text-center self-center"
         href={"/"}
       >
-        Logo
+        <Image src="/logo.svg" alt="Logo Nearvet" width={64} height={64} />
       </Link>
       <div className="flex flex-row items-center gap-4">
         {/* Button to toggle menu on mobile */}

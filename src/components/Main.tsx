@@ -6,12 +6,14 @@ import VetCard from "./VetCard";
 const Main: React.FC = () => {
   return (
     <div className="flex flex-col w-full gap-12">
-      <h1>NearVet</h1>
       <div className="flex gap-28 p-10">
         <div className="w-full flex flex-col gap-5">
           <h1 className="text-start font-bold text-4xl dark:text-darkHline">
-            Encuentra la veterinaria perfecta para tu mascota
+            NearVet
           </h1>
+          <h2 className="text-xl text-lightText dark:text-darkHline">
+            Encuentra la mejor veterinaria para tu mascota
+          </h2>
           <p className="text-justify text-xl">
             Nuestro marketplace de clínicas veterinarias te conecta a las
             veterinarias mejor puntuadas en tu área. Lee reseñas y obtén los
