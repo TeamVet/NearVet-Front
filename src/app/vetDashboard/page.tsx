@@ -1,5 +1,5 @@
 "use client";
-import Dashboard from "@/components/dashboardCustom";
+import Dashboard from "@/components/sectionsModules/dashboardCustom";
 import Screen from "@/components/Screen";
 import { vetCards } from "@/helpers/dashBoardCards";
 import SectionContent from "../../components/sectionsModules/sectionContent";

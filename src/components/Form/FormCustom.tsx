@@ -1,17 +1,11 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { InputField } from "@/types/interfaces";
-
-interface ReusableFormProps {
-  formTitle: string;
-  inputs: InputField[];
-  onSubmit: (values: any) => void;
-  onInputChange?: (value: string) => void;
-  submitButtonLabel: string;
-}
+import { ReusableFormProps } from "@/types/interfaces";
 
 const ReusableForm: React.FC<ReusableFormProps> = ({
+  notLogo = false,
+  displayRow = false,
   formTitle,
   inputs,
   onSubmit,
@@ -39,87 +33,100 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
   });
 
   return (
-    <div className="dark:bg-darkBG  md:w-3/4 flex flex-col items-center justify-center p-5 md:p-10 gap-5  text-sm mx-auto ">
-      <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center">
-        <img src="" alt="[logo]" />
-        <span>NearVet</span>
-      </div>
-      <h2 className="sm:xl md:text-3xl text-lightHline dark:text-darkHline">
+    <div className="dark:bg-darkBG  w-full flex flex-col items-center justify-center p-5 md:p-10 gap-5 text-sm mx-auto">
+      {notLogo ? null : (
+        <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center">
+          <img src="" alt="[logo]" />
+          <span>NearVet</span>
+        </div>
+      )}
+      <h2 className="sm:text-xl md:text-3xl text-lightHline dark:text-darkHline">
         {formTitle}
       </h2>
       <form
         onSubmit={formik.handleSubmit}
-        className="sm:w-[35vw] lg:w-[25vw] mx-auto flex flex-col text-[1em]"
+        className={`w-full mx-auto flex flex-col text-[1em]`}
       >
-        {inputs.map((input) => (
-          <div className="mb-4" key={input.name}>
-            <label
-              htmlFor={input.name}
-              className="block text-sm font-semibold text-detail m-1"
+        <div
+          className={`${
+            displayRow
+              ? "flex flex-row flex-wrap gap-1 justify-center"
+              : "w-full md:w-1/2 lg:w-1/3 m-auto"
+          }`}
+        >
+          {inputs.map((input) => (
+            <div
+              className={` ${displayRow ? "w-full md:w-1/3" : "w-full"}`}
+              key={input.name}
             >
-              {input.label}
-            </label>
-
-            {input.type === "select" && Array.isArray(input.options) ? (
-              <select
-                key={input.name}
-                id={input.name}
-                name={input.name}
-                value={formik.values[input.name]}
-                onChange={(e) => {
-                  formik.setFieldValue(input.name, e.target.value);
-                  onInputChange?.(e.target.value);
-                }}
-                onBlur={formik.handleBlur}
-                className={`m-1 block w-full p-2 bg-transparent border ${
-                  formik.touched[input.name] && formik.errors[input.name]
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } rounded-md`}
+              <label
+                htmlFor={input.name}
+                className="block text-sm font-semibold text-detail m-1"
               >
-                <option label="Seleccione una opción" />
-                {input.options.map((option) => (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                    className="text-black"
-                  >
-                    {"specie" in option
-                      ? option.specie
-                      : "race" in option
-                      ? option.race
-                      : option.sex}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <input
-                key={input.name}
-                id={input.name}
-                name={input.name}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={formik.values[input.name]}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={input.disable}
-                className={`w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders ${
-                  formik.touched[input.name] && formik.errors[input.name]
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } rounded-md`}
-              />
-            )}
-            <div className="h-4 ">
-              {formik.touched[input.name] &&
-              typeof formik.errors[input.name] === "string" ? (
-                <p className="mt-2 text-sm text-red-600">
-                  {formik.errors[input.name]?.toString() || ""}
-                </p>
-              ) : null}
+                {input.label}
+              </label>
+
+              {input.type === "select" && Array.isArray(input.options) ? (
+                <select
+                  key={input.name}
+                  id={input.name}
+                  name={input.name}
+                  value={formik.values[input.name]}
+                  onChange={(e) => {
+                    formik.setFieldValue(input.name, e.target.value);
+                    onInputChange?.(e.target.value);
+                  }}
+                  onBlur={formik.handleBlur}
+                  className={`m-1 block w-full p-2 bg-transparent border ${
+                    formik.touched[input.name] && formik.errors[input.name]
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } rounded-md`}
+                >
+                  <option label="Seleccione una opción" />
+                  {input.options.map((option) => (
+                    <option
+                      key={option.id}
+                      value={option.id}
+                      className="text-black"
+                    >
+                      {"specie" in option
+                        ? option.specie
+                        : "race" in option
+                        ? option.race
+                        : option.sex}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  key={input.name}
+                  id={input.name}
+                  name={input.name}
+                  type={input.type}
+                  placeholder={input.placeholder}
+                  value={formik.values[input.name]}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={input.disable}
+                  className={`w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders ${
+                    formik.touched[input.name] && formik.errors[input.name]
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }  rounded-md`}
+                />
+              )}
+              <div className="h-4 ">
+                {formik.touched[input.name] &&
+                typeof formik.errors[input.name] === "string" ? (
+                  <p className="mt-2 text-sm text-red-600">
+                    {formik.errors[input.name]?.toString() || ""}
+                  </p>
+                ) : null}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
         <button
           type="submit"
           className="bg-detail px-5 py-2 m-auto rounded-lg text-lg text-white hover:scale-105"

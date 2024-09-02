@@ -5,7 +5,6 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import Providers from "./Providers";
 import { UserProvider } from "@/context/UserContext";
 
@@ -37,9 +36,9 @@ export default function RootLayout({
               closeOnClick
               rtl={false}
               pauseOnFocusLoss
-              draggable
               pauseOnHover
               theme="colored"
+              limit={2}
             />
           </UserProvider>
         </Providers>

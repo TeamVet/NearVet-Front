@@ -4,7 +4,7 @@ import Screen from "@/components/Screen";
 import { useUser } from "@/context/UserContext";
 import SectionContent from "../../components/sectionsModules/sectionContent";
 import { userCards } from "@/helpers/dashBoardCards";
-import Dashboard from "@/components/dashboardCustom";
+import Dashboard from "@/components/sectionsModules/dashboardCustom";
 
 const UserDashboard: React.FC = () => {
   const { user } = useUser();

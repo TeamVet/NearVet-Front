@@ -1,6 +1,6 @@
 "use client";
 import ButtonCustom from "@/components/ButtonCustom";
-import Dashboard from "@/components/dashboardCustom";
+import Dashboard from "@/components/sectionsModules/dashboardCustom";
 import SectionContent from "@/components/sectionsModules/sectionContent";
 import { useUser } from "@/context/UserContext";
 import { calculateAge } from "@/helpers/calcularEdad";

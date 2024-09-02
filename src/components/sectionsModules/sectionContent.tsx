@@ -6,6 +6,7 @@ import AppointsModule from "./appointsModule";
 import PetsModule from "./petsModule";
 import Image from "next/image";
 import ButtonCustom from "../ButtonCustom";
+import UserInformation from "./UserInformation";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   const { user } = useUser();
@@ -15,31 +16,9 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       return <p>No hay datos de usuario</p>;
     ///# Secciones User
     case "Ver Información":
-      return (
-        // <InformationModule user={user} modifyContext={loginContext} />
-        <>
-          <p>Información del usuario</p>
-          {user && (
-            <>
-              <div className=" p-2 m-2">
-                <img
-                  src={user?.imgProfile}
-                  alt="Foto de usuario"
-                  width={100}
-                  height={100}
-                  className="rounded m-auto"
-                />
-                <p>Nombre: {user?.name}</p>
-                <p>Email: {user?.email}</p>
-                <p>Telefono: {user?.phone}</p>
-              </div>
-              <ButtonCustom text="Editar" />
-            </>
-          )}
-        </>
-      );
+      return <UserInformation />;
     case "Ver Mascotas":
-      return <PetsModule user={user} />;
+      return <PetsModule />;
     case "Ver Turnos":
       return <AppointsModule user={user} />;
     case "Ver Facturas":

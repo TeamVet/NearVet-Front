@@ -16,7 +16,7 @@ const Pet: React.FC = () => {
   return (
     <Screen>
       <div className="mx-auto mt-5 min-h-28 dark:text-white">
-        <PetsModule user={user} />
+        <PetsModule />
       </div>
     </Screen>
   );

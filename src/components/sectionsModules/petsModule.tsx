@@ -1,14 +1,17 @@
+"use client";
 import CardCustom from "../cardCustom";
 import Image from "next/image";
 import PATHROUTES from "@/helpers/path-routes";
-import { Mascota, PetsModuleProps } from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import ButtonCustom from "../ButtonCustom";
 import { ErrorNotify } from "@/lib/toastyfy";
+import { useUser } from "@/context/UserContext";
+import { Mascota } from "@/types/interfaces";
 
-const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
+const PetsModule: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchMascotas = async () => {
@@ -23,16 +26,20 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
             },
           }
         );
-        if (!response) {
-          throw new Error("Error al obtener mascotas");
-        }
+        if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
+        if (!data) {
+          throw new Error(data.error);
+        }
         if (data.length === 0) {
           return;
         }
+
         setMascotas(data);
       } catch (error) {
-        ErrorNotify(`Error al obtener tus mascotas: ${error}`);
+        ErrorNotify(
+          `Error al obtener tus mascotas: ${error}, intenta logueandote nuevamente`
+        );
       } finally {
         setLoading(false);
       }
@@ -43,9 +50,12 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
     }
   }, [user]);
 
+  console.log(mascotas);
+
   return (
     <div className="w-full m-5">
-      <h3 className="text-xl">Tus Mascotas</h3>
+      <h3 className="text-2xl font-semibold ">Tus Mascotas</h3>
+      <span className="text-gray-400 font-bold">_______________</span>
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <p>Cargando tus mascotas...</p>
@@ -55,7 +65,7 @@ const PetsModule: React.FC<PetsModuleProps> = ({ user }) => {
           {mascotas.length === 0 ? (
             <p>Aún no tienes mascotas</p>
           ) : (
-            mascotas &&
+            mascotas.length > 0 &&
             mascotas.map((mascota) => (
               <CardCustom key={mascota.id} isSelect={"not"}>
                 <div className="my-2">
