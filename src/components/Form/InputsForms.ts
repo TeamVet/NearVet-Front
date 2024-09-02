@@ -50,7 +50,70 @@ export const InputsRegisterUser: InputField[] = [
     validation: registrationValidationSchema.passwordConfirm,
   },
 ];
-export const InputsModifyUser = [];
+
+export const InputsModifyUser: InputField[] = [
+  {
+    name: "name",
+    type: "text",
+    placeholder: "Juan...",
+    label: "Nombre",
+    validation: registrationValidationSchema.nombre,
+    initialValue: "",
+  },
+  {
+    name: "lastname",
+    type: "text",
+    placeholder: "Perez...",
+    label: "Apellido",
+    validation: registrationValidationSchema.apellido,
+    initialValue: "",
+  },
+  {
+    name: "dni",
+    type: "number",
+    placeholder: "30350201",
+    label: "DNI",
+    validation: registrationValidationSchema.DNI,
+    initialValue: "",
+  },
+  {
+    name: "email",
+    type: "email",
+    placeholder: "example@mail.com",
+    label: "Email",
+    validation: registrationValidationSchema.email,
+    initialValue: "",
+  },
+  {
+    name: "phone",
+    type: "number",
+    placeholder: "1123123456",
+    label: "Telefono",
+    validation: registrationValidationSchema.phone,
+    initialValue: "",
+  },
+  {
+    name: "address",
+    type: "text",
+    placeholder: "Calle 123",
+    label: "Dirección",
+    validation: registrationValidationSchema.address,
+    initialValue: "",
+  },
+  {
+    name: "city",
+    type: "text",
+    placeholder: "Bogota",
+    label: "Ciudad",
+    initialValue: "",
+  },
+  {
+    name: "birthday",
+    type: "date",
+    label: "Fecha de Nacimiento",
+    initialValue: "",
+  },
+];
 export const InputsLogin = [
   {
     name: "dni",
