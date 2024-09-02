@@ -8,14 +8,15 @@ import {
 } from "@/helpers/NavItems";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-
 import { useUser } from "@/context/UserContext";
+import useLoading from "@/hooks/LoadingHook";
 
 const NavBar: React.FC = () => {
   const { user, logout } = useUser();
   const [isDark, setIsDark] = useState(false);
   const [navItems, setNavItems] = useState(NavItem);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { loading } = useLoading();
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -113,7 +114,9 @@ const NavBar: React.FC = () => {
         {/* Menu for mobile */}
         <div
           className={`lg:hidden fixed top-0 right-0 w-2/3 h-full bg-white dark:bg-gray-800 transition-transform transform ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
+            isMenuOpen
+              ? "translate-x-0 border-s-4  border-detail border-opacity-85 "
+              : "translate-x-full"
           }`}
         >
           <button

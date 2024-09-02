@@ -26,6 +26,8 @@ export const registrationValidationSchema = {
   passwordConfirm: Yup.string()
     .oneOf([Yup.ref("password"), undefined], "Las contraseñas no coinciden")
     .required("Confirmación de contraseña es obligatoria"),
+  phone: Yup.string(),
+  address: Yup.string(),
 };
 
 // Esquema de validación para login
