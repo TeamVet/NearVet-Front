@@ -2,7 +2,6 @@ import {
   FormValues,
   FormRegisterValues,
   FormNewPet,
-  User,
 } from "../types/interfaces";
 import { fetcher } from "./fetcher";
 

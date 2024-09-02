@@ -1,39 +1,31 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { FormRegisterValues, FormValues, User } from "@/types/interfaces";
+import {
+  FormNewPet,
+  FormRegisterValues,
+  FormValues,
+  User,
+  UserContextType,
+} from "@/types/interfaces";
 import PATHROUTES from "@/helpers/path-routes";
 import {
   LoginController,
+  PetController,
   RegisterController,
   RegisterWithGoogleController,
 } from "@/lib/authController";
-import {
-  ErrorNotify,
-  InfoNotify,
-  PromessNotify,
-  SuccessNotify,
-} from "@/lib/toastyfy";
+import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
 import { useRouter } from "next/navigation";
-
-interface UserContextType {
-  session: any;
-  status: string;
-  user: User | null;
-  loginWithGoogle: () => Promise<void>;
-  loginWithCredentials: (values: FormValues) => Promise<void>;
-  logout: () => void;
-  registerWithCredentials: (values: FormRegisterValues) => Promise<void>;
-}
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,6 +37,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           imgProfile: session?.user?.image!,
           startDate: new Date(),
         };
+
         const register = await RegisterWithGoogleController(values);
         if (register?.id) {
           localStorage.setItem("user", JSON.stringify(register));
@@ -79,7 +72,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const loginWithCredentials = async (values: FormValues) => {
     const login = await LoginController(values);
-
     if (login) {
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
@@ -106,6 +98,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       loginWithCredentials(loginValues);
     }
   };
+
+  const registerPet = async (values: FormNewPet) => {
+    const registerPet = await PetController(
+      values,
+      user?.id as string,
+      user?.token as string
+    );
+    if (registerPet) {
+      InfoNotify("Vamos a ver tus mascotas");
+      router.push(PATHROUTES.PET);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -116,6 +121,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         loginWithCredentials,
         logout,
         registerWithCredentials,
+        registerPet,
       }}
     >
       {children}

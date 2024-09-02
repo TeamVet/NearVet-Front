@@ -67,10 +67,10 @@ export const PetController = async (
   try {
     const response = await PromessNotify(
       "Registrando tu mascota...",
-      "Registrado exitosamente",
+      "Registrada exitosamente",
       addPetService(values, token)
     );
-    if (!response) throw new Error(response.message);
+
     return response;
   } catch (error: any) {
     ErrorNotify(`Error al registrar la mascota: ${error.message}`);
