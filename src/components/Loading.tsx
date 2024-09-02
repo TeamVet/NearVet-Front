@@ -1,12 +1,16 @@
 "use client";
-import useLoading from "@/hooks/LoadingHook";
 
-import { cardio } from "ldrs";
+import type {} from "ldrs";
+import { useEffect } from "react";
 
 const Loading: React.FC = () => {
-  const { loading } = useLoading();
-  cardio.register();
-
+  useEffect(() => {
+    async function getLoader() {
+      const { cardio } = await import("ldrs");
+      cardio.register();
+    }
+    getLoader();
+  }, []);
   return (
     <main className="fixed top-0 left-0 z-20 bg-black bg-opacity-70 h-screen w-screen	items-center justify-center flex">
       <div className="bg-opacity-60  p-10 rounded-lg">

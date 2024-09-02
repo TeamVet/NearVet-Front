@@ -1,6 +1,5 @@
-"use client"; //! Verificar si puede ser serverComponent
+"use client";
 import { AppointsProps, Turnos } from "@/types/interfaces";
-import CardCustom from "../cardCustom";
 import { useEffect, useState } from "react";
 import ButtonCustom from "../ButtonCustom";
 import PATHROUTES from "@/helpers/path-routes";
@@ -10,13 +9,14 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
   const [turnosActivos, setTurnoActivos] = useState<Turnos[]>([]);
 
   useEffect(() => {
-    user?.turnos?.map((turno) => {
-      if (turno.state === "realizado") {
-        setTurnoRealizado([...turnosRealizados, turno]);
-      } else {
-        setTurnoActivos([...turnosActivos, turno]);
-      }
-    });
+    // user?.turnos?.map((turno) => {
+    //   if (turno.state === "realizado") {
+    //     setTurnoRealizado([...turnosRealizados, turno]);
+    //   } else {
+    //     setTurnoActivos([...turnosActivos, turno]);
+    //   }
+    // });
+    //TODO: Fetchear y Renderizar los turnos activos
   }, []);
 
   // nuevo turno
