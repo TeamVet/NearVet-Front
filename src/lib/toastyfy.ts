@@ -1,4 +1,3 @@
-import { Mascota, User } from "@/types/interfaces";
 import { Flip, toast } from "react-toastify";
 
 export const SuccessNotify = (message: string) => {

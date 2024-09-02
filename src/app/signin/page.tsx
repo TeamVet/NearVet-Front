@@ -8,13 +8,21 @@ import ReusableForm from "@/components/Form/FormCustom";
 import { InputsLogin } from "@/components/Form/InputsForms";
 import Link from "next/link";
 import PATHROUTES from "@/helpers/path-routes";
+import useLoading from "@/hooks/LoadingHook";
+import Loading from "@/components/Loading";
+
 const SignIn: React.FC = () => {
   const { loginWithCredentials } = useUser();
+  const { startLoading, stopLoading, loading } = useLoading();
+
   const handleSubmit = async (values: FormValues) => {
-    loginWithCredentials(values);
+    startLoading();
+    await loginWithCredentials(values);
+    stopLoading();
   };
   return (
     <Screen>
+      {loading && <Loading />}
       <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
         <ReusableForm
           formTitle="Iniciar Sesión"

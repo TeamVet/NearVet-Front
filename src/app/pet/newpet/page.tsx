@@ -10,17 +10,21 @@ import { PetController } from "@/lib/authController";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
+import useLoading from "@/hooks/LoadingHook";
+import Loading from "@/components/Loading";
 
 const NewPetForm: React.FC = () => {
-  const [formFields, setFormFields] = useState([...originalInputsRegisterPet]); // Copia del array de inputs
-  const [loading, setLoading] = useState(true);
+  const [formFields, setFormFields] = useState([...originalInputsRegisterPet]);
   const [especieSelect, setEspecieSelect] = useState("");
   const [especie, setEspecie] = useState<{ id: string; specie: string }[]>([]);
   const router = useRouter();
   const { user } = useUser();
+  const { startLoading, stopLoading, loading } = useLoading();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        startLoading();
         const speciesData = await Species(); // Obtener especies
         const sexData = await SexType(); // Obtener sexos
         setEspecie(speciesData);
@@ -37,16 +41,15 @@ const NewPetForm: React.FC = () => {
       } catch (error: any) {
         ErrorNotify(`Error: ${error.message}`);
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     };
 
     fetchData();
   }, []);
 
-  // UseEffect para cargar las razas según la especie seleccionada
   useEffect(() => {
-    if (!especieSelect) return; // No hacer nada si no hay una especie seleccionada
+    if (!especieSelect) return;
     const fetchRaces = async () => {
       try {
         const raceData = await Races(especieSelect); // Obtener razas
@@ -73,6 +76,7 @@ const NewPetForm: React.FC = () => {
       });
   };
   const handleSubmit = async (values: FormNewPet) => {
+    startLoading();
     const response = await PetController(
       values,
       user?.id as string,
@@ -82,20 +86,12 @@ const NewPetForm: React.FC = () => {
       router.push(PATHROUTES.PET);
       return response;
     }
+    stopLoading();
   };
-
-  if (loading) {
-    return (
-      <Screen>
-        <div className="dark:bg-darkBG dark:border-darkBorders p-5 rounded-lg text-center">
-          Cargando datos de especies, razas y sexos...
-        </div>
-      </Screen>
-    );
-  }
 
   return (
     <Screen>
+      {loading && <Loading />}
       <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
         <ReusableForm
           formTitle="Registro de Mascota"
