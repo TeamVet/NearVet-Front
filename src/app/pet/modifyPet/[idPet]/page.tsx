@@ -10,7 +10,10 @@ import { FormNewPet, Mascota } from "@/types/interfaces";
 import Loading from "@/components/Loading";
 import ReusableForm from "@/components/Form/FormCustom";
 import { useUser } from "@/context/UserContext";
-import { fetchPetController, modifyPetController } from "@/lib/authController";
+import {
+  fetchPetIdController,
+  modifyPetController,
+} from "@/lib/authController";
 import { ErrorNotify } from "@/lib/toastyfy";
 
 const ModifyPet: React.FC = () => {
@@ -28,7 +31,7 @@ const ModifyPet: React.FC = () => {
     }
     const fetchMascotas = async () => {
       try {
-        const data = await fetchPetController(
+        const data = await fetchPetIdController(
           idUrl.idPet as string,
           user?.token as string
         );

@@ -243,6 +243,13 @@ export const InputsModifyPet: InputField[] = [
 ];
 export const InputsRegisterAppoint: InputField[] = [
   {
+    name: "petId",
+    type: "select",
+    label: "Mascota",
+    validation: appointmentValidationSchema.pet,
+    options: [],
+  },
+  {
     name: "date",
     type: "date", //TODO: despues debera ser select
     label: "Fecha",

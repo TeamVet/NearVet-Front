@@ -17,7 +17,7 @@ export const registrationValidationSchema = {
       "Ingresa un email valido. Ejemplo: abc@example.com"
     ),
   password: Yup.string()
-    .min(6, "Contraseña debe tener al menos 6 caracteres")
+    .min(8, "Contraseña debe tener al menos 8 caracteres")
     .required("Contraseña es obligatoria")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
@@ -53,6 +53,7 @@ export const petCreationValidationSchema = {
 };
 
 export const appointmentValidationSchema = {
+  pet: Yup.string().required("Seleccionar una mascota es obligatorio"),
   date: Yup.date().required("Fecha es obligatoria"),
   time: Yup.string().required("Hora es obligatoria"),
   service: Yup.string().required("Seleccionar un servicio es obligatorio"),

@@ -13,6 +13,7 @@ const PATHROUTES = {
   TERMS: "/terms",
   PRIVACY: "/privacypolicy",
   APPOINTMENT: "/appointment",
+  NEWAPPOINTMEN: "/appointment/newAppointment",
 };
 
 export default PATHROUTES;

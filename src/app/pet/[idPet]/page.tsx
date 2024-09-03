@@ -6,7 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { calculateAge } from "@/helpers/calcularEdad";
 import { userPetsCards } from "@/helpers/dashBoardCards";
 import PATHROUTES from "@/helpers/path-routes";
-import { fetchPetController } from "@/lib/authController";
+import { fetchPetIdController } from "@/lib/authController";
 import { ErrorNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
@@ -26,7 +26,7 @@ const PetIndividual: React.FC = () => {
       return;
     }
     const fetchMascotas = async () => {
-      const data = await fetchPetController(
+      const data = await fetchPetIdController(
         idUrl.idPet as string,
         user?.token as string
       );

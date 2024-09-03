@@ -3,21 +3,44 @@ import { AppointsProps, Turnos } from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import ButtonCustom from "../ButtonCustom";
 import PATHROUTES from "@/helpers/path-routes";
+import { fetchAppointController } from "@/lib/authController";
+import useLoading from "@/hooks/LoadingHook";
+import Loading from "../Loading";
 
 const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
+  const [turnos, setTurnos] = useState<Turnos[]>([]);
   const [turnosRealizados, setTurnoRealizado] = useState<Turnos[]>([]);
   const [turnosActivos, setTurnoActivos] = useState<Turnos[]>([]);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
-    // user?.turnos?.map((turno) => {
-    //   if (turno.state === "realizado") {
-    //     setTurnoRealizado([...turnosRealizados, turno]);
-    //   } else {
-    //     setTurnoActivos([...turnosActivos, turno]);
-    //   }
-    // });
-    //TODO: Fetchear y Renderizar los turnos activos
+    const fetchTurnos = async () => {
+      try {
+        startLoading();
+        const turnos = await fetchAppointController(
+          user?.id as string,
+          user?.token as string
+        );
+        setTurnos(turnos);
+      } finally {
+        stopLoading();
+      }
+    };
+
+    if (user) {
+      fetchTurnos();
+    }
   }, []);
+
+  useEffect(() => {
+    turnos?.map((turno) => {
+      if (turno.state === "realizado") {
+        setTurnoRealizado([...turnosRealizados, turno]);
+      } else {
+        setTurnoActivos([...turnosActivos, turno]);
+      }
+    });
+  }, [turnos]);
 
   // nuevo turno
   // -->cupones de descuento
@@ -29,9 +52,10 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
   //TODO pagina para renderizar turnos activos
   return (
     <div className="flex flex-col  gap-4 justify-center">
+      {loading && <Loading />}
       <h3 className="text-xl">Turnos</h3>
 
-      {user && user.turnos ? (
+      {turnos && turnos.length > 0 ? (
         <>
           <th className="italic">Turnos Activos</th>
           <table className="text-center border m-5 cursor-default">
@@ -79,7 +103,7 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
           <p>No hay turnos agendados</p>
         </>
       )}
-      <ButtonCustom text="Agendar Turno" href={PATHROUTES.APPOINTMENT} />
+      <ButtonCustom text="Agendar Turno" href={PATHROUTES.NEWAPPOINTMEN} />
     </div>
   );
 };
