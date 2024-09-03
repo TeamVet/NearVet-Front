@@ -15,6 +15,7 @@ import {
   IoTicketSharp,
   IoMedicalSharp,
   IoPersonAddSharp,
+  IoPencilSharp,
 } from "react-icons/io5";
 export const PawIcon: React.FC<IconProps> = ({ size }) => (
   <IoPawSharp color="#8E44AD" className={`text-${size}`} />
@@ -47,6 +48,10 @@ export const ClipboardIcon: React.FC<IconProps> = ({ size }) => {
 
 export const StoreIcon: React.FC<IconProps> = ({ size }) => {
   return <IoStorefrontSharp color="#8E44AD" className={`text-${size}`} />;
+};
+
+export const PencilIcon: React.FC<IconProps> = ({ size }) => {
+  return <IoPencilSharp color="#8E44AD" className={`text-${size}`} />;
 };
 
 export const MailIcon: React.FC<IconProps> = ({ size, isMail }) => {
