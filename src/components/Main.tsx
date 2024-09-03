@@ -6,7 +6,7 @@ import VetCard from "./VetCard";
 const Main: React.FC = () => {
   return (
     <div className="flex flex-col w-full gap-12">
-      <div className="flex gap-28 p-10">
+      <div className="flex flex-col md:flex-row gap-28 p-10">
         <div className="w-full flex flex-col gap-5">
           <h1 className="text-start font-bold text-4xl dark:text-darkHline">
             NearVet
@@ -31,7 +31,7 @@ const Main: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="w-3/5">
+        <div className="lg:w-3/5">
           <img
             className="w-full rounded-md"
             src="https://res.cloudinary.com/dvj0ded3x/image/upload/v1724516607/e-8_shgqns.png"
@@ -52,7 +52,7 @@ const Main: React.FC = () => {
           descuida{" "}
           <span className="font-bold text-primary">¡Te tenemos cubierto!</span>
         </p>
-        <div className="flex gap-20">
+        <div className="flex flex-col lg:flex-row gap-20">
           <div className="w-full flex flex-col gap-5">
             <div className="flex flex-col justify-center h-full">
               <ul className="flex flex-col gap-10 text-start text-lg">
@@ -89,7 +89,7 @@ const Main: React.FC = () => {
               </ul>
             </div>
           </div>
-          <div className="w-3/5">
+          <div className="lg:w-3/5">
             <img
               className="w-full rounded-md"
               src="https://res.cloudinary.com/dvj0ded3x/image/upload/v1724518723/How-to-become-a-vet_banner_xa9mlo.jpg"
@@ -110,7 +110,7 @@ const Main: React.FC = () => {
           calificadas en tu área. Agenda citas, lee reseñas, y encuentra el
           match perfecto para tu mascota.
         </p>
-        <div className="flex gap-20 justify-between">
+        <div className="flex flex-row flex-wrap gap-10 justify-center">
           {/* Hacer aquí el map de vets para mostrar las VetCards. */}
           <VetCard
             id={1}
