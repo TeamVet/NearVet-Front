@@ -53,7 +53,7 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
   return (
     <div className="flex flex-col  gap-4 justify-center">
       {loading && <Loading />}
-      <h3 className="text-xl">Turnos</h3>
+      <h3 className="text-2xl font-semibold dark:text-darkHline">Turnos</h3>
 
       {turnos && turnos.length > 0 ? (
         <>

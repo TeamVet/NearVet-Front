@@ -4,9 +4,8 @@ import { SectionContentProps, User } from "@/types/interfaces";
 
 import AppointsModule from "./appointsModule";
 import PetsModule from "./petsModule";
-import Image from "next/image";
-import ButtonCustom from "../ButtonCustom";
 import UserInformation from "./UserInformation";
+import { ErrorNotify } from "@/lib/toastyfy";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   const { user } = useUser();
@@ -24,16 +23,20 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     case "Ver Facturas":
       return (
         <div>
-          <h3 className="text-xl">Facturas</h3>
-          {/* Renderizar las facturas */}
+          <h3 className="text-2xl font-semibold dark:text-darkHline">
+            Facturas
+          </h3>
+          <h4>Aún no tienes facturas</h4>
         </div>
       );
     case "Ver Veterinaria Favorita":
       return (
         <div>
           <h3 className="text-xl">Veterinaria Favorita</h3>
-          <p>{user?.veterinariafavorita}</p>
-          <button>change</button>
+          <p>No tienes una veterinaria favorita</p>
+          <button onClick={() => ErrorNotify("Funcionalidad no disponible")}>
+            Cambiar
+          </button>
         </div>
       );
     ///# Secciones Pets
