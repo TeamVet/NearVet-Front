@@ -8,10 +8,13 @@ import { FormRegisterValues, User } from "@/types/interfaces";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { modifyUserService } from "@/lib/authService";
+import { Modal } from "../Modal";
+import { IoPencil } from "react-icons/io5";
 
 const UserInformation: React.FC = () => {
   const [formFields, setFormFields] = useState([...originalInputsModifyUser]);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const [modal, setModal] = useState<boolean>(false);
   const { loading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
@@ -41,11 +44,27 @@ const UserInformation: React.FC = () => {
     }
   };
 
+  const onCloseModal = () => {
+    setModal(false);
+  };
   return (
     <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto my-2">
       {loading && <Loading />}
-      <h3 className="text-2xl font-semibold">Tus Datos</h3>
-      <div className="flex flex-col md:flex-row gap-5 items-center">
+      <Modal
+        isOpen={modal}
+        onClose={onCloseModal}
+        id={user!.id as string}
+        token={user!.token as string}
+        type="profile"
+      />
+      <h3 className="text-2xl font-semibold dark:text-darkHline">Tus Datos</h3>
+      <div className="flex flex-col md:flex-row gap-5 items-center relative p-2">
+        <button
+          className="font-semibold text-2xl absolute top-0 right-0"
+          onClick={() => setModal(true)}
+        >
+          <IoPencil />
+        </button>
         <Image
           src={user!.imgProfile}
           width={100}

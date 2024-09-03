@@ -114,22 +114,6 @@ export const InputsModifyUser: InputField[] = [
     label: "Fecha de Nacimiento",
     initialValue: "",
   },
-  {
-    name: "password",
-    type: "password",
-    placeholder: "******",
-    label: "Contraseña",
-    validation: registrationValidationSchema.password,
-    initialValue: "",
-  },
-  {
-    name: "passwordConfirm",
-    type: "password",
-    placeholder: "******",
-    label: "Confirmación de Contraseña",
-    validation: registrationValidationSchema.passwordConfirm,
-    initialValue: "",
-  },
 ];
 export const InputsLogin = [
   {
