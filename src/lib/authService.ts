@@ -52,6 +52,41 @@ export const registerGoogleService = async (values: FormRegisterValues) => {
   }
 };
 
+export const modifyUserService = async (
+  values: FormRegisterValues,
+  id: string,
+  token: string
+) => {
+  const dataModify = {
+    url: `/users/${id}`, //TODO despues pasarlo a .env
+    method: "PUT" as const,
+    data: values,
+    token,
+  };
+  try {
+    const responseModify = await fetcher(dataModify);
+    if (!responseModify.id) throw new Error(responseModify.message);
+    return responseModify;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchPetService = async (idPet: string, token: string) => {
+  const dataPet = {
+    url: `/pets/${idPet}`, //TODO despues pasarlo a .env
+    method: "GET" as const,
+    token,
+  };
+  try {
+    const responsePet = await fetcher(dataPet);
+    if (!responsePet.id) throw new Error(responsePet.message);
+    return responsePet;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 export const addPetService = async (values: FormNewPet, token: string) => {
   const dataPet = {
     url: `/pets`, //TODO despues pasarlo a .env
@@ -63,6 +98,26 @@ export const addPetService = async (values: FormNewPet, token: string) => {
     const responsePet = await fetcher(dataPet);
     if (!responsePet.id) throw new Error(responsePet.message);
     return responsePet;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const modifyPetService = async (
+  values: FormNewPet,
+  petId: string,
+  token: string
+) => {
+  const dataModify = {
+    url: `/pets/${petId}`, //TODO despues pasarlo a .env
+    method: "PUT" as const,
+    data: values,
+    token,
+  };
+  try {
+    const responseModify = await fetcher(dataModify);
+    if (!responseModify.id) throw new Error(responseModify.message);
+    return responseModify;
   } catch (error: any) {
     throw new Error(error.message);
   }

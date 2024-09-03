@@ -105,12 +105,29 @@ export const InputsModifyUser: InputField[] = [
     type: "text",
     placeholder: "Bogota",
     label: "Ciudad",
+    validation: registrationValidationSchema.city,
     initialValue: "",
   },
   {
     name: "birthday",
     type: "date",
     label: "Fecha de Nacimiento",
+    initialValue: "",
+  },
+  {
+    name: "password",
+    type: "password",
+    placeholder: "******",
+    label: "Contraseña",
+    validation: registrationValidationSchema.password,
+    initialValue: "",
+  },
+  {
+    name: "passwordConfirm",
+    type: "password",
+    placeholder: "******",
+    label: "Confirmación de Contraseña",
+    validation: registrationValidationSchema.passwordConfirm,
     initialValue: "",
   },
 ];
@@ -188,7 +205,42 @@ export const InputsRegisterPet: InputField[] = [
     validation: petCreationValidationSchema.observaciones,
   },
 ];
-export const InputsModifyPet = [];
+export const InputsModifyPet: InputField[] = [
+  {
+    name: "name",
+    type: "text",
+    label: "Nombre",
+    placeholder: "Firulais",
+    validation: petCreationValidationSchema.nombre,
+  },
+  {
+    name: "birthdate",
+    type: "date",
+    label: "Fecha de Nacimiento",
+    validation: petCreationValidationSchema.nacimiento,
+  },
+  {
+    name: "color",
+    type: "text",
+    placeholder: "Negro con manchas blancas...",
+    label: "Color",
+    validation: petCreationValidationSchema.color,
+  },
+  {
+    name: "observation",
+    type: "text",
+    label: "Observaciones",
+    placeholder: "Muerde mucho...",
+    validation: petCreationValidationSchema.observaciones,
+  },
+  {
+    name: "weightCurrent",
+    type: "number",
+    label: "Peso Actual",
+    placeholder: "0kg",
+    validation: petCreationValidationSchema.pesoActual,
+  },
+];
 export const InputsRegisterAppoint: InputField[] = [
   {
     name: "date",

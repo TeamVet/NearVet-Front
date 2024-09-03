@@ -6,6 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { calculateAge } from "@/helpers/calcularEdad";
 import { userPetsCards } from "@/helpers/dashBoardCards";
 import PATHROUTES from "@/helpers/path-routes";
+import { fetchPetController } from "@/lib/authController";
 import { ErrorNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
@@ -25,21 +26,10 @@ const PetIndividual: React.FC = () => {
       return;
     }
     const fetchMascotas = async () => {
-      const response = await fetch(
-        `https://nearvet-latest.onrender.com/pets/${idUrl?.idPet}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        }
+      const data = await fetchPetController(
+        idUrl.idPet as string,
+        user?.token as string
       );
-      if (!response) {
-        ErrorNotify("Error al obtener la mascota");
-        return;
-      }
-      const data = await response.json();
-      console.log(data);
       const dataAndAge = { ...data, age: calculateAge(data.birthdate) };
       setMascota(dataAndAge);
     };
@@ -72,7 +62,10 @@ const PetIndividual: React.FC = () => {
               <p>Sexo: {mascota?.sex.sex}</p>
               <p>Fecha de Nacimiento: {mascota.birthdate}</p>
               <p>Edad: {mascota.age} años </p>
-              <ButtonCustom text="Editar" />
+              <ButtonCustom
+                text="Editar"
+                href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
+              />
               <br />
               <ButtonCustom text="Necesita Atención medica" />
             </div>

@@ -6,7 +6,7 @@ import { ErrorNotify } from "@/lib/toastyfy";
 import { useEffect, useState } from "react";
 import { InputsRegisterPet as originalInputsRegisterPet } from "@/components/Form/InputsForms";
 import { FormNewPet } from "@/types/interfaces";
-import { PetController } from "@/lib/authController";
+import { petController } from "@/lib/authController";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
@@ -77,7 +77,7 @@ const NewPetForm: React.FC = () => {
   };
   const handleSubmit = async (values: FormNewPet) => {
     startLoading();
-    const response = await PetController(
+    const response = await petController(
       values,
       user?.id as string,
       user?.token as string
