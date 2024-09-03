@@ -72,7 +72,21 @@ export const modifyUserService = async (
   }
 };
 
-export const fetchPetService = async (idPet: string, token: string) => {
+export const fetchPetsService = async (userId: string, token: string) => {
+  const dataPets = {
+    url: `/pets/user/${userId}`, //TODO despues pasarlo a .env
+    method: "GET" as const,
+    token,
+  };
+  try {
+    const responsePets = await fetcher(dataPets);
+    if (!responsePets.id) throw new Error(responsePets.message);
+    return responsePets;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+export const fetchPetIdService = async (idPet: string, token: string) => {
   const dataPet = {
     url: `/pets/${idPet}`, //TODO despues pasarlo a .env
     method: "GET" as const,
@@ -82,6 +96,21 @@ export const fetchPetService = async (idPet: string, token: string) => {
     const responsePet = await fetcher(dataPet);
     if (!responsePet.id) throw new Error(responsePet.message);
     return responsePet;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchAppointService = async (userId: string, token: string) => {
+  const dataAppoint = {
+    url: `/appointments/user${userId}`, //TODO despues pasarlo a .env
+    method: "GET" as const,
+    token,
+  };
+  try {
+    const responseAppoint = await fetcher(dataAppoint);
+    if (!responseAppoint.id) throw new Error(responseAppoint.message);
+    return responseAppoint;
   } catch (error: any) {
     throw new Error(error.message);
   }

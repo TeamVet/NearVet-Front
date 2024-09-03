@@ -12,7 +12,7 @@ import PATHROUTES from "@/helpers/path-routes";
 import {
   loginController,
   petController,
-  registerController,
+  registerUserController,
   registerWithGoogleController,
 } from "@/lib/authController";
 import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
@@ -91,7 +91,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const registerWithCredentials = async (values: FormRegisterValues) => {
-    const register = await registerController(values);
+    const register = await registerUserController(values);
     if (register) {
       InfoNotify("Intentamos loguearte");
       const loginValues = { dni: values.dni!, password: values.password! };

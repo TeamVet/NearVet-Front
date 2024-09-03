@@ -6,7 +6,9 @@ import {
 } from "@/types/interfaces";
 import {
   addPetService,
-  fetchPetService,
+  fetchAppointService,
+  fetchPetIdService,
+  fetchPetsService,
   LoginService,
   modifyPetService,
   modifyUserService,
@@ -28,7 +30,11 @@ export const loginController = async (values: FormValues) => {
   }
 };
 
-export const registerController = async (values: FormRegisterValues) => {
+export const registerUserController = async (values: FormRegisterValues) => {
+  values = {
+    ...values,
+    startDate: new Date(),
+  };
   try {
     const response = await PromessNotify(
       "Registrandote...",
@@ -74,12 +80,29 @@ export const modyfyUserController = async (
   }
 };
 
-export const fetchPetController = async (idPet: string, token: string) => {
+export const fetchPetsController = async (userId: string, token: string) => {
   try {
-    const response = await fetchPetService(idPet, token);
+    const response = await fetchPetsService(userId, token);
     return response;
   } catch (error: any) {
     ErrorNotify(`Error al cargar tus mascotas: ${error.message}`);
+  }
+};
+export const fetchPetIdController = async (idPet: string, token: string) => {
+  try {
+    const response = await fetchPetIdService(idPet, token);
+    return response;
+  } catch (error: any) {
+    ErrorNotify(`Error al cargar tus mascotas: ${error.message}`);
+  }
+};
+
+export const fetchAppointController = async (userId: string, token: string) => {
+  try {
+    const response = await fetchAppointService(userId, token);
+    return response;
+  } catch (error: any) {
+    ErrorNotify(`Error al cargar tus turnos: ${error.message}`);
   }
 };
 export const petController = async (
