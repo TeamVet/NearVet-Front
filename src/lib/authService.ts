@@ -3,7 +3,7 @@ import {
   FormRegisterValues,
   FormNewPet,
 } from "../types/interfaces";
-import { fetcher } from "./fetcher";
+import { fetcher, fetcherImg } from "./fetcher";
 
 const API_BASE_URL = "https://nearvet-latest.onrender.com";
 
@@ -153,18 +153,20 @@ export const modifyPetService = async (
 };
 
 export const modifyImgPetService = async (
-  petId: string,
+  Id: string,
   token: string,
-  file: string
+  File: any,
+  type: "profile" | "pet"
 ) => {
   const dataModify = {
-    url: `/pets/imgProfile/${petId}`, //TODO despues pasarlo a .env
+    url:
+      type === "profile" ? `/users/imgProfile/${Id}` : `/pets/imgProfile/${Id}`,
     method: "PUT" as const,
-    data: { file },
+    data: File,
     token,
   };
   try {
-    const responseModify = await fetcher(dataModify);
+    const responseModify = await fetcherImg(dataModify);
     if (!responseModify.id) throw new Error(responseModify.message);
     return responseModify;
   } catch (error: any) {

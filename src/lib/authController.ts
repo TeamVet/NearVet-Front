@@ -150,17 +150,19 @@ export const modifyPetController = async (
   }
 };
 
-export const modifyImagenPetController = async (
-  petId: string,
+export const modifyImagenController = async (
+  Id: string,
   token: string,
-  file: string
-) => {
+  File: any,
+  type: "profile" | "pet"
+): Promise<User | undefined> => {
   try {
     const responseModify = await PromessNotify(
       "Modificando la imagen...",
       "Modificada exitosamente",
-      modifyImgPetService(petId, token, file)
+      modifyImgPetService(Id, token, File, type)
     );
+    return responseModify;
   } catch (error: any) {
     ErrorNotify(`Error al modificar la imagen: ${error.message}`);
   }

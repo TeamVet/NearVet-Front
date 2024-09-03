@@ -120,6 +120,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         session,
         status,
         user,
+        setUser,
         loginWithGoogle,
         loginWithCredentials,
         logout,

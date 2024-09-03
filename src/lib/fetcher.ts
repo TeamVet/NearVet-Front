@@ -22,3 +22,23 @@ export const fetcher = async ({ url, method, token, data }: fetcherProps) => {
     throw new Error(error.message);
   }
 };
+export const fetcherImg = async ({
+  url,
+  method,
+  token,
+  data,
+}: fetcherProps) => {
+  try {
+    const response = await fetch(`${apiUrl}${url}`, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+    const dataResponse = await response.json();
+    return dataResponse;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
