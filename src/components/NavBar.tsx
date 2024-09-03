@@ -106,7 +106,7 @@ const NavBar: React.FC = () => {
           <span>☰</span>
         </button>
         {/* Menu for desktop */}
-        <div className="hidden lg:flex flex-row gap-4 items-center">
+        <div className="hidden lg:flex flex-row gap-4 items-baseline align-baseline">
           {navItems.map((item) =>
             item.name !== "Salir" ? (
               <Link
@@ -152,7 +152,7 @@ const NavBar: React.FC = () => {
           >
             ×
           </button>
-          <div className="flex flex-col items-center mt-16 ">
+          <div className="flex flex-col items-center mt-16">
             {navItems.map((item) =>
               item.name !== "Salir" ? (
                 <Link
