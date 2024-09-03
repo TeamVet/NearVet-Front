@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ButtonCustom from "./ButtonCustom";
 import { modifyImagenController } from "@/lib/authController";
 import { ErrorNotify } from "@/lib/toastyfy";
 import { useUser } from "@/context/UserContext";
-
-interface ModalProps {
-  isOpen: boolean;
-  id: string;
-  token: string;
-  onClose: () => void;
-  type: "profile" | "pet";
-}
+import { ModalProps } from "@/types/interfaces";
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -21,8 +14,8 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   const [File, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
-  const [response, setResponse] = useState<any>();
   const { setUser, user } = useUser();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -92,8 +85,6 @@ export const Modal: React.FC<ModalProps> = ({
     formData.append("file", File);
 
     try {
-      const formData = new FormData();
-      formData.append("file", File);
       const responseImagen = await modifyImagenController(
         id,
         token,
@@ -117,21 +108,39 @@ export const Modal: React.FC<ModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      aria-describedby="modal-description"
+      aria-describedby="input-description"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
+      onClick={(e) => {
+        // Evitar que el clic en el fondo del modal dispare el explorador de archivos
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
-      <div className="bg-white rounded-lg shadow-lg p-4 max-w-sm min-w-96  mx-auto">
+      <div className="bg-white rounded-lg shadow-lg p-4 max-w-sm min-w-96 mx-auto">
         <h2 id="modal-title" className="text-lg font-semibold mb-2">
           Cargar Imagen
         </h2>
-        <form>
+        <div className="">
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/jpeg, image/png, image/webp"
+            id="input-description"
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setFile(e.target.files[0]);
+              }
+            }}
+          />
           <div
-            id="modal-description"
             className={`mb-4 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-all ${
               dragging ? "border-blue-600 bg-blue-100" : "border-gray-300"
             }`}
+            onClick={() => inputRef.current?.click()} // Esto abre el explorador de archivos
           >
             {File ? (
               <p className="text-center text-green-600">{File.name}</p>
@@ -141,20 +150,20 @@ export const Modal: React.FC<ModalProps> = ({
               </p>
             )}
           </div>
-          <div className="grid grid-cols-2  gap-2">
-            <ButtonCustom text="Cargar" onClick={handleSubmit} />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <ButtonCustom text="Cargar" onClick={handleSubmit} />
 
-            <button
-              onClick={() => {
-                setFile(null);
-                onClose();
-              }}
-              className="px-5 py-2 m-auto rounded-lg bg-red-600 text-white  hover:bg-red-700 text-lg"
-            >
-              Cerrar
-            </button>
-          </div>
-        </form>
+          <button
+            onClick={() => {
+              setFile(null);
+              onClose();
+            }}
+            className="px-5 py-2 m-auto rounded-lg bg-red-600 text-white hover:bg-red-700 text-lg"
+          >
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>
   );

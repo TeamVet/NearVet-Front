@@ -50,6 +50,14 @@ export interface SectionContentProps {
   section: string | null;
 }
 
+export interface ModalProps {
+  isOpen: boolean;
+  id: string;
+  token: string;
+  onClose: () => void;
+  type: "profile" | "pet";
+}
+
 ///# Interfaces de Iconos y NavBar
 
 export interface IconProps {
