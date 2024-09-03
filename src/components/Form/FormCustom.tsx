@@ -57,7 +57,9 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
         >
           {inputs.map((input) => (
             <div
-              className={` ${displayRow ? "w-full md:w-1/3" : "w-full"}`}
+              className={` ${
+                displayRow ? "w-full md:w-1/3  p-2" : "w-full p-2"
+              }`}
               key={input.name}
             >
               <label
@@ -105,7 +107,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                   id={input.name}
                   name={input.name}
                   type={input.type}
-                  placeholder={input.placeholder}
+                  placeholder={input.placeholder || ""}
                   value={formik.values[input.name]}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -120,9 +122,11 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
               <div className="h-4 ">
                 {formik.touched[input.name] &&
                 typeof formik.errors[input.name] === "string" ? (
-                  <p className="mt-2 text-sm text-red-600">
-                    {formik.errors[input.name]?.toString() || ""}
-                  </p>
+                  <div className=" text-center bg-white">
+                    <p className=" text-sm text-red-600">
+                      {formik.errors[input.name]?.toString() || ""}
+                    </p>
+                  </div>
                 ) : null}
               </div>
             </div>
