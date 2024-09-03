@@ -10,6 +10,7 @@ import { Mascota } from "@/types/interfaces";
 import { fetchPetsController } from "@/lib/authController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
+import Screen from "../Screen";
 
 const PetsModule: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -35,7 +36,7 @@ const PetsModule: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="w-full">
+    <Screen>
       {loading && <Loading />}
       <h3 className="text-2xl font-semibold dark:text-darkHline">
         Tus Mascotas
@@ -73,10 +74,9 @@ const PetsModule: React.FC = () => {
             </CardCustom>
           ))
         )}
-
-        <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
       </div>
-    </div>
+      <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
+    </Screen>
   );
 };
 
