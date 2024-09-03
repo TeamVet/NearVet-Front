@@ -49,7 +49,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
     };
-    if (user) {
+    if (!user) {
       fetchUser();
     }
   }, [session]);
