@@ -75,6 +75,7 @@ export interface UserContextType {
   session: any;
   status: string;
   user: User | null;
+  setUser: (user: User | null) => void;
   loginWithGoogle: () => Promise<void>;
   loginWithCredentials: (values: FormValues) => Promise<void>;
   logout: () => void;
