@@ -6,7 +6,7 @@ import {
   NavItemAdmin,
   NavItemVet,
 } from "@/helpers/NavItems";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import useLoading from "@/hooks/LoadingHook";
@@ -18,6 +18,7 @@ const NavBar: React.FC = () => {
   const [navItems, setNavItems] = useState(NavItem);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { loading } = useLoading();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -54,13 +55,37 @@ const NavBar: React.FC = () => {
           setNavItems(NavItemVet);
           break;
         default:
-          setNavItems(NavItem); // Caso error con el role
+          setNavItems(NavItem);
           break;
       }
     } else {
       setNavItems(NavItem);
     }
   }, [user]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !(menuRef.current as HTMLDivElement).contains(
+          event.target as Node | null
+        )
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
   const isMail = true; //TODO necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
 
   return (
@@ -81,7 +106,7 @@ const NavBar: React.FC = () => {
           <span>☰</span>
         </button>
         {/* Menu for desktop */}
-        <div className="hidden lg:flex flex-row gap-4">
+        <div className="hidden lg:flex flex-row gap-4 items-center">
           {navItems.map((item) =>
             item.name !== "Salir" ? (
               <Link
@@ -114,6 +139,7 @@ const NavBar: React.FC = () => {
         </div>
         {/* Menu for mobile */}
         <div
+          ref={menuRef}
           className={`lg:hidden fixed top-0 right-0 w-2/3 h-full bg-white dark:bg-gray-800 transition-transform transform ${
             isMenuOpen
               ? "translate-x-0 border-s-4  border-detail border-opacity-85 "
@@ -121,12 +147,12 @@ const NavBar: React.FC = () => {
           }`}
         >
           <button
-            className="absolute top-4 left-4 text-2xl"
+            className="absolute top-4 right-4 text-2xl"
             onClick={() => setIsMenuOpen(false)}
           >
             ×
           </button>
-          <div className="flex flex-col items-center mt-16">
+          <div className="flex flex-col items-center mt-16 ">
             {navItems.map((item) =>
               item.name !== "Salir" ? (
                 <Link
@@ -135,7 +161,7 @@ const NavBar: React.FC = () => {
                   className="text-detail my-4 text-2xl"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <div className="flex flex-col gap-2 items-center">
+                  <div className="flex lg:flex-col gap-2 items-center">
                     {React.cloneElement(
                       <item.icon />,
                       item.icon === MailIcon ? { isMail } : { size: "default" }
@@ -149,7 +175,7 @@ const NavBar: React.FC = () => {
                   className="text-detail my-4 text-2xl"
                   onClick={() => logout()}
                 >
-                  <div className="flex flex-col gap-2 items-center">
+                  <div className="flex lg:flex-col gap-2 items-center">
                     {item.icon({ size: "default" })}
                     <p className="text-base">{item.name}</p>
                   </div>
