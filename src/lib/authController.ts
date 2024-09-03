@@ -10,6 +10,7 @@ import {
   fetchPetIdService,
   fetchPetsService,
   LoginService,
+  modifyImgPetService,
   modifyPetService,
   modifyUserService,
   registerGoogleService,
@@ -146,5 +147,21 @@ export const modifyPetController = async (
     );
   } catch (error: any) {
     ErrorNotify(`Error al modificar la mascota: ${error.message}`);
+  }
+};
+
+export const modifyImagenPetController = async (
+  petId: string,
+  token: string,
+  file: string
+) => {
+  try {
+    const responseModify = await PromessNotify(
+      "Modificando la imagen...",
+      "Modificada exitosamente",
+      modifyImgPetService(petId, token, file)
+    );
+  } catch (error: any) {
+    ErrorNotify(`Error al modificar la imagen: ${error.message}`);
   }
 };

@@ -80,7 +80,7 @@ export const fetchPetsService = async (userId: string, token: string) => {
   };
   try {
     const responsePets = await fetcher(dataPets);
-    if (!responsePets.id) throw new Error(responsePets.message);
+    if (!responsePets) throw new Error(responsePets.message);
     return responsePets;
   } catch (error: any) {
     throw new Error(error.message);
@@ -151,6 +151,27 @@ export const modifyPetService = async (
     throw new Error(error.message);
   }
 };
+
+export const modifyImgPetService = async (
+  petId: string,
+  token: string,
+  file: string
+) => {
+  const dataModify = {
+    url: `/pets/imgProfile/${petId}`, //TODO despues pasarlo a .env
+    method: "PUT" as const,
+    data: { file },
+    token,
+  };
+  try {
+    const responseModify = await fetcher(dataModify);
+    if (!responseModify.id) throw new Error(responseModify.message);
+    return responseModify;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 export const Species = async () => {
   const response = await fetch(`${API_BASE_URL}/pets/species`, {
     method: "GET",
