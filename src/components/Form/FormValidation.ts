@@ -36,7 +36,10 @@ export const registrationValidationSchema = {
 
 // Esquema de validación para login
 export const loginValidationSchema = {
-  DNI: Yup.string().required("DNI es obligatorio"),
+  DNI: Yup.string()
+    .matches(/^\d+$/, "DNI debe ser un número positivo")
+    .max(8, "DNI no puede tener más de 8 dígitos")
+    .required("DNI es obligatorio"),
   contrasenia: Yup.string().required("Contraseña es obligatoria"),
 };
 
