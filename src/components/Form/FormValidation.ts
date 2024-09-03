@@ -21,7 +21,7 @@ export const registrationValidationSchema = {
     .required("Contraseña es obligatoria")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
-      "Debes ingresar al menos una letra Mayuscula, una minuscula, un numero y un caracter especial."
+      "Tiene que ser al menos una Mayúscula, Minúscula, número y un caracter especial."
     ),
   passwordConfirm: Yup.string()
     .oneOf([Yup.ref("password"), undefined], "Las contraseñas no coinciden")

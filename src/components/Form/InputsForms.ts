@@ -15,7 +15,7 @@ export const InputsRegisterUser: InputField[] = [
     validation: registrationValidationSchema.nombre,
   },
   {
-    name: "lastname",
+    name: "lastName",
     type: "text",
     placeholder: "Perez...",
     label: "Apellido",
@@ -61,7 +61,7 @@ export const InputsModifyUser: InputField[] = [
     initialValue: "",
   },
   {
-    name: "lastname",
+    name: "lastName",
     type: "text",
     placeholder: "Perez...",
     label: "Apellido",
