@@ -10,10 +10,10 @@ import {
 } from "@/types/interfaces";
 import PATHROUTES from "@/helpers/path-routes";
 import {
-  LoginController,
-  PetController,
-  RegisterController,
-  RegisterWithGoogleController,
+  loginController,
+  petController,
+  registerController,
+  registerWithGoogleController,
 } from "@/lib/authController";
 import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
 import { useRouter } from "next/navigation";
@@ -38,7 +38,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           startDate: new Date(),
         };
 
-        const register = await RegisterWithGoogleController(values);
+        const register = await registerWithGoogleController(values);
         if (register?.id) {
           localStorage.setItem("user", JSON.stringify(register));
           document.cookie = `auth-token=${JSON.stringify(
@@ -71,7 +71,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const loginWithCredentials = async (values: FormValues) => {
-    const login = await LoginController(values);
+    const login = await loginController(values);
     if (login) {
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
@@ -91,7 +91,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const registerWithCredentials = async (values: FormRegisterValues) => {
-    const register = await RegisterController(values);
+    const register = await registerController(values);
     if (register) {
       InfoNotify("Intentamos loguearte");
       const loginValues = { dni: values.dni!, password: values.password! };
@@ -100,7 +100,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const registerPet = async (values: FormNewPet) => {
-    const registerPet = await PetController(
+    const registerPet = await petController(
       values,
       user?.id as string,
       user?.token as string

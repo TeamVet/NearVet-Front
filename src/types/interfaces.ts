@@ -113,7 +113,6 @@ export interface Mascota {
   color: string;
   weightCurrent: string;
   observation: string;
-  image: string;
   userId: string | undefined;
   specie: {
     id: string;

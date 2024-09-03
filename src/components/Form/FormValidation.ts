@@ -26,8 +26,12 @@ export const registrationValidationSchema = {
   passwordConfirm: Yup.string()
     .oneOf([Yup.ref("password"), undefined], "Las contraseñas no coinciden")
     .required("Confirmación de contraseña es obligatoria"),
-  phone: Yup.string(),
-  address: Yup.string(),
+  phone: Yup.string().matches(
+    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+    "Ingresa un telefono valido. Ejemplo: 12345678"
+  ),
+  address: Yup.string().min(1, "La dirección debe tener 1 o más caracteres"),
+  city: Yup.string().min(1, "La ciudad debe tener 1 o más caracteres"),
 };
 
 // Esquema de validación para login

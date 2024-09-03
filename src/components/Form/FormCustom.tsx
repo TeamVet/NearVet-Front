@@ -51,7 +51,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
         <div
           className={`${
             displayRow
-              ? "flex flex-row flex-wrap gap-1 justify-center"
+              ? "flex flex-row flex-wrap gap-1 justify-center items-end"
               : "w-full md:w-1/2 lg:w-1/3 m-auto"
           }`}
         >
