@@ -29,7 +29,7 @@ const PetIndividual: React.FC = () => {
       return;
     }
 
-    const fetchMascotas = async () => {
+    const fetchMascota = async () => {
       try {
         const data = await fetchPetIdController(
           idUrl.idPet as string,
@@ -44,7 +44,7 @@ const PetIndividual: React.FC = () => {
 
     if (user?.token) {
       startLoading;
-      fetchMascotas();
+      fetchMascota();
     }
   }, [session]);
 
@@ -54,7 +54,10 @@ const PetIndividual: React.FC = () => {
       <Modal
         isOpen={modal}
         id={idUrl.idPet as string}
-        onClose={() => setModal(false)}
+        token={user?.token as string}
+        onClose={() => {
+          setModal(false);
+        }}
       />
       {mascota && (
         <div className="w-full flex flex-col md:flex-row justify-center gap-1 my-2 m-auto">
