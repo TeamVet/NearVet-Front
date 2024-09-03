@@ -142,7 +142,7 @@ const NavBar: React.FC = () => {
           ref={menuRef}
           className={`lg:hidden fixed top-0 right-0 w-2/3 h-full bg-white dark:bg-gray-800 transition-transform transform ${
             isMenuOpen
-              ? "translate-x-0 border-s-4  border-detail border-opacity-85 "
+              ? "translate-x-0 border-s-4 z-50 border-detail border-opacity-85 "
               : "translate-x-full"
           }`}
         >
