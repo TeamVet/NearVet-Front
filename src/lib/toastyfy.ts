@@ -3,7 +3,7 @@ import { Flip, toast } from "react-toastify";
 export const SuccessNotify = (message: string) => {
   toast.success(message, {
     position: "top-center",
-    autoClose: 3000,
+    autoClose: 2000,
     theme: "colored",
     draggable: true,
     closeOnClick: true,
