@@ -13,7 +13,7 @@ import { IoPencil } from "react-icons/io5";
 
 const UserInformation: React.FC = () => {
   const [formFields, setFormFields] = useState([...originalInputsModifyUser]);
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const [modal, setModal] = useState<boolean>(false);
   const { loading, startLoading, stopLoading } = useLoading();
 

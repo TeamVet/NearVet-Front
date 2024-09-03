@@ -116,6 +116,7 @@ export const petController = async (
     userId: userId,
     startDate: new Date(),
     weightCurrent: Number(values.weightCurrent),
+    birthdate: new Date(values.birthdate),
   };
   try {
     const response = await PromessNotify(

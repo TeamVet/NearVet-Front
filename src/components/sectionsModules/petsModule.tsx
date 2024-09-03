@@ -10,7 +10,6 @@ import { Mascota } from "@/types/interfaces";
 import { fetchPetsController } from "@/lib/authController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
-import Screen from "../Screen";
 
 const PetsModule: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -29,14 +28,14 @@ const PetsModule: React.FC = () => {
         stopLoading();
       }
     };
-    if (user?.id) {
+    if (user?.id && user?.token) {
       startLoading();
       fetchMascota();
     }
   }, [user]);
 
   return (
-    <Screen>
+    <>
       {loading && <Loading />}
       <h3 className="text-2xl font-semibold dark:text-darkHline">
         Tus Mascotas
@@ -63,6 +62,9 @@ const PetsModule: React.FC = () => {
                   Nombre: {mascota.name}
                 </h3>
                 <p className="text-black dark:text-white">
+                  Raza: {mascota.race.race}
+                </p>
+                <p className="text-black dark:text-white">
                   Color: {mascota.color}
                 </p>
               </div>
@@ -76,7 +78,7 @@ const PetsModule: React.FC = () => {
         )}
       </div>
       <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
-    </Screen>
+    </>
   );
 };
 
