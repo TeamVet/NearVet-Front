@@ -37,10 +37,14 @@ const PetIndividual: React.FC = () => {
           idUrl.idPet as string,
           user?.token as string
         );
-        const dataAndAge = { ...data, age: calculateAge(data.birthdate) };
-        setMascota(dataAndAge);
+
+        if (data.birthdate != null) {
+          const dataAndAge = { ...data, age: calculateAge(data.birthdate) };
+          setMascota(dataAndAge);
+        } else setMascota(data);
       } finally {
         stopLoading();
+        console.log(mascota?.age);
       }
     };
 
@@ -88,8 +92,12 @@ const PetIndividual: React.FC = () => {
               <p>Raza: {mascota.race.race}</p>
               <p>Color: {mascota?.color}</p>
               <p>Sexo: {mascota?.sex.sex}</p>
-              <p>Fecha de Nacimiento: {mascota.birthdate}</p>
-              <p>Edad: {mascota.age} años </p>
+              <p>
+                Fecha de Nacimiento:{" "}
+                {mascota.birthdate ? mascota.birthdate : "Desconocida"}
+              </p>
+              {mascota.age && <p>Edad: {mascota.age} años </p>}
+              <br />
               <ButtonCustom
                 text="Editar"
                 href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
