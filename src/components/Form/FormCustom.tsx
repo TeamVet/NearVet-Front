@@ -123,7 +123,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                 {formik.touched[input.name] &&
                 typeof formik.errors[input.name] === "string" ? (
                   <div className=" text-center bg-white">
-                    <p className=" text-sm text-red-600">
+                    <p className=" text-xs text-red-600">
                       {formik.errors[input.name]?.toString() || ""}
                     </p>
                   </div>
