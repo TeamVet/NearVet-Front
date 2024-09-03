@@ -10,10 +10,12 @@ import { userPetsCards } from "@/helpers/dashBoardCards";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import { fetchPetIdController } from "@/lib/authController";
+import { ErrorNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { IoPencil } from "react-icons/io5";
 
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
@@ -28,7 +30,7 @@ const PetIndividual: React.FC = () => {
       router.push(PATHROUTES.USER_DASHBOARD);
       return;
     }
-
+    startLoading();
     const fetchMascota = async () => {
       try {
         const data = await fetchPetIdController(
@@ -43,38 +45,40 @@ const PetIndividual: React.FC = () => {
     };
 
     if (user?.token) {
-      startLoading;
       fetchMascota();
     }
   }, [session]);
 
+  const onCloseModal = () => {
+    setModal(false);
+    window.location.reload();
+  };
   return (
     <>
-      {loading && <Loading></Loading>}
+      {loading && <Loading />}
       <Modal
         isOpen={modal}
         id={idUrl.idPet as string}
         token={user?.token as string}
-        onClose={() => {
-          setModal(false);
-        }}
+        onClose={onCloseModal}
+        type="pet"
       />
       {mascota && (
         <div className="w-full flex flex-col md:flex-row justify-center gap-1 my-2 m-auto">
           <div className=" md:w-1/4 shadow-lg">
-            <div className="flex flex-row m-2 relative border border-solid ">
+            <div className="flex flex-row relative justify-center">
               <Image
                 src={mascota?.imgProfile}
                 alt="Foto de la mascota"
-                width={150}
-                height={150}
-                className=" m-auto"
+                width={100}
+                height={100}
+                className="rounded-full bg-detail p-1"
               />
               <button
-                className="absolute top-0 right-0"
+                className="font-semibold text-2xl absolute top-0 right-0"
                 onClick={() => setModal(true)}
               >
-                pencil
+                <IoPencil />
               </button>
             </div>
             <div className="flex flex-col text-justify p-2">
@@ -91,7 +95,10 @@ const PetIndividual: React.FC = () => {
                 href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
               />
               <br />
-              <ButtonCustom text="Necesita Atención medica" />
+              <ButtonCustom
+                text="Necesita Atención medica"
+                onClick={() => ErrorNotify("Funcionalidad no disponible")}
+              />
             </div>
           </div>
           <div className="bg-slate-300 md:w-2/4 flex flex-col ">

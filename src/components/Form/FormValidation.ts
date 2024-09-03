@@ -46,7 +46,12 @@ export const loginValidationSchema = {
 // Esquema de validación para creación de mascota
 export const petCreationValidationSchema = {
   nombre: Yup.string().required("Nombre es obligatorio"),
-  nacimiento: Yup.date(),
+  nacimiento: Yup.date()
+    .max(new Date(), "La fecha de nacimiento no puede ser en el futuro")
+    .min(
+      new Date(new Date().setFullYear(new Date().getFullYear() - 50)),
+      "La fecha de nacimiento no puede ser de más de 50 años atrás"
+    ),
   color: Yup.string().required("Color es obligatorio"),
   especie: Yup.string().required("Especie es obligatoria"),
   raza: Yup.string().required("Raza es obligatoria"),

@@ -35,9 +35,11 @@ const PetsModule: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="w-full m-5">
+    <div className="w-full">
       {loading && <Loading />}
-      <h3 className="text-2xl font-semibold ">Tus Mascotas</h3>
+      <h3 className="text-2xl font-semibold dark:text-darkHline">
+        Tus Mascotas
+      </h3>
       <span className="text-gray-400 font-bold">_______________</span>
 
       <div className="flex flex-col md:flex-row md:flex-wrap gap-5 m-5 justify-center">
@@ -71,9 +73,9 @@ const PetsModule: React.FC = () => {
             </CardCustom>
           ))
         )}
-      </div>
 
-      <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
+        <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
+      </div>
     </div>
   );
 };
