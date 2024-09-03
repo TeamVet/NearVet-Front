@@ -30,7 +30,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const fetchUser = async () => {
       const storedUser = localStorage.getItem("user");
-      if (!storedUser && session) {
+      if (!storedUser && !user && session) {
         const values = {
           name: session?.user?.name!,
           email: session?.user?.email!,
@@ -49,7 +49,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
     };
-    fetchUser();
+    if (user) {
+      fetchUser();
+    }
   }, [session]);
 
   useEffect(() => {
@@ -85,6 +87,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     document.cookie =
       "auth-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    document.cookie =
+      "next-auth.session-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     setUser(null);
     signOut();
     localStorage.clear();
@@ -93,7 +97,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const registerWithCredentials = async (values: FormRegisterValues) => {
     const register = await registerUserController(values);
     if (register) {
-      InfoNotify("Intentamos loguearte");
       const loginValues = { dni: values.dni!, password: values.password! };
       loginWithCredentials(loginValues);
     }
