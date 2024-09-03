@@ -31,7 +31,7 @@ export const NavItemUser: Array<NavItemProps> = [
     icon: HomeIcon,
   },
   {
-    name: "Mascotas",
+    name: "Mis Mascotas",
     url: PATHROUTES.PET,
     icon: PawIcon,
   },
