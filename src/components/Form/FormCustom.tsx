@@ -93,11 +93,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                       value={option.id}
                       className="text-black"
                     >
-                      {"specie" in option
-                        ? option.specie
-                        : "race" in option
-                        ? option.race
-                        : option.sex}
+                      {option?.[input.labelKey ?? "defaultLabel"]}
                     </option>
                   ))}
                 </select>
@@ -119,6 +115,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                   }  rounded-md`}
                 />
               )}
+
               <div className="h-4 ">
                 {formik.touched[input.name] &&
                 typeof formik.errors[input.name] === "string" ? (

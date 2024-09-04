@@ -50,6 +50,7 @@ const NewPetForm: React.FC = () => {
 
   useEffect(() => {
     if (!especieSelect) return;
+    console.log(especieSelect);
     const fetchRaces = async () => {
       try {
         const raceData = await Races(especieSelect); // Obtener razas
@@ -68,6 +69,7 @@ const NewPetForm: React.FC = () => {
     fetchRaces();
   }, [especieSelect]);
   const handleSpeciesChange = (value: string) => {
+    console.log(value);
     especie &&
       especie.map((specie) => {
         if (specie.id === value) {

@@ -4,7 +4,7 @@ import {
   petCreationValidationSchema,
   registrationValidationSchema,
 } from "./FormValidation";
-import { InputField } from "@/types/interfaces";
+import { InputField, Mascota } from "@/types/interfaces";
 
 export const InputsRegisterUser: InputField[] = [
   {
@@ -159,6 +159,7 @@ export const InputsRegisterPet: InputField[] = [
     label: "Especie",
     validation: petCreationValidationSchema.especie,
     options: [],
+    labelKey: "specie",
   },
   {
     name: "raceId",
@@ -166,6 +167,7 @@ export const InputsRegisterPet: InputField[] = [
     label: "Raza",
     validation: petCreationValidationSchema.raza,
     options: [],
+    labelKey: "race",
   },
   {
     name: "sexId",
@@ -173,6 +175,7 @@ export const InputsRegisterPet: InputField[] = [
     label: "Sexo",
     validation: petCreationValidationSchema.sexo,
     options: [],
+    labelKey: "sex",
   },
   {
     name: "weightCurrent",
@@ -227,30 +230,40 @@ export const InputsModifyPet: InputField[] = [
 ];
 export const InputsRegisterAppoint: InputField[] = [
   {
-    name: "petId",
+    name: "pet_id",
     type: "select",
     label: "Mascota",
     validation: appointmentValidationSchema.pet,
     options: [],
+    labelKey: "name",
+  },
+  {
+    name: "category",
+    type: "select",
+    label: "Categoría",
+    validation: appointmentValidationSchema.category,
+    options: [],
+    labelKey: "categoryService",
+  },
+  {
+    name: "service_id",
+    type: "select",
+    label: "Servicio",
+    validation: appointmentValidationSchema.service,
+    options: [],
+    labelKey: "service",
   },
   {
     name: "date",
-    type: "date", //TODO: despues debera ser select
+    type: "date",
     label: "Fecha",
     validation: appointmentValidationSchema.date,
   },
   {
     name: "time",
-    type: "time", //TODO: despues debera ser select
+    type: "time",
     label: "Hora",
     validation: appointmentValidationSchema.time,
-  },
-  {
-    name: "serviceId",
-    type: "select",
-    label: "Servicio",
-    validation: appointmentValidationSchema.service,
-    options: [],
   },
   {
     name: "messageUser",
@@ -259,11 +272,6 @@ export const InputsRegisterAppoint: InputField[] = [
     placeholder: "Mi mascota tiene los siguientes problemas...",
     validation: appointmentValidationSchema.messageUser,
   },
-  {
-    name: "price",
-    type: "number",
-    label: "Precio",
-    disable: true,
-  },
 ];
+
 export const InputsModifyAppoint = [];
