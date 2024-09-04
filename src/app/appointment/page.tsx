@@ -1,9 +1,10 @@
 import Screen from "@/components/Screen";
+import AppointsModule from "@/components/sectionsModules/appointsModule";
 
 const Apointment: React.FC = () => {
   return (
     <Screen>
-      <h1>Apointment</h1>
+      <AppointsModule />
     </Screen>
   );
 };

@@ -73,10 +73,6 @@ export interface NavItemProps {
 
 ///# Iterfaces de Modulos
 
-export interface AppointsProps {
-  user: User | null;
-}
-
 ///# Interfaces de context
 
 export interface UserContextType {
@@ -157,8 +153,18 @@ export interface Veterinaria {
 export interface Turnos {
   id: number;
   date: string;
-  hour: string;
-  state: string;
+  time: string;
+  messageUser: string;
+  price: string;
+  pet: Mascota;
+  state: { id: string; state: string };
+  service: {
+    id: string;
+    service: string;
+    price: number;
+    description: string;
+    duration: number;
+  };
 }
 
 export interface Mensajes {
@@ -212,6 +218,15 @@ export interface FormNewPet {
   [key: string]: string | number | Date | undefined;
 }
 
+export interface FormNewAppointment {
+  date: Date;
+  time: string;
+  messageUser: string;
+  price: number;
+  pet_id: string;
+  service_id: string;
+}
+
 // FORMS
 export interface InputField {
   name: string;
@@ -221,10 +236,14 @@ export interface InputField {
   initialValue?: any;
   validation?: Yup.AnySchema;
   disable?: boolean;
+  labelKey?: string;
   options?:
     | { id: string; specie: string }[]
     | { id: string; race: string }[]
-    | { id: string; sex: string }[];
+    | { id: string; sex: string }[]
+    | { id: string; repCondition: string }[]
+    | Mascota[]
+    | any[];
 }
 
 export interface ReusableFormProps {

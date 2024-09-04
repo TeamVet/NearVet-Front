@@ -19,7 +19,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     case "Ver Mascotas":
       return <PetsModule />;
     case "Ver Turnos":
-      return <AppointsModule user={user} />;
+      return <AppointsModule />;
     case "Ver Facturas":
       return (
         <div>

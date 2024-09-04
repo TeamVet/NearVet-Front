@@ -1,27 +1,30 @@
 "use client";
-import { AppointsProps, Turnos } from "@/types/interfaces";
+import { Turnos } from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import ButtonCustom from "../ButtonCustom";
 import PATHROUTES from "@/helpers/path-routes";
 import { fetchAppointController } from "@/lib/authController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
+import { useUser } from "@/context/UserContext";
 
-const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
+const AppointsModule: React.FC = () => {
   const [turnos, setTurnos] = useState<Turnos[]>([]);
-  const [turnosRealizados, setTurnoRealizado] = useState<Turnos[]>([]);
-  const [turnosActivos, setTurnoActivos] = useState<Turnos[]>([]);
+  // const [turnosRealizados, setTurnoRealizado] = useState<Turnos[]>([]);
+  // const [turnosActivos, setTurnoActivos] = useState<Turnos[]>([]);
   const { loading, startLoading, stopLoading } = useLoading();
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchTurnos = async () => {
       try {
         startLoading();
-        const turnos = await fetchAppointController(
+        const newTurnos = await fetchAppointController(
           user?.id as string,
           user?.token as string
         );
-        setTurnos(turnos);
+        console.log(newTurnos);
+        setTurnos([newTurnos]);
       } finally {
         stopLoading();
       }
@@ -32,15 +35,18 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
     }
   }, []);
 
-  useEffect(() => {
-    turnos?.map((turno) => {
-      if (turno.state === "realizado") {
-        setTurnoRealizado([...turnosRealizados, turno]);
-      } else {
-        setTurnoActivos([...turnosActivos, turno]);
-      }
-    });
-  }, [turnos]);
+  // useEffect(() => {
+  //   console.log(turnos);
+  //   if (turnos.length > 0) {
+  //     turnos?.map((turno) => {
+  //       if (turno.state === "realizado") {
+  //         setTurnoRealizado([...turnosRealizados, turno]);
+  //       } else {
+  //         setTurnoActivos([...turnosActivos, turno]);
+  //       }
+  //     });
+  //   }
+  // }, [turnos]);
 
   // nuevo turno
   // -->cupones de descuento
@@ -65,11 +71,11 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
               <td>Estado</td>
               <td>Acciones</td>
             </tr>
-            {turnosActivos.map((turno) => (
+            {turnos.map((turno) => (
               <tr key={turno.id}>
                 <td>{turno.date}</td>
-                <td>{turno.hour}</td>
-                <td>{turno.state}</td>
+                <td>{turno.time}</td>
+                <td>{turno.state.state}</td>
                 <td className="flex flex-col gap-2">
                   <button>Whatsapp</button>
                   <button>Cancelar</button>
@@ -78,7 +84,7 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
             ))}
           </table>
 
-          <th className="italic">Turnos Finalizados</th>
+          {/* <th className="italic">Turnos Finalizados</th>
           <table className="text-center border m-5 cursor-default">
             <tr className="font-bold border">
               <td>Fecha</td>
@@ -96,7 +102,7 @@ const AppointsModule: React.FC<AppointsProps> = ({ user }) => {
                 </td>
               </tr>
             ))}
-          </table>
+          </table> */}
         </>
       ) : (
         <>

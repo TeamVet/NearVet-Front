@@ -7,58 +7,119 @@ import PATHROUTES from "@/helpers/path-routes";
 import { InputsRegisterAppoint } from "@/components/Form/InputsForms";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
-import { useEffect, useState } from "react";
-import { fetchPetsService } from "@/lib/authService";
+import { useState, useEffect } from "react";
+import { useAppointmentData } from "@/hooks/useLoadDataAppoint";
+import { newAppointmentController } from "@/lib/authController";
 import { Mascota } from "@/types/interfaces";
-import { fetchPetsController } from "@/lib/authController";
 
 const Appointments: React.FC = () => {
   const router = useRouter();
   const { user } = useUser();
   const { loading, startLoading, stopLoading } = useLoading();
-  const [mascotas, setMascotas] = useState<Mascota[]>([]);
-  const [services, setServices] = useState<any[]>([]);
-  const [availablesAppoint, setAvailableAppoint] = useState([]);
+  const {
+    mascotas,
+    categories,
+    services,
+    fetchServices,
+    loading: dataLoading,
+  } = useAppointmentData(user?.id as string, user?.token as string);
+  const [categorySelect, setCategorySelect] = useState("");
+  const [mascotaSelect, setMascotaSelect] = useState<Mascota | null>(null);
+  const [serviceSelect, setServiceSelect] = useState<{
+    service: string;
+    description?: string;
+    price?: number;
+  } | null>(null);
 
   useEffect(() => {
-    const fetchMascotas = async () => {
-      try {
-        startLoading();
-        const responseMascotas = await fetchPetsController(
-          user?.id as string,
-          user?.token as string
-        );
-        setMascotas(responseMascotas);
-        const responseService = await fetch;
-      } finally {
-        stopLoading();
-      }
-    };
-    if (user) {
-      fetchMascotas();
+    if (categorySelect) {
+      alert(categorySelect);
+      fetchServices(categorySelect);
     }
-  }, []);
-
-  useEffect(() => {
-    if (mascotas.length > 0) {
-    }
-  }, [mascotas]);
+  }, [categorySelect, fetchServices]);
 
   const handleSubmit = async (values: any) => {
     startLoading();
-    stopLoading();
-    router.push(PATHROUTES.APPOINTMENT);
+    try {
+      values = {
+        ...values,
+        price: serviceSelect?.price,
+      };
+
+      const response = await newAppointmentController(values);
+      if (response) {
+        router.push(PATHROUTES.APPOINTMENT);
+      }
+    } finally {
+      stopLoading();
+    }
+
+    // router.push(PATHROUTES.APPOINTMENT);
+  };
+
+  if (loading || dataLoading) return <Loading />;
+  const inputsWithOptions = InputsRegisterAppoint.map((input) => {
+    if (input.name === "category") {
+      return {
+        ...input,
+        options: categories,
+        onInputChange: (value: string) => {
+          setCategorySelect(value);
+        },
+      };
+    } else if (input.name === "pet_id") {
+      return {
+        ...input,
+        options: mascotas,
+      };
+    } else if (input.name === "service_id") {
+      return {
+        ...input,
+        options: services,
+      };
+    }
+    return input;
+  });
+
+  const handleOnChange = (value: string) => {
+    categories.map((category) => {
+      if (category.id === value) {
+        fetchServices(category.id);
+      }
+      services.map((service) => {
+        if (service.id === value) {
+          setServiceSelect({
+            service: service.serviceName,
+            description: service.description,
+            price: service.price,
+          });
+        }
+      });
+      mascotas.map((mascota) => {
+        if (mascota.id === value) {
+          setMascotaSelect(mascota);
+        }
+      });
+    });
   };
   return (
     <Screen>
-      {loading && <Loading />}
       <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
         <ReusableForm
           formTitle="Registro de Turno"
-          inputs={InputsRegisterAppoint}
+          inputs={inputsWithOptions}
           onSubmit={handleSubmit}
-          submitButtonLabel="Registrar Mascota"
+          submitButtonLabel="Registrar Turno"
+          onInputChange={(value) => {
+            handleOnChange(value);
+          }}
         />
+        {serviceSelect && (
+          <div className="shadow-lg p-5">
+            <p>Tipo de servicio seleccionado: {serviceSelect.description}</p>
+            <p>Precio del servicio seleccionado: $ {serviceSelect.price}</p>
+          </div>
+        )}
       </div>
     </Screen>
   );

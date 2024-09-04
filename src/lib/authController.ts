@@ -1,10 +1,12 @@
 import {
+  FormNewAppointment,
   FormNewPet,
   FormRegisterValues,
   FormValues,
   User,
 } from "@/types/interfaces";
 import {
+  addAppointmentService,
   addPetService,
   fetchAppointService,
   fetchPetIdService,
@@ -166,5 +168,18 @@ export const modifyImagenController = async (
     return responseModify;
   } catch (error: any) {
     ErrorNotify(`Error al modificar la imagen: ${error.message}`);
+  }
+};
+
+export const newAppointmentController = async (values: FormNewAppointment) => {
+  try {
+    const responseAppoitn = await PromessNotify(
+      "Registrando tu turno...",
+      "Registrado exitosamente",
+      addAppointmentService(values)
+    );
+    return responseAppoitn;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrar tu turno: ${error.message}`);
   }
 };

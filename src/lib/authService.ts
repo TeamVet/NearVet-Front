@@ -2,6 +2,7 @@ import {
   FormValues,
   FormRegisterValues,
   FormNewPet,
+  FormNewAppointment,
 } from "../types/interfaces";
 import { fetcher, fetcherImg } from "./fetcher";
 
@@ -218,4 +219,19 @@ export const serviceServices = async (category: string) => {
     }
   );
   return response.json();
+};
+
+export const addAppointmentService = async (values: FormNewAppointment) => {
+  const dataAppoint = {
+    url: `/appointments/create`, //TODO despues pasarlo a .env
+    method: "POST" as const,
+    data: values,
+  };
+  try {
+    const responseModify = await fetcher(dataAppoint);
+    if (!responseModify.id) throw new Error(responseModify.message);
+    return responseModify;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
