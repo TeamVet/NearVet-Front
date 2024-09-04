@@ -1,31 +1,31 @@
 import * as Yup from "yup";
 // Esquema de validación para registrar user
 export const registrationValidationSchema = {
-  nombre: Yup.string().required("Nombre es obligatorio"),
-  apellido: Yup.string().required("Apellido es obligatorio"),
+  nombre: Yup.string(),
+  apellido: Yup.string(),
   DNI: Yup.string()
-    .required("DNI es obligatorio")
-    .matches(
-      /^[0-9]+$/,
-      "El DNI solo puede contener números, sin guiones ni espacios."
-    ),
+  .matches(
+    /^[0-9]+$/,
+    "El DNI solo puede contener números, sin guiones ni espacios."
+  ),
   email: Yup.string()
     .email("Email no es válido")
-    .required("Email es obligatorio")
+
     .matches(
       /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/,
       "Ingresa un email valido. Ejemplo: abc@example.com"
     ),
   password: Yup.string()
     .min(8, "Contraseña debe tener al menos 8 caracteres")
-    .required("Contraseña es obligatoria")
+
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
       "Tiene que ser al menos una Mayúscula, Minúscula, número y un caracter especial."
     ),
-  passwordConfirm: Yup.string()
-    .oneOf([Yup.ref("password"), undefined], "Las contraseñas no coinciden")
-    .required("Confirmación de contraseña es obligatoria"),
+  passwordConfirm: Yup.string().oneOf(
+    [Yup.ref("password"), undefined],
+    "Las contraseñas no coinciden"
+  ),
   phone: Yup.string().matches(
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
     "Ingresa un telefono valido. Ejemplo: 12345678"
@@ -67,4 +67,5 @@ export const appointmentValidationSchema = {
   service: Yup.string().required("Seleccionar un servicio es obligatorio"),
   observations: Yup.string(),
   messageUser: Yup.string().required("Tu mensaje es obligatorio"),
+  category: Yup.string().required("Seleccionar una categoria es obligatorio"),
 };
