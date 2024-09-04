@@ -196,3 +196,26 @@ export const SexType = async () => {
   });
   return response.json();
 };
+
+export const categoryServices = async () => {
+  const response = await fetch(`${API_BASE_URL}/category-services`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
+};
+
+export const serviceServices = async (category: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/services/category/${category}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.json();
+};
