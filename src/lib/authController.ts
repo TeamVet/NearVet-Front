@@ -22,6 +22,11 @@ import {
 import { ErrorNotify, PromessNotify } from "./toastyfy";
 
 export const loginController = async (values: FormValues) => {
+  values = {
+    ...values,
+    dni: Number(values.dni),
+  };
+
   try {
     const response = await PromessNotify(
       "Iniciando sesión...",
@@ -38,6 +43,7 @@ export const registerUserController = async (values: FormRegisterValues) => {
   values = {
     ...values,
     startDate: new Date(),
+    dni: Number(values.dni),
   };
   try {
     const response = await PromessNotify(
