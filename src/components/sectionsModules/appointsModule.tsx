@@ -10,9 +10,9 @@ import {
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { useUser } from "@/context/UserContext";
-import { IoLogoWhatsapp } from "react-icons/io5";
-import Link from "next/link";
 import TableCustom from "../TableCustom";
+import Screen from "../Screen";
+import AppointCard from "../AppointCard";
 
 const AppointsModule: React.FC = () => {
   const [turnos, setTurnos] = useState<Turnos[]>([]);
@@ -20,49 +20,7 @@ const AppointsModule: React.FC = () => {
   const [turnosFinalizados, setTurnoFinalizados] = useState<Turnos[]>([]);
   const [turnosPendientes, setTurnoPendientes] = useState<Turnos[]>([]);
   const { user } = useUser();
-  const turnoMock: Turnos = {
-    id: "1",
-    state: {
-      id: "1",
-      state: "Pendiente",
-    },
-    date: "2022-11-19",
-    time: "10:00:00",
-    messageUser: "Hola",
-    price: "1000",
-    pet: {
-      id: "1",
-      name: "Pepito",
-      image: "https://placekitten.com/200/300",
-      birthdate: "2022-11-19T00:00:00.000Z",
-      startDate: new Date(),
-      color: "Negro",
-      specie: {
-        id: "1",
-        specie: "Perro",
-      },
-      race: {
-        id: "1",
-        race: "Caniche",
-      },
-      sex: {
-        id: "1",
-        sex: "Macho",
-      },
-      weightCurrent: "10",
-      observation: "Observacion",
-      userId: "1",
-      imgProfile: "https://placekitten.com/200/300",
-      repConditionId: "1",
-    },
-    service: {
-      id: "1",
-      service: "Corte de pelo",
-      price: 1000,
-      description: "Corte de pelo",
-      duration: 60,
-    },
-  };
+
   useEffect(() => {
     const fetchTurnos = async () => {
       try {
@@ -72,7 +30,7 @@ const AppointsModule: React.FC = () => {
           user?.token as string
         );
 
-        setTurnos([...turnos, turnoMock, responseTurnos]);
+        setTurnos(responseTurnos);
       } finally {
         stopLoading();
       }
@@ -83,25 +41,25 @@ const AppointsModule: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    if (turnos) {
-      turnos.map((turno) => {
-        if (
+    if (turnos && turnos.length > 0) {
+      const finalizados = turnos.filter(
+        (turno) =>
           turno.state.state === "Finalizado" ||
           turno.state.state === "Cancelado"
-        ) {
-          setTurnoFinalizados([turno]);
-        } else {
-          setTurnoPendientes([turno]);
-        }
-      });
+      );
+      const pendientes = turnos.filter(
+        (turno) =>
+          turno.state.state !== "Finalizado" &&
+          turno.state.state !== "Cancelado"
+      );
+
+      setTurnoFinalizados(finalizados);
+      setTurnoPendientes(pendientes);
     }
   }, [turnos]);
 
   //TODO -->cupones de descuento
   //TODO--> Pagar el turno
-  //TODO -->cancela turno
-  //--> calificar turno posturno
-  //--> comunicarse x whatsapp
 
   const handleCancel = async (idTurno: string) => {
     try {
@@ -114,40 +72,53 @@ const AppointsModule: React.FC = () => {
       return responseCancel;
     } finally {
       stopLoading();
+      window.location.reload();
     }
   };
 
   return (
-    <main className="flex flex-col mx-auto gap-4">
+    <Screen>
       {loading && <Loading />}
-      <h3 className="text-2xl font-semibold dark:text-darkHline">Turnos</h3>
-
-      {turnos && turnos.length > 0 ? (
-        <section className="m-auto">
-          {turnosPendientes.length > 0 && (
-            <TableCustom
-              title="Turnos Activos"
-              titulos={["Fecha", "Hora", "Estado", "Acciones"]}
-              datos={turnosPendientes}
-              isCancelable
-              onClick={handleCancel}
-            />
-          )}
-          {turnosFinalizados.length > 0 && (
-            <TableCustom
-              title="Turnos Finalizados"
-              titulos={["Fecha", "Hora", "Estado", "Acciones"]}
-              datos={turnosFinalizados}
-            />
-          )}
-        </section>
-      ) : (
-        <>
-          <p>No hay turnos agendados</p>
-        </>
+      {!turnos && (
+        <h3 className="text-2xl font-semibold dark:text-darkHline">Turnos</h3>
       )}
+      <section className="my-5 m-auto flex flex-col ">
+        {turnos && turnos.length > 0 ? (
+          <>
+            <section className="flex flex-row flex-wrap m-auto w-[80%] justify-items-center">
+              {turnosPendientes.length > 0 &&
+                turnosPendientes.map((turno) => (
+                  <AppointCard
+                    data={turno}
+                    handleCancel={handleCancel}
+                    key={turno.id}
+                    isCancelable
+                  />
+                ))}
+            </section>
+
+            {turnosPendientes.length > 0 && turnosFinalizados.length > 0 ? (
+              <hr className="border-2 my-10 mx-auto border-gray-400 w-2/3" />
+            ) : null}
+            <section className="flex flex-row flex-wrap m-auto w-[80%] justify-items-center">
+              {turnosFinalizados.length > 0 &&
+                turnosFinalizados.map((turno) => (
+                  <AppointCard
+                    data={turno}
+                    handleCancel={handleCancel}
+                    key={turno.id}
+                  />
+                ))}
+            </section>
+          </>
+        ) : (
+          <>
+            <p>No hay turnos agendados</p>
+          </>
+        )}
+      </section>
       <ButtonCustom text="Agendar Turno" href={PATHROUTES.NEWAPPOINTMEN} />
-    </main>
+    </Screen>
   );
 };
 

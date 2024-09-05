@@ -40,16 +40,3 @@ h5,
 h6 {
   @apply text-lightHline;
 }
-
-.table th,
-.table td {
-  @apply border px-2 md:px-4 lg:px-10
-}
-
-.table th {
-  @apply text-gray-800 bg-slate-200 dark:bg-transparent dark:text-white p-2
-}
-
-.table tbody tr:nth-child(2n+1) {
-  /* @apply bg-gray-200 */
-}
