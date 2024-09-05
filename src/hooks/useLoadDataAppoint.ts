@@ -20,6 +20,8 @@ export const useAppointmentData = (userId: string, token: string) => {
           fetchPetsController(userId, token),
           categoryServices(),
         ]);
+        if (responseMascotas.length === 0)
+          throw new Error("No tienes una mascota, primero deberias crearla");
         setMascotas(responseMascotas);
         setCategories(responseCategory);
       } catch (error) {
