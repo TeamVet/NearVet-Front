@@ -21,10 +21,11 @@ const TableCustom: React.FC<TableCustomProps> = ({
   onClick,
 }) => {
   const { user } = useUser();
+  const LinkWhatsapp = `${PATHROUTES.WHATSAPP}?text=Hola,%20soy%20${user?.name}%20y%20me%20gustaria%20consultar%20respecto%20un%20turno`;
 
   return (
-    <table className="table cursor-default">
-      <caption className="text-xl italic m-2 font-semibold text-detail">
+    <table className="table cursor-default m-auto">
+      <caption className="text-xl italic my-4 font-semibold text-detail">
         {title}
       </caption>
       <thead className=" ">
@@ -40,11 +41,11 @@ const TableCustom: React.FC<TableCustomProps> = ({
             <td>{dato.date} </td>
             <td>{dato.time}</td>
             <td>{dato.state.state}</td>
-            <td className="flex flex-col lg:flex-row gap-2 lg:gap-4 items-center py-2  border-l-0">
+            <td className="flex flex-col lg:flex-row gap-2 lg:gap-4 items-center py-2 border-l-0 ">
               {isCancelable ? (
                 <>
                   <Link
-                    href={PATHROUTES.WHATSAPP}
+                    href={LinkWhatsapp}
                     aria-label="Boton para ir a whatsapp"
                     target="_blank"
                     className="rounded-full w-10 h-10 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
@@ -53,7 +54,7 @@ const TableCustom: React.FC<TableCustomProps> = ({
                   </Link>
                   <button
                     aria-label="Boton para cancelar turno"
-                    className=" p-2 m-auto rounded-lg bg-red-500 text-white hover:bg-red-700 hover:scale-105"
+                    className="p-2 m-auto rounded-lg bg-red-500 text-white hover:bg-red-700 hover:scale-105"
                     onClick={() => {
                       if (onClick) {
                         onClick(dato.id);
@@ -65,12 +66,14 @@ const TableCustom: React.FC<TableCustomProps> = ({
                 </>
               ) : (
                 <>
-                  <button
+                  <Link
                     aria-label="Boton para calificar atención"
-                    className=" p-2 m-auto rounded-lg bg-blue-500 text-white hover:bg-blue-700 hover:scale-105"
+                    className=" md:p-2 m-auto rounded-lg bg-blue-500 text-white hover:bg-blue-700 hover:scale-105"
+                    href={PATHROUTES.CALIFICAR}
+                    target="_blank"
                   >
                     Calificar Atención
-                  </button>
+                  </Link>
                 </>
               )}
             </td>

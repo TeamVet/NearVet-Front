@@ -20,7 +20,49 @@ const AppointsModule: React.FC = () => {
   const [turnosFinalizados, setTurnoFinalizados] = useState<Turnos[]>([]);
   const [turnosPendientes, setTurnoPendientes] = useState<Turnos[]>([]);
   const { user } = useUser();
-
+  const turnoMock: Turnos = {
+    id: "1",
+    state: {
+      id: "1",
+      state: "Pendiente",
+    },
+    date: "2022-11-19",
+    time: "10:00:00",
+    messageUser: "Hola",
+    price: "1000",
+    pet: {
+      id: "1",
+      name: "Pepito",
+      image: "https://placekitten.com/200/300",
+      birthdate: "2022-11-19T00:00:00.000Z",
+      startDate: new Date(),
+      color: "Negro",
+      specie: {
+        id: "1",
+        specie: "Perro",
+      },
+      race: {
+        id: "1",
+        race: "Caniche",
+      },
+      sex: {
+        id: "1",
+        sex: "Macho",
+      },
+      weightCurrent: "10",
+      observation: "Observacion",
+      userId: "1",
+      imgProfile: "https://placekitten.com/200/300",
+      repConditionId: "1",
+    },
+    service: {
+      id: "1",
+      service: "Corte de pelo",
+      price: 1000,
+      description: "Corte de pelo",
+      duration: 60,
+    },
+  };
   useEffect(() => {
     const fetchTurnos = async () => {
       try {
@@ -30,7 +72,7 @@ const AppointsModule: React.FC = () => {
           user?.token as string
         );
 
-        setTurnos([...turnos, responseTurnos]);
+        setTurnos([...turnos, turnoMock, responseTurnos]);
       } finally {
         stopLoading();
       }
@@ -38,7 +80,7 @@ const AppointsModule: React.FC = () => {
     if (user) {
       fetchTurnos();
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (turnos) {
@@ -55,14 +97,11 @@ const AppointsModule: React.FC = () => {
     }
   }, [turnos]);
 
-  // nuevo turno
-  // -->cupones de descuento
-  //--> Pagar el turno
-  // Renderizar los turnos en pasados y nuevos
-  // -->cancela turno
+  //TODO -->cupones de descuento
+  //TODO--> Pagar el turno
+  //TODO -->cancela turno
   //--> calificar turno posturno
   //--> comunicarse x whatsapp
-  //TODO pagina para renderizar turnos activos
 
   const handleCancel = async (idTurno: string) => {
     try {
@@ -79,7 +118,7 @@ const AppointsModule: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col m-auto gap-4 justify-center">
+    <main className="flex flex-col mx-auto gap-4">
       {loading && <Loading />}
       <h3 className="text-2xl font-semibold dark:text-darkHline">Turnos</h3>
 

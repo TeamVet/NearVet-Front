@@ -134,12 +134,12 @@ export interface Mascota {
   repConditionId: string;
   imgProfile: string;
   ///a implementar
-  age: number;
-  stateSalud: string;
-  historiaClinica: string;
-  enfermedades: string[];
-  vacunas: string[];
-  desparacitaciones: string[];
+  age?: number;
+  stateSalud?: string;
+  historiaClinica?: string;
+  enfermedades?: string[];
+  vacunas?: string[];
+  desparacitaciones?: string[];
   [key: string]: any;
 }
 // Veterninarias [Missing info]
