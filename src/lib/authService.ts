@@ -104,13 +104,13 @@ export const fetchPetIdService = async (idPet: string, token: string) => {
 
 export const fetchAppointService = async (userId: string, token: string) => {
   const dataAppoint = {
-    url: `/appointments/user${userId}`, //TODO despues pasarlo a .env
+    url: `/appointments/user/${userId}`, //TODO despues pasarlo a .env
     method: "GET" as const,
     token,
   };
   try {
     const responseAppoint = await fetcher(dataAppoint);
-    if (!responseAppoint.id) throw new Error(responseAppoint.message);
+    if (!responseAppoint) throw new Error(responseAppoint.message);
     return responseAppoint;
   } catch (error: any) {
     throw new Error(error.message);
@@ -180,12 +180,10 @@ export const cancelAppointmentService = async (
   token: string,
   idTurno: string
 ) => {
-  console.log(idTurno);
   const dataCancel = {
     url: `/appointments/cancel/${idTurno}`, //TODO despues pasarlo a .env
     method: "PUT" as const,
     token,
-    data: idTurno,
   };
   const responseCancel = await fetcher(dataCancel);
   if (!responseCancel) throw new Error(responseCancel.message);
@@ -228,6 +226,19 @@ export const categoryServices = async () => {
 export const serviceServices = async (category: string) => {
   const response = await fetch(
     `${API_BASE_URL}/services/category/${category}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.json();
+};
+
+export const horariosService = async (serviceId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/availability-service/${serviceId}`,
     {
       method: "GET",
       headers: {
