@@ -8,6 +8,7 @@ import {
 import {
   addAppointmentService,
   addPetService,
+  cancelAppointmentService,
   fetchAppointService,
   fetchPetIdService,
   fetchPetsService,
@@ -181,5 +182,22 @@ export const newAppointmentController = async (values: FormNewAppointment) => {
     return responseAppoitn;
   } catch (error: any) {
     ErrorNotify(`Error al registrar tu turno: ${error.message}`);
+  }
+};
+
+export const cancelAppointController = async (
+  userId: string,
+  token: string,
+  idTurno: string
+) => {
+  try {
+    const responseCancel = await PromessNotify(
+      "Cancelando tu turno...",
+      "Cancelado exitosamente",
+      cancelAppointmentService(userId, token, idTurno)
+    );
+    return responseCancel;
+  } catch (error: any) {
+    ErrorNotify(`Error al cancelar tu turno: ${error.message}`);
   }
 };

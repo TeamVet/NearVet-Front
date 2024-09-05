@@ -41,18 +41,15 @@ h6 {
   @apply text-lightHline;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  body {
-    @apply bg-darkBG text-darkText;
-  }
+.table th,
+.table td {
+  @apply border px-4 lg:px-10
+}
 
+.table th {
+  @apply text-gray-800 bg-slate-200 dark:bg-transparent dark:text-white p-2
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply text-darkHline;
-  }
-} */
+.table tbody tr:nth-child(2n+1) {
+  /* @apply bg-gray-200 */
+}

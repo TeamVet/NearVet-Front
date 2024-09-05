@@ -175,6 +175,23 @@ export const modifyImgPetService = async (
   }
 };
 
+export const cancelAppointmentService = async (
+  id: string,
+  token: string,
+  idTurno: string
+) => {
+  console.log(idTurno);
+  const dataCancel = {
+    url: `/appointments/cancel/${idTurno}`, //TODO despues pasarlo a .env
+    method: "PUT" as const,
+    token,
+    data: idTurno,
+  };
+  const responseCancel = await fetcher(dataCancel);
+  if (!responseCancel) throw new Error(responseCancel.message);
+  return responseCancel;
+};
+
 export const Species = async () => {
   const response = await fetch(`${API_BASE_URL}/pets/species`, {
     method: "GET",

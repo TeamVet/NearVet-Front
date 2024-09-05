@@ -151,13 +151,16 @@ export interface Veterinaria {
 }
 
 export interface Turnos {
-  id: number;
+  id: string;
   date: string;
   time: string;
   messageUser: string;
   price: string;
   pet: Mascota;
-  state: { id: string; state: string };
+  state: {
+    id: string;
+    state: "Pendiente" | "Cancelado" | "Finalizado";
+  };
   service: {
     id: string;
     service: string;
