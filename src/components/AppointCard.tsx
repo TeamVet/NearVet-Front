@@ -49,17 +49,22 @@ const AppointCard: React.FC<AppointCardProps> = ({
       {data && (
         <article
           id="card"
-          className="flex flex-col p-5 m-auto shadow-xl gap-2 items-center cursor-default shadow-slate-300 rounded-lg"
+          className="flex flex-col p-5 m-auto border-gray-300 shadow-md gap-2 items-center cursor-default rounded-lg hover:scale-105"
         >
           <h3 className="text-xl font-semibold text-detail">
             {data.service.service}
           </h3>
-          <div className="flex flex-row gap-2 items-center">
-            <p className="flex flex-row gap-1 items-center">
-              <IoCalendarClearOutline />
-              {result} {data.date}
-            </p>
-            <p className="text-orange-600 flex flex-row items-center">
+          <hr className="border-2 border-gray-400 w-full" />
+          <div className="flex flex-row gap-2 items-start">
+            <div className="flex flex-col gap-1 items-center">
+              <p className="flex flex-row items-center gap-1 text-black">
+                <IoCalendarClearOutline />
+
+                {result}
+              </p>
+              <p className="text-xs">{data.date}</p>
+            </div>
+            <p className="text-red-400 flex flex-row items-center">
               <IoTimeOutline />
               {data.time} hs
             </p>
@@ -70,8 +75,11 @@ const AppointCard: React.FC<AppointCardProps> = ({
               alt="Imagen de Mascota"
               width={150}
               height={150}
+              className="rounded-full object-cover w-24 h-24 p-1 bg-detail"
             />
-            <h4 className="text-detail">{data.pet.name}</h4>
+            <h4 className="text-detail uppercase font-semibold">
+              {data.pet.name}
+            </h4>
           </div>
           <div className="flex flex-row justify-around gap-2">
             {isCancelable ? (
@@ -79,6 +87,7 @@ const AppointCard: React.FC<AppointCardProps> = ({
                 <Link
                   aria-label="Boton para ir a whatsapp"
                   href={LinkWhatsapp}
+                  target="_blank"
                   className="rounded-full size-5 md:size-10 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
                 >
                   <IoLogoWhatsapp />

@@ -9,6 +9,7 @@ import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
 import { useAppointmentData } from "@/hooks/useLoadDataAppoint";
 import { newAppointmentController } from "@/lib/authController";
+import Image from "next/image";
 
 const Appointments: React.FC = () => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const Appointments: React.FC = () => {
   const { loading, startLoading, stopLoading } = useLoading();
   const {
     mascotas,
+    mascotaSelect,
     categories,
     services,
     horarios,
@@ -57,7 +59,7 @@ const Appointments: React.FC = () => {
 
   return (
     <Screen>
-      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto relative">
         <ReusableForm
           formTitle="Registro de Turno"
           inputs={inputsWithOptions}
@@ -65,6 +67,15 @@ const Appointments: React.FC = () => {
           submitButtonLabel="Registrar Turno"
           onInputChange={(value) => handleOnChange(value)}
         />
+        {mascotaSelect && (
+          <Image
+            src={mascotaSelect.imgProfile}
+            alt="mascota"
+            width={100}
+            height={100}
+            className="-z-10 absolute top-[2vh] left-[2vw] size-[20vw] md:size-[10vw] opacity-90 rounded-full"
+          />
+        )}
         {serviceSelect && (
           <div className="dark:border rounded-md p-5 flex flex-col text-start gap-2">
             <h3 className="text-lg font-semibold text-center text-detail">
