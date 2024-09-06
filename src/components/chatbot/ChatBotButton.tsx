@@ -32,7 +32,7 @@ const ChatbotButton = () => {
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-end z-50"
           onClick={handleOutsideClick}
         >
-          <div className="fixed bottom-16 right-5 bg-white p-4 rounded-lg shadow-lg w-80 h-[80vh] ">
+          <div className="fixed bottom-16 right-5 bg-white p-4 rounded-lg shadow-lg w-[35vw] h-[80vh] ">
             <iframe
               src="https://www.chatbase.co/chatbot-iframe/U_J7nNgzcuj9-E5yEmUB0"
               width="100%"
