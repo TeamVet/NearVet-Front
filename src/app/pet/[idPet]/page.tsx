@@ -58,7 +58,7 @@ const PetIndividual: React.FC = () => {
       {mascota && (
         <div className="w-full flex flex-col md:flex-row justify-center gap-1 my-2 m-auto">
           <PetInfo {...mascota} idUrl={idUrl.idPet} />
-          <div className="bg-slate-300 md:w-2/4 flex flex-col ">
+          <div className="md:w-2/4 flex flex-col ">
             <PetSection {...mascota} />
           </div>
           <div className="bg-slate-600 md:w-1/4">Historia Clinica</div>

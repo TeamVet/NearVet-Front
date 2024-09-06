@@ -78,15 +78,19 @@ export const adminCards: UserCard[] = [
 
 export const vetCards: UserCard[] = [
   {
-    text: "Información",
+    text: "Información del Veterinario",
     icon: <InformationIcon size="2xl" />,
   },
   {
-    text: "Proximos Turnos",
+    text: "calendario - Proximos Turnos",
     icon: <MedicalIcon size="2xl" />,
   },
   {
-    text: "Historial de turnos",
+    text: "Turnos - atenciones pendientes",
+    icon: <MedicalIcon size="2xl" />,
+  },
+  {
+    text: "Lista de pacientes",
     icon: <MedicalIcon size="2xl" />,
   },
 ];

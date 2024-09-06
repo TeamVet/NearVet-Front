@@ -9,7 +9,7 @@ import {
 const PetSection = (mascota: Mascota) => {
   const [select, setSelect] = useState<string>("");
   return (
-    <section>
+    <section className="bg-white">
       <nav className="grid grid-flow-col text-center">
         <button
           className={`bg-slate-500 text-white py-2 border flex flex-row justify-center items-center gap-2 ${

@@ -42,40 +42,27 @@ const PetInfo = (mascota: Mascota, idUrl: string) => {
           <IoPencil />
         </button>
       </div>
-      <div className="flex flex-col text-justify p-4">
-        <strong className=" capitalize text-lg self-center">
-          {mascota?.name}
-        </strong>
-        <div className="flex justify-between">
-          <p>{mascota?.specie.specie}</p>
-          <p>{mascota.race.race}</p>
-        </div>
-        <div className="flex justify-center gap-2">
-          <p>{mascota?.sex.sex}</p>
-          <p className="capitalize">{mascota?.color}</p>
-        </div>
-        <div className="flex justify-center gap-2">
-          {mascota.age && <p>Edad: {mascota.age} años </p>}
-          <p>
-            Nacimiento: {mascota.birthdate ? mascota.birthdate : "Desconocido"}
-          </p>
-        </div>
-        <br />
-        <div className="flex flex-row">
-          <ButtonCustom
-            text="Editar"
-            href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
-          />
-
-          <ButtonCustom
-            text="Agendar Turno"
-            onClick={() => router.push(PATHROUTES.NEWAPPOINTMEN)}
-          />
-        </div>
-        <br />
+      <div className="p-2 text-justify">
+        <p>
+          <strong className="capitalize">{mascota.name}</strong>, es un{" "}
+          {mascota.specie.specie} de raza {mascota.race.race}, nacimiento{" "}
+          {mascota.birthdate}{" "}
+          {mascota.age ? `con una edad de ${mascota.age} años` : ""}, sus
+          colores son {mascota.color} y su sexo es {mascota.sex.sex},
+          Observacion:{" "}
+          {mascota.observation ? mascota.observation : "Sin observaciones"}{" "}
+        </p>
+      </div>
+      <br />
+      <div className="flex flex-row">
         <ButtonCustom
-          text="Necesita Atención medica"
-          onClick={() => ErrorNotify("Funcionalidad no disponible")}
+          text="Editar"
+          href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
+        />
+
+        <ButtonCustom
+          text="Agendar Turno"
+          onClick={() => router.push(PATHROUTES.NEWAPPOINTMEN)}
         />
       </div>
     </div>
