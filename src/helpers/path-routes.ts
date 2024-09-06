@@ -8,7 +8,7 @@ const PATHROUTES = {
   PET: "/pet",
   CART: "/cart",
   SEARCH: "/search",
-  FAQ: "/faq",
+  FAQ: "/Q&A",
   ABOUTUS: "/aboutus",
   TERMS: "/terms",
   PRIVACY: "/privacypolicy",
