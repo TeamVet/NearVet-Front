@@ -103,7 +103,7 @@ const AppointCard: React.FC<AppointCardProps> = ({
             ) : (
               <Link
                 aria-label="Boton para calificar atención"
-                className="p-2 m-auto rounded-lg bg-blue-500 text-white hover:bg-blue-700 hover:scale-105"
+                className="p-2 m-auto rounded-lg bg-white text-dark hover:bg-detail hover:text-white hover:scale-105 outline outline-1   "
                 href={PATHROUTES.CALIFICAR}
                 target="_blank"
               >
