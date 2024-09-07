@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { IoCutSharp } from "react-icons/io5";
+import { IoCutSharp, IoMedicalSharp } from "react-icons/io5";
 import jsPDF from "jspdf";
 
 interface Bill {
@@ -100,17 +100,24 @@ const BillModule: React.FC = () => {
               <h4 className="text-xl text-detail">{factura.service}</h4>
               <p>{factura.date}</p>
             </div>
-            <div className="flex flex-row justify-evenly gap-2 items-center">
-              <IoCutSharp />
+            <div className="flex flex-row justify-evenly gap-2 items-center my-2">
+              <div className="text-detail">
+                {factura.service === "Peluqueria" ? (
+                  <IoCutSharp />
+                ) : (
+                  <IoMedicalSharp />
+                )}
+              </div>
               <p>{factura.item}</p>
             </div>
             <div className="flex flex-row justify-between gap-2">
               <p>Total</p>
               <p>$ {factura.price}</p>
             </div>
-            <small className="text-xs">
-              Comprobante no válido como factura
-            </small>
+            <div className="flex flex-col mt-1">
+              <small>Comprobante no válido como factura.</small>
+              <small>Para descargarla, haga click</small>
+            </div>
           </article>
         ))}
     </section>
