@@ -1,15 +1,11 @@
 import React from "react";
-import { useUser } from "@/context/UserContext";
 import { SectionContentProps, User } from "@/types/interfaces";
-
 import AppointsModule from "./appointsModule";
 import PetsModule from "./petsModule";
 import UserInformation from "./UserInformation";
 import { ErrorNotify } from "@/lib/toastyfy";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
-  const { user } = useUser();
-
   switch (section) {
     case "sinUser":
       return <p>No hay datos de usuario</p>;

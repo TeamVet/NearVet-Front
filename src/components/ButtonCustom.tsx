@@ -17,7 +17,7 @@ const ButtonCustom: React.FC<
       href={href}
       aria-label={`Link para ${text}`}
       className={clsx(
-        "px-5 py-2 m-auto rounded-lg text-white hover:scale-105",
+        "px-5 py-2 m-auto rounded-lg text-white hover:scale-105 ",
         sizeClass,
         colorClass,
         bgColorClass
@@ -31,7 +31,7 @@ const ButtonCustom: React.FC<
       onClick={onClick}
       aria-label={`Boton para ${text}`}
       className={clsx(
-        "px-5 py-2 m-auto rounded-lg text-lg text-white hover:scale-105",
+        "px-5 py-2 m-auto rounded-lg  text-white hover:scale-105 ",
         sizeClass,
         colorClass,
         bgColorClass

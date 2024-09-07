@@ -10,10 +10,11 @@ import Loading from "../Loading";
 import { modifyUserService } from "@/lib/authService";
 import { Modal } from "../Modal";
 import { IoPencil } from "react-icons/io5";
+import { InfoNotify } from "@/lib/toastyfy";
 
 const UserInformation: React.FC = () => {
   const [formFields, setFormFields] = useState([...originalInputsModifyUser]);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const [modal, setModal] = useState<boolean>(false);
   const { loading, startLoading, stopLoading } = useLoading();
 
@@ -34,11 +35,44 @@ const UserInformation: React.FC = () => {
   const handleSubmit = async (values: FormRegisterValues) => {
     try {
       startLoading();
-      await modifyUserService(
-        values,
+      const modifiedValues = Object.keys(values).reduce((acc, key) => {
+        const initialValue = formFields.find(
+          (field) => field.name === key
+        )?.initialValue;
+
+        if (values[key] !== initialValue) {
+          acc[key] = values[key];
+        }
+        return acc;
+      }, {} as Record<string, any>);
+
+      if (modifiedValues.dni) {
+        modifiedValues.dni = Number(modifiedValues.dni);
+      }
+      if (modifiedValues.phone) {
+        modifiedValues.phone = Number(modifiedValues.phone);
+      }
+      if (Object.keys(modifiedValues).length === 0) {
+        InfoNotify("No realizaste ningun cambio.");
+        return;
+      }
+
+      const response = await modifyUserService(
+        modifiedValues,
         user!.id as string,
         user!.token as string
       );
+
+      if (response.id) {
+        InfoNotify("Hemos actualizado tus datos.");
+        const updateUser = {
+          ...user,
+          ...response,
+        };
+        localStorage.setItem("user", JSON.stringify(updateUser));
+        setUser(updateUser);
+        // window.location.reload();
+      }
     } finally {
       stopLoading();
     }

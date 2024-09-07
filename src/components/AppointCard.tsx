@@ -57,7 +57,7 @@ const AppointCard: React.FC<AppointCardProps> = ({
           <hr className="border-2 border-gray-400 w-full" />
           <div className="flex flex-row gap-2 items-start">
             <div className="flex flex-col gap-1 items-center">
-              <p className="flex flex-row items-center gap-1 text-black">
+              <p className="flex flex-row items-center gap-1">
                 <IoCalendarClearOutline />
 
                 {result}
@@ -103,7 +103,7 @@ const AppointCard: React.FC<AppointCardProps> = ({
             ) : (
               <Link
                 aria-label="Boton para calificar atención"
-                className="p-2 m-auto rounded-lg bg-white text-dark hover:bg-detail hover:text-white hover:scale-105 outline outline-1   "
+                className="p-2 m-auto rounded-lg bg-detail  text-white hover:bg-detail  hover:scale-105 "
                 href={PATHROUTES.CALIFICAR}
                 target="_blank"
               >
