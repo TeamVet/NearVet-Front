@@ -144,12 +144,3 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
 };
 
 export default ReusableForm;
-
-// {
-//   formik.touched[input.name] &&
-//   typeof formik.errors[input.name] === "string" ? (
-//     <p className="mt-2 text-sm text-red-600">
-//       {formik.errors[input.name]?.toString() || ""}
-//     </p>
-//   ) : null;
-// }

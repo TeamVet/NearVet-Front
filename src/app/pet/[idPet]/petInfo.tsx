@@ -2,27 +2,29 @@ import ButtonCustom from "@/components/ButtonCustom";
 import { Modal } from "@/components/Modal";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
-import { ErrorNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoPencil } from "react-icons/io5";
 
-const PetInfo = (mascota: Mascota, idUrl: string) => {
+const PetInfo = (mascota: Mascota) => {
   if (!mascota) return null;
   const [modal, setModal] = useState<boolean>(false);
   const { user } = useUser();
   const router = useRouter();
+  const idUrl = useParams();
+
   const onCloseModal = () => {
     setModal(false);
-    window.location.reload();
+    // window.location.reload();
   };
   return (
-    <div className=" md:w-1/4 shadow-lg">
+    <div className="shadow-lg md:min-h-[99vh]">
       <Modal
         isOpen={modal}
-        id={idUrl as string}
+        id={idUrl.idPet as string}
         token={user?.token as string}
         onClose={onCloseModal}
         type="pet"
@@ -42,28 +44,37 @@ const PetInfo = (mascota: Mascota, idUrl: string) => {
           <IoPencil />
         </button>
       </div>
-      <div className="p-2 text-justify">
+      <div className="md:p-5 text-justify">
         <p>
           <strong className="capitalize">{mascota.name}</strong>, es un{" "}
-          {mascota.specie.specie} de raza {mascota.race.race}, nacimiento{" "}
-          {mascota.birthdate}{" "}
-          {mascota.age ? `con una edad de ${mascota.age} años` : ""}, sus
-          colores son {mascota.color} y su sexo es {mascota.sex.sex},
-          Observacion:{" "}
+          {mascota.specie.specie}, de raza {mascota.race.race},
+          {mascota.birthdate
+            ? `con fecha de nacimiento el ${mascota.birthdate}`
+            : ""}
+          {mascota.age
+            ? ` con una edad de ${mascota.age} años aproximadamente`
+            : ""}
+          , sus colores son {mascota.color} y su sexo es {mascota.sex.sex}.
+        </p>
+        <p className="py-2">
+          Observaciones:{" "}
           {mascota.observation ? mascota.observation : "Sin observaciones"}{" "}
         </p>
       </div>
       <br />
       <div className="flex flex-row">
-        <ButtonCustom
-          text="Editar"
+        <Link
           href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
-        />
-
-        <ButtonCustom
-          text="Agendar Turno"
-          onClick={() => router.push(PATHROUTES.NEWAPPOINTMEN)}
-        />
+          className="bg-detail p-3 m-auto rounded-lg text-white"
+        >
+          Editar
+        </Link>
+        <Link
+          href={PATHROUTES.NEWAPPOINTMEN}
+          className="bg-detail p-3 m-auto rounded-lg text-white"
+        >
+          Nuevo Turno
+        </Link>
       </div>
     </div>
   );
