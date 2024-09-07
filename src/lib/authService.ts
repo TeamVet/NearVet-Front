@@ -54,7 +54,7 @@ export const registerGoogleService = async (values: FormRegisterValues) => {
 };
 
 export const modifyUserService = async (
-  values: FormRegisterValues,
+  values: Partial<FormRegisterValues>,
   id: string,
   token: string
 ) => {
