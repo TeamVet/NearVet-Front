@@ -135,11 +135,10 @@ export interface Mascota {
   imgProfile: string;
   ///a implementar
   age?: number;
-  stateSalud?: string;
-  historiaClinica?: string;
-  enfermedades?: string[];
-  vacunas?: string[];
-  desparacitaciones?: string[];
+  vacunas?: any;
+  tratamientos?: any;
+  medicamentos?: any;
+
   [key: string]: any;
 }
 // Veterninarias [Missing info]
@@ -194,6 +193,7 @@ export interface FormRegisterValues {
   startDate: Date;
   password?: string;
   passwordConfirm?: string;
+  [key: string]: any;
 }
 
 export interface FormRegisterGoogleValues {
@@ -257,4 +257,34 @@ export interface ReusableFormProps {
   onSubmit: (values: any) => void;
   onInputChange?: (value: string) => void;
   submitButtonLabel: string;
+}
+
+//! FOR MOCK
+export interface Tratamiento {
+  pktratamiento: number;
+  title: string;
+  DescripcionTrat: string;
+  ObservacionTrat: string;
+  frecuencia: string;
+}
+
+export interface Medicamento {
+  pkprescripcion: number;
+  nombre: string;
+  title: string;
+  description: string;
+  extraInfo: string;
+  droga: string;
+  aplicacion: string;
+}
+
+export interface Vacuna {
+  pkvacuna: number;
+  title: string;
+  description: string;
+  extraInfo: string;
+  aplicada: string;
+  proxima: string;
+  id: string;
+  nombre: string;
 }
