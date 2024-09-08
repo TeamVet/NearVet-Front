@@ -25,6 +25,10 @@ export const userCards: UserCard[] = [
     text: "Ver Facturas",
     icon: <TicketIcon size="2xl" />,
   },
+  {
+    text: "Calendario",
+    icon: <StoreIcon size="2xl" />,
+  },
   // {
   //   text: "Veterinaria Favorita",
   //   icon: <StoreIcon size="2xl" />,

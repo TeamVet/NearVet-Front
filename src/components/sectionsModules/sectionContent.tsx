@@ -5,6 +5,7 @@ import PetsModule from "./petsModule";
 import UserInformation from "./UserInformation";
 import { ErrorNotify } from "@/lib/toastyfy";
 import BillModule from "./BillModule";
+import CalendarioModule from "./CalendarioModule";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   switch (section) {
@@ -49,6 +50,8 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         </div>
       );
     ///# Secciones Veterinario
+    case "Calendario":
+      return <CalendarioModule />;
     default:
       return null;
   }

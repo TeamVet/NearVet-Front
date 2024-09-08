@@ -1,12 +1,7 @@
 "use client";
-import ButtonCustom from "@/components/ButtonCustom";
 import Loading from "@/components/Loading";
-import { Modal } from "@/components/Modal";
-import Dashboard from "@/components/sectionsModules/dashboardCustom";
-import SectionContent from "@/components/sectionsModules/sectionContent";
 import { useUser } from "@/context/UserContext";
 import { calculateAge } from "@/helpers/calcularEdad";
-import { userPetsCards } from "@/helpers/dashBoardCards";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import { fetchPetIdController } from "@/lib/authController";
@@ -15,7 +10,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import PetInfo from "./petInfo";
 import PetSection from "./petSection";
-import Screen from "@/components/Screen";
 import PetClinical from "./PetClinical";
 
 const PetIndividual: React.FC = () => {
@@ -50,7 +44,28 @@ const PetIndividual: React.FC = () => {
     },
     repConditionId: "1",
     imgProfile: "https://i.ibb.co/0y8HbD0/IMG-20220207-131510.jpg",
-
+    historial: [
+      {
+        id: "1",
+        title: "Vacunacion",
+        date: "2021-01-01",
+        description: "Primera dosis de vacuna",
+      },
+      {
+        id: "2",
+        title: "Consulta",
+        date: "2021-01-01",
+        description: "Dolor de estomago y llanto",
+      },
+    ],
+    pendientes: [
+      {
+        id: "1",
+        title: "Vacunacion",
+        date: "2022-01-01",
+        description: "Segunda dosis de vacuna",
+      },
+    ],
     vacunas: [
       {
         id: 1,
@@ -155,7 +170,10 @@ const PetIndividual: React.FC = () => {
             />
           </div>
           <div className="md:w-1/4">
-            <PetClinical />
+            <PetClinical
+              Pendientes={PetMock.pendientes}
+              Historial={PetMock.historial}
+            />
           </div>
         </div>
       )}

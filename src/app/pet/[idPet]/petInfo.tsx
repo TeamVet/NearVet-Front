@@ -21,7 +21,7 @@ const PetInfo = (mascota: Mascota) => {
     // window.location.reload();
   };
   return (
-    <div className="shadow-lg md:min-h-[99vh]">
+    <div className="shadow-lg md:min-h-[99vh] p-3">
       <Modal
         isOpen={modal}
         id={idUrl.idPet as string}
