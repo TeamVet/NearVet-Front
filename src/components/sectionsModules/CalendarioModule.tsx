@@ -24,17 +24,26 @@ loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
 const turnos = [
   {
     id: 1,
-    Subject: "Turno 2",
-    description: "Turno de prueba",
+    Subject: "Rayos X - Javier",
+    description: "Mascota: Firu - Observaciones: Sin observaciones",
     StartTime: new Date(2024, 8, 8, 9, 0), ///anio, -mes, dia, hora, minutos
     EndTime: new Date(2024, 8, 8, 10, 0),
     isAllDay: false,
   },
   {
-    id: 1,
-    Subject: "Turno 10",
-    StartTime: new Date(2024, 8, 13, 9, 0),
-    EndTime: new Date(2024, 8, 13, 10, 0),
+    id: 2,
+    Subject: "Castracion - Laura",
+    description: "Mascota: Lara - Observaciones: Sin observaciones",
+    StartTime: new Date(2024, 8, 8, 13, 0),
+    EndTime: new Date(2024, 8, 8, 14, 0),
+    isAllDay: false,
+  },
+  {
+    id: 3,
+    Subject: "Peluqueria - Juan",
+    description: "Mascota: Pancho - Observaciones: No le gusta el secador",
+    StartTime: new Date(2024, 8, 8, 11, 0),
+    EndTime: new Date(2024, 8, 8, 12, 0),
     isAllDay: false,
   },
 ];
@@ -49,13 +58,12 @@ const eventTemplate = (props: any) => {
   );
 };
 const CalendarioModule = () => {
-  const [turnos, setTurnos] = useState([]);
+  const [turnosBackend, setTurnos] = useState([]);
 
   useEffect(() => {
     const fetchTurnos = async () => {
-      const response = await fetch("");
+      //aca hariamos el llamado al backend para traer los turnos de momento mock
     };
-    setTurnos(turnos);
   }, []);
 
   return (
@@ -65,9 +73,9 @@ const CalendarioModule = () => {
         <ScheduleComponent
           eventSettings={{
             dataSource: turnos,
-            allowAdding: false,
-            allowDeleting: false,
-            allowEditing: false,
+            // allowAdding: false,
+            // allowDeleting: false,
+            // allowEditing: false,
             template: eventTemplate,
           }}
           startHour="06:00"
