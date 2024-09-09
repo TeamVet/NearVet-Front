@@ -64,14 +64,9 @@ export const useAppointmentData = (userId: string, token: string) => {
 
   const fetchHorarios = async (serviceId: string) => {
     if (!serviceId) return;
-    const returnHorarios = await horariosService(serviceId);
-    //! CREE UN MOCK HASTA QUE CORRIJAN EN EL BACKEND LA RESPUESTA
-    const horariosMock: { id: string; time: string }[] = [];
-    //! CUANDO ESTE CORREGIDA SOLO SETEAR EL RETURNHORARIOS
-    returnHorarios.forEach((horario: string) => {
-      horariosMock.push({ id: horario, time: horario });
-    });
-    setHorarios(horariosMock);
+    const returnHorarios = await horariosService(serviceId, daySelect as Date);
+
+    setHorarios(returnHorarios);
   };
 
   const handleOnChange = (value: string) => {

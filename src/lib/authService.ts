@@ -236,16 +236,14 @@ export const serviceServices = async (category: string) => {
   return response.json();
 };
 
-export const horariosService = async (serviceId: string) => {
-  const response = await fetch(
-    `${API_BASE_URL}/availability-service/${serviceId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+export const horariosService = async (serviceId: string, date: Date) => {
+  const response = await fetch(`${API_BASE_URL}/availability-service/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ serviceId: serviceId, date: date }),
+  });
   return response.json();
 };
 

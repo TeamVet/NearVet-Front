@@ -265,7 +265,7 @@ export const InputsRegisterAppoint: InputField[] = [
     label: "Horario",
     options: [],
     validation: appointmentValidationSchema.time,
-    labelKey: "time",
+    labelKey: "hour",
   },
   {
     name: "messageUser",
