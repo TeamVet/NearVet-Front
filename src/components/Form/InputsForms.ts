@@ -265,7 +265,7 @@ export const InputsRegisterAppoint: InputField[] = [
     label: "Horario",
     options: [],
     validation: appointmentValidationSchema.time,
-    labelKey: "time",
+    labelKey: "hour",
   },
   {
     name: "messageUser",
@@ -277,3 +277,127 @@ export const InputsRegisterAppoint: InputField[] = [
 ];
 
 export const InputsModifyAppoint = [];
+export const InputsAppointsVetClinical = [
+  {
+    name: "FC",
+    type: "text",
+    label: "Frecuencia Cardiaca",
+    placeholder: "",
+  },
+  {
+    name: "FR",
+    type: "text",
+    label: "Frecuencia Respiratoria",
+    placeholder: "",
+  },
+  {
+    name: "temperature",
+    type: "text",
+    label: "Temperatura",
+    placeholder: "",
+  },
+  {
+    name: "hidratation",
+    type: "number",
+    label: "Hidratacion",
+    placeholder: "",
+  },
+  {
+    name: "TTLC",
+    type: "text",
+    label: "TTLC",
+    placeholder: "",
+  },
+  {
+    name: "mocous",
+    type: "text",
+    label: "Mocous",
+    placeholder: "",
+  },
+  {
+    name: "temperamento",
+    type: "text",
+    label: "Temperamento",
+    placeholder: "",
+  },
+  {
+    name: "diagnosis",
+    type: "text",
+    label: "Diagnostico",
+    placeholder: "",
+  },
+  {
+    name: "anamnesis",
+    type: "textarea",
+    label: "Anamnesis",
+    placeholder: "",
+  },
+];
+export const InputsAppointsVetTratamiento = [
+  {
+    name: "fkservicio",
+    type: "select",
+    label: "Nombre del tratamiento",
+    placeholder: "",
+    options: [],
+    labelKey: "",
+  },
+  {
+    name: "DescriptionTrat",
+    type: "text",
+    label: "Modo de aplicar",
+    placeholder: "",
+  },
+  {
+    name: "ObservacionTrat",
+    type: "text",
+    label: "Observaciones",
+    placeholder: "",
+  },
+];
+export const InputsAppointsVetPrescipciones = [
+  {
+    name: "fkproducto",
+    type: "text",
+    label: "Nombre de la droga",
+    placeholder: "",
+  },
+  {
+    name: "description",
+    type: "text",
+    label: "Modo de aplicación",
+    placeholder: "",
+  },
+  {
+    name: "observation",
+    type: "text",
+    label: "Observaciones",
+    placeholder: "",
+  },
+  {
+    name: "file",
+    type: "file",
+    label: "Receta",
+    placeholder: "",
+  },
+];
+export const InputsAppointsVetPendientes = [
+  {
+    name: "fkservice",
+    type: "text",
+    label: "Motivo del Pendiente",
+    placeholder: "Aplicacion vacuna...",
+  },
+  {
+    name: "description",
+    type: "text",
+    label: "Observaciones",
+    placeholder: "Tener en cuenta que...",
+  },
+  {
+    name: "endPending",
+    type: "date",
+    label: "Fecha Limite del Pendiente",
+    placeholder: "",
+  },
+];
