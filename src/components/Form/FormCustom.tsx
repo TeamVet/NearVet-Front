@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ReusableFormProps } from "@/types/interfaces";
 import Image from "next/image";
+import useLoading from "@/hooks/LoadingHook";
 
 const ReusableForm: React.FC<ReusableFormProps> = ({
   notLogo = false,
@@ -17,6 +18,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
     acc[input.name] = input.initialValue || "";
     return acc;
   }, {} as Record<string, any>);
+  const { loading } = useLoading();
 
   const validationSchema = Yup.object().shape(
     inputs.reduce((acc, input) => {
@@ -134,7 +136,12 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
         </div>
         <button
           type="submit"
-          className="bg-detail px-5 py-2 my-3 mx-auto rounded-lg text-lg text-white hover:scale-105"
+          className={`bg-detail px-5 py-2 my-3 mx-auto rounded-lg text-lg text-white hover:scale-105 ${
+            formik.isSubmitting || loading
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
+          disabled={formik.isSubmitting || loading}
         >
           {submitButtonLabel}
         </button>
