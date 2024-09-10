@@ -10,10 +10,12 @@ import { Mascota } from "@/types/interfaces";
 import { fetchPetsController } from "@/lib/authController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
+import { useRouter } from "next/navigation";
 
 const PetsModule: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const { loading, startLoading, stopLoading } = useLoading();
+  const router = useRouter();
   const { user } = useUser();
 
   useEffect(() => {
@@ -33,7 +35,9 @@ const PetsModule: React.FC = () => {
       fetchMascota();
     }
   }, [user]);
-
+  const handleClick = (id: string) => {
+    router.push(PATHROUTES.PET + `/${id}`);
+  };
   return (
     <>
       {loading && <Loading />}
@@ -49,7 +53,11 @@ const PetsModule: React.FC = () => {
           mascotas &&
           mascotas.length > 0 &&
           mascotas.map((mascota) => (
-            <CardCustom key={mascota.id} isSelect={"not"}>
+            <CardCustom
+              key={mascota.id}
+              isSelect={"not"}
+              onClick={() => handleClick(mascota.id)}
+            >
               <div className="my-2">
                 <Image
                   src={mascota.imgProfile}
