@@ -86,11 +86,11 @@ export const vetCards: UserCard[] = [
     icon: <StoreIcon size="2xl" />,
   },
   {
-    text: "Turnos - atenciones pendientes",
+    text: "Atenciones pendientes",
     icon: <MedicalIcon size="2xl" />,
   },
   {
-    text: "Lista de pacientes",
+    text: "Lista de Pacientes",
     icon: <MedicalIcon size="2xl" />,
   },
 ];
