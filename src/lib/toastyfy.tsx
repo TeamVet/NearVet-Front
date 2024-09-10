@@ -46,3 +46,44 @@ export const InfoNotify = (message: string) => {
     hideProgressBar: false,
   });
 };
+
+export const consulta = (
+  message: string,
+  onConfirm: () => void,
+  onCancel?: () => void
+) => {
+  toast.info(
+    ({ closeToast }) => (
+      <div>
+        <p className="text-center">{message}</p>
+        <div className="flex justify-between mt-4">
+          <button
+            className="bg-detail text-white p-2 rounded-lg hover:bg-green-600"
+            onClick={() => {
+              onConfirm(); // Llamar a la función de confirmación
+              closeToast(); // Cerrar el toast
+            }}
+          >
+            Aceptar
+          </button>
+          <button
+            className="bg-red-500 text-white  p-2 rounded-lg hover:bg-red-600"
+            onClick={() => {
+              if (onCancel) onCancel(); // Llamar a la función de cancelación si existe
+              closeToast(); // Cerrar el toast
+            }}
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    ),
+    {
+      position: "top-center",
+      autoClose: false,
+      theme: "light",
+      closeOnClick: false,
+      transition: Flip,
+    }
+  );
+};

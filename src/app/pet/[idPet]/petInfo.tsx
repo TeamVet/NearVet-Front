@@ -1,5 +1,5 @@
 import ButtonCustom from "@/components/ButtonCustom";
-import { Modal } from "@/components/Modal";
+import { Modal } from "@/components/ModalImage";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
 import { Mascota } from "@/types/interfaces";

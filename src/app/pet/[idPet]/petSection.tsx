@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IoMedicalOutline,
   IoMedkitOutline,
   IoPulseOutline,
 } from "react-icons/io5";
-import { Mascota, Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
+import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
+import ModalForm from "@/components/modalForm";
 
 // Componente para las tarjetas reutilizables
 const Tarjeta = ({
@@ -22,18 +23,36 @@ const Tarjeta = ({
     {extraInfo && <p>{extraInfo}</p>}
   </div>
 );
-
-// Componente principal que maneja las secciones
-const PetSection = (mascota: Mascota) => {
+interface PetSectionProps {
+  Status?: "Iniciado" | "Finalizado" | null;
+  idPet: string;
+}
+const PetSection: React.FC<PetSectionProps> = ({ Status, idPet }) => {
   const [selectedSection, setSelectedSection] = useState<string>("Vacunas");
+  const [vacunas, setVacunas] = useState<Vacuna[]>([]);
+  const [tratamientos, setTratamientos] = useState<Tratamiento[]>([]);
+  const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
 
-  // Función para renderizar las tarjetas basado en la sección seleccionada
+  useEffect(() => {
+    //TODO logica para traer vacunas e tratamientos y medicamentos
+    const fetchTratamientos = async () => {
+      //endpoint /tratment/pet/{petId}
+    };
+    const fetchMedicamentos = async () => {
+      //endpoint /aplication-product/{treatmentId}
+    };
+    if (idPet) {
+      fetchTratamientos();
+      fetchMedicamentos();
+    }
+  }, [idPet]);
+
   const renderSectionContent: any = () => {
     switch (selectedSection) {
       case "Vacunas":
         return (
           <div className="flex flex-wrap justify-center gap-2">
-            {mascota.vacunas.map((vacuna: Vacuna) => (
+            {vacunas.map((vacuna: Vacuna) => (
               <Tarjeta
                 key={vacuna.id}
                 title={vacuna.nombre}
@@ -46,7 +65,7 @@ const PetSection = (mascota: Mascota) => {
       case "Tratamientos":
         return (
           <div className="flex flex-wrap justify-center gap-2">
-            {mascota.tratamientos.map((tratamiento: Tratamiento) => (
+            {tratamientos.map((tratamiento: Tratamiento) => (
               <Tarjeta
                 key={tratamiento.pktratamiento}
                 title={tratamiento.DescripcionTrat}
@@ -59,7 +78,7 @@ const PetSection = (mascota: Mascota) => {
       case "Medicamentos":
         return (
           <div className="flex flex-wrap justify-center gap-2">
-            {mascota.medicamentos.map((medicamento: Medicamento) => (
+            {medicamentos.map((medicamento: Medicamento) => (
               <Tarjeta
                 key={medicamento.pkprescripcion}
                 title={medicamento.nombre}

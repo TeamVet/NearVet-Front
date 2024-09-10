@@ -135,7 +135,7 @@ export interface Mascota {
   imgProfile: string;
   ///a implementar
   age?: number;
-  vacunas?: any;
+  vacunas?: any[];
   tratamientos?: any;
   medicamentos?: any;
   pendientes: {

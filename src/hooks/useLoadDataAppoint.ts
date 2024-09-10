@@ -14,7 +14,7 @@ export const useAppointmentData = (userId: string, token: string) => {
     { id: string; categoryService: string; description: string }[]
   >([]);
   const [services, setServices] = useState<any[]>([]);
-  const [horarios, setHorarios] = useState<{ id: string; time: string }[]>([]);
+  const [horarios, setHorarios] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [categorySelect, setCategorySelect] = useState("");
@@ -66,7 +66,17 @@ export const useAppointmentData = (userId: string, token: string) => {
     if (!serviceId) return;
     const returnHorarios = await horariosService(serviceId);
     console.log(returnHorarios); //!! ARREGLAR CON BACKEND
-    setHorarios(returnHorarios);
+    const nuevoshorarios = returnHorarios.map(
+      (horario: { id: string; startHour1: string }) => {
+        return {
+          id: horario.startHour1,
+          hour: horario.startHour1,
+        };
+      }
+    );
+
+    console.log(nuevoshorarios);
+    setHorarios(nuevoshorarios);
   };
 
   const handleOnChange = (value: string) => {
