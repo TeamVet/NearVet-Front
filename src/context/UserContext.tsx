@@ -78,10 +78,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
       setUser(login);
-      router.push(PATHROUTES.USER_DASHBOARD);
+      if (login.role.role === "veterinarian") {
+        router.push(PATHROUTES.VET_DASHBOARD);
+      }
+      if (login.role.role === "admin") {
+        router.push(PATHROUTES.ADMIN_DASHBOARD);
+      } else router.push(PATHROUTES.USER_DASHBOARD);
     }
   };
-
   const logout = () => {
     SuccessNotify("Sesión cerrada");
     document.cookie =
