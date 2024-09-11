@@ -15,7 +15,7 @@ export const NavItem: Array<NavItemProps> = [
   },
   {
     name: 'Pasarela de pago',
-    url: PATHROUTES.PAYMENT,
+    url: '',
     icon: PayIcon,
   },
 ];

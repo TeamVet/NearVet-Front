@@ -10,7 +10,6 @@ import {
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { useUser } from "@/context/UserContext";
-import TableCustom from "../TableCustom";
 import Screen from "../Screen";
 import AppointCard from "../AppointCard";
 import { useRouter } from "next/navigation";
@@ -20,7 +19,7 @@ const AppointsModule: React.FC = () => {
   const { loading, startLoading, stopLoading } = useLoading();
   const [turnosFinalizados, setTurnoFinalizados] = useState<Turnos[]>([]);
   const [turnosPendientes, setTurnoPendientes] = useState<Turnos[]>([]);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -31,7 +30,6 @@ const AppointsModule: React.FC = () => {
           user?.id as string,
           user?.token as string
         );
-
         setTurnos(responseTurnos);
       } finally {
         stopLoading();
@@ -74,7 +72,7 @@ const AppointsModule: React.FC = () => {
       return responseCancel;
     } finally {
       stopLoading();
-      router.refresh();
+      window.location.reload();
     }
   };
 
@@ -87,41 +85,46 @@ const AppointsModule: React.FC = () => {
       <section className="my-5 m-auto flex flex-col ">
         {turnos && turnos.length > 0 ? (
           <>
-            <section className="flex flex-col  m-auto">
-              <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
-                Turnos Activos
-              </h3>
-              <div className="flex flex-row flex-wrap justify-items-center gap-2">
-                {turnosPendientes.length > 0 &&
-                  turnosPendientes.map((turno) => (
-                    <AppointCard
-                      data={turno}
-                      handleCancel={handleCancel}
-                      key={turno.id}
-                      isCancelable
-                    />
-                  ))}
-              </div>
-            </section>
+            {turnosPendientes.length > 0 ? (
+              <section className="flex flex-col  m-auto">
+                <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
+                  Turnos Activos
+                </h3>
+                <div className="flex flex-row flex-wrap justify-items-center gap-2">
+                  {turnosPendientes.length > 0 &&
+                    turnosPendientes.map((turno) => (
+                      <AppointCard
+                        data={turno}
+                        handleCancel={handleCancel}
+                        key={turno.id}
+                        isCancelable
+                      />
+                    ))}
+                </div>
+              </section>
+            ) : null}
 
             {turnosPendientes.length > 0 && turnosFinalizados.length > 0 ? (
               <hr className="border-2 my-10 mx-auto border-gray-400 w-2/3" />
             ) : null}
-            <section className="flex flex-col  m-auto">
-              <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
-                Turnos Finalizados
-              </h3>
-              <div className="flex flex-row flex-wrap justify-items-center gap-2">
-                {turnosFinalizados.length > 0 &&
-                  turnosFinalizados.map((turno) => (
-                    <AppointCard
-                      data={turno}
-                      handleCancel={handleCancel}
-                      key={turno.id}
-                    />
-                  ))}
-              </div>
-            </section>
+
+            {turnosFinalizados.length > 0 ? (
+              <section className="flex flex-col  m-auto">
+                <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
+                  Turnos Finalizados
+                </h3>
+                <div className="flex flex-row flex-wrap justify-items-center gap-2">
+                  {turnosFinalizados.length > 0 &&
+                    turnosFinalizados.map((turno) => (
+                      <AppointCard
+                        data={turno}
+                        handleCancel={handleCancel}
+                        key={turno.id}
+                      />
+                    ))}
+                </div>
+              </section>
+            ) : null}
           </>
         ) : (
           <>

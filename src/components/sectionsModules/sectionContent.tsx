@@ -5,6 +5,9 @@ import PetsModule from "./petsModule";
 import UserInformation from "./UserInformation";
 import { ErrorNotify } from "@/lib/toastyfy";
 import BillModule from "./BillModule";
+import CalendarioModule from "./CalendarioModule";
+import AppointsVetModule from "./AppointsVetModule";
+import PatientsListModule from "./PatientsListModule";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   switch (section) {
@@ -49,6 +52,12 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         </div>
       );
     ///# Secciones Veterinario
+    case "Calendario":
+      return <CalendarioModule />;
+    case "Atenciones pendientes":
+      return <AppointsVetModule />;
+    case "Lista de Pacientes":
+      return <PatientsListModule />;
     default:
       return null;
   }

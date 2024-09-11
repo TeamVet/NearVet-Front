@@ -8,7 +8,7 @@ import { FormRegisterValues, User } from "@/types/interfaces";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { modifyUserService } from "@/lib/authService";
-import { Modal } from "../Modal";
+import { Modal } from "../ModalImage";
 import { IoPencil } from "react-icons/io5";
 import { InfoNotify } from "@/lib/toastyfy";
 

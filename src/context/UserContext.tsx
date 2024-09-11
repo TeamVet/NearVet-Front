@@ -31,8 +31,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchUser = async () => {
       const storedUser = localStorage.getItem("user");
       if (!storedUser && !user && session) {
+        const name = session?.user?.name?.split(" ")[0];
+        const lastName = session?.user?.name?.split(" ")[1];
+        localStorage.setItem("prueba", JSON.stringify({ name, lastName }));
         const values = {
-          name: session?.user?.name!,
+          name: name || session!.user!.name!,
+          lastName: lastName,
           email: session?.user?.email!,
           imgProfile: session?.user?.image!,
           startDate: new Date(),
@@ -78,10 +82,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
       setUser(login);
-      router.push(PATHROUTES.USER_DASHBOARD);
+      if (login.role.role === "veterinarian") {
+        router.push(PATHROUTES.VET_DASHBOARD);
+      }
+      if (login.role.role === "admin") {
+        router.push(PATHROUTES.ADMIN_DASHBOARD);
+      }
+      if (login.role.role === "user") {
+        router.push(PATHROUTES.USER_DASHBOARD);
+      }
     }
   };
-
   const logout = () => {
     SuccessNotify("Sesión cerrada");
     document.cookie =

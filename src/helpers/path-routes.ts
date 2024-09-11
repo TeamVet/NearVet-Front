@@ -14,7 +14,7 @@ const PATHROUTES = {
   PRIVACY: '/privacypolicy',
   APPOINTMENT: '/appointment',
   NEWAPPOINTMEN: '/appointment/newAppointment',
-  WHATSAPP: 'https://wa.me/3758488428/',
+  WHATSAPP: 'https://wa.me/',
   CALIFICAR: 'https://forms.gle/quKt5d1b7saptcyn9',
 };
 

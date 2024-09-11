@@ -1,12 +1,12 @@
 import ButtonCustom from "@/components/ButtonCustom";
-import { Modal } from "@/components/Modal";
+import { Modal } from "@/components/ModalImage";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoPencil } from "react-icons/io5";
 
 const PetInfo = (mascota: Mascota) => {
@@ -20,8 +20,9 @@ const PetInfo = (mascota: Mascota) => {
     setModal(false);
     // window.location.reload();
   };
+
   return (
-    <div className="shadow-lg md:min-h-[99vh]">
+    <div className="shadow-lg md:min-h-[99vh] p-3">
       <Modal
         isOpen={modal}
         id={idUrl.idPet as string}

@@ -9,7 +9,7 @@ const verifyToken = (token: string, secretKey: string = secret) => {
 
     return decoded; // Retorna los datos del token
   } catch (error: any) {
-    console.error("Error: ", error.message);
+    alert(`Error: ${error.message}`);
     return null; // Retorna null si el token es inválido
   }
 };
