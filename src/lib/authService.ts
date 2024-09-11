@@ -287,11 +287,15 @@ export const addAppointmentService = async (values: FormNewAppointment) => {
   }
 };
 
-export const fetchTurnosService = async (id: string, date: Date) => {
+export const fetchTurnosService = async (
+  id: string,
+  startDate: Date,
+  endDate: Date
+) => {
   const data = {
     url: `${APPOINTS_VETERINIAN}`,
     method: "POST" as const,
-    data: { id, date },
+    data: { id, startDate, endDate },
   };
   const response = await fetcher(data);
   if (!response) throw new Error(response.message);

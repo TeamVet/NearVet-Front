@@ -8,6 +8,7 @@ import {
   Month,
   ViewsDirective,
   Agenda,
+  NavigatingEventArgs,
 } from "@syncfusion/ej2-react-schedule";
 import React, { useEffect, useState } from "react";
 import { loadCldr, registerLicense } from "@syncfusion/ej2-base";
@@ -23,57 +24,44 @@ import { fetchTurnosService } from "@/lib/authService";
 
 loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
 
-const turnos = [
-  {
-    id: 1,
-    Subject: "Rayos X - Javier",
-    description: "Mascota: Firu - Observaciones: Sin observaciones",
-    StartTime: new Date(2024, 8, 9, 9, 0), ///anio, -mes, dia, hora, minutos
-    EndTime: new Date(2024, 8, 9, 10, 0),
-    isAllDay: false,
-  },
-  {
-    id: 2,
-    Subject: "Castracion - Laura",
-    description: "Mascota: Lara - Observaciones: Sin observaciones",
-    StartTime: new Date(2024, 8, 9, 13, 0),
-    EndTime: new Date(2024, 8, 9, 14, 0),
-    isAllDay: false,
-  },
-  {
-    id: 3,
-    Subject: "Peluqueria - Juan",
-    description: "Mascota: Pancho - Observaciones: No le gusta el secador",
-    StartTime: new Date(2024, 8, 9, 11, 0),
-    EndTime: new Date(2024, 8, 9, 12, 0),
-    isAllDay: false,
-  },
-];
-const eventTemplate = (props: any) => {
-  return (
-    <div>
-      <div style={{ textAlign: "center" }}>
-        <strong>{props.Subject}</strong>
-      </div>
-      <div>{props.description}</div>
-    </div>
-  );
-};
 const CalendarioModule = () => {
   const [turnosBackend, setTurnos] = useState([]);
   const { user } = useUser();
-  const today = new Date();
+  const [firstDate, setFirstDate] = useState<Date | null>(null);
+  const [lastDate, setLastDate] = useState<Date | null>(null);
+
+  const calculateMonthDates = (currentDate: Date) => {
+    const firstDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    const lastDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    );
+    return { firstDay, lastDay };
+  };
+  const onNavigating = (args: NavigatingEventArgs) => {
+    const { currentDate } = args;
+    const { firstDay, lastDay } = calculateMonthDates(currentDate as Date);
+    setFirstDate(firstDay);
+    setLastDate(lastDay);
+  };
+
   useEffect(() => {
     const fetchTurnos = async () => {
-      if (!user?.id) return;
-      const response = await fetchTurnosService(user.id, today);
-      console.log(response);
+      if (!user?.id || !firstDate || !lastDate) return;
+      const response = await fetchTurnosService(user.id, firstDate, lastDate);
       if (response.length > 0) setTurnos(response);
     };
-    if (user?.id) {
+
+    // Ejecutar fetch solo cuando se tengan fechas y el usuario esté disponible
+    if (user?.id && firstDate && lastDate) {
       fetchTurnos();
     }
-  }, []);
+  }, [user, firstDate, lastDate]);
 
   return (
     <div>
@@ -85,12 +73,12 @@ const CalendarioModule = () => {
             allowAdding: false,
             allowDeleting: false,
             allowEditing: false,
-            template: eventTemplate,
           }}
           startHour="06:00"
           endHour="23:00"
           currentView="Day"
           locale="es-AR"
+          navigating={onNavigating}
         >
           <ViewsDirective>
             <ViewDirective option="Day" displayName="Dia" />
