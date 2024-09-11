@@ -3,30 +3,6 @@ import TableCustom from "../TableCustom";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 
-const MockDatos = [
-  {
-    id: 1,
-    mascota: "Lara",
-    user: "Luis",
-    phone: 123456789,
-    email: "luis@luis",
-  },
-  {
-    id: 1,
-    mascota: "Pufi",
-    user: "Luis",
-    phone: 123456789,
-    email: "luis@luis",
-  },
-  {
-    id: 1,
-    mascota: "Pancho",
-    user: "Luis",
-    phone: 123456789,
-    email: "luis@luis",
-  },
-];
-
 const PatientsListModule = () => {
   const [patientsList, setPatientsList] = useState([]);
   const { loading, startLoading, stopLoading } = useLoading();
@@ -48,7 +24,7 @@ const PatientsListModule = () => {
     }
   };
   return (
-    <section className="shadow-lg p-5 m-auto w-2/3 text-center">
+    <section className="shadow-lg p-5 m-auto  text-center">
       {loading && <Loading />}
       <TableCustom
         title="Lista de Pacientes"

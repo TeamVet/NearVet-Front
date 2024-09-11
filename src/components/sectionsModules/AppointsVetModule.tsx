@@ -4,7 +4,7 @@ import PATHROUTES from "@/helpers/path-routes";
 import { useUser } from "@/context/UserContext";
 import { fetchTurnosService } from "@/lib/authService";
 const today = new Date("2024-09-23");
-const timeNow = new Date().getHours();
+const todayString = today.toISOString().split("T")[0];
 
 const turnos = [
   {
@@ -94,9 +94,7 @@ const AppointsVetModule = () => {
   }, []);
   return (
     <>
-      <h3 className="text-xl text-detail">
-        Atenciones del dia {today.toISOString()}
-      </h3>
+      <h3 className="text-xl text-detail">Atenciones del {todayString}</h3>
 
       <section className="flex flex-col md:flex-row flex-wrap m-auto w-full md:w-3/4 my-2 gap-2">
         {turnos.map((turno) => (
