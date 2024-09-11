@@ -4,7 +4,7 @@ import {
   LoginService,
   registerGoogleService,
   registerService,
-} from "../authService";
+} from "../Services/userService";
 
 //authControllers
 export const loginController = async (values: FormValues) => {

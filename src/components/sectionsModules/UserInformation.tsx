@@ -7,7 +7,7 @@ import Image from "next/image";
 import { FormRegisterValues, User } from "@/types/interfaces";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
-import { modifyUserService } from "@/lib/authService";
+import { modifyUserService } from "@/lib/Services/userService";
 import { Modal } from "../ModalImage";
 import { IoPencil } from "react-icons/io5";
 import { InfoNotify } from "@/lib/toastyfy";

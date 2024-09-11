@@ -1,6 +1,6 @@
 import { FormRegisterValues } from "@/types/interfaces";
 import { ErrorNotify, PromessNotify } from "../toastyfy";
-import { modifyUserService } from "../authService";
+import { modifyUserService } from "../Services/userService";
 
 //userControllers
 export const modyfyUserController = async (

@@ -11,7 +11,7 @@ import PetSection from "../../[idPet]/petSection";
 import PetClinical from "../../[idPet]/PetClinical";
 import ModalForm from "@/components/modalForm";
 import { consulta, ErrorNotify } from "@/lib/toastyfy";
-import { fetchAppointIdService } from "@/lib/authService";
+import { fetchAppointIdService } from "@/lib/Services/appointService";
 
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();

@@ -5,7 +5,7 @@ import {
   fetchPetsService,
   modifyImgPetService,
   modifyPetService,
-} from "../authService";
+} from "../Services/petService";
 import { ErrorNotify, PromessNotify } from "../toastyfy";
 
 //petControllers

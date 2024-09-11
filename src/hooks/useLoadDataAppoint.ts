@@ -4,7 +4,7 @@ import {
   categoryServices,
   horariosService,
   serviceServices,
-} from "@/lib/authService";
+} from "@/lib/Services/appointService";
 
 import { ErrorNotify } from "@/lib/toastyfy";
 import { fetchPetsController } from "@/lib/Controllers/petController";

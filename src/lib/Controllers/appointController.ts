@@ -3,9 +3,9 @@ import {
   addAppointmentService,
   cancelAppointmentService,
   fetchAppointService,
-  fetchTratmentPetService,
-} from "../authService";
+} from "../Services/appointService";
 import { ErrorNotify, PromessNotify } from "../toastyfy";
+import { fetchTratmentPetService } from "../Services/tratmentsService";
 
 //appointControllers
 export const fetchAppointController = async (userId: string, token: string) => {
