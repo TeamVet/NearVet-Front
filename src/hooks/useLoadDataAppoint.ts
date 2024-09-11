@@ -5,8 +5,9 @@ import {
   horariosService,
   serviceServices,
 } from "@/lib/authService";
-import { fetchPetsController } from "@/lib/authController";
+
 import { ErrorNotify } from "@/lib/toastyfy";
+import { fetchPetsController } from "@/lib/Controllers/petController";
 
 export const useAppointmentData = (userId: string, token: string) => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);

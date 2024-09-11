@@ -13,7 +13,7 @@ import { useUser } from "@/context/UserContext";
 import {
   fetchPetIdController,
   modifyPetController,
-} from "@/lib/authController";
+} from "@/lib/Controllers/petController";
 import { ErrorNotify } from "@/lib/toastyfy";
 
 const ModifyPet: React.FC = () => {

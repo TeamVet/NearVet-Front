@@ -7,7 +7,7 @@ import ButtonCustom from "../ButtonCustom";
 import { ErrorNotify } from "@/lib/toastyfy";
 import { useUser } from "@/context/UserContext";
 import { Mascota } from "@/types/interfaces";
-import { fetchPetsController } from "@/lib/authController";
+import { fetchPetsController } from "@/lib/Controllers/petController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";

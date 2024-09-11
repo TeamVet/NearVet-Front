@@ -6,7 +6,7 @@ import { ErrorNotify } from "@/lib/toastyfy";
 import { useEffect, useState } from "react";
 import { InputsRegisterPet as originalInputsRegisterPet } from "@/components/Form/InputsForms";
 import { FormNewPet } from "@/types/interfaces";
-import { petController } from "@/lib/authController";
+import { petController } from "@/lib/Controllers/petController";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";

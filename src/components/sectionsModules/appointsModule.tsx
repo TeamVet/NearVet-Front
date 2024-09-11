@@ -6,7 +6,7 @@ import PATHROUTES from "@/helpers/path-routes";
 import {
   cancelAppointController,
   fetchAppointController,
-} from "@/lib/authController";
+} from "@/lib/Controllers/appointController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { useUser } from "@/context/UserContext";

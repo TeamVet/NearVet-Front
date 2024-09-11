@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ButtonCustom from "./ButtonCustom";
-import { modifyImagenController } from "@/lib/authController";
+import { modifyImagenController } from "@/lib/Controllers/petController";
 import { ErrorNotify } from "@/lib/toastyfy";
 import { useUser } from "@/context/UserContext";
 import { ModalProps } from "@/types/interfaces";
