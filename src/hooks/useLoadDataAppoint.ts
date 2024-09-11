@@ -64,6 +64,7 @@ export const useAppointmentData = (userId: string, token: string) => {
 
   const fetchHorarios = async (serviceId: string) => {
     if (!serviceId) return;
+
     const returnHorarios = await horariosService(serviceId);
     console.log(returnHorarios); //!! ARREGLAR CON BACKEND
     const nuevoshorarios = returnHorarios.map(

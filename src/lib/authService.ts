@@ -265,6 +265,7 @@ export const serviceServices = async (category: string) => {
   return response.json();
 };
 
+
 export const horariosService = async (serviceId: string) => {
   const response = await fetch(`${API_BASE_URL}${AVAILABILITY_SERVICE}`, {
     method: "GET",

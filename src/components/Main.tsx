@@ -5,27 +5,27 @@ import VetCard from "./VetCard";
 
 const Main: React.FC = () => {
   return (
-    <div className="flex flex-col w-full gap-12">
+    <div className="flex flex-col w-full gap-12 dark:bg-gray-900">
       <div className="flex flex-col md:flex-row gap-28 p-10">
         <div className="w-full flex flex-col gap-5">
-          <h1 className="text-start font-bold text-4xl dark:text-darkHline">
+          <h1 className="text-start font-bold text-4xl dark:text-purple-300">
             NearVet
           </h1>
-          <h2 className="text-xl text-lightText dark:text-darkHline">
+          <h1 className="text-left font-bold text-4xl dark:text-gray-100">
             Encuentra la mejor veterinaria para tu mascota
-          </h2>
-          <p className="text-justify text-xl">
+          </h1>
+          <p className="text-justify text-xl dark:text-gray-300">
             Nuestro marketplace de clínicas veterinarias te conecta a las
             veterinarias mejor puntuadas en tu área. Lee reseñas y obtén los
             cuidados que tu{" "}
             <span className="text-detail font-bold">amigo peludo</span> merece.
           </p>
           <div className="flex justify-end gap-5">
-            <button className="rounded-lg text-white bg-detail p-3 shadow-md hover:scale-105">
+            <button className="rounded-lg text-white bg-detail dark:bg-purple-700 p-3 shadow-md hover:scale-105 transition duration-300">
               {" "}
               Encuentra una Clínica
             </button>
-            <button className="rounded-lg bg-secondary p-3 shadow-md hover:scale-105">
+            <button className="rounded-lg bg-secondary p-3 shadow-md hover:scale-105 transition duration-300  dark:bg-detail dark:text-white">
               {" "}
               Descubre más
             </button>
@@ -33,17 +33,17 @@ const Main: React.FC = () => {
         </div>
         <div className="lg:w-3/5">
           <img
-            className="w-full rounded-md"
+            className="w-full rounded-md shadow-lg"
             src="https://res.cloudinary.com/dvj0ded3x/image/upload/v1724516607/e-8_shgqns.png"
-            alt=""
+            alt="Veterinarian with pets"
           />
         </div>
       </div>
-      <div className="flex flex-col gap-5 bg-secondary dark:bg-darkBG p-10 rounded-md">
-        <span className="text-detail w-full text-center font-extrabold text-lg dark:text-darkHline">
+      <div className="flex flex-col gap-5 bg-secondary dark:bg-gray-800 p-10 rounded-md shadow-md">
+        <span className="text-detail w-full text-center font-extrabold text-lg dark:text-purple-300">
           Nuestros Servicios
         </span>
-        <h1 className="text-center font-bold text-4xl">
+        <h1 className="text-center font-bold text-4xl dark:text-darkText">
           ¡Conectándote con las mejores veterinarias!
         </h1>
         <p className="text-justify text-xl">
@@ -57,8 +57,10 @@ const Main: React.FC = () => {
             <div className="flex flex-col justify-center h-full">
               <ul className="flex flex-col gap-10 text-start text-lg">
                 <li>
-                  <span className="text-detail font-bold flex">
-                    <FaGreaterThan className="text-detail pt-2" />
+                  <span className="text-detail font-bold flex items-center dark:text-purple-300">
+                    {" "}
+                    {/* Aligned icon */}
+                    <FaGreaterThan className="text-detail mr-2" />
                     Resuleve emergencias
                   </span>
                   <p>
@@ -67,8 +69,8 @@ const Main: React.FC = () => {
                   </p>
                 </li>
                 <li>
-                  <span className="text-detail font-bold flex">
-                    <FaGreaterThan className="text-detail pt-2" />
+                  <span className="text-detail font-bold flex items-center dark:text-purple-300">
+                    <FaGreaterThan className="text-detail mr-2" />
                     Lee reseñas
                   </span>
                   <p>
@@ -77,12 +79,12 @@ const Main: React.FC = () => {
                   </p>
                 </li>
                 <li>
-                  <span className="text-detail font-bold flex">
-                    <FaGreaterThan className="text-detail pt-2 " />
+                  <span className="text-detail font-bold flex items-center dark:text-purple-300">
+                    <FaGreaterThan className="text-detail mr-2" />
                     Cuidado especializado
                   </span>
                   <p>
-                    Accede a una ampli agama de servicios veterinarios para las
+                    Accede a una amplia gama de servicios veterinarios para las
                     necesidades de tu mascota.
                   </p>
                 </li>
@@ -99,13 +101,13 @@ const Main: React.FC = () => {
         </div>
       </div>
       <div className="flex flex-col gap-5 p-10 rounded-md">
-        <span className="text-detail max-w-sm text-center mx-auto p-2 rounded-lg text-lg bg-secondary">
+        <span className="text-detail max-w-sm text-center mx-auto p-2 rounded-lg text-lg bg-secondary dark:bg-purple-700 dark:text-white">
           Clínicas Asociadas
         </span>
-        <h1 className="text-center font-bold text-4xl">
+        <h1 className="text-center font-bold text-4xl dark:text-gray-100">
           Las mejores veterinarias cerca de tí
         </h1>
-        <p className="text-justify text-xl">
+        <p className="text-justify text-xl dark:text-gray-300">
           Explora nuestra selección de clínicas veterinarias altamente
           calificadas en tu área. Agenda citas, lee reseñas, y encuentra el
           match perfecto para tu mascota.

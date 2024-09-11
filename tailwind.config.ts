@@ -17,7 +17,7 @@ const config: Config = {
       },
       backgroundColor: {
         lightBG: "#FFFFFF",
-        darkBG: "#333333",
+        darkBG: "#111827",
         navDarkBG: "#212121"
       },
       colors: {
