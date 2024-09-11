@@ -14,7 +14,7 @@ const MODIFI_USER = process.env.NEXT_PUBLIC_MODIFI_USER;
 const PETS_USER = process.env.NEXT_PUBLIC_PETS_USER;
 const PETS = process.env.NEXT_PUBLIC_PETS;
 const APPOINTS_USER = process.env.NEXT_PUBLIC_APPOINTS_USER;
-const APPOINTS_VETERINIAN = process.env.NEXT_PUBLIC_APPOINTS_USER;
+const APPOINTS_VETERINIAN = process.env.NEXT_PUBLIC_APPOINTS_VETERINIAN;
 const APPOINTS_CANCEL = process.env.NEXT_PUBLIC_APPOINTS_CANCEL;
 const SPECIES = process.env.NEXT_PUBLIC_SPECIES;
 const RACES = process.env.NEXT_PUBLIC_RACES;
@@ -279,10 +279,11 @@ export const addAppointmentService = async (values: FormNewAppointment) => {
   }
 };
 
-export const fetchTurnosService = async (id: string) => {
+export const fetchTurnosService = async (id: string, date: Date) => {
   const data = {
-    url: `${APPOINTS_VETERINIAN}/${id}`,
-    method: "GET" as const,
+    url: `${APPOINTS_VETERINIAN}`,
+    method: "POST" as const,
+    data: { id, date },
   };
   const response = await fetcher(data);
   if (!response) throw new Error(response.message);
