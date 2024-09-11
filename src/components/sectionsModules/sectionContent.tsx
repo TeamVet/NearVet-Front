@@ -1,5 +1,5 @@
 import React from "react";
-import { SectionContentProps, User } from "@/types/interfaces";
+import { SectionContentProps } from "@/types/interfaces";
 import AppointsModule from "./appointsModule";
 import PetsModule from "./petsModule";
 import UserInformation from "./UserInformation";

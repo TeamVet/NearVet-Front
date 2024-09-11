@@ -4,7 +4,7 @@ import { useUser } from "@/context/UserContext";
 import { calculateAge } from "@/helpers/calcularEdad";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
-import { fetchPetIdController } from "@/lib/authController";
+import { fetchPetIdController } from "@/lib/Controllers/petController";
 import { Mascota } from "@/types/interfaces";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

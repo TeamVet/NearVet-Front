@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import PATHROUTES from "@/helpers/path-routes";
 import { useUser } from "@/context/UserContext";
-import { fetchTurnosService } from "@/lib/authService";
+import { fetchTurnosService } from "@/lib/Services/appointService";
 const today = new Date("2024-09-23");
 const todayString = today.toISOString().split("T")[0];
 

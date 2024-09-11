@@ -4,9 +4,10 @@ import {
   categoryServices,
   horariosService,
   serviceServices,
-} from "@/lib/authService";
-import { fetchPetsController } from "@/lib/authController";
+} from "@/lib/Services/appointService";
+
 import { ErrorNotify } from "@/lib/toastyfy";
+import { fetchPetsController } from "@/lib/Controllers/petController";
 
 export const useAppointmentData = (userId: string, token: string) => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);

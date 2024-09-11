@@ -8,7 +8,7 @@ import { InputsRegisterAppoint } from "@/components/Form/InputsForms";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
 import { useAppointmentData } from "@/hooks/useLoadDataAppoint";
-import { newAppointmentController } from "@/lib/authController";
+import { newAppointmentController } from "@/lib/Controllers/appointController";
 import Image from "next/image";
 
 const Appointments: React.FC = () => {

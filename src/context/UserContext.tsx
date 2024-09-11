@@ -9,14 +9,15 @@ import {
   UserContextType,
 } from "@/types/interfaces";
 import PATHROUTES from "@/helpers/path-routes";
-import {
-  loginController,
-  petController,
-  registerUserController,
-  registerWithGoogleController,
-} from "@/lib/authController";
+
 import { InfoNotify, PromessNotify, SuccessNotify } from "@/lib/toastyfy";
 import { useRouter } from "next/navigation";
+import {
+  loginController,
+  registerUserController,
+  registerWithGoogleController,
+} from "@/lib/Controllers/authController";
+import { petController } from "@/lib/Controllers/petController";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 

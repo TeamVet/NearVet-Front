@@ -5,7 +5,7 @@ import {
   IoPulseOutline,
 } from "react-icons/io5";
 import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
-import { TratmentsController } from "@/lib/authController";
+import { TratmentsController } from "@/lib/Controllers/appointController";
 
 // Componente para las tarjetas reutilizables
 const Tarjeta = ({

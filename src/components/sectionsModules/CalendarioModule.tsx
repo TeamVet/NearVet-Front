@@ -20,7 +20,7 @@ import frtimeZoneData from "@syncfusion/ej2-cldr-data/main/es-AR/timeZoneNames.j
 import frGregorian from "@syncfusion/ej2-cldr-data/main/es-AR/ca-gregorian.json";
 import frNumberingSystem from "@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json";
 import { useUser } from "@/context/UserContext";
-import { fetchTurnosService } from "@/lib/authService";
+import { fetchTurnosService } from "@/lib/Services/appointService";
 
 loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
 
