@@ -37,16 +37,17 @@ const PetIndividual: React.FC = () => {
       try {
         const data = await fetchAppointIdService(idAppoint as string);
         if (data === undefined || data === null) {
-          alert("Error");
+          return;
         }
         setTurnoVet(data);
         setMascota(data.pet);
         setTurnoStatus(data.state.state);
       } finally {
+        stopLoading();
       }
     };
 
-    if (user?.role.role != "user") {
+    if (user?.role.role != "user" && idAppoint) {
       fetchAppoint();
     } else {
       ErrorNotify("No autorizado");
@@ -78,7 +79,7 @@ const PetIndividual: React.FC = () => {
         onClose={() => setIsOpen(false)}
         setTurno={() => setTurnoStatus("Finalizado")}
       />
-      {mascota && idUrl.idPet && (
+      {mascota && idAppoint && (
         <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
           <div className="md:w-1/4">
             <PetInfo {...mascota} />

@@ -31,6 +31,9 @@ const AVAILABILITY_SERVICE = process.env.NEXT_PUBLIC_AVAILABILITY_SERVICE;
 const SERVICE_CATEGORY = process.env.NEXT_PUBLIC_SERVICE_CATEGORY;
 const CATEGORY_SERVICE = process.env.NEXT_PUBLIC_CATEGORY_SERVICE;
 const PET_SEX = process.env.NEXT_PUBLIC_PETS_SEX;
+//tratamientos
+const TREATMENT_PET = process.env.NEXT_PUBLIC_TREATMENT_PET;
+const TREATMENT_PRODUCT = process.env.NEXT_PUBLIC_TREATMENT_PRODUCT;
 
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
@@ -316,6 +319,25 @@ export const fetchFinishAppoint = async (idAppoint: string) => {
   const data = {
     url: `${APPOINTS_FINISH}/${idAppoint}`,
     method: "PUT" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchTratmentPetService = async (idPet: string) => {
+  const data = {
+    url: `${TREATMENT_PET}/${idPet}`,
+    method: "GET" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+export const fetchMedicamentoAplicado = async (idTratment: string) => {
+  const data = {
+    url: `${TREATMENT_PRODUCT}/${idTratment}`,
+    method: "GET" as const,
   };
   const response = await fetcher(data);
   if (!response) throw new Error(response.message);

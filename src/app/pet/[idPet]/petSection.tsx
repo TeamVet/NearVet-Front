@@ -5,6 +5,7 @@ import {
   IoPulseOutline,
 } from "react-icons/io5";
 import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
+import { TratmentsController } from "@/lib/authController";
 
 // Componente para las tarjetas reutilizables
 const Tarjeta = ({
@@ -32,16 +33,17 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
 
   useEffect(() => {
-    //TODO logica para traer vacunas e tratamientos y medicamentos
+    //TODO logica para traer tratamientos y medicamentos ya se pidio al back
     const fetchTratamientos = async () => {
-      //endpoint /tratment/pet/{petId}
+      const responseTratamiento = await TratmentsController(idPet);
+      console.log(responseTratamiento);
+
+      // setTratamientos(responseTratamiento);
+      // setMedicamentos(responseMedicamentos);
     };
-    const fetchMedicamentos = async () => {
-      //endpoint /aplication-product/{treatmentId}
-    };
+
     if (idPet) {
       fetchTratamientos();
-      fetchMedicamentos();
     }
   }, [idPet]);
 
