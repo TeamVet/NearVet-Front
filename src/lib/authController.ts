@@ -12,6 +12,7 @@ import {
   fetchAppointService,
   fetchPetIdService,
   fetchPetsService,
+  fetchTratmentPetService,
   LoginService,
   modifyImgPetService,
   modifyPetService,
@@ -205,5 +206,14 @@ export const cancelAppointController = async (
     return responseCancel;
   } catch (error: any) {
     ErrorNotify(`Error al cancelar tu turno: ${error.message}`);
+  }
+};
+
+export const TratmentsController = async (idPet: string) => {
+  try {
+    const responseTratamiento = await fetchTratmentPetService(idPet);
+    return responseTratamiento;
+  } catch (error: any) {
+    ErrorNotify(`Error al cargar tus tratamientos: ${error.message}`);
   }
 };

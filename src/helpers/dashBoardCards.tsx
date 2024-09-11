@@ -55,7 +55,7 @@ export const userPetsCards: UserCard[] = [
 ];
 export const adminCards: UserCard[] = [
   {
-    text: "Información",
+    text: "Ver Información",
     icon: <InformationIcon size="2xl" />,
   },
   {
@@ -63,8 +63,8 @@ export const adminCards: UserCard[] = [
     icon: <StoreIcon size="2xl" />,
   },
   {
-    text: "Turnos",
-    icon: <MedicalIcon size="2xl" />,
+    text: "Calendario",
+    icon: <StoreIcon size="2xl" />,
   },
   {
     text: "Facturas",
@@ -78,19 +78,19 @@ export const adminCards: UserCard[] = [
 
 export const vetCards: UserCard[] = [
   {
-    text: "Información del Veterinario",
+    text: "Ver Información",
     icon: <InformationIcon size="2xl" />,
   },
   {
-    text: "calendario - Proximos Turnos",
+    text: "Calendario",
+    icon: <StoreIcon size="2xl" />,
+  },
+  {
+    text: "Atenciones pendientes",
     icon: <MedicalIcon size="2xl" />,
   },
   {
-    text: "Turnos - atenciones pendientes",
-    icon: <MedicalIcon size="2xl" />,
-  },
-  {
-    text: "Lista de pacientes",
+    text: "Lista de Pacientes",
     icon: <MedicalIcon size="2xl" />,
   },
 ];

@@ -16,7 +16,7 @@ interface AppointCardProps {
     time: string;
     pet: { imgProfile: string; name: string };
   };
-  handleCancel: (id: string) => Promise<any>;
+  handleCancel?: (id: string) => Promise<any>;
   isCancelable?: boolean;
 }
 
@@ -26,7 +26,7 @@ const AppointCard: React.FC<AppointCardProps> = ({
   isCancelable,
 }) => {
   const { user } = useUser();
-  const LinkWhatsapp = `${PATHROUTES.WHATSAPP}?text=Hola,%20soy%20${user?.name}%20y%20me%20gustaria%20consultar%20respecto%20un%20turno`;
+  const LinkWhatsapp = `${PATHROUTES.WHATSAPP}/3758488428?text=Hola,%20soy%20${user?.name}%20y%20me%20gustaria%20consultar%20respecto%20un%20turno`;
 
   const whatDayIs = (day: string): string => {
     const date = new Date(day);
@@ -64,7 +64,7 @@ const AppointCard: React.FC<AppointCardProps> = ({
               </p>
               <p className="text-xs">{data.date}</p>
             </div>
-            <p className="text-red-400 flex flex-row items-center">
+            <p className="text-detail flex flex-row items-center">
               <IoTimeOutline />
               {data.time} hs
             </p>
@@ -94,21 +94,28 @@ const AppointCard: React.FC<AppointCardProps> = ({
                 </Link>
                 <button
                   aria-label="Boton para cancelar turno"
-                  onClick={() => handleCancel(data.id)}
+                  onClick={() => {
+                    handleCancel && handleCancel(data.id);
+                  }}
                   className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:scale-105"
                 >
                   Cancelar
                 </button>
               </>
             ) : (
-              <Link
-                aria-label="Boton para calificar atención"
-                className="p-2 m-auto rounded-lg bg-detail  text-white hover:bg-detail  hover:scale-105 "
-                href={PATHROUTES.CALIFICAR}
-                target="_blank"
-              >
-                Calificar Servicio
-              </Link>
+              <div className="flex flex-col">
+                <small className="text-red-500 text-xs py-1">
+                  Turno Finalizado
+                </small>
+                <Link
+                  aria-label="Boton para calificar atención"
+                  className="p-2 m-auto rounded-lg bg-detail  text-white hover:bg-detail  hover:scale-105 "
+                  href={PATHROUTES.CALIFICAR}
+                  target="_blank"
+                >
+                  Calificar Servicio
+                </Link>
+              </div>
             )}
           </div>
         </article>

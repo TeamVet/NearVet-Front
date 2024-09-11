@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@syncfusion/ej2-base": "^26.2.10",
+    "@syncfusion/ej2-cldr-data": "^26.1.35",
+    "@syncfusion/ej2-react-schedule": "^26.2.12",
     "axios": "^1.7.6",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",

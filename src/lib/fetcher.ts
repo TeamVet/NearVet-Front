@@ -1,5 +1,7 @@
 //variables para el fetch despues tenemos que pasarlo a un .env
-const apiUrl = `https://nearvet-latest.onrender.com`;
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 interface fetcherProps {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE";

@@ -17,7 +17,6 @@ const NavBar: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
   const [navItems, setNavItems] = useState(NavItem);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { loading } = useLoading();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

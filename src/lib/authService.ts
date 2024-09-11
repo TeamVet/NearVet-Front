@@ -6,11 +6,38 @@ import {
 } from "../types/interfaces";
 import { fetcher, fetcherImg } from "./fetcher";
 
-const API_BASE_URL = "https://nearvet-latest.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+//inicio y registro
+const SIGNIN_URL = process.env.NEXT_PUBLIC_SIGNIN_URL;
+const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL;
+const SIGN_GOOGLE = process.env.NEXT_PUBLIC_SIGN_GOOGLE;
+//usuario
+const MODIFI_USER = process.env.NEXT_PUBLIC_MODIFI_USER;
+//mascota
+const PETS_USER = process.env.NEXT_PUBLIC_PETS_USER;
+const PETS = process.env.NEXT_PUBLIC_PETS;
+//turnos
+const APPOINTS = process.env.NEXT_PUBLIC_APPOINTS;
+const APPOINTS_USER = process.env.NEXT_PUBLIC_APPOINTS_USER;
+const APPOINTS_VETERINIAN = process.env.NEXT_PUBLIC_APPOINTS_VETERINIAN;
+const APPOINTS_CANCEL = process.env.NEXT_PUBLIC_APPOINTS_CANCEL;
+const APPOINTS_FINISH = process.env.NEXT_PUBLIC_APPOINTS_FINISH;
+//mascotas
+const SPECIES = process.env.NEXT_PUBLIC_SPECIES;
+const RACES = process.env.NEXT_PUBLIC_RACES;
+
+const APPOINT_CREATE = process.env.NEXT_PUBLIC_APPOINTS_CREATE;
+const AVAILABILITY_SERVICE = process.env.NEXT_PUBLIC_AVAILABILITY_SERVICE;
+const SERVICE_CATEGORY = process.env.NEXT_PUBLIC_SERVICE_CATEGORY;
+const CATEGORY_SERVICE = process.env.NEXT_PUBLIC_CATEGORY_SERVICE;
+const PET_SEX = process.env.NEXT_PUBLIC_PETS_SEX;
+//tratamientos
+const TREATMENT_PET = process.env.NEXT_PUBLIC_TREATMENT_PET;
+const TREATMENT_PRODUCT = process.env.NEXT_PUBLIC_TREATMENT_PRODUCT;
 
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
-    url: `/authGlobal/signin`, //TODO despues pasarlo a .env
+    url: SIGNIN_URL as string,
     method: "POST" as const,
     data: userData,
   };
@@ -25,7 +52,7 @@ export const LoginService = async (userData: FormValues) => {
 
 export const registerService = async (values: FormRegisterValues) => {
   const dataRegister = {
-    url: `/authGlobal/signup`, //TODO despues pasarlo a .env
+    url: SIGNUP_URL as string,
     method: "POST" as const,
     data: values,
   };
@@ -40,7 +67,7 @@ export const registerService = async (values: FormRegisterValues) => {
 
 export const registerGoogleService = async (values: FormRegisterValues) => {
   const dataRegister = {
-    url: `/authGlobal/signupGoogle`, //TODO despues pasarlo a .env
+    url: SIGN_GOOGLE as string,
     method: "POST" as const,
     data: values,
   };
@@ -59,7 +86,7 @@ export const modifyUserService = async (
   token: string
 ) => {
   const dataModify = {
-    url: `/users/${id}`, //TODO despues pasarlo a .env
+    url: `${MODIFI_USER}/${id}`,
     method: "PUT" as const,
     data: values,
     token,
@@ -75,7 +102,7 @@ export const modifyUserService = async (
 
 export const fetchPetsService = async (userId: string, token: string) => {
   const dataPets = {
-    url: `/pets/user/${userId}`, //TODO despues pasarlo a .env
+    url: `${PETS_USER}/${userId}`,
     method: "GET" as const,
     token,
   };
@@ -89,7 +116,7 @@ export const fetchPetsService = async (userId: string, token: string) => {
 };
 export const fetchPetIdService = async (idPet: string, token: string) => {
   const dataPet = {
-    url: `/pets/${idPet}`, //TODO despues pasarlo a .env
+    url: `${PETS}/${idPet}`,
     method: "GET" as const,
     token,
   };
@@ -104,7 +131,7 @@ export const fetchPetIdService = async (idPet: string, token: string) => {
 
 export const fetchAppointService = async (userId: string, token: string) => {
   const dataAppoint = {
-    url: `/appointments/user/${userId}`, //TODO despues pasarlo a .env
+    url: `${APPOINTS_USER}/${userId}`,
     method: "GET" as const,
     token,
   };
@@ -119,7 +146,7 @@ export const fetchAppointService = async (userId: string, token: string) => {
 
 export const addPetService = async (values: FormNewPet, token: string) => {
   const dataPet = {
-    url: `/pets`, //TODO despues pasarlo a .env
+    url: PETS as string,
     method: "POST" as const,
     data: values,
     token,
@@ -139,7 +166,7 @@ export const modifyPetService = async (
   token: string
 ) => {
   const dataModify = {
-    url: `/pets/${petId}`, //TODO despues pasarlo a .env
+    url: `${PETS}/${petId}`,
     method: "PUT" as const,
     data: values,
     token,
@@ -161,7 +188,9 @@ export const modifyImgPetService = async (
 ) => {
   const dataModify = {
     url:
-      type === "profile" ? `/users/imgProfile/${Id}` : `/pets/imgProfile/${Id}`,
+      type === "profile"
+        ? `${MODIFI_USER}/imgProfile/${Id}`
+        : `${PETS}/imgProfile/${Id}`,
     method: "PUT" as const,
     data: File,
     token,
@@ -181,7 +210,7 @@ export const cancelAppointmentService = async (
   idTurno: string
 ) => {
   const dataCancel = {
-    url: `/appointments/cancel/${idTurno}`, //TODO despues pasarlo a .env
+    url: `${APPOINTS_CANCEL}/${idTurno}`,
     method: "PUT" as const,
     token,
   };
@@ -191,20 +220,20 @@ export const cancelAppointmentService = async (
 };
 
 export const Species = async () => {
-  const response = await fetch(`${API_BASE_URL}/pets/species`, {
+  const response = await fetch(`${API_BASE_URL}${SPECIES}`, {
     method: "GET",
   });
   return response.json();
 };
 export const Races = async (especie: string) => {
-  const response = await fetch(`${API_BASE_URL}/pets/races/${especie}`, {
+  const response = await fetch(`${API_BASE_URL}${RACES}/${especie}`, {
     method: "GET",
   });
   return response.json();
 };
 
 export const SexType = async () => {
-  const response = await fetch(`${API_BASE_URL}/pets/sex`, {
+  const response = await fetch(`${API_BASE_URL}${PET_SEX}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -214,7 +243,7 @@ export const SexType = async () => {
 };
 
 export const categoryServices = async () => {
-  const response = await fetch(`${API_BASE_URL}/category-services`, {
+  const response = await fetch(`${API_BASE_URL}${CATEGORY_SERVICE}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -225,7 +254,7 @@ export const categoryServices = async () => {
 
 export const serviceServices = async (category: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/services/category/${category}`,
+    `${API_BASE_URL}${SERVICE_CATEGORY}/${category}`,
     {
       method: "GET",
       headers: {
@@ -236,20 +265,20 @@ export const serviceServices = async (category: string) => {
   return response.json();
 };
 
-export const horariosService = async (serviceId: string, date: Date) => {
-  const response = await fetch(`${API_BASE_URL}/availability-service/`, {
-    method: "POST",
+
+export const horariosService = async (serviceId: string) => {
+  const response = await fetch(`${API_BASE_URL}${AVAILABILITY_SERVICE}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ serviceId: serviceId, date: date }),
   });
   return response.json();
 };
 
 export const addAppointmentService = async (values: FormNewAppointment) => {
   const dataAppoint = {
-    url: `/appointments/create`, //TODO despues pasarlo a .env
+    url: APPOINT_CREATE as string,
     method: "POST" as const,
     data: values,
   };
@@ -260,4 +289,58 @@ export const addAppointmentService = async (values: FormNewAppointment) => {
   } catch (error: any) {
     throw new Error(error.message);
   }
+};
+
+export const fetchTurnosService = async (
+  id: string,
+  startDate: Date,
+  endDate: Date
+) => {
+  const data = {
+    url: `${APPOINTS_VETERINIAN}`,
+    method: "POST" as const,
+    data: { id, startDate, endDate },
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchAppointIdService = async (id: string) => {
+  const data = {
+    url: `${APPOINTS}/${id}`,
+    method: "GET" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchFinishAppoint = async (idAppoint: string) => {
+  const data = {
+    url: `${APPOINTS_FINISH}/${idAppoint}`,
+    method: "PUT" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchTratmentPetService = async (idPet: string) => {
+  const data = {
+    url: `${TREATMENT_PET}/${idPet}`,
+    method: "GET" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+export const fetchMedicamentoAplicado = async (idTratment: string) => {
+  const data = {
+    url: `${TREATMENT_PRODUCT}/${idTratment}`,
+    method: "GET" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
 };

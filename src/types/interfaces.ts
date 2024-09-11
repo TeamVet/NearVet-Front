@@ -135,10 +135,15 @@ export interface Mascota {
   imgProfile: string;
   ///a implementar
   age?: number;
-  vacunas?: any;
+  vacunas?: any[];
   tratamientos?: any;
   medicamentos?: any;
-
+  pendientes: {
+    id: string;
+    title: string;
+    date: string;
+    description: string;
+  }[];
   [key: string]: any;
 }
 // Veterninarias [Missing info]

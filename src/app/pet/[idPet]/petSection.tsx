@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IoMedicalOutline,
   IoMedkitOutline,
   IoPulseOutline,
 } from "react-icons/io5";
-import { Mascota, Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
+import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
+import { TratmentsController } from "@/lib/authController";
 
 // Componente para las tarjetas reutilizables
 const Tarjeta = ({
@@ -22,31 +23,36 @@ const Tarjeta = ({
     {extraInfo && <p>{extraInfo}</p>}
   </div>
 );
-
-// Componente principal que maneja las secciones
-const PetSection = (mascota: Mascota) => {
+interface PetSectionProps {
+  idPet: string;
+}
+const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   const [selectedSection, setSelectedSection] = useState<string>("Vacunas");
 
-  // Función para renderizar las tarjetas basado en la sección seleccionada
+  const [tratamientos, setTratamientos] = useState<Tratamiento[]>([]);
+  const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
+
+  useEffect(() => {
+    //TODO logica para traer tratamientos y medicamentos ya se pidio al back
+    const fetchTratamientos = async () => {
+      const responseTratamiento = await TratmentsController(idPet);
+      console.log(responseTratamiento);
+
+      // setTratamientos(responseTratamiento);
+      // setMedicamentos(responseMedicamentos);
+    };
+
+    if (idPet) {
+      fetchTratamientos();
+    }
+  }, [idPet]);
+
   const renderSectionContent: any = () => {
     switch (selectedSection) {
-      case "Vacunas":
-        return (
-          <div className="flex flex-wrap justify-center gap-2">
-            {mascota.vacunas.map((vacuna: Vacuna) => (
-              <Tarjeta
-                key={vacuna.id}
-                title={vacuna.nombre}
-                description={`Aplicada el: ${vacuna.aplicada}`}
-                extraInfo={`Próxima dosis: ${vacuna.proxima}`}
-              />
-            ))}
-          </div>
-        );
       case "Tratamientos":
         return (
           <div className="flex flex-wrap justify-center gap-2">
-            {mascota.tratamientos.map((tratamiento: Tratamiento) => (
+            {tratamientos.map((tratamiento: Tratamiento) => (
               <Tarjeta
                 key={tratamiento.pktratamiento}
                 title={tratamiento.DescripcionTrat}
@@ -59,7 +65,7 @@ const PetSection = (mascota: Mascota) => {
       case "Medicamentos":
         return (
           <div className="flex flex-wrap justify-center gap-2">
-            {mascota.medicamentos.map((medicamento: Medicamento) => (
+            {medicamentos.map((medicamento: Medicamento) => (
               <Tarjeta
                 key={medicamento.pkprescripcion}
                 title={medicamento.nombre}
@@ -77,17 +83,6 @@ const PetSection = (mascota: Mascota) => {
   return (
     <section className="shadow-lg md:min-h-[99vh]">
       <nav className="grid grid-flow-col text-center">
-        <button
-          className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
-            selectedSection === "Vacunas"
-              ? "bg-detail text-white"
-              : "bg-slate-500 text-white"
-          }`}
-          onClick={() => setSelectedSection("Vacunas")}
-        >
-          <IoMedicalOutline />
-          Vacunas
-        </button>
         <button
           className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
             selectedSection === "Tratamientos"
