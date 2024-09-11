@@ -5,7 +5,6 @@ import {
   IoPulseOutline,
 } from "react-icons/io5";
 import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
-import ModalForm from "@/components/modalForm";
 
 // Componente para las tarjetas reutilizables
 const Tarjeta = ({
@@ -28,7 +27,7 @@ interface PetSectionProps {
 }
 const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   const [selectedSection, setSelectedSection] = useState<string>("Vacunas");
-  const [vacunas, setVacunas] = useState<Vacuna[]>([]);
+
   const [tratamientos, setTratamientos] = useState<Tratamiento[]>([]);
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
 
@@ -48,19 +47,6 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
 
   const renderSectionContent: any = () => {
     switch (selectedSection) {
-      case "Vacunas":
-        return (
-          <div className="flex flex-wrap justify-center gap-2">
-            {vacunas.map((vacuna: Vacuna) => (
-              <Tarjeta
-                key={vacuna.id}
-                title={vacuna.nombre}
-                description={`Aplicada el: ${vacuna.aplicada}`}
-                extraInfo={`Próxima dosis: ${vacuna.proxima}`}
-              />
-            ))}
-          </div>
-        );
       case "Tratamientos":
         return (
           <div className="flex flex-wrap justify-center gap-2">
@@ -95,17 +81,6 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   return (
     <section className="shadow-lg md:min-h-[99vh]">
       <nav className="grid grid-flow-col text-center">
-        <button
-          className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
-            selectedSection === "Vacunas"
-              ? "bg-detail text-white"
-              : "bg-slate-500 text-white"
-          }`}
-          onClick={() => setSelectedSection("Vacunas")}
-        >
-          <IoMedicalOutline />
-          Vacunas
-        </button>
         <button
           className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
             selectedSection === "Tratamientos"

@@ -26,11 +26,13 @@ const PatientsListModule = () => {
   return (
     <section className="shadow-lg p-5 m-auto  text-center">
       {loading && <Loading />}
-      <TableCustom
-        title="Lista de Pacientes"
-        titulos={["Mascota", "Dueño", "Telefono", "Email", "Accion"]}
-        datos={patientsList}
-      />
+      {patientsList && (
+        <TableCustom
+          title="Lista de Pacientes"
+          titulos={["Mascota", "Dueño", "Telefono", "Email", "Accion"]}
+          datos={patientsList}
+        />
+      )}
     </section>
   );
 };
