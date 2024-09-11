@@ -7,17 +7,25 @@ import {
 import { fetcher, fetcherImg } from "./fetcher";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+//inicio y registro
 const SIGNIN_URL = process.env.NEXT_PUBLIC_SIGNIN_URL;
 const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL;
 const SIGN_GOOGLE = process.env.NEXT_PUBLIC_SIGN_GOOGLE;
+//usuario
 const MODIFI_USER = process.env.NEXT_PUBLIC_MODIFI_USER;
+//mascota
 const PETS_USER = process.env.NEXT_PUBLIC_PETS_USER;
 const PETS = process.env.NEXT_PUBLIC_PETS;
+//turnos
+const APPOINTS = process.env.NEXT_PUBLIC_APPOINTS;
 const APPOINTS_USER = process.env.NEXT_PUBLIC_APPOINTS_USER;
 const APPOINTS_VETERINIAN = process.env.NEXT_PUBLIC_APPOINTS_VETERINIAN;
 const APPOINTS_CANCEL = process.env.NEXT_PUBLIC_APPOINTS_CANCEL;
+const APPOINTS_FINISH = process.env.NEXT_PUBLIC_APPOINTS_FINISH;
+//mascotas
 const SPECIES = process.env.NEXT_PUBLIC_SPECIES;
 const RACES = process.env.NEXT_PUBLIC_RACES;
+
 const APPOINT_CREATE = process.env.NEXT_PUBLIC_APPOINTS_CREATE;
 const AVAILABILITY_SERVICE = process.env.NEXT_PUBLIC_AVAILABILITY_SERVICE;
 const SERVICE_CATEGORY = process.env.NEXT_PUBLIC_SERVICE_CATEGORY;
@@ -284,6 +292,26 @@ export const fetchTurnosService = async (id: string, date: Date) => {
     url: `${APPOINTS_VETERINIAN}`,
     method: "POST" as const,
     data: { id, date },
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchAppointIdService = async (id: string) => {
+  const data = {
+    url: `${APPOINTS}/${id}`,
+    method: "GET" as const,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchFinishAppoint = async (idAppoint: string) => {
+  const data = {
+    url: `${APPOINTS_FINISH}/${idAppoint}`,
+    method: "PUT" as const,
   };
   const response = await fetcher(data);
   if (!response) throw new Error(response.message);

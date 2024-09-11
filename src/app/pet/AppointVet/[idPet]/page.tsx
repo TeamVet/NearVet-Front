@@ -1,76 +1,73 @@
 "use client";
 import Loading from "@/components/Loading";
 import { useUser } from "@/context/UserContext";
-import { calculateAge } from "@/helpers/calcularEdad";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
-import { fetchPetIdController } from "@/lib/authController";
-import { Mascota } from "@/types/interfaces";
+import { Mascota, Turnos } from "@/types/interfaces";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import PetInfo from "../../[idPet]/petInfo";
 import PetSection from "../../[idPet]/petSection";
 import PetClinical from "../../[idPet]/PetClinical";
 import ModalForm from "@/components/modalForm";
-import { consulta, ErrorNotify, InfoNotify } from "@/lib/toastyfy";
+import { consulta, ErrorNotify } from "@/lib/toastyfy";
+import { fetchAppointIdService } from "@/lib/authService";
 
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
-  const [turnoVet, setTurnoVet] = useState<"Iniciado" | "Finalizado" | null>(
-    null
-  );
+  const [turnoVet, setTurnoVet] = useState<Turnos | null>(null);
+  const [turnoStatus, setTurnoStatus] = useState<
+    "Pendiente" | "Finalizado" | "Cancelado" | null
+  >(null);
   const { loading, startLoading, stopLoading } = useLoading();
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
   const idUrl = useParams();
+  const idAppoint = idUrl.idAppoint;
   const router = useRouter();
-  const idPet = idUrl.idPet;
-  //!tendriamos que traer el ID del turno, y que dentro este la mascota...
 
   useEffect(() => {
-    if (idUrl.idPet === "undefined") {
+    if (idAppoint === "undefined") {
       router.push(PATHROUTES.USER_DASHBOARD);
       return;
     }
     startLoading();
-    //TODO logica para traer toda la info del turno
-    const fetchMascota = async () => {
+
+    const fetchAppoint = async () => {
       try {
-        const data = await fetchPetIdController(
-          idUrl.idPet as string,
-          user?.token as string
-        );
-        if (data === undefined) {
-          ErrorNotify("Mascota no encontrada");
-          return;
+        const data = await fetchAppointIdService(idAppoint as string);
+        if (data === undefined || data === null) {
+          alert("Error");
         }
-        if (data.birthdate != null) {
-          const dataAndAge = { ...data, age: calculateAge(data.birthdate) };
-          setMascota(dataAndAge);
-        } else setMascota(data);
+        setTurnoVet(data);
+        setMascota(data.pet);
+        setTurnoStatus(data.state.state);
       } finally {
-        stopLoading();
       }
     };
-    const fetchTurnoIniciado = async () => {
-      //TODO logica para iniciar el turno modificando en el back el estado a iniciado y setearlo en el estado
-      setTurnoVet("Iniciado");
-    };
 
-    if (user?.token) {
-      fetchMascota();
-    }
-    if (user?.role.role != "Veterinario") {
-      fetchTurnoIniciado();
+    if (user?.role.role != "user") {
+      fetchAppoint();
+    } else {
+      ErrorNotify("No autorizado");
+      return;
     }
   }, [user]);
 
   const handleCloseTurn = async () => {
-    //TODO logica para cerrar el turno, modificar en el back a finalizado y setearlo en el estado
     consulta("Finalizará el turno, ¿Desea continuar?", () => {
-      InfoNotify("Turno finalizado");
-      setTurnoVet("Finalizado");
+      fetchFinishAppoint(turnoVet?.id as string);
     });
+  };
+  const fetchFinishAppoint = async (id: string) => {
+    setTurnoStatus("Finalizado");
+    try {
+      startLoading();
+      const data = await fetchFinishAppoint(id);
+      console.log(data);
+    } finally {
+      stopLoading();
+    }
   };
 
   return (
@@ -79,20 +76,20 @@ const PetIndividual: React.FC = () => {
       <ModalForm
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        setTurno={() => setTurnoVet("Finalizado")}
+        setTurno={() => setTurnoStatus("Finalizado")}
       />
       {mascota && idUrl.idPet && (
         <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
           <div className="md:w-1/4">
-            <PetInfo {...mascota} idPet />
+            <PetInfo {...mascota} />
           </div>
           <div className="md:w-2/4">
-            <PetSection idPet={idPet as string} />
+            <PetSection idPet={mascota.id as string} />
           </div>
           <div className="md:w-1/4">
-            <PetClinical idPet={idPet as string} />
+            <PetClinical idPet={mascota.id as string} />
           </div>
-          {turnoVet === "Iniciado" && (
+          {turnoStatus === "Pendiente" && (
             <div className="fixed z-10 top-2 rigth-[50%] flex flex-row gap-2 shadow-md rounded-lg p-2">
               <button
                 onClick={() => setIsOpen(true)}

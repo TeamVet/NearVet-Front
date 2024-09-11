@@ -88,7 +88,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       if (login.role.role === "admin") {
         router.push(PATHROUTES.ADMIN_DASHBOARD);
-      } else {
+      }
+      if (login.role.role === "user") {
         router.push(PATHROUTES.USER_DASHBOARD);
       }
     }

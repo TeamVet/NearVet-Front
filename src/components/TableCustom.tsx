@@ -40,8 +40,8 @@ const TableCustom: React.FC<TableCustomProps> = ({
           <tbody>
             {datos.map((dato) => (
               <tr key={dato.id} className="border border-gray-400">
-                <td>{dato.mascota}</td>
-                <td>{dato.user}</td>
+                {dato.pet ? <td>{dato.pet.name}</td> : <td>Sin mascota</td>}
+                <td>{dato.name}</td>
                 <td>{dato.phone}</td>
                 <td>{dato.email}</td>
                 <td className="flex flex-col items-center py-2">

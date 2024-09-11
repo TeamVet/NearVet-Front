@@ -3,7 +3,7 @@ import Link from "next/link";
 import PATHROUTES from "@/helpers/path-routes";
 import { useUser } from "@/context/UserContext";
 import { fetchTurnosService } from "@/lib/authService";
-const today = new Date("2024-09-11");
+const today = new Date("2024-09-23");
 const timeNow = new Date().getHours();
 
 const turnos = [
@@ -85,6 +85,7 @@ const AppointsVetModule = () => {
     const fetchTurnos = async () => {
       if (!user?.id) return;
       const response = await fetchTurnosService(user.id, today);
+      console.log(response);
       if (response.length > 0) setTurnos(response);
     };
     if (user?.id) {
@@ -114,7 +115,7 @@ const AppointsVetModule = () => {
             <small>Observaciones: {turno.observation}</small>
             {turno.status === "Pendiente" ? (
               <Link
-                href={`${PATHROUTES.PET}/${turno.pet.id}`}
+                href={`${PATHROUTES.PET}/AppointVet/${turno.id}`}
                 className="bg-detail p-1 m-auto rounded-lg text-white"
               >
                 Iniciar turno
