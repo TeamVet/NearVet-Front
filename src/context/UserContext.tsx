@@ -82,7 +82,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
       setUser(login);
-      console.log(login.role.role);
       if (login.role.role === "veterinarian") {
         router.push(PATHROUTES.VET_DASHBOARD);
       }

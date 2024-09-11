@@ -30,7 +30,6 @@ const AppointsModule: React.FC = () => {
           user?.id as string,
           user?.token as string
         );
-
         setTurnos(responseTurnos);
       } finally {
         stopLoading();

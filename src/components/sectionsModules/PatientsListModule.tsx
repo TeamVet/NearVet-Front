@@ -17,7 +17,6 @@ const PatientsListModule = () => {
       );
       const data = await response.json();
       if (!data || data === "undefined") return;
-      console.log(data);
       setPatientsList(data);
     } finally {
       stopLoading();

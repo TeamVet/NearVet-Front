@@ -19,7 +19,6 @@ const AppointsVetModule = () => {
           StartTime: formatTime(turno.StartTime),
           EndTime: formatTime(turno.EndTime),
         }));
-        console.log(turnosConFormato);
         setTurnos(turnosConFormato);
       }
     };

@@ -74,8 +74,6 @@ export const useAppointmentData = (userId: string, token: string) => {
         };
       }
     );
-
-    console.log(nuevoshorarios);
     setHorarios(nuevoshorarios);
   };
 
