@@ -11,8 +11,9 @@ import { consulta, InfoNotify } from "@/lib/toastyfy";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  setTurno: () => void;
 }
-const ModalForm: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ModalForm: React.FC<ModalProps> = ({ isOpen, onClose, setTurno }) => {
   const [selectedSection, setSelectedSection] = useState<string>(
     "Examinacion clinica"
   );
@@ -23,6 +24,7 @@ const ModalForm: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
   const handleOnEndTurn = () => {
     consulta("Se cerrará el turno, ¿Desea continuar?", () => {
+      setTurno();
       InfoNotify("Turno finalizado");
       onClose();
     });
@@ -81,10 +83,7 @@ const ModalForm: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = () => {};
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-60 z-20 flex items-center justify-center"
-      onClick={handleOnClose}
-    >
+    <div className="fixed inset-0 bg-black bg-opacity-60 z-20 flex items-center justify-center">
       <div className="bg-white rounded-lg p-4 flex flex-col min-w-[80vw] max-w-[80vw] min-h-[90vh] max-h-[90vh] ">
         <nav className="grid grid-flow-row md:grid-flow-col text-center ">
           <button

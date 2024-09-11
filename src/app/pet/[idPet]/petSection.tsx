@@ -24,10 +24,9 @@ const Tarjeta = ({
   </div>
 );
 interface PetSectionProps {
-  Status?: "Iniciado" | "Finalizado" | null;
   idPet: string;
 }
-const PetSection: React.FC<PetSectionProps> = ({ Status, idPet }) => {
+const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   const [selectedSection, setSelectedSection] = useState<string>("Vacunas");
   const [vacunas, setVacunas] = useState<Vacuna[]>([]);
   const [tratamientos, setTratamientos] = useState<Tratamiento[]>([]);

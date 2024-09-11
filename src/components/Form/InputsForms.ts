@@ -327,17 +327,30 @@ export const InputsAppointsVetClinical = [
     placeholder: "",
   },
   {
+    name: "anamnesisH",
+    type: "textarea",
+    label: "Anamnesis Hereditario",
+    placeholder: "",
+  },
+  {
     name: "anamnesis",
     type: "textarea",
     label: "Anamnesis",
     placeholder: "",
   },
+  {
+    name: "file",
+    type: "file",
+    label: "Archivos",
+    placeholder: "",
+  },
 ];
 export const InputsAppointsVetTratamiento = [
+  //!necesito el id de examinacion clinica
   {
     name: "fkservicio",
     type: "select",
-    label: "Nombre del tratamiento",
+    label: "Nombre del servicio",
     placeholder: "",
     options: [],
     labelKey: "",
@@ -345,7 +358,7 @@ export const InputsAppointsVetTratamiento = [
   {
     name: "DescriptionTrat",
     type: "text",
-    label: "Modo de aplicar",
+    label: "Descripción",
     placeholder: "",
   },
   {
@@ -354,30 +367,36 @@ export const InputsAppointsVetTratamiento = [
     label: "Observaciones",
     placeholder: "",
   },
-];
-export const InputsAppointsVetPrescipciones = [
   {
-    name: "fkproducto",
-    type: "text",
-    label: "Nombre de la droga",
+    name: "fkproduct",
+    type: "select",
+    label: "Droga a administrar",
     placeholder: "",
-  },
-  {
-    name: "description",
-    type: "text",
-    label: "Modo de aplicación",
-    placeholder: "",
-  },
-  {
-    name: "observation",
-    type: "text",
-    label: "Observaciones",
-    placeholder: "",
+    options: [],
+    labelKey: "",
+    //TODO seleccion multiple y con filtro
   },
   {
     name: "file",
     type: "file",
-    label: "Receta",
+    label: "Archivos",
+    placeholder: "",
+  },
+];
+export const InputsAppointsVetPrescipciones = [
+  //!necesito el id de examinacion clinica
+  {
+    name: "fkproducto",
+    type: "select",
+    label: "Nombre del Medicamento",
+    placeholder: "",
+    options: [],
+    labelKey: "",
+  },
+  {
+    name: "description",
+    type: "textarea",
+    label: "Modo de aplicación",
     placeholder: "",
   },
 ];

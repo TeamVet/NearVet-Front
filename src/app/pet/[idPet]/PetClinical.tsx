@@ -58,12 +58,6 @@ const PetClinical: React.FC<PetClinicaProps> = ({ Status, idPet }) => {
             No hay atenciones pendientes
           </p>
         )}
-        {Status === "Iniciado" && (
-          <button className="bg-detail text-white p-2 rounded">
-            {" "}
-            Agregar Pendiente
-          </button>
-        )}
       </article>
       <article className="min-h-[80%] flex flex-col m-2 p-2 items-center text-center">
         <h3 className=" text-xl text-detail">Historial</h3>

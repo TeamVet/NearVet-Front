@@ -62,11 +62,12 @@ const eventTemplate = (props: any) => {
 const CalendarioModule = () => {
   const [turnosBackend, setTurnos] = useState([]);
   const { user } = useUser();
-
+  const today = new Date("2024-09-12");
   useEffect(() => {
     const fetchTurnos = async () => {
       if (!user?.id) return;
-      const response = await fetchTurnosService(user.id);
+      const response = await fetchTurnosService(user.id, today);
+      console.log(response);
       if (response.length > 0) setTurnos(response);
       //aca hariamos el llamado al backend para traer los turnos de momento mock
     };
@@ -81,7 +82,7 @@ const CalendarioModule = () => {
       <section className="shadow-lg p-5 m-auto w-full md:w-4/5 flex flex-col gap-2 my-2 cursor-default">
         <ScheduleComponent
           eventSettings={{
-            dataSource: turnos,
+            dataSource: turnosBackend,
             allowAdding: false,
             allowDeleting: false,
             allowEditing: false,

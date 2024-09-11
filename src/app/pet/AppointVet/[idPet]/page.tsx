@@ -33,7 +33,7 @@ const PetIndividual: React.FC = () => {
       return;
     }
     startLoading();
-
+    //TODO logica para traer toda la info del turno
     const fetchMascota = async () => {
       try {
         const data = await fetchPetIdController(
@@ -76,17 +76,21 @@ const PetIndividual: React.FC = () => {
   return (
     <>
       {loading && <Loading />}
-      <ModalForm isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ModalForm
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        setTurno={() => setTurnoVet("Finalizado")}
+      />
       {mascota && idUrl.idPet && (
         <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
           <div className="md:w-1/4">
             <PetInfo {...mascota} idPet />
           </div>
           <div className="md:w-2/4">
-            <PetSection Status={turnoVet} idPet={idPet as string} />
+            <PetSection idPet={idPet as string} />
           </div>
           <div className="md:w-1/4">
-            <PetClinical Status={turnoVet} idPet={idPet as string} />
+            <PetClinical idPet={idPet as string} />
           </div>
           {turnoVet === "Iniciado" && (
             <div className="fixed z-10 top-2 rigth-[50%] flex flex-row gap-2 shadow-md rounded-lg p-2">
