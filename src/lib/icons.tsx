@@ -1,4 +1,4 @@
-import { IconProps } from "@/types/interfaces";
+import { IconProps } from '@/types/interfaces';
 import {
   IoPawSharp,
   IoPerson,
@@ -16,56 +16,41 @@ import {
   IoMedicalSharp,
   IoPersonAddSharp,
   IoPencilSharp,
-} from "react-icons/io5";
-export const PawIcon: React.FC<IconProps> = ({ size }) => (
-  <IoPawSharp color="#8E44AD" className={`text-${size}`} />
-);
-export const HomeIcon: React.FC<IconProps> = ({ size }) => (
-  <IoHome color="#8E44AD" className={`text-${size}`} />
-);
-export const LoginIcon: React.FC<IconProps> = ({ size }) => (
-  <IoPerson color="#8E44AD" className={`text-${size}`} />
-);
-export const UserIcon: React.FC<IconProps> = ({ size }) => (
-  <IoPersonCircle color="#8E44AD" className={`text-${size}`} />
-);
-export const LogOutIcon: React.FC<IconProps> = ({ size }) => (
-  <IoLogOutSharp color="#8E44AD" className={`text-${size}`} />
-);
-export const EmployeeIcon: React.FC<IconProps> = ({ size }) => (
-  <IoPersonAddSharp color="#8E44AD" className={`text-${size}`} />
-);
+  IoCash,
+} from 'react-icons/io5';
+
+export const PayIcon: React.FC<IconProps> = ({ size }) => <IoCash color='#8E44AD' className={`text-${size}`} />;
+export const PawIcon: React.FC<IconProps> = ({ size }) => <IoPawSharp color='#8E44AD' className={`text-${size}`} />;
+export const HomeIcon: React.FC<IconProps> = ({ size }) => <IoHome color='#8E44AD' className={`text-${size}`} />;
+export const LoginIcon: React.FC<IconProps> = ({ size }) => <IoPerson color='#8E44AD' className={`text-${size}`} />;
+export const UserIcon: React.FC<IconProps> = ({ size }) => <IoPersonCircle color='#8E44AD' className={`text-${size}`} />;
+export const LogOutIcon: React.FC<IconProps> = ({ size }) => <IoLogOutSharp color='#8E44AD' className={`text-${size}`} />;
+export const EmployeeIcon: React.FC<IconProps> = ({ size }) => <IoPersonAddSharp color='#8E44AD' className={`text-${size}`} />;
 export const TicketIcon: React.FC<IconProps> = ({ size }) => {
-  return <IoTicketSharp color="#8E44AD" className={`text-${size}`} />;
+  return <IoTicketSharp color='#8E44AD' className={`text-${size}`} />;
 };
 export const MedicalIcon: React.FC<IconProps> = ({ size }) => {
-  return <IoMedicalSharp color="#8E44AD" className={`text-${size}`} />;
+  return <IoMedicalSharp color='#8E44AD' className={`text-${size}`} />;
 };
 
 export const ClipboardIcon: React.FC<IconProps> = ({ size }) => {
-  return <IoClipboardSharp color="#8E44AD" className={`text-${size}`} />;
+  return <IoClipboardSharp color='#8E44AD' className={`text-${size}`} />;
 };
 
 export const StoreIcon: React.FC<IconProps> = ({ size }) => {
-  return <IoStorefrontSharp color="#8E44AD" className={`text-${size}`} />;
+  return <IoStorefrontSharp color='#8E44AD' className={`text-${size}`} />;
 };
 
 export const PencilIcon: React.FC<IconProps> = ({ size }) => {
-  return <IoPencilSharp color="#8E44AD" className={`text-${size}`} />;
+  return <IoPencilSharp color='#8E44AD' className={`text-${size}`} />;
 };
 
 export const MailIcon: React.FC<IconProps> = ({ size, isMail }) => {
-  return isMail ? (
-    <IoMailOpenSharp color="#8E44AD" className={`text-${size}`} />
-  ) : (
-    <IoMailSharp color="#8E44AD" className={`text-${size}`} />
-  );
+  return isMail ? <IoMailOpenSharp color='#8E44AD' className={`text-${size}`} /> : <IoMailSharp color='#8E44AD' className={`text-${size}`} />;
 };
 
 export const InformationIcon: React.FC<IconProps> = ({ size }) => {
-  return (
-    <IoInformationCircleSharp color="#8E44AD" className={`text-${size}`} />
-  );
+  return <IoInformationCircleSharp color='#8E44AD' className={`text-${size}`} />;
 };
 
 interface ThemeIconProps {
@@ -75,12 +60,9 @@ interface ThemeIconProps {
 
 export const ThemeIcon: React.FC<ThemeIconProps> = ({ isDark, onChange }) => {
   return (
-    <button
-      onClick={onChange}
-      className="flex lg:flex-col gap-2 items-center text-2xl mt-2"
-    >
-      {isDark ? <IoMoon color="#8E44AD" /> : <IoMoonOutline color="#8E44AD" />}
-      <p className=" text-base text-detail">{isDark ? "Claro" : "Oscuro"}</p>
+    <button onClick={onChange} className='flex lg:flex-col gap-2 items-center text-2xl mt-2'>
+      {isDark ? <IoMoon color='#8E44AD' /> : <IoMoonOutline color='#8E44AD' />}
+      <p className=' text-base text-detail'>{isDark ? 'Claro' : 'Oscuro'}</p>
     </button>
   );
 };

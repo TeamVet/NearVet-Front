@@ -1,104 +1,100 @@
-import {
-  PawIcon,
-  HomeIcon,
-  LoginIcon,
-  UserIcon,
-  LogOutIcon,
-  ClipboardIcon,
-  StoreIcon,
-  MailIcon,
-} from "@/lib/icons";
-import PATHROUTES from "./path-routes";
-import { NavItemProps } from "@/types/interfaces";
+import { PawIcon, HomeIcon, LoginIcon, UserIcon, LogOutIcon, ClipboardIcon, StoreIcon, MailIcon, PayIcon } from '@/lib/icons';
+import PATHROUTES from './path-routes';
+import { NavItemProps } from '@/types/interfaces';
 
 export const NavItem: Array<NavItemProps> = [
   {
-    name: "Inicio",
+    name: 'Inicio',
     url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
-    name: "Iniciar Sesion",
+    name: 'Iniciar Sesion',
     url: PATHROUTES.LOGIN,
     icon: LoginIcon,
+  },
+  {
+    name: 'Pasarela de pago',
+    url: PATHROUTES.PAYMENT,
+    icon: PayIcon,
   },
 ];
 
 export const NavItemUser: Array<NavItemProps> = [
   {
-    name: "Inicio",
+    name: 'Inicio',
     url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
-    name: "Mis Mascotas",
+    name: 'Mis Mascotas',
     url: PATHROUTES.PET,
     icon: PawIcon,
   },
   {
-    name: "Usuario",
+    name: 'Usuario',
     url: PATHROUTES.USER_DASHBOARD,
     icon: UserIcon,
   },
   {
-    name: "Mensajes",
-    url: "", //TODO Deberiamos abrir la modal de mensajes
+    name: 'Mensajes',
+    url: '', //TODO Deberiamos abrir la modal de mensajes
     icon: MailIcon,
   },
   {
-    name: "Salir",
-    url: "",
+    name: 'Salir',
+    url: '',
     icon: LogOutIcon,
   },
 ];
 
 export const NavItemAdmin: Array<NavItemProps> = [
   {
-    name: "Inicio",
+    name: 'Inicio',
     url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
-    name: "Admin",
+    name: 'Admin',
     url: PATHROUTES.ADMIN_DASHBOARD,
     icon: StoreIcon,
   },
   {
-    name: "Veterinario",
+    name: 'Veterinario',
     url: PATHROUTES.VET_DASHBOARD,
     icon: ClipboardIcon,
   },
   {
-    name: "Mensajes",
-    url: "",
+    name: 'Mensajes',
+    url: '',
     icon: MailIcon,
   },
   {
-    name: "Salir",
-    url: "",
+    name: 'Salir',
+    url: '',
     icon: LogOutIcon,
   },
 ];
 
 export const NavItemVet: Array<NavItemProps> = [
   {
-    name: "Inicio",
+    name: 'Inicio',
     url: PATHROUTES.HOME,
     icon: HomeIcon,
   },
   {
-    name: "Veterinario",
+    name: 'Veterinario',
     url: PATHROUTES.VET_DASHBOARD,
     icon: ClipboardIcon,
   },
   {
-    name: "Mensajes",
-    url: "",
+    name: 'Mensajes',
+    url: '',
     icon: MailIcon,
   },
   {
-    name: "Salir",
-    url: "",
+    name: 'Salir',
+    url: '',
     icon: LogOutIcon,
   },
 ];
