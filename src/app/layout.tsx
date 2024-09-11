@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Providers from "./Providers";
 import { UserProvider } from "@/context/UserContext";
+import ChatbotButton from "@/components/chatbot/ChatBotButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           <UserProvider>
             <NavBar />
             {children}
+            <ChatbotButton />
             <Footer />
             <ToastContainer
               position="top-center"

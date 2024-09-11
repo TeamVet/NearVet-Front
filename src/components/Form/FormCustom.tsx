@@ -105,7 +105,10 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
                   type={input.type}
                   placeholder={input.placeholder || ""}
                   value={formik.values[input.name]}
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.setFieldValue(input.name, e.target.value);
+                    onInputChange?.(e.target.value);
+                  }}
                   onBlur={formik.handleBlur}
                   disabled={input.disable}
                   className={`w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders ${
@@ -131,7 +134,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
         </div>
         <button
           type="submit"
-          className="bg-detail px-5 py-2 m-auto rounded-lg text-lg text-white hover:scale-105"
+          className="bg-detail px-5 py-2 my-3 mx-auto rounded-lg text-lg text-white hover:scale-105"
         >
           {submitButtonLabel}
         </button>
@@ -141,12 +144,3 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
 };
 
 export default ReusableForm;
-
-// {
-//   formik.touched[input.name] &&
-//   typeof formik.errors[input.name] === "string" ? (
-//     <p className="mt-2 text-sm text-red-600">
-//       {formik.errors[input.name]?.toString() || ""}
-//     </p>
-//   ) : null;
-// }

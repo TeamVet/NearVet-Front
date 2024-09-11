@@ -8,13 +8,14 @@ const PATHROUTES = {
   PET: '/pet',
   CART: '/cart',
   SEARCH: '/search',
-  FAQ: '/faq',
+  FAQ: '/Q&A',
   ABOUTUS: '/aboutus',
   TERMS: '/terms',
   PRIVACY: '/privacypolicy',
   APPOINTMENT: '/appointment',
   NEWAPPOINTMEN: '/appointment/newAppointment',
-  PAYMENT: '/payment',
+  WHATSAPP: 'https://wa.me/3758488428/',
+  CALIFICAR: 'https://forms.gle/quKt5d1b7saptcyn9',
 };
 
 export default PATHROUTES;

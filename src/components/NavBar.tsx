@@ -43,7 +43,9 @@ const NavBar: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (!user) {
+      setNavItems(NavItem);
+    } else if (user) {
       switch (user.role.role) {
         case "user":
           setNavItems(NavItemUser);
@@ -94,7 +96,13 @@ const NavBar: React.FC = () => {
         className="text-2xl font-bold text-detail text-center self-center"
         href={"/"}
       >
-        <Image src="/logo.svg" alt="Logo Nearvet" width={64} height={64} />
+        <Image
+          src="/logo.svg"
+          alt="Logo Nearvet"
+          width={64}
+          height={64}
+          priority
+        />
       </Link>
       <div className="flex flex-row items-center gap-4">
         {/* Button to toggle menu on mobile */}

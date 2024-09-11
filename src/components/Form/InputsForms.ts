@@ -261,15 +261,17 @@ export const InputsRegisterAppoint: InputField[] = [
   },
   {
     name: "time",
-    type: "time",
-    label: "Hora",
+    type: "select",
+    label: "Horario",
+    options: [],
     validation: appointmentValidationSchema.time,
+    labelKey: "hour",
   },
   {
     name: "messageUser",
     type: "text",
     label: "Observación",
-    placeholder: "Mi mascota tiene los siguientes problemas...",
+    placeholder: "Tiene sintomas de...",
     validation: appointmentValidationSchema.messageUser,
   },
 ];

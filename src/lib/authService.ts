@@ -54,7 +54,7 @@ export const registerGoogleService = async (values: FormRegisterValues) => {
 };
 
 export const modifyUserService = async (
-  values: FormRegisterValues,
+  values: Partial<FormRegisterValues>,
   id: string,
   token: string
 ) => {
@@ -104,13 +104,13 @@ export const fetchPetIdService = async (idPet: string, token: string) => {
 
 export const fetchAppointService = async (userId: string, token: string) => {
   const dataAppoint = {
-    url: `/appointments/user${userId}`, //TODO despues pasarlo a .env
+    url: `/appointments/user/${userId}`, //TODO despues pasarlo a .env
     method: "GET" as const,
     token,
   };
   try {
     const responseAppoint = await fetcher(dataAppoint);
-    if (!responseAppoint.id) throw new Error(responseAppoint.message);
+    if (!responseAppoint) throw new Error(responseAppoint.message);
     return responseAppoint;
   } catch (error: any) {
     throw new Error(error.message);
@@ -175,6 +175,21 @@ export const modifyImgPetService = async (
   }
 };
 
+export const cancelAppointmentService = async (
+  id: string,
+  token: string,
+  idTurno: string
+) => {
+  const dataCancel = {
+    url: `/appointments/cancel/${idTurno}`, //TODO despues pasarlo a .env
+    method: "PUT" as const,
+    token,
+  };
+  const responseCancel = await fetcher(dataCancel);
+  if (!responseCancel) throw new Error(responseCancel.message);
+  return responseCancel;
+};
+
 export const Species = async () => {
   const response = await fetch(`${API_BASE_URL}/pets/species`, {
     method: "GET",
@@ -218,6 +233,17 @@ export const serviceServices = async (category: string) => {
       },
     }
   );
+  return response.json();
+};
+
+export const horariosService = async (serviceId: string, date: Date) => {
+  const response = await fetch(`${API_BASE_URL}/availability-service/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ serviceId: serviceId, date: date }),
+  });
   return response.json();
 };
 

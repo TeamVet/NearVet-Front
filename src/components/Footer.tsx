@@ -12,11 +12,11 @@ const Footer: React.FC = () => {
             <FaGreaterThan className="text-detail pt-2" />
             Términos y condiciones
           </Link>
-          <Link className="flex text-lg" href={PATHROUTES.TERMS}>
+          <Link className="flex text-lg" href={PATHROUTES.ABOUTUS}>
             <FaGreaterThan className="text-detail pt-2" />
             Acerca de Nosotros
           </Link>
-          <Link className="flex text-lg" href={PATHROUTES.TERMS}>
+          <Link className="flex text-lg" href={PATHROUTES.FAQ}>
             <FaGreaterThan className="text-detail pt-2" />
             FAQ's
           </Link>

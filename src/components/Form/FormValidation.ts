@@ -1,10 +1,25 @@
 import * as Yup from "yup";
+//funcion para validar dias habiles
+const addBusinessDays = (date: Date, days: number) => {
+  let count = 0;
+  let result = new Date(date);
+  while (count < days) {
+    result.setDate(result.getDate() + 1);
+    // Si no es domingo (0), contamos como día hábil
+    if (result.getDay() !== 0) {
+      count++;
+    }
+  }
+  return result;
+};
+const today = new Date();
+const maxDate = addBusinessDays(today, 7);
+
 // Esquema de validación para registrar user
 export const registrationValidationSchema = {
   nombre: Yup.string(),
   apellido: Yup.string(),
-  DNI: Yup.string()
-  .matches(
+  DNI: Yup.string().matches(
     /^[0-9]+$/,
     "El DNI solo puede contener números, sin guiones ni espacios."
   ),
@@ -62,10 +77,19 @@ export const petCreationValidationSchema = {
 
 export const appointmentValidationSchema = {
   pet: Yup.string().required("Seleccionar una mascota es obligatorio"),
-  date: Yup.date().required("Fecha es obligatoria"),
-  time: Yup.string().required("Hora es obligatoria"),
+  date: Yup.date()
+    .required("La fecha es obligatoria")
+    .min(new Date(), "Debes seleccionar a partir de mañana")
+    .max(maxDate, "No puedes seleccionar una fecha más allá de 7 días hábiles")
+    .test(
+      "no-sunday",
+      "No puedes seleccionar un domingo",
+      (value) => value && value.getDay() !== 0
+    ),
+  time: Yup.string().required("Horario es obligatoria"),
   service: Yup.string().required("Seleccionar un servicio es obligatorio"),
-  observations: Yup.string(),
-  messageUser: Yup.string().required("Tu mensaje es obligatorio"),
+  messageUser: Yup.string().required(
+    "Debes indicarnos un motivo de la consulta"
+  ),
   category: Yup.string().required("Seleccionar una categoria es obligatorio"),
 };

@@ -1,15 +1,12 @@
 import React from "react";
-import { useUser } from "@/context/UserContext";
 import { SectionContentProps, User } from "@/types/interfaces";
-
 import AppointsModule from "./appointsModule";
 import PetsModule from "./petsModule";
 import UserInformation from "./UserInformation";
 import { ErrorNotify } from "@/lib/toastyfy";
+import BillModule from "./BillModule";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
-  const { user } = useUser();
-
   switch (section) {
     case "sinUser":
       return <p>No hay datos de usuario</p>;
@@ -21,14 +18,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     case "Ver Turnos":
       return <AppointsModule />;
     case "Ver Facturas":
-      return (
-        <div>
-          <h3 className="text-2xl font-semibold dark:text-darkHline">
-            Facturas
-          </h3>
-          <h4>Aún no tienes facturas</h4>
-        </div>
-      );
+      return <BillModule />;
     case "Ver Veterinaria Favorita":
       return (
         <div>
@@ -59,7 +49,6 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
         </div>
       );
     ///# Secciones Veterinario
-    ///# Seccion default
     default:
       return null;
   }

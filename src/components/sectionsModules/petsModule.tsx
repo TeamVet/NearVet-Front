@@ -56,7 +56,7 @@ const PetsModule: React.FC = () => {
                   alt={`Imagen de ${mascota.name}`}
                   width={100}
                   height={100}
-                  className="mx-auto my-2"
+                  className="mx-auto my-2 rounded-full p-1 bg-detail"
                 />
                 <h3 className="text-xl text-black dark:text-white mx-10">
                   Nombre: {mascota.name}

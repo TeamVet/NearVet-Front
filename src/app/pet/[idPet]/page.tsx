@@ -10,20 +10,107 @@ import { userPetsCards } from "@/helpers/dashBoardCards";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import { fetchPetIdController } from "@/lib/authController";
-import { ErrorNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
-import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { IoPencil } from "react-icons/io5";
+import PetInfo from "./petInfo";
+import PetSection from "./petSection";
+import Screen from "@/components/Screen";
+import PetClinical from "./PetClinical";
 
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
   const { loading, startLoading, stopLoading } = useLoading();
-  const [modal, setModal] = useState<boolean>(false);
+
   const { user, session } = useUser();
   const idUrl = useParams();
   const router = useRouter();
+  const idPet = idUrl.idPet;
+
+  const PetMock: Mascota = {
+    id: "1",
+    name: "Firulais",
+    birthdate: "2022-01-01",
+    startDate: new Date(),
+    color: "Blanco",
+    weightCurrent: "10",
+    observation: "Sin observaciones",
+    userId: "1",
+    specie: {
+      id: "1",
+      specie: "Perro",
+    },
+    race: {
+      id: "1",
+      race: "Pastor Aleman",
+    },
+    sex: {
+      id: "1",
+      sex: "Macho",
+    },
+    repConditionId: "1",
+    imgProfile: "https://i.ibb.co/0y8HbD0/IMG-20220207-131510.jpg",
+
+    vacunas: [
+      {
+        id: 1,
+        title: "Vacuna Polio",
+        nombre: "Covid",
+        description: "Para acabar la polio",
+        extraInfo: "Próxima dosis: 2022-02-01",
+        aplicada: "2022-01-01",
+        proxima: "2022-02-01",
+      },
+      {
+        id: 1,
+        title: "Vacuna Polio",
+        nombre: "Rabia",
+        description: "Para acabar la polio",
+        extraInfo: "Próxima dosis: 2022-02-01",
+        aplicada: "2022-01-01",
+        proxima: "2022-02-01",
+      },
+      {
+        id: 1,
+        title: "Vacuna Polio",
+        nombre: "Polio",
+        description: "Para acabar la polio",
+        extraInfo: "Próxima dosis: 2022-02-01",
+        aplicada: "2022-01-01",
+        proxima: "2022-02-01",
+      },
+      {
+        id: 1,
+        title: "Vacuna Polio",
+        nombre: "Gripe",
+        description: "Para acabar la polio",
+        extraInfo: "Próxima dosis: 2022-02-01",
+        aplicada: "2022-01-01",
+        proxima: "2022-02-01",
+      },
+    ],
+    tratamientos: [
+      {
+        pktratamiento: 1,
+        DescripcionTrat: "Metodo para elimiar la parvovirus",
+        title: "desparacitacion",
+        desciption: "Metodo para elimiar la parvovirus",
+        ObservacionTrat: "Sin observaciones",
+        frecuencia: "Normal",
+      },
+    ],
+    medicamentos: [
+      {
+        pkprescripcion: 1,
+        title: "Desparacitación",
+        nombre: "Collar desparacitante",
+        description: "Metodo para elimiar la parvovirus",
+        extraInfo: "Frecuencia: 1 vez por semana",
+        droga: "parvorius",
+        aplicacion: "1 sola vez",
+      },
+    ],
+  };
 
   useEffect(() => {
     if (idUrl.idPet === "undefined") {
@@ -31,6 +118,7 @@ const PetIndividual: React.FC = () => {
       return;
     }
     startLoading();
+
     const fetchMascota = async () => {
       try {
         const data = await fetchPetIdController(
@@ -44,7 +132,6 @@ const PetIndividual: React.FC = () => {
         } else setMascota(data);
       } finally {
         stopLoading();
-        console.log(mascota?.age);
       }
     };
 
@@ -53,66 +140,23 @@ const PetIndividual: React.FC = () => {
     }
   }, [session]);
 
-  const onCloseModal = () => {
-    setModal(false);
-    window.location.reload();
-  };
   return (
     <>
       {loading && <Loading />}
-      <Modal
-        isOpen={modal}
-        id={idUrl.idPet as string}
-        token={user?.token as string}
-        onClose={onCloseModal}
-        type="pet"
-      />
-      {mascota && (
-        <div className="w-full flex flex-col md:flex-row justify-center gap-1 my-2 m-auto">
-          <div className=" md:w-1/4 shadow-lg">
-            <div className="flex flex-row relative justify-center">
-              <Image
-                src={mascota?.imgProfile}
-                alt="Foto de la mascota"
-                width={100}
-                height={100}
-                className="rounded-full bg-detail p-1"
-              />
-              <button
-                className="font-semibold text-2xl absolute top-0 right-0"
-                onClick={() => setModal(true)}
-              >
-                <IoPencil />
-              </button>
-            </div>
-            <div className="flex flex-col text-justify p-2">
-              <h2>Nombre: {mascota?.name}</h2>
-
-              <p>Tipo: {mascota?.specie.specie}</p>
-              <p>Raza: {mascota.race.race}</p>
-              <p>Color: {mascota?.color}</p>
-              <p>Sexo: {mascota?.sex.sex}</p>
-              <p>
-                Fecha de Nacimiento:{" "}
-                {mascota.birthdate ? mascota.birthdate : "Desconocida"}
-              </p>
-              {mascota.age && <p>Edad: {mascota.age} años </p>}
-              <br />
-              <ButtonCustom
-                text="Editar"
-                href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
-              />
-              <br />
-              <ButtonCustom
-                text="Necesita Atención medica"
-                onClick={() => ErrorNotify("Funcionalidad no disponible")}
-              />
-            </div>
+      {mascota && idUrl.idPet && (
+        <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
+          <div className="md:w-1/4">
+            <PetInfo {...mascota} idPet />
           </div>
-          <div className="bg-slate-300 md:w-2/4 flex flex-col ">
-            <Dashboard cards={userPetsCards} renderSection={SectionContent} />
+          <div className="md:w-2/4">
+            <PetSection
+              {...PetMock}
+              // {...mascota} aca iria asi si no usaramos el mock
+            />
           </div>
-          <div className="bg-slate-600 md:w-1/4">Historia Clinica</div>
+          <div className="md:w-1/4">
+            <PetClinical />
+          </div>
         </div>
       )}
     </>

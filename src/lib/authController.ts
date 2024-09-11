@@ -8,6 +8,7 @@ import {
 import {
   addAppointmentService,
   addPetService,
+  cancelAppointmentService,
   fetchAppointService,
   fetchPetIdService,
   fetchPetsService,
@@ -21,6 +22,11 @@ import {
 import { ErrorNotify, PromessNotify } from "./toastyfy";
 
 export const loginController = async (values: FormValues) => {
+  values = {
+    ...values,
+    dni: Number(values.dni),
+  };
+
   try {
     const response = await PromessNotify(
       "Iniciando sesión...",
@@ -37,6 +43,7 @@ export const registerUserController = async (values: FormRegisterValues) => {
   values = {
     ...values,
     startDate: new Date(),
+    dni: Number(values.dni),
   };
   try {
     const response = await PromessNotify(
@@ -181,5 +188,22 @@ export const newAppointmentController = async (values: FormNewAppointment) => {
     return responseAppoitn;
   } catch (error: any) {
     ErrorNotify(`Error al registrar tu turno: ${error.message}`);
+  }
+};
+
+export const cancelAppointController = async (
+  userId: string,
+  token: string,
+  idTurno: string
+) => {
+  try {
+    const responseCancel = await PromessNotify(
+      "Cancelando tu turno...",
+      "Cancelado exitosamente",
+      cancelAppointmentService(userId, token, idTurno)
+    );
+    return responseCancel;
+  } catch (error: any) {
+    ErrorNotify(`Error al cancelar tu turno: ${error.message}`);
   }
 };
