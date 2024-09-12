@@ -1,5 +1,7 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import { NextApiRequest, NextApiResponse } from 'next';
+import Stripe from 'stripe';
 
 const handdler = NextAuth({
   providers: [
@@ -9,5 +11,4 @@ const handdler = NextAuth({
     }),
   ],
 });
-
 export { handdler as GET, handdler as POST };
