@@ -13,6 +13,7 @@ export interface ButtonCustomOptionalProps extends ButtonCustomProps {
   size: string;
   color: string;
   bgcolor: string;
+  className: string;
   type: "button" | "submit" | "reset";
   onClick: () => void;
 }
