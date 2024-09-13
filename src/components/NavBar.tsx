@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     if (!user) {
       setNavItems(NavItem);
-    } else if (user) {
+    } else if (user.role) {
       switch (user.role.role) {
         case "user":
           setNavItems(NavItemUser);
