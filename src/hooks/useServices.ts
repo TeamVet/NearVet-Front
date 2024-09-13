@@ -11,22 +11,19 @@ export const useServices = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const URL_CATEGORY = process.env.NEXT_PUBLIC_CATEGORY_SERVICE;
   const fetchingCategory = async () => {
-    const responseCategory = await fetch(
-      "https://nearvet-latest.onrender.com/category-services"
-    );
+    const responseCategory = await fetch(`${API_URL}${URL_CATEGORY}`);
     const categoryJson = await responseCategory.json();
-    console.log(categoryJson);
+
     categoryJson.map((item: any) => {
       if (item.categoryService === "Veterinaria") {
         setCategory(item.id);
-        console.log(item.id);
       }
     });
   };
   const fetching = async () => {
-    console.log(category);
     const returnServices = await serviceServices(category as string);
     const returnProducts = await productsService();
     console.log(returnServices, returnProducts);

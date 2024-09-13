@@ -13,6 +13,7 @@ const CATEGORY_SERVICE = process.env.NEXT_PUBLIC_CATEGORY_SERVICE;
 const NEW_TRATMENT = process.env.NEXT_PUBLIC_NEW_TRATMENT;
 const NEW_EXAMINATION = process.env.NEXT_PUBLIC_CLINICAL_EXAMINATION;
 const NEW_PRESCRIPTION = process.env.NEXT_PUBLIC_NEW_PRESCRIPTION;
+const EXISTING_PENDIENTS = process.env.NEXT_PUBLIC_EXISTING_PENDIENTS;
 const NEW_PENDING = process.env.NEXT_PUBLIC_NEW_PENDING;
 const NEW_FILES = process.env.NEXT_PUBLIC_NEW_FILES;
 const PRODUCTS = process.env.NEXT_PUBLIC_PRODUCTS;
@@ -196,6 +197,16 @@ export const newFilesService = async (values: any) => {
     url: NEW_FILES as string,
     method: "POST" as const,
     data: values,
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+
+export const fetchExistingPendients = async (idPet: string) => {
+  const data = {
+    url: `${EXISTING_PENDIENTS}/${idPet}`,
+    method: "GET" as const,
   };
   const response = await fetcher(data);
   if (!response) throw new Error(response.message);

@@ -266,11 +266,41 @@ export interface ReusableFormProps {
 
 //! FOR MOCK
 export interface Tratamiento {
-  pktratamiento: number;
-  title: string;
-  DescripcionTrat: string;
-  ObservacionTrat: string;
-  frecuencia: string;
+  applicationProducts: any[];
+  clinicalExaminationId: string;
+  description: string;
+  id: string;
+  observation: string;
+  price: number;
+  service: Service;
+  serviceId: string;
+  clinicalExamination: ClinicalExamination;
+}
+
+export interface Service {
+  categoryServiceId: string;
+  description: string;
+  durationMin: number;
+  id: string;
+  price: number;
+  sendMesasge: string | null;
+  service: string;
+  veterinarianId: string;
+}
+export interface ClinicalExamination {
+  anamnesis: string;
+  diagnosis: string;
+  fc: number;
+  fr: number;
+  hydration: number;
+  id: string;
+  moodState: string;
+  mucous: string;
+  petId: string;
+  temper: string;
+  temperature: number;
+  tllc: number;
+  veterinarianId: string;
 }
 
 export interface Medicamento {

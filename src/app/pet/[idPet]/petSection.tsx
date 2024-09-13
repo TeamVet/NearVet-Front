@@ -7,20 +7,23 @@ import {
 import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
 import { TratmentsController } from "@/lib/Controllers/appointController";
 
-// Componente para las tarjetas reutilizables
 const Tarjeta = ({
   title,
   description,
   extraInfo,
+  fecha,
 }: {
   title: string;
   description: string;
   extraInfo?: string;
+  fecha: string;
 }) => (
-  <div className="flex flex-col gap-2 p-2 text-center items-center bg-white rounded m-2 shadow-md">
+  <div className="flex flex-col w-1/3 gap-2 p-2 text-center items-center bg-white rounded m-2 shadow-md cursor-default">
     <h3 className="text-detail font-semibold">{title}</h3>
-    <p>{description}</p>
     {extraInfo && <p>{extraInfo}</p>}
+    <small>
+      {description} - {fecha}
+    </small>
   </div>
 );
 interface PetSectionProps {
@@ -33,13 +36,15 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
 
   useEffect(() => {
-    //TODO logica para traer tratamientos y medicamentos ya se pidio al back
     const fetchTratamientos = async () => {
       const responseTratamiento = await TratmentsController(idPet);
       console.log(responseTratamiento);
-
-      // setTratamientos(responseTratamiento);
-      // setMedicamentos(responseMedicamentos);
+      responseTratamiento.map((tratamiento: Tratamiento) => {
+        tratamiento.applicationProducts.map((product: any) => {
+          setMedicamentos(product);
+        });
+      });
+      setTratamientos(responseTratamiento);
     };
 
     if (idPet) {
@@ -54,10 +59,14 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
           <div className="flex flex-wrap justify-center gap-2">
             {tratamientos.map((tratamiento: Tratamiento) => (
               <Tarjeta
-                key={tratamiento.pktratamiento}
-                title={tratamiento.DescripcionTrat}
-                description={`Observación: ${tratamiento.ObservacionTrat}`}
-                extraInfo={`Frecuencia: ${tratamiento.frecuencia}`}
+                key={tratamiento.id}
+                title={tratamiento.description}
+                description={`Observación: ${tratamiento.observation}`}
+                extraInfo={`Servicio: ${tratamiento.service.service}`}
+                fecha={
+                  "Fecha: "
+                  // + tratamiento.clinicalExamination.date
+                }
               />
             ))}
           </div>
@@ -71,6 +80,7 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
                 title={medicamento.nombre}
                 description={`Droga: ${medicamento.droga}`}
                 extraInfo={`Aplicación: ${medicamento.aplicacion}`}
+                fecha=""
               />
             ))}
           </div>
