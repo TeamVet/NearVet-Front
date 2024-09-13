@@ -78,6 +78,8 @@ const PetIndividual: React.FC = () => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         setTurno={() => setTurnoStatus("Finalizado")}
+        idPet={mascota?.id as string}
+        idUser={user?.id as string}
       />
       {mascota && idAppoint && (
         <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">

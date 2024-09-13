@@ -21,6 +21,8 @@ import frGregorian from "@syncfusion/ej2-cldr-data/main/es-AR/ca-gregorian.json"
 import frNumberingSystem from "@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json";
 import { useUser } from "@/context/UserContext";
 import { fetchTurnosService } from "@/lib/Services/appointService";
+import useLoading from "@/hooks/LoadingHook";
+import Loading from "../Loading";
 
 loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
 
@@ -29,7 +31,7 @@ const CalendarioModule = () => {
   const { user } = useUser();
   const [firstDate, setFirstDate] = useState<Date | null>(null);
   const [lastDate, setLastDate] = useState<Date | null>(null);
-
+  const { loading, startLoading, stopLoading } = useLoading();
   const calculateMonthDates = (currentDate: Date) => {
     const firstDay = new Date(
       currentDate.getFullYear(),
@@ -52,12 +54,15 @@ const CalendarioModule = () => {
 
   useEffect(() => {
     const fetchTurnos = async () => {
-      if (!user?.id || !firstDate || !lastDate) return;
-      const response = await fetchTurnosService(user.id, firstDate, lastDate);
-      if (response.length > 0) setTurnos(response);
+      try {
+        startLoading();
+        if (!user?.id || !firstDate || !lastDate) return;
+        const response = await fetchTurnosService(user.id, firstDate, lastDate);
+        if (response.length > 0) setTurnos(response);
+      } finally {
+        stopLoading();
+      }
     };
-
-    // Ejecutar fetch solo cuando se tengan fechas y el usuario esté disponible
     if (user?.id && firstDate && lastDate) {
       fetchTurnos();
     }
@@ -66,6 +71,7 @@ const CalendarioModule = () => {
   return (
     <div>
       <h3 className="text-xl text-detail">Calendario</h3>
+      {loading && <Loading />}
       <section className="shadow-lg p-5 m-auto w-full md:w-4/5 flex flex-col gap-2 my-2 cursor-default">
         <ScheduleComponent
           eventSettings={{
@@ -76,7 +82,7 @@ const CalendarioModule = () => {
           }}
           startHour="06:00"
           endHour="23:00"
-          currentView="Day"
+          currentView="Month"
           locale="es-AR"
           navigating={onNavigating}
         >

@@ -13,6 +13,7 @@ const addBusinessDays = (date: Date, days: number) => {
   return result;
 };
 const today = new Date();
+today.setHours(0, 0, 0, 0); // Elimina las horas para comparar solo la fecha
 const maxDate = addBusinessDays(today, 7);
 
 // Esquema de validación para registrar user
@@ -79,7 +80,7 @@ export const appointmentValidationSchema = {
   pet: Yup.string().required("Seleccionar una mascota es obligatorio"),
   date: Yup.date()
     .required("La fecha es obligatoria")
-    .min(new Date(), "Debes seleccionar a partir de mañana")
+    .min(today, "Debes seleccionar a partir de hoy")
     .max(maxDate, "No puedes seleccionar una fecha más allá de 7 días hábiles")
     .test(
       "no-sunday",
