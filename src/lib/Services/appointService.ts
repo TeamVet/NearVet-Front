@@ -159,7 +159,7 @@ export const newExaminationService = async (values: any) => {
     data: values,
   };
   const response = await fetcher(data);
-  if (!response.ok) throw new Error(response.message);
+  if (!response) throw new Error(response.message);
   return response;
 };
 export const newTratmentsService = async (values: any) => {

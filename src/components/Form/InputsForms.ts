@@ -388,10 +388,12 @@ export const InputsAppointsVetPrescipciones = [
 ];
 export const InputsAppointsVetPendientes = [
   {
-    name: "servideId",
-    type: "text",
-    label: "Motivo del Pendiente",
-    placeholder: "Aplicacion vacuna...",
+    name: "serviceId",
+    type: "select",
+    label: "Nombre del servicio",
+    placeholder: "",
+    options: [],
+    labelKey: "service",
   },
   {
     name: "description",
@@ -400,7 +402,7 @@ export const InputsAppointsVetPendientes = [
     placeholder: "Tener en cuenta que...",
   },
   {
-    name: "endPending",
+    name: "date",
     type: "date",
     label: "Fecha Limite del Pendiente",
     placeholder: "",

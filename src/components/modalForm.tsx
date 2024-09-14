@@ -5,7 +5,7 @@ interface ModalProps {
   idPet: string;
   idUser: string;
 }
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import ReusableForm from "./Form/FormCustom";
 import {
   InputsAppointsVetClinical,
@@ -24,11 +24,12 @@ import {
 import { consulta, InfoNotify } from "@/lib/toastyfy";
 import { useServices } from "@/hooks/useServices";
 import { newPendingService } from "@/lib/Services/appointService";
+import { ClinicalExamination } from "@/types/interfaces";
 
 // Estados iniciales para el reducer
 const initialState = {
   selectedSection: "Examinacion clinica",
-  examinationDone: true,
+  examinationDone: false,
   services: [],
   products: [],
 };
@@ -58,6 +59,8 @@ const ModalForm: React.FC<ModalProps> = ({
 }) => {
   const [state, dispatch] = useReducer(modalReducer, initialState);
   const { services, products, loading, error } = useServices();
+  const [examenPracticado, setExamenPracticado] =
+    useState<ClinicalExamination>();
 
   useEffect(() => {
     if (services.length > 0) {
@@ -92,6 +95,13 @@ const ModalForm: React.FC<ModalProps> = ({
     }
     return input;
   });
+  const NewInputsPendings = InputsAppointsVetPendientes.map((input) => {
+    if (input.name === "serviceId") {
+      return { ...input, options: state.services };
+    }
+    return input;
+  });
+
   const handleSubmitExamination = async (values: any) => {
     const formattedValues = {
       ...values,
@@ -105,8 +115,10 @@ const ModalForm: React.FC<ModalProps> = ({
     };
     const response = await ExaminationController(formattedValues);
     if (response) {
+      setExamenPracticado(response);
       dispatch({ type: "SET_EXAMINATION_DONE", payload: true });
-      localStorage.setItem("examination", JSON.stringify(response.id));
+      console.log(response.id);
+      localStorage.setItem("examination", response.id);
     }
   };
   const handleSubmitTratment = async (values: any) => {
@@ -133,10 +145,18 @@ const ModalForm: React.FC<ModalProps> = ({
       description,
       clinicalExaminationId: localStorage.getItem("examination"),
     }))(values);
-    await NewPrescriptionController(values);
+    await NewPrescriptionController(prescriptionValues);
   };
   const handleSubmitPending = async (values: any) => {
-    await NewPendingController(values);
+    const PendingsValues = (({ date, serviceId, description }) => ({
+      date,
+      serviceId,
+      userId: idUser,
+      petId: idPet,
+      description,
+      notification: true,
+    }))(values);
+    await NewPendingController(PendingsValues);
   };
   const handleSubmitFiles = async (values: any) => {
     await NewFilesController(values);
@@ -149,14 +169,46 @@ const ModalForm: React.FC<ModalProps> = ({
     switch (state.selectedSection) {
       case "Examinacion clinica":
         return (
-          <ReusableForm
-            formTitle="Examinación clínica"
-            inputs={InputsAppointsVetClinical}
-            onSubmit={handleSubmitExamination}
-            displayRow
-            notLogo
-            submitButtonLabel="Guardar"
-          />
+          <>
+            {examenPracticado && (
+              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
+                <h3 className="text-center text-detail text-lg">
+                  Examen registrado:
+                </h3>
+
+                <div className="flex flex-row justify-around">
+                  <p>FC: {examenPracticado.fc}</p>
+                  <p>FR: {examenPracticado.fr}</p>
+                </div>
+                <div className="flex flex-row justify-around">
+                  <p>Hidratacion: {examenPracticado.hydration}</p>
+                  <p>Temperatura: {examenPracticado.temperature}</p>
+                </div>
+                <div className="flex flex-row justify-around">
+                  <p>TLLC: {examenPracticado.tllc}</p>
+                  <p>Mocosidad: {examenPracticado.mucous}</p>
+                </div>
+                <div className="flex flex-row justify-around">
+                  <p>Estado de Animo: {examenPracticado.moodState}</p>
+                  <p>Temperamento: {examenPracticado.temper}</p>
+                </div>
+                <div className="flex flex-row justify-around">
+                  <p>Ammnesis: {examenPracticado.anamnesis}</p>
+                  <p>Diagnostico: {examenPracticado.diagnosis}</p>
+                </div>
+              </div>
+            )}
+            {examenPracticado ? null : (
+              <ReusableForm
+                formTitle="Examinación clínica"
+                inputs={InputsAppointsVetClinical}
+                onSubmit={handleSubmitExamination}
+                displayRow
+                notLogo
+                submitButtonLabel="Guardar"
+              />
+            )}
+          </>
         );
       case "Tratamiento":
         return state.examinationDone ? (
@@ -188,7 +240,7 @@ const ModalForm: React.FC<ModalProps> = ({
         return (
           <ReusableForm
             formTitle="Nuevo Pendiente"
-            inputs={InputsAppointsVetPendientes}
+            inputs={NewInputsPendings}
             onSubmit={handleSubmitPending}
             displayRow
             notLogo
