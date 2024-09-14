@@ -4,6 +4,7 @@ import { fetchExistingPendients } from "@/lib/Services/appointService";
 import { ClinicalExamination, Tratamiento } from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
+import Link from "next/link";
 
 interface Pendientes {
   id: string;
@@ -20,6 +21,7 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet }) => {
   const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
 
   const handleDownloadPdf = (idPet: any, his: ClinicalExamination) => {
+    if (!idPet || !his) return;
     const doc = new jsPDF();
     // Posición x, y, width, height
     // Información del encabezado
@@ -56,16 +58,20 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet }) => {
   useEffect(() => {
     const fetchPendientes = async () => {
       const responsePendings = await fetchExistingPendients(idPet);
-      if (responsePendings > 0) {
+      if (responsePendings.length > 0) {
         setPendientes(responsePendings);
       }
     };
     const fetchHistorial = async () => {
       const responseHistorial = await TratmentsController(idPet);
+
       if (responseHistorial.length > 0) {
-        const updatedHistorial = responseHistorial.map(
-          (tratamiento: Tratamiento) => tratamiento.clinicalExamination
-        );
+        const updatedHistorial = responseHistorial
+          .filter(
+            (tratamiento: Tratamiento) =>
+              tratamiento.clinicalExamination?.petId === idPet
+          )
+          .map((tratamiento: Tratamiento) => tratamiento.clinicalExamination);
 
         setHistorial((prevHistorial) => [
           ...prevHistorial,
@@ -82,16 +88,20 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet }) => {
 
   return (
     <section className=" flex flex-col shadow-lg md:min-h-[99vh]">
-      <article className="flex flex-col min-h-[20vh] max-h-[30vh] m-2 p-2  items-center overflow-y-scroll">
+      <article className="flex flex-col min-h-[20vh] max-h-[30vh] m-2 p-2 gap-2 items-center overflow-y-scroll">
         <h3 className="text-xl text-detail">Pendientes</h3>
 
         {Pendientes.length > 0 ? (
           Pendientes.map((Pendiente) => (
-            <article className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg bg-red-300 hover:bg-slate-200 text-center">
+            <Link
+              href={PATHROUTES.NEWAPPOINTMEN}
+              className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg border border-red-400  text-center"
+            >
               <p className="italic">{Pendiente.title}</p>
               <p>Fecha: {Pendiente.date}</p>
-              <p>{Pendiente.description}</p>
-            </article>
+              <p>Descripcion: {Pendiente.description}</p>
+              <small>Click para reservar turno</small>
+            </Link>
           ))
         ) : (
           <p className="text-center text-sm p-2">

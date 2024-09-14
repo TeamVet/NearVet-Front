@@ -11,7 +11,10 @@ import PetSection from "../../[idPet]/petSection";
 import PetClinical from "../../[idPet]/PetClinical";
 import ModalForm from "@/components/modalForm";
 import { consulta, ErrorNotify } from "@/lib/toastyfy";
-import { fetchAppointIdService } from "@/lib/Services/appointService";
+import {
+  fetchAppointIdService,
+  fetchFinishAppoint,
+} from "@/lib/Services/appointService";
 
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
@@ -57,10 +60,12 @@ const PetIndividual: React.FC = () => {
 
   const handleCloseTurn = async () => {
     consulta("Finalizará el turno, ¿Desea continuar?", () => {
-      fetchFinishAppoint(turnoVet?.id as string);
+      alert("aca llegamos");
+      fetchFinish(turnoVet?.id as string);
     });
   };
-  const fetchFinishAppoint = async (id: string) => {
+  const fetchFinish = async (id: string) => {
+    alert("Cerrando turno...");
     setTurnoStatus("Finalizado");
     try {
       startLoading();

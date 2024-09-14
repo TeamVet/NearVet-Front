@@ -23,8 +23,11 @@ import {
 } from "@/lib/Controllers/appointController";
 import { consulta, InfoNotify } from "@/lib/toastyfy";
 import { useServices } from "@/hooks/useServices";
-import { newPendingService } from "@/lib/Services/appointService";
-import { ClinicalExamination } from "@/types/interfaces";
+import {
+  ClinicalExamination,
+  Pendiente,
+  Prescripcion,
+} from "@/types/interfaces";
 
 // Estados iniciales para el reducer
 const initialState = {
@@ -61,6 +64,9 @@ const ModalForm: React.FC<ModalProps> = ({
   const { services, products, loading, error } = useServices();
   const [examenPracticado, setExamenPracticado] =
     useState<ClinicalExamination>();
+  const [tratamiento, setTratamiento] = useState();
+  const [prescripciones, setPrescripciones] = useState<Prescripcion>();
+  const [pendientes, setPendientes] = useState<Pendiente>();
 
   useEffect(() => {
     if (services.length > 0) {
@@ -136,7 +142,11 @@ const ModalForm: React.FC<ModalProps> = ({
       price: 10000,
     }))(values);
 
-    await NewTratmentsController(treatmentValues);
+    const response = await NewTratmentsController(treatmentValues);
+    if (response) {
+      console.log(response);
+      setTratamiento(response);
+    }
   };
 
   const handleSubmitPresciption = async (values: any) => {
@@ -145,7 +155,11 @@ const ModalForm: React.FC<ModalProps> = ({
       description,
       clinicalExaminationId: localStorage.getItem("examination"),
     }))(values);
-    await NewPrescriptionController(prescriptionValues);
+    const response = await NewPrescriptionController(prescriptionValues);
+    if (response) {
+      console.log(response);
+      setPrescripciones(response);
+    }
   };
   const handleSubmitPending = async (values: any) => {
     const PendingsValues = (({ date, serviceId, description }) => ({
@@ -156,10 +170,16 @@ const ModalForm: React.FC<ModalProps> = ({
       description,
       notification: true,
     }))(values);
-    await NewPendingController(PendingsValues);
+    const response = await NewPendingController(PendingsValues);
+    if (response) {
+      console.log(response);
+      setPendientes(response);
+    }
   };
   const handleSubmitFiles = async (values: any) => {
-    await NewFilesController(values);
+    const response = await NewFilesController(values);
+    if (response) {
+    }
   };
 
   const renderSectionContent = () => {
@@ -212,40 +232,74 @@ const ModalForm: React.FC<ModalProps> = ({
         );
       case "Tratamiento":
         return state.examinationDone ? (
-          <ReusableForm
-            formTitle="Nuevo Tratamiento"
-            inputs={NewInputsTratments}
-            onSubmit={handleSubmitTratment}
-            displayRow
-            notLogo
-            submitButtonLabel="Guardar"
-          />
+          <>
+            <ReusableForm
+              formTitle="Nuevo Tratamiento"
+              inputs={NewInputsTratments}
+              onSubmit={handleSubmitTratment}
+              displayRow
+              notLogo
+              submitButtonLabel="Guardar"
+            />
+            {tratamiento && (
+              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
+                <h3 className="text-detail text-lg text-center">Tratamiento</h3>
+              </div>
+            )}
+          </>
         ) : (
           <p>Primero debes realizar la examinación clínica</p>
         );
       case "Prescripciones":
         return state.examinationDone ? (
-          <ReusableForm
-            formTitle="Nueva Prescripcion"
-            inputs={NewInputsPrescriptions}
-            onSubmit={handleSubmitPresciption}
-            displayRow
-            notLogo
-            submitButtonLabel="Guardar"
-          />
+          <>
+            <ReusableForm
+              formTitle="Nueva Prescripcion"
+              inputs={NewInputsPrescriptions}
+              onSubmit={handleSubmitPresciption}
+              displayRow
+              notLogo
+              submitButtonLabel="Guardar"
+            />
+            {prescripciones && (
+              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
+                <h3 className="text-detail text-lg text-center">
+                  Prescripcion
+                </h3>
+                <div className="m-auto flex flex-row gap-2 my-2">
+                  <p>Descripcion: {prescripciones.description}</p>
+                  <p>Id del producto: {prescripciones.productoId}</p>
+                </div>
+              </div>
+            )}
+          </>
         ) : (
           <p>Primero debes realizar la examinacion clinica</p>
         );
       case "Pendientes":
         return (
-          <ReusableForm
-            formTitle="Nuevo Pendiente"
-            inputs={NewInputsPendings}
-            onSubmit={handleSubmitPending}
-            displayRow
-            notLogo
-            submitButtonLabel="Guardar"
-          />
+          <>
+            <ReusableForm
+              formTitle="Nuevo Pendiente"
+              inputs={NewInputsPendings}
+              onSubmit={handleSubmitPending}
+              displayRow
+              notLogo
+              submitButtonLabel="Guardar"
+            />
+            {pendientes && (
+              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
+                <h3 className="text-detail text-lg text-center">Pendiente</h3>
+                <div className="m-auto flex flex-row gap-2 my-2">
+                  <p>Fecha: {pendientes.date}</p>
+                  <p>Observacion: {pendientes.description}</p>
+                </div>
+                <p className="text-center">
+                  Tratamiento: {pendientes.serviceId}
+                </p>
+              </div>
+            )}
+          </>
         );
       case "Archivos":
         return state.examinationDone ? (
@@ -338,13 +392,13 @@ const ModalForm: React.FC<ModalProps> = ({
             className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-700"
             onClick={handleOnClose}
           >
-            Cerrar Turno
+            Cerrar Registro
           </button>
           <button
             className="bg-detail text-white p-2 rounded-lg hover:bg-green-600"
             onClick={handleOnEndTurn}
           >
-            Finalizar
+            Finalizar Turno
           </button>
         </div>
       </div>

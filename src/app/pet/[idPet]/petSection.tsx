@@ -38,13 +38,24 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
   useEffect(() => {
     const fetchTratamientos = async () => {
       const responseTratamiento = await TratmentsController(idPet);
-      console.log(responseTratamiento);
-      responseTratamiento.map((tratamiento: Tratamiento) => {
-        tratamiento.applicationProducts.map((product: any) => {
-          setMedicamentos(product);
+      if (responseTratamiento.length > 0) {
+        const updatedHistorial = responseTratamiento
+          .filter(
+            (tratamiento: Tratamiento) =>
+              tratamiento.clinicalExamination?.petId === idPet
+          )
+          .map((tratamiento: Tratamiento) => tratamiento.clinicalExamination);
+
+        setTratamientos((prevHistorial) => [
+          ...prevHistorial,
+          ...updatedHistorial,
+        ]);
+        responseTratamiento.map((tratamiento: Tratamiento) => {
+          tratamiento.applicationProducts.map((product: any) => {
+            setMedicamentos(product);
+          });
         });
-      });
-      setTratamientos(responseTratamiento);
+      }
     };
 
     if (idPet) {
