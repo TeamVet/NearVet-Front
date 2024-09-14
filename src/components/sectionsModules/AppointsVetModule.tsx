@@ -6,6 +6,7 @@ import { fetchTurnosService } from "@/lib/Services/appointService";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 const today = new Date();
+console.log(today);
 const todayString = today.toISOString().split("T")[0];
 
 const AppointsVetModule = () => {
@@ -18,6 +19,7 @@ const AppointsVetModule = () => {
       if (!user?.id) return;
       try {
         const response = await fetchTurnosService(user.id, today, today);
+        console.log(response);
         if (response.length > 0) {
           const turnosConFormato = response.map((turno: any) => ({
             ...turno,

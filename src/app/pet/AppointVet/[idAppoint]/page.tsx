@@ -109,7 +109,7 @@ const PetIndividual: React.FC = () => {
                 onClick={handleCloseTurn}
                 className=" bg-red-500 rounded p-2 text-white hover:scale-105"
               >
-                Cerrar turno
+                Finalizar turno
               </button>
             </div>
           )}

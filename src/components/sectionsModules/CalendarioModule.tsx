@@ -73,27 +73,29 @@ const CalendarioModule = () => {
       <h3 className="text-xl text-detail">Calendario</h3>
       {loading && <Loading />}
       <section className="shadow-lg p-5 m-auto w-full md:w-4/5 flex flex-col gap-2 my-2 cursor-default">
-        <ScheduleComponent
-          eventSettings={{
-            dataSource: turnosBackend,
-            allowAdding: false,
-            allowDeleting: false,
-            allowEditing: false,
-          }}
-          startHour="06:00"
-          endHour="23:00"
-          currentView="Month"
-          locale="es-AR"
-          navigating={onNavigating}
-        >
-          <ViewsDirective>
-            <ViewDirective option="Day" displayName="Dia" />
-            <ViewDirective option="Agenda" />
-            <ViewDirective option="Week" displayName="Semana" />
-            <ViewDirective option="Month" displayName="Mes" />
-          </ViewsDirective>
-          <Inject services={[Day, Week, Month, Agenda]} />
-        </ScheduleComponent>
+        {turnosBackend && (
+          <ScheduleComponent
+            eventSettings={{
+              dataSource: turnosBackend,
+              allowAdding: false,
+              allowDeleting: false,
+              allowEditing: false,
+            }}
+            startHour="06:00"
+            endHour="23:00"
+            currentView="Agenda"
+            locale="es-AR"
+            navigating={onNavigating}
+          >
+            <ViewsDirective>
+              <ViewDirective option="Day" displayName="Dia" />
+              <ViewDirective option="Agenda" />
+              <ViewDirective option="Week" displayName="Semana" />
+              <ViewDirective option="Month" displayName="Mes" />
+            </ViewsDirective>
+            <Inject services={[Day, Week, Month, Agenda]} />
+          </ScheduleComponent>
+        )}
       </section>
     </div>
   );
