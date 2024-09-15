@@ -185,7 +185,7 @@ export const InputsRegisterPet: InputField[] = [
     validation: petCreationValidationSchema.pesoActual,
   },
   {
-    name: "observaciones",
+    name: "observation",
     type: "text",
     label: "Observaciones",
     placeholder: "Muerde mucho...",
@@ -230,7 +230,7 @@ export const InputsModifyPet: InputField[] = [
 ];
 export const InputsRegisterAppoint: InputField[] = [
   {
-    name: "pet_id",
+    name: "petId",
     type: "select",
     label: "Mascota",
     validation: appointmentValidationSchema.pet,
@@ -246,7 +246,7 @@ export const InputsRegisterAppoint: InputField[] = [
     labelKey: "categoryService",
   },
   {
-    name: "service_id",
+    name: "serviceId",
     type: "select",
     label: "Servicio",
     validation: appointmentValidationSchema.service,
@@ -272,7 +272,6 @@ export const InputsRegisterAppoint: InputField[] = [
     type: "text",
     label: "Observación",
     placeholder: "Tiene sintomas de...",
-    validation: appointmentValidationSchema.messageUser,
   },
 ];
 
@@ -410,7 +409,7 @@ export const InputsAppointsVetPendientes = [
 ];
 export const InputsFilesAppoints = [
   {
-    name: "file",
+    name: "File",
     type: "file",
     label: "Cargar Archivo",
     placeholder: "Seleccionar archivo",

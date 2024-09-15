@@ -10,16 +10,19 @@ import Link from "next/link";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
 
 const SignIn: React.FC = () => {
-  const { loginWithCredentials } = useUser();
+  const { loginWithCredentials, user } = useUser();
   const { startLoading, stopLoading, loading } = useLoading();
-
+  const router = useRouter();
+  if (user) router.push(PATHROUTES.HOME);
   const handleSubmit = async (values: FormValues) => {
     startLoading();
     await loginWithCredentials(values);
     stopLoading();
   };
+
   return (
     <Screen>
       {loading && <Loading />}

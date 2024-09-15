@@ -11,11 +11,13 @@ import Link from "next/link";
 import GoogleButton from "@/components/GoogleButton";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
 
 const RegisterForm: React.FC = () => {
-  const { registerWithCredentials } = useUser();
+  const { registerWithCredentials, user } = useUser();
   const { startLoading, stopLoading, loading } = useLoading();
-
+  const router = useRouter();
+  if (user) router.push(PATHROUTES.HOME);
   const handleSubmit = async (values: FormRegisterValues) => {
     startLoading();
     registerWithCredentials(values);
