@@ -11,12 +11,28 @@ import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { InfoNotify } from "@/lib/toastyfy";
 
 const SignIn: React.FC = () => {
-  const { loginWithCredentials, user } = useUser();
+  const { loginWithCredentials, user, session } = useUser();
   const { startLoading, stopLoading, loading } = useLoading();
   const router = useRouter();
-  if (user) router.push(PATHROUTES.HOME);
+  const [timePassed, setTimePassed] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimePassed(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (user && timePassed) {
+      InfoNotify("Ya te encuentras logueado");
+      router.push(PATHROUTES.HOME);
+    }
+  }, [user, timePassed, router]);
   const handleSubmit = async (values: FormValues) => {
     startLoading();
     await loginWithCredentials(values);
