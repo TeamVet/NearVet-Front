@@ -42,6 +42,7 @@ const PetIndividual: React.FC = () => {
         if (data === undefined || data === null) {
           return;
         }
+
         setTurnoVet(data);
         setMascota(data.pet);
         setTurnoStatus(data.state.state);
@@ -65,12 +66,10 @@ const PetIndividual: React.FC = () => {
     });
   };
   const fetchFinish = async (id: string) => {
-    alert("Cerrando turno...");
     setTurnoStatus("Finalizado");
     try {
       startLoading();
       const data = await fetchFinishAppoint(id);
-      console.log(data);
     } finally {
       stopLoading();
     }
@@ -95,7 +94,7 @@ const PetIndividual: React.FC = () => {
             <PetSection idPet={mascota.id as string} />
           </div>
           <div className="md:w-1/4">
-            <PetClinical idPet={mascota.id as string} />
+            <PetClinical idPet={mascota.id as string} pet={mascota} />
           </div>
           {turnoStatus === "Pendiente" && (
             <div className="fixed z-10 top-2 rigth-[50%] flex flex-row gap-2 shadow-md rounded-lg p-2">

@@ -26,7 +26,6 @@ export const useServices = () => {
   const fetching = async () => {
     const returnServices = await serviceServices(category as string);
     const returnProducts = await productsService();
-    console.log(returnServices, returnProducts);
     setServices(returnServices);
     setProducts(returnProducts);
   };

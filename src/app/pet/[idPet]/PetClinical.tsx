@@ -1,10 +1,15 @@
 import PATHROUTES from "@/helpers/path-routes";
 import { TratmentsController } from "@/lib/Controllers/appointController";
-import { fetchExistingPendients } from "@/lib/Services/appointService";
-import { ClinicalExamination, Tratamiento } from "@/types/interfaces";
+import {
+  fetchAppointIdService,
+  fetchExistingPendients,
+} from "@/lib/Services/appointService";
+import { ClinicalExamination, Mascota, Tratamiento } from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Link from "next/link";
+import { fetchPetIdController } from "@/lib/Controllers/petController";
+import { useUser } from "@/context/UserContext";
 
 interface Pendientes {
   id: string;
@@ -15,46 +20,93 @@ interface Pendientes {
 
 interface PetClinicaProps {
   idPet: string;
+  pet?: Mascota;
 }
-const PetClinical: React.FC<PetClinicaProps> = ({ idPet }) => {
+const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   const [Pendientes, setPendientes] = useState<Pendientes[]>([]);
   const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
 
-  const handleDownloadPdf = (idPet: any, his: ClinicalExamination) => {
-    if (!idPet || !his) return;
+  const handleDownloadPdf = (
+    idPet: any,
+    his: ClinicalExamination,
+    pet?: Mascota
+  ) => {
+    if (!idPet || !his || !pet) return;
     const doc = new jsPDF();
-    // Posición x, y, width, height
-    // Información del encabezado
+
+    // Encabezado
     doc.setFontSize(16);
     doc.text("NearVet", 75, 20);
-    doc.text("Historia clinica mascota ID:", 120, 20);
-    doc.setFontSize(12);
-    doc.text(`${idPet}`, 120, 30);
+    doc.setFontSize(14);
+    doc.text("Clínica de Pequeños Animales", 80, 30);
+    doc.text(
+      "La misma reviste caracter provisorio y podria no contener todos los datos del examen",
+      60,
+      40
+    );
+
     // Línea separadora
     doc.setLineWidth(0.5);
-    doc.line(10, 60, 200, 60); // (x1, y1, x2, y2)
-    doc.setFontSize(16);
-    doc.text(`Amensis y situación de la mascota:`, 10, 70);
+    doc.line(10, 50, 200, 50);
+
+    // Información de la mascota
     doc.setFontSize(12);
-    doc.text(`${his.anamnesis}`, 10, 80);
+    doc.text(`Fecha de descarga: ${new Date().toLocaleDateString()}`, 10, 60);
+    doc.text(`Veterinario a cargo: ___________`, 120, 60);
+
+    doc.text(`Datos del paciente`, 10, 80);
+    doc.text(`Especie: ${pet.specie.specie}`, 10, 90);
+    doc.text(`Raza: ${pet.race.race}`, 60, 90);
+    doc.text(`Sexo: ${pet.sex.sex}`, 120, 90);
+    doc.text(`Edad: ${calculateAge(pet.birthdate)}`, 10, 100);
+    doc.text(`Color: ${pet.color}`, 60, 100);
+    doc.text(`Nombre de la mascota: ${pet.name}`, 120, 100);
+
+    // Motivo de consulta
+    doc.setFontSize(12);
+    doc.text("Motivo de consulta:", 10, 110);
+    doc.text(`${his.anamnesis}`, 10, 120);
+
+    // Parámetros clínicos en tabla
+    doc.setFontSize(14);
+    doc.text("Parámetros Clínicos:", 10, 130);
+    doc.setFontSize(12);
+    doc.text("Parámetro", 60, 140);
+    doc.text("Valor", 100, 140);
+
+    // Parámetros de la mascota
+    doc.text("FC", 60, 150);
+    doc.text(`${his.fc} lpm`, 100, 150);
+    doc.text("FR", 60, 160);
+    doc.text(`${his.fr} cpm`, 100, 160);
+    doc.text("TLLC", 60, 170);
+    doc.text(`${his.tllc} s`, 100, 170);
+    doc.text("Temperatura", 60, 180);
+    doc.text(`${his.temperature} °C`, 100, 180);
+    doc.text("Hidratación", 60, 190);
+    doc.text(`${his.hydration}%`, 100, 190);
+
+    // Línea separadora final
     doc.setLineWidth(0.2);
-    doc.line(30, 85, 180, 85);
-    doc.text("Parametro", 60, 90);
-    doc.text(`Valor`, 100, 90);
-    doc.text(`FC`, 60, 100);
-    doc.text(`${his.fc}`, 100, 100);
-    doc.text(`FR`, 60, 110);
-    doc.text(`${his.fr}`, 100, 110);
-    doc.text(`TLLC`, 60, 120);
-    doc.text(`${his.tllc}`, 100, 120);
+    doc.line(10, 200, 200, 200);
 
     // Nota al pie
     doc.setFontSize(10);
     doc.text("Gracias por utilizar el servicio", 10, 270);
     doc.text("NearVet S.A.", 150, 270);
+
     // Descargar el PDF
-    doc.save(`Historia Clinica${his.id}_${his.petId}.pdf`);
+    doc.save(`Historia_Clinica_${his.id}_${his.petId}.pdf`);
   };
+
+  // Función auxiliar para calcular la edad
+  const calculateAge = (birthdate: string) => {
+    const birth = new Date(birthdate);
+    const ageDifMs = Date.now() - birth.getTime();
+    const ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
+
   useEffect(() => {
     const fetchPendientes = async () => {
       const responsePendings = await fetchExistingPendients(idPet);
@@ -94,6 +146,7 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet }) => {
         {Pendientes.length > 0 ? (
           Pendientes.map((Pendiente) => (
             <Link
+              key={Pendiente.id}
               href={PATHROUTES.NEWAPPOINTMEN}
               className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg border border-red-400  text-center"
             >
@@ -114,9 +167,9 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet }) => {
         {Historial.length > 0 ? (
           Historial.map((his) => (
             <div
+              key={his.id}
               className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200"
-              id={his.id}
-              onClick={() => handleDownloadPdf(idPet, his)}
+              onClick={() => handleDownloadPdf(idPet, his, pet)}
             >
               <p className="text-detail italic">{his.anamnesis}</p>
               <p>{his.diagnosis}</p>

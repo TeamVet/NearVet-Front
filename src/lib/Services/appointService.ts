@@ -194,7 +194,6 @@ export const newPendingService = async (values: any) => {
   return response;
 };
 export const newFilesService = async (id: string, values: any) => {
-  console.log(values);
   const data = {
     url: `${NEW_FILES}/${id}`,
     method: "POST" as const,

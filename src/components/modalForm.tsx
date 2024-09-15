@@ -27,6 +27,7 @@ import {
   ClinicalExamination,
   Pendiente,
   Prescripcion,
+  Tratamiento,
 } from "@/types/interfaces";
 
 // Estados iniciales para el reducer
@@ -64,7 +65,7 @@ const ModalForm: React.FC<ModalProps> = ({
   const { services, products, loading, error } = useServices();
   const [examenPracticado, setExamenPracticado] =
     useState<ClinicalExamination>();
-  const [tratamiento, setTratamiento] = useState();
+  const [tratamiento, setTratamiento] = useState<Tratamiento>();
   const [prescripciones, setPrescripciones] = useState<Prescripcion>();
   const [pendientes, setPendientes] = useState<Pendiente>();
 
@@ -138,13 +139,13 @@ const ModalForm: React.FC<ModalProps> = ({
       description,
       observation,
       productId,
+      clinicalExaminationId: localStorage.getItem("examination"),
       date: new Date(),
       price: 10000,
     }))(values);
 
     const response = await NewTratmentsController(treatmentValues);
     if (response) {
-      console.log(response);
       setTratamiento(response);
     }
   };
@@ -157,7 +158,6 @@ const ModalForm: React.FC<ModalProps> = ({
     }))(values);
     const response = await NewPrescriptionController(prescriptionValues);
     if (response) {
-      console.log(response);
       setPrescripciones(response);
     }
   };
@@ -172,7 +172,6 @@ const ModalForm: React.FC<ModalProps> = ({
     }))(values);
     const response = await NewPendingController(PendingsValues);
     if (response) {
-      console.log(response);
       setPendientes(response);
     }
   };
@@ -183,14 +182,11 @@ const ModalForm: React.FC<ModalProps> = ({
 
     let formData = new FormData();
     formData.append("file", FilesValues.file);
-    console.log(formData);
+
     const response = await NewFilesController(
       examenPracticado?.id as string,
       formData
     );
-    if (response) {
-      console.log(response);
-    }
   };
 
   const renderSectionContent = () => {
@@ -255,6 +251,24 @@ const ModalForm: React.FC<ModalProps> = ({
             {tratamiento && (
               <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
                 <h3 className="text-detail text-lg text-center">Tratamiento</h3>
+                <div className="m-auto flex flex-row gap-2 my-2">
+                  <p>
+                    <strong>Descripcion:</strong> {tratamiento.description}
+                  </p>
+                  <p>
+                    {" "}
+                    <strong>Precio:</strong> {tratamiento.price}
+                  </p>
+                </div>
+                <div className="m-auto flex flex-row gap-2 my-2">
+                  {tratamiento.observation && (
+                    <p>Id del producto: {tratamiento.observation}</p>
+                  )}
+                  <p>
+                    <strong>Servicio:</strong>
+                    {tratamiento.service.service}
+                  </p>
+                </div>
               </div>
             )}
           </>
