@@ -55,6 +55,19 @@ const InputField: React.FC<InputFieldProps> = ({
           rows={3}
         />
       );
+    case "file":
+      return (
+        <input
+          id={input.name}
+          name={input.name}
+          type="file"
+          onChange={(event) =>
+            formik.setFieldValue("file", event.currentTarget.files![0])
+          }
+          onBlur={formik.handleBlur}
+          className={commonClasses}
+        />
+      );
     default:
       return (
         <input

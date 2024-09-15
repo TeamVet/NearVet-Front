@@ -109,12 +109,12 @@ export const NewPendingController = async (values: any) => {
     ErrorNotify(`Error al registrar tu turno: ${error.message}`);
   }
 };
-export const NewFilesController = async (values: any) => {
+export const NewFilesController = async (id: string, values: any) => {
   try {
     const responseExamination = await PromessNotify(
       "Registrando la Examinacion...",
       "Registrado exitosamente",
-      newFilesService(values)
+      newFilesService(id, values)
     );
     return responseExamination;
   } catch (error: any) {

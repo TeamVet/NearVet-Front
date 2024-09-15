@@ -118,12 +118,12 @@ const ModalForm: React.FC<ModalProps> = ({
       hydration: Number(values.hydration),
       petId: idPet,
       veterinarianId: idUser,
+      date: new Date(),
     };
     const response = await ExaminationController(formattedValues);
     if (response) {
       setExamenPracticado(response);
       dispatch({ type: "SET_EXAMINATION_DONE", payload: true });
-      console.log(response.id);
       localStorage.setItem("examination", response.id);
     }
   };
@@ -138,7 +138,7 @@ const ModalForm: React.FC<ModalProps> = ({
       description,
       observation,
       productId,
-      Date: new Date(),
+      date: new Date(),
       price: 10000,
     }))(values);
 
@@ -177,8 +177,19 @@ const ModalForm: React.FC<ModalProps> = ({
     }
   };
   const handleSubmitFiles = async (values: any) => {
-    const response = await NewFilesController(values);
+    const FilesValues = (({ file }) => ({
+      file,
+    }))(values);
+
+    let formData = new FormData();
+    formData.append("file", FilesValues.file);
+    console.log(formData);
+    const response = await NewFilesController(
+      examenPracticado?.id as string,
+      formData
+    );
     if (response) {
+      console.log(response);
     }
   };
 
@@ -268,7 +279,7 @@ const ModalForm: React.FC<ModalProps> = ({
                 </h3>
                 <div className="m-auto flex flex-row gap-2 my-2">
                   <p>Descripcion: {prescripciones.description}</p>
-                  <p>Id del producto: {prescripciones.productoId}</p>
+                  <p>Id de la prescripcion: {prescripciones.id}</p>
                 </div>
               </div>
             )}

@@ -1,5 +1,5 @@
 import { FormNewAppointment } from "@/types/interfaces";
-import { fetcher } from "../fetcher";
+import { fetcher, fetcherImg } from "../fetcher";
 
 const APPOINTS = process.env.NEXT_PUBLIC_APPOINTS;
 const APPOINTS_USER = process.env.NEXT_PUBLIC_APPOINTS_USER;
@@ -159,7 +159,7 @@ export const newExaminationService = async (values: any) => {
     data: values,
   };
   const response = await fetcher(data);
-  if (!response) throw new Error(response.message);
+  if (!response.id) throw new Error(response.message);
   return response;
 };
 export const newTratmentsService = async (values: any) => {
@@ -169,7 +169,8 @@ export const newTratmentsService = async (values: any) => {
     data: values,
   };
   const response = await fetcher(data);
-  if (!response) throw new Error(response.message);
+  if (!response.id) throw new Error(response.message);
+
   return response;
 };
 export const newPrescriptionService = async (values: any) => {
@@ -192,14 +193,15 @@ export const newPendingService = async (values: any) => {
   if (!response) throw new Error(response.message);
   return response;
 };
-export const newFilesService = async (values: any) => {
+export const newFilesService = async (id: string, values: any) => {
+  console.log(values);
   const data = {
-    url: NEW_FILES as string,
+    url: `${NEW_FILES}/${id}`,
     method: "POST" as const,
     data: values,
   };
-  const response = await fetcher(data);
-  if (!response) throw new Error(response.message);
+  const response = await fetcherImg(data);
+  if (!response.id) throw new Error(response.message);
   return response;
 };
 
