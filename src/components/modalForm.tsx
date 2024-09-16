@@ -29,6 +29,7 @@ import {
   Prescripcion,
   Tratamiento,
 } from "@/types/interfaces";
+import Image from "next/image";
 
 // Estados iniciales para el reducer
 const initialState = {
@@ -66,8 +67,15 @@ const ModalForm: React.FC<ModalProps> = ({
   const [examenPracticado, setExamenPracticado] =
     useState<ClinicalExamination>();
   const [tratamiento, setTratamiento] = useState<Tratamiento>();
-  const [prescripciones, setPrescripciones] = useState<Prescripcion>();
+  const [prescripciones, setPrescripciones] = useState<Prescripcion[]>([]);
   const [pendientes, setPendientes] = useState<Pendiente>();
+  const [File, setFile] = useState<
+    {
+      image: string;
+      id: string;
+      clinicalExaminationId: string;
+    }[]
+  >([]);
 
   useEffect(() => {
     if (services.length > 0) {
@@ -146,6 +154,7 @@ const ModalForm: React.FC<ModalProps> = ({
 
     const response = await NewTratmentsController(treatmentValues);
     if (response) {
+      console.log(response);
       setTratamiento(response);
     }
   };
@@ -158,7 +167,8 @@ const ModalForm: React.FC<ModalProps> = ({
     }))(values);
     const response = await NewPrescriptionController(prescriptionValues);
     if (response) {
-      setPrescripciones(response);
+      console.log(response);
+      setPrescripciones((prevPres) => [...prevPres, response]);
     }
   };
   const handleSubmitPending = async (values: any) => {
@@ -172,6 +182,7 @@ const ModalForm: React.FC<ModalProps> = ({
     }))(values);
     const response = await NewPendingController(PendingsValues);
     if (response) {
+      console.log(response);
       setPendientes(response);
     }
   };
@@ -187,6 +198,10 @@ const ModalForm: React.FC<ModalProps> = ({
       examenPracticado?.id as string,
       formData
     );
+    if (response) {
+      setFile((prevFiles) => [prevFiles, response]);
+    }
+    console.log(response);
   };
 
   const renderSectionContent = () => {
@@ -264,10 +279,12 @@ const ModalForm: React.FC<ModalProps> = ({
                   {tratamiento.observation && (
                     <p>Id del producto: {tratamiento.observation}</p>
                   )}
-                  <p>
-                    <strong>Servicio:</strong>
-                    {tratamiento.service.service}
-                  </p>
+                  {tratamiento.service && (
+                    <p>
+                      <strong>Servicio:</strong>
+                      {tratamiento.service.service}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -287,14 +304,17 @@ const ModalForm: React.FC<ModalProps> = ({
               submitButtonLabel="Guardar"
             />
             {prescripciones && (
-              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
-                <h3 className="text-detail text-lg text-center">
-                  Prescripcion
-                </h3>
-                <div className="m-auto flex flex-row gap-2 my-2">
-                  <p>Descripcion: {prescripciones.description}</p>
-                  <p>Id de la prescripcion: {prescripciones.id}</p>
-                </div>
+              <div className="flex flex-row flex-wrap m-auto gap-1 ">
+                {prescripciones.map((prescripcion) => (
+                  <div className="w-1/4 shadow-lg rounded-lg flex flex-col p-2 m-auto">
+                    <h3 className="text-detail text-lg text-center">
+                      Prescripcion Nombre de la droga
+                    </h3>
+                    <div className="m-auto flex flex-col gap-2 my-2">
+                      <p>Descripcion: {prescripcion.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </>
@@ -328,14 +348,30 @@ const ModalForm: React.FC<ModalProps> = ({
         );
       case "Archivos":
         return state.examinationDone ? (
-          <ReusableForm
-            formTitle="Archivos del turno"
-            inputs={InputsFilesAppoints}
-            onSubmit={handleSubmitFiles}
-            displayRow
-            notLogo
-            submitButtonLabel="Cargar Archivos"
-          />
+          <>
+            <ReusableForm
+              formTitle="Archivos del turno"
+              inputs={InputsFilesAppoints}
+              onSubmit={handleSubmitFiles}
+              displayRow
+              notLogo
+              submitButtonLabel="Cargar Archivos"
+            />
+            {File && (
+              <div className="flex flex-col md:flex-row items-center">
+                {File.map((Fil) => (
+                  <div className="shadow-lg rounded-lg m-2">
+                    <Image
+                      src={Fil.image}
+                      width={100}
+                      height={100}
+                      alt="Imagen del archivo"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <p>Primero debes realizar la examinacion clinica</p>
         );

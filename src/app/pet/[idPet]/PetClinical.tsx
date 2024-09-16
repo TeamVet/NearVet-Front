@@ -8,14 +8,23 @@ import { ClinicalExamination, Mascota, Tratamiento } from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Link from "next/link";
-import { fetchPetIdController } from "@/lib/Controllers/petController";
+
 import { useUser } from "@/context/UserContext";
 
 interface Pendientes {
   id: string;
-  title: string;
-  date: string;
   description: string;
+  date: Date;
+  petId: string;
+  service: {
+    id: string;
+    service: string;
+    description: string;
+    price: number;
+    durationMin: number;
+    veterinarianId: string;
+    categoryServiceId: string;
+  };
 }
 
 interface PetClinicaProps {
@@ -110,13 +119,13 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   useEffect(() => {
     const fetchPendientes = async () => {
       const responsePendings = await fetchExistingPendients(idPet);
+
       if (responsePendings.length > 0) {
         setPendientes(responsePendings);
       }
     };
     const fetchHistorial = async () => {
       const responseHistorial = await TratmentsController(idPet);
-
       if (responseHistorial.length > 0) {
         const updatedHistorial = responseHistorial
           .filter(
@@ -150,9 +159,16 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
               href={PATHROUTES.NEWAPPOINTMEN}
               className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg border border-red-400  text-center"
             >
-              <p className="italic">{Pendiente.title}</p>
-              <p>Fecha: {Pendiente.date}</p>
-              <p>Descripcion: {Pendiente.description}</p>
+              <p className="italic text-detail">{Pendiente.service.service}</p>
+              <p>
+                Fecha:{" "}
+                {new Date(Pendiente.date).toLocaleDateString("es-AR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </p>
+              <small>Descripcion: {Pendiente.description}</small>
               <small>Click para reservar turno</small>
             </Link>
           ))
@@ -172,8 +188,8 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
               onClick={() => handleDownloadPdf(idPet, his, pet)}
             >
               <p className="text-detail italic">{his.anamnesis}</p>
-              <p>{his.diagnosis}</p>
-              <small>Identificador: {his.id}</small>
+              <p>Diagnostico: {his.diagnosis}</p>
+
               <small>Click para descargar</small>
             </div>
           ))

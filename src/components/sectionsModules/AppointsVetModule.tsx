@@ -6,11 +6,19 @@ import { fetchTurnosService } from "@/lib/Services/appointService";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 const today = new Date();
-
 const todayString = today.toISOString().split("T")[0];
 
+export interface Turno {
+  id: string;
+  Subject: string;
+  description: string;
+  StartTime: string;
+  EndTime: string;
+  isAllDay: boolean;
+  stateAppointment: string;
+}
 const AppointsVetModule = () => {
-  const [turnos, setTurnos] = useState<any[]>([]);
+  const [turnos, setTurnos] = useState<Turno[]>([]);
   const { user } = useUser();
   const { loading, startLoading, stopLoading } = useLoading();
   useEffect(() => {
@@ -19,8 +27,8 @@ const AppointsVetModule = () => {
       if (!user?.id) return;
       try {
         const response = await fetchTurnosService(user.id, today, today);
-
         if (response.length > 0) {
+          console.log(response);
           const turnosConFormato = response.map((turno: any) => ({
             ...turno,
             StartTime: formatTime(turno.StartTime),
@@ -71,7 +79,7 @@ const AppointsVetModule = () => {
               ) : (
                 <Link
                   href={`${PATHROUTES.PET}/${turno.id}`}
-                  className="bg-transparent p-2 m-auto rounded-lg "
+                  className="bg-transparent p-2 m-auto rounded-lg shadow-lg"
                 >
                   Revisar Mascota
                 </Link>
