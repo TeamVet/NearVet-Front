@@ -93,12 +93,13 @@ export const productsService = async () => {
   }
 };
 
-export const horariosService = async (serviceId: string) => {
+export const horariosService = async (serviceId: string, dateService: Date) => {
   const response = await fetch(`${API_BASE_URL}${AVAILABILITY_SERVICE}`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ serviceId, date: dateService }),
   });
   return response.json();
 };
