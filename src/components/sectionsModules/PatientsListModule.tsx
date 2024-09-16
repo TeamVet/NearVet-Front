@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import TableCustom from "../TableCustom";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
-
 const PatientsListModule = () => {
+  const URL_PATIENTS = process.env.NEXT_PUBLIC_PATIENTS;
   const [patientsList, setPatientsList] = useState([]);
   const { loading, startLoading, stopLoading } = useLoading();
   useEffect(() => {
@@ -12,9 +12,7 @@ const PatientsListModule = () => {
   const fetchData = async () => {
     try {
       startLoading();
-      const response = await fetch(
-        `https://nearvet-latest.onrender.com/users?page=1&limit=100`
-      );
+      const response = await fetch(URL_PATIENTS as string);
       const data = await response.json();
       if (!data || data === "undefined") return;
       setPatientsList(data);

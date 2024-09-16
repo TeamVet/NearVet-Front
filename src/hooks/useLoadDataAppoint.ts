@@ -8,6 +8,11 @@ import {
 
 import { ErrorNotify } from "@/lib/toastyfy";
 import { fetchPetsController } from "@/lib/Controllers/petController";
+const timeNow = new Date();
+const formattedTimeNow = `${String(timeNow.getHours()).padStart(
+  2,
+  "0"
+)}:${String(timeNow.getMinutes()).padStart(2, "0")}`;
 
 export const useAppointmentData = (userId: string, token: string) => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -15,7 +20,7 @@ export const useAppointmentData = (userId: string, token: string) => {
     { id: string; categoryService: string; description: string }[]
   >([]);
   const [services, setServices] = useState<any[]>([]);
-  const [horarios, setHorarios] = useState<any[]>([]);
+  const [horarios, setHorarios] = useState<{ id: string; hour: string }[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [categorySelect, setCategorySelect] = useState("");
@@ -66,17 +71,12 @@ export const useAppointmentData = (userId: string, token: string) => {
   const fetchHorarios = async (serviceId: string) => {
     if (!serviceId) return;
 
-    const returnHorarios = await horariosService(serviceId);
-    console.log(returnHorarios); //!! ARREGLAR CON BACKEND
-    const nuevoshorarios = returnHorarios.map(
-      (horario: { id: string; startHour1: string }) => {
-        return {
-          id: horario.startHour1,
-          hour: horario.startHour1,
-        };
-      }
+    const returnHorarios = await horariosService(serviceId, daySelect as Date);
+    console.log(returnHorarios);
+    const availibiryHorarios = returnHorarios.filter(
+      (hour: { id: string; hour: string }) => hour.hour > formattedTimeNow
     );
-    setHorarios(nuevoshorarios);
+    setHorarios(availibiryHorarios);
   };
 
   const handleOnChange = (value: string) => {
