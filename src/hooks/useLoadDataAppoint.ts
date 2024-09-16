@@ -8,6 +8,11 @@ import {
 
 import { ErrorNotify } from "@/lib/toastyfy";
 import { fetchPetsController } from "@/lib/Controllers/petController";
+const timeNow = new Date();
+const formattedTimeNow = `${String(timeNow.getHours()).padStart(
+  2,
+  "0"
+)}:${String(timeNow.getMinutes()).padStart(2, "0")}`;
 
 export const useAppointmentData = (userId: string, token: string) => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -67,7 +72,11 @@ export const useAppointmentData = (userId: string, token: string) => {
     if (!serviceId) return;
 
     const returnHorarios = await horariosService(serviceId, daySelect as Date);
-    setHorarios(returnHorarios);
+    console.log(returnHorarios);
+    const availibiryHorarios = returnHorarios.filter(
+      (hour: { id: string; hour: string }) => hour.hour > formattedTimeNow
+    );
+    setHorarios(availibiryHorarios);
   };
 
   const handleOnChange = (value: string) => {
