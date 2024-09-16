@@ -21,11 +21,13 @@ const SignIn: React.FC = () => {
   const [timePassed, setTimePassed] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimePassed(true);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (user) {
+      const timer = setTimeout(() => {
+        setTimePassed(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (user && timePassed) {
