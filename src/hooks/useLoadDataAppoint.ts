@@ -6,8 +6,10 @@ import {
   serviceServices,
 } from "@/lib/Services/appointService";
 
-import { ErrorNotify } from "@/lib/toastyfy";
+import { consulta, ErrorNotify } from "@/lib/toastyfy";
 import { fetchPetsController } from "@/lib/Controllers/petController";
+import { useRouter } from "next/navigation";
+import PATHROUTES from "@/helpers/path-routes";
 const timeNow = new Date();
 const formattedTimeNow = `${String(timeNow.getHours()).padStart(
   2,
@@ -22,7 +24,6 @@ export const useAppointmentData = (userId: string, token: string) => {
   const [services, setServices] = useState<any[]>([]);
   const [horarios, setHorarios] = useState<{ id: string; hour: string }[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [categorySelect, setCategorySelect] = useState("");
   const [mascotaSelect, setMascotaSelect] = useState<Mascota | null>(null);
   const [daySelect, setDaySelect] = useState<Date | null>(null);
@@ -32,6 +33,7 @@ export const useAppointmentData = (userId: string, token: string) => {
     description?: string;
     price?: number;
   } | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,8 +43,11 @@ export const useAppointmentData = (userId: string, token: string) => {
           fetchPetsController(userId, token),
           categoryServices(),
         ]);
-        if (responseMascotas.length === 0)
-          throw new Error("No tienes una mascota, primero deberías crearla");
+        if (responseMascotas.length === 0) {
+          consulta("No tienes una mascota, primero deberías crearla", () =>
+            router.push(PATHROUTES.NEW_PET)
+          );
+        }
         setMascotas(responseMascotas);
         setCategories(responseCategory);
       } catch (error) {
