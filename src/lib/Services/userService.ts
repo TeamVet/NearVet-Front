@@ -5,6 +5,7 @@ const SIGNIN_URL = process.env.NEXT_PUBLIC_SIGNIN_URL;
 const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL;
 const SIGN_GOOGLE = process.env.NEXT_PUBLIC_SIGN_GOOGLE;
 const MODIFI_USER = process.env.NEXT_PUBLIC_MODIFI_USER;
+const BILLS_USER = process.env.NEXT_PUBLIC_BILLS_USER;
 
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
@@ -66,6 +67,25 @@ export const modifyUserService = async (
     const responseModify = await fetcher(dataModify);
     if (!responseModify.id) throw new Error(responseModify.message);
     return responseModify;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const BillsService = async (
+  page: number,
+  id: string,
+  startDay: string,
+  endDay: string
+) => {
+  const dataBills = {
+    url: `${BILLS_USER}${page}&limit=10&userId=${id}&start=${startDay}&end=${endDay}`,
+    method: "GET" as const,
+  };
+  try {
+    const responseBills = await fetcher(dataBills);
+    if (!responseBills) throw new Error(responseBills.message);
+    return responseBills;
   } catch (error: any) {
     throw new Error(error.message);
   }

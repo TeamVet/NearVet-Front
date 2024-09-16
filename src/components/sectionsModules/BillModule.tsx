@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoCutSharp, IoMedicalSharp } from "react-icons/io5";
 import jsPDF from "jspdf";
+import { useUser } from "@/context/UserContext";
+import { BillsService } from "@/lib/Services/userService";
 
 interface Bill {
   service: string;
@@ -15,34 +17,32 @@ interface Bill {
 
 const BillModule: React.FC = () => {
   const [facturas, setFacturas] = useState<Bill[]>([]);
+  const [page, setPage] = useState(1);
+  const { user } = useUser();
+  const startDay = new Date(user?.startDate as Date);
+  const endDay = new Date();
 
   useEffect(() => {
-    // Simulamos la petición al backend para obtener las facturas
-    const fakeData = [
-      {
-        service: "Peluqueria",
-        item: "Corte de pelo",
-        price: 1000,
-        date: "2024-09-01",
-        user: "Juan Carlos",
-        id: "1",
-      },
-      {
-        service: "Clinica",
-        item: "Castracion",
-        price: 500,
-        date: "2024-09-03",
-        user: "Ramon",
-        id: "2",
-      },
-    ];
-    setFacturas(fakeData);
-  }, []);
+    const fetchBills = async () => {
+      if (!user) return;
+      const formattedStartDay = startDay.toISOString().split("T")[0];
+      const formattedEndDay = endDay.toISOString().split("T")[0];
+      const responseBills = await BillsService(
+        page,
+        user.id as string,
+        formattedStartDay,
+        formattedEndDay
+      );
+      if (responseBills.length > 0) {
+        setFacturas(responseBills);
+      }
+    };
 
-  // Función para generar el PDF
-  // SVG logo como string (ejemplo simple de logo)
+    if (user) {
+      fetchBills();
+    }
+  }, [user, page, startDay, endDay]);
 
-  // Función para generar el PDF
   const handleDownloadPdf = (factura: Bill) => {
     const doc = new jsPDF();
     doc.addImage("logo.png", "PNG", 10, 10, 40, 40); // Posición x, y, width, height del logo
@@ -85,41 +85,62 @@ const BillModule: React.FC = () => {
     // Descargar el PDF
     doc.save(`Factura_${factura.item}_${factura.date}.pdf`);
   };
+  const handleNextPage = () => setPage((prevPage) => prevPage + 1);
+  const handlePrevPage = () =>
+    setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
 
   return (
-    <section className="flex flex-col md:flex-row flex-wrap gap-2 w-2/3 m-auto justify-center">
-      {/* Renderizando las facturas */}
-      {facturas &&
-        facturas.map((factura, index) => (
-          <article
-            key={index}
-            className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer"
-            onClick={() => handleDownloadPdf(factura)}
-          >
-            <div className="flex flex-row justify-between gap-2 items-center">
-              <h4 className="text-xl text-detail">{factura.service}</h4>
-              <p>{factura.date}</p>
-            </div>
-            <div className="flex flex-row justify-evenly gap-2 items-center my-2">
-              <div className="text-detail">
-                {factura.service === "Peluqueria" ? (
-                  <IoCutSharp />
-                ) : (
-                  <IoMedicalSharp />
-                )}
+    <section className="flex flex-col w-2/3 m-auto shadow-lg">
+      <div className="flex flex-row justify-around w-full m-auto">
+        <button
+          onClick={handlePrevPage}
+          disabled={page === 1}
+          className={`p-2 bg-detail text-white rounded-lg ${
+            page === 1 ? "cursor-default opacity-0 " : ""
+          }`}
+        >
+          Anterior Página
+        </button>
+        <button
+          onClick={handleNextPage}
+          className="p-2 bg-detail text-white rounded-lg"
+        >
+          Siguiente Página
+        </button>
+      </div>
+      <div className="flex flex-wrap gap-2 justify-center min-h-[80vh] ">
+        {facturas &&
+          facturas.map((factura, index) => (
+            <article
+              key={index}
+              className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer"
+              onClick={() => handleDownloadPdf(factura)}
+            >
+              <div className="flex flex-row justify-between gap-2 items-center">
+                <h4 className="text-xl text-detail">{factura.service}</h4>
+                <p>{factura.date}</p>
               </div>
-              <p>{factura.item}</p>
-            </div>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Total</p>
-              <p>$ {factura.price}</p>
-            </div>
-            <div className="flex flex-col mt-1">
-              <small>Comprobante no válido como factura.</small>
-              <small>Para descargarla, haga click</small>
-            </div>
-          </article>
-        ))}
+              <div className="flex flex-row justify-evenly gap-2 items-center my-2">
+                <div className="text-detail">
+                  {factura.service === "Peluqueria" ? (
+                    <IoCutSharp />
+                  ) : (
+                    <IoMedicalSharp />
+                  )}
+                </div>
+                <p>{factura.item}</p>
+              </div>
+              <div className="flex flex-row justify-between gap-2">
+                <p>Total</p>
+                <p>$ {factura.price}</p>
+              </div>
+              <div className="flex flex-col mt-1">
+                <small>Comprobante no válido como factura.</small>
+                <small>Para descargarla, haga click</small>
+              </div>
+            </article>
+          ))}
+      </div>
     </section>
   );
 };
