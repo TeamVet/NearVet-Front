@@ -19,7 +19,8 @@ const config: Config = {
         lightBG: "#FFFFFF",
         darkBackground: "#111827",
         darkBackgroundFront: "rgb(31 41 55 / var(--tw-bg-opacity))",
-        navDarkBG: "#212121"
+        navDarkBG: "#212121",
+        purpleBackground: "#f7eff9"
       },
       colors: {
         detail: "#8E44AD",
@@ -29,7 +30,7 @@ const config: Config = {
       },
       textColor: {
         lightHline: "#333333",
-        lightText: "#686868",
+        purpleTitles: "#6a4972",
         darkHline: "#CCCCCC",
         darkText: "#A3A3A3",
       },

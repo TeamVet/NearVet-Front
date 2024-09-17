@@ -147,11 +147,11 @@ export interface Mascota {
   }[];
   [key: string]: any;
 }
-// Veterninarias [Missing info]
-export interface Veterinaria {
+
+export interface Servicio {
   id: number;
   name: string;
-  nameCompany: string;
+  description: string;
   logo: string;
 }
 
