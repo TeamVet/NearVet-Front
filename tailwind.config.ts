@@ -20,7 +20,7 @@ const config: Config = {
         darkBackground: "#111827",
         darkBackgroundFront: "rgb(31 41 55 / var(--tw-bg-opacity))",
         navDarkBG: "#212121",
-        purpleBackground: "#f7eff9"
+        purpleBackground: "#f8f2f9"
       },
       colors: {
         detail: "#8E44AD",
