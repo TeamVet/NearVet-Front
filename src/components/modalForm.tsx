@@ -66,7 +66,7 @@ const ModalForm: React.FC<ModalProps> = ({
   const { services, products, loading, error } = useServices();
   const [examenPracticado, setExamenPracticado] =
     useState<ClinicalExamination>();
-  const [tratamiento, setTratamiento] = useState<Tratamiento>();
+  const [tratamiento, setTratamiento] = useState<Tratamiento[]>([]);
   const [prescripciones, setPrescripciones] = useState<Prescripcion[]>([]);
   const [pendientes, setPendientes] = useState<Pendiente>();
   const [File, setFile] = useState<
@@ -154,8 +154,7 @@ const ModalForm: React.FC<ModalProps> = ({
 
     const response = await NewTratmentsController(treatmentValues);
     if (response) {
-      console.log(response);
-      setTratamiento(response);
+      setTratamiento((prevTrat) => [...prevTrat, response]);
     }
   };
 
@@ -167,11 +166,14 @@ const ModalForm: React.FC<ModalProps> = ({
     }))(values);
     const response = await NewPrescriptionController(prescriptionValues);
     if (response) {
-      console.log(response);
       setPrescripciones((prevPres) => [...prevPres, response]);
     }
   };
   const handleSubmitPending = async (values: any) => {
+    if (pendientes) {
+      InfoNotify("Ya tiene un pendiente pendiente");
+      return;
+    }
     const PendingsValues = (({ date, serviceId, description }) => ({
       date,
       serviceId,
@@ -179,10 +181,10 @@ const ModalForm: React.FC<ModalProps> = ({
       petId: idPet,
       description,
       notification: true,
+      endPending: date,
     }))(values);
     const response = await NewPendingController(PendingsValues);
     if (response) {
-      console.log(response);
       setPendientes(response);
     }
   };
@@ -201,7 +203,6 @@ const ModalForm: React.FC<ModalProps> = ({
     if (response) {
       setFile((prevFiles) => [prevFiles, response]);
     }
-    console.log(response);
   };
 
   const renderSectionContent = () => {
@@ -264,28 +265,34 @@ const ModalForm: React.FC<ModalProps> = ({
               submitButtonLabel="Guardar"
             />
             {tratamiento && (
-              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
-                <h3 className="text-detail text-lg text-center">Tratamiento</h3>
-                <div className="m-auto flex flex-row gap-2 my-2">
-                  <p>
-                    <strong>Descripcion:</strong> {tratamiento.description}
-                  </p>
-                  <p>
-                    {" "}
-                    <strong>Precio:</strong> {tratamiento.price}
-                  </p>
-                </div>
-                <div className="m-auto flex flex-row gap-2 my-2">
-                  {tratamiento.observation && (
-                    <p>Id del producto: {tratamiento.observation}</p>
-                  )}
-                  {tratamiento.service && (
-                    <p>
-                      <strong>Servicio:</strong>
-                      {tratamiento.service.service}
-                    </p>
-                  )}
-                </div>
+              <div className="flex flex-row flex-wrap m-auto gap-1 w-full md:w-3/4">
+                {tratamiento.map((tratamiento) => (
+                  <div className="w-1/3 shadow-lg rounded-lg flex flex-col p-2 m-auto">
+                    <h3 className="text-detail text-lg text-center">
+                      Tratamiento
+                    </h3>
+                    <div className="m-auto flex flex-row gap-2 my-2">
+                      <p>
+                        <strong>Descripcion:</strong> {tratamiento.description}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong>Precio:</strong> {tratamiento.price}
+                      </p>
+                    </div>
+                    <div className="m-auto flex flex-row gap-2 my-2">
+                      {tratamiento.observation && (
+                        <p>Observacion: {tratamiento.observation}</p>
+                      )}
+                      {tratamiento.service && (
+                        <p>
+                          <strong>Servicio:</strong>
+                          {tratamiento.service.service}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </>
@@ -304,9 +311,9 @@ const ModalForm: React.FC<ModalProps> = ({
               submitButtonLabel="Guardar"
             />
             {prescripciones && (
-              <div className="flex flex-row flex-wrap m-auto gap-1 ">
+              <div className="flex flex-row flex-wrap m-auto gap-1 w-full md:w-3/4">
                 {prescripciones.map((prescripcion) => (
-                  <div className="w-1/4 shadow-lg rounded-lg flex flex-col p-2 m-auto">
+                  <div className="w-1/3 shadow-lg rounded-lg flex flex-col p-2 m-auto">
                     <h3 className="text-detail text-lg text-center">
                       Prescripcion Nombre de la droga
                     </h3>
