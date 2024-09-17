@@ -78,7 +78,7 @@ const AppointsVetModule = () => {
                 </Link>
               ) : (
                 <Link
-                  href={`${PATHROUTES.PET}/${turno.id}`}
+                  href={`${PATHROUTES.PET}/AppointVet/${turno.id}`}
                   className="bg-transparent p-2 m-auto rounded-lg shadow-lg"
                 >
                   Revisar Mascota

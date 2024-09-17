@@ -13,6 +13,7 @@ import { useUser } from "@/context/UserContext";
 import Screen from "../Screen";
 import AppointCard from "../AppointCard";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const AppointsModule: React.FC = () => {
   const [turnos, setTurnos] = useState<Turnos[]>([]);
@@ -88,8 +89,14 @@ const AppointsModule: React.FC = () => {
 
   return (
     <Screen>
+      <Link
+        href={PATHROUTES.NEWAPPOINTMEN}
+        className="mx-auto my-2 bg-detail text-white p-2 rounded-lg"
+      >
+        Agendar nuevo turno
+      </Link>
       {loading && <Loading />}
-      <div className="flex flex-row justify-around min-w-[80vw] mx-auto">
+      <div className="flex flex-row justify-evenly min-w-[80vw] mx-auto items-center">
         <button
           onClick={handlePrevPage}
           disabled={page === 1}
@@ -108,55 +115,51 @@ const AppointsModule: React.FC = () => {
         </button>
       </div>
 
-      <section className="mb-5 m-auto flex flex-col">
-        <>
-          <section className="flex flex-col m-auto">
-            <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
-              Turnos Activos
-            </h3>
+      <>
+        <section className="flex flex-col m-auto">
+          <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
+            Turnos Activos
+          </h3>
 
-            {turnos.length > 0 && turnosPendientes.length > 0 ? (
-              <div className="flex flex-row flex-wrap justify-items-center gap-2">
-                {turnosPendientes.map((turno) => (
-                  <AppointCard
-                    data={turno}
-                    handleCancel={handleCancel}
-                    key={turno.id}
-                    isCancelable
-                  />
-                ))}
-              </div>
-            ) : (
-              <p>Sin turnos activos</p>
-            )}
-          </section>
+          {turnos.length > 0 && turnosPendientes.length > 0 ? (
+            <div className="flex flex-row flex-wrap justify-items-center gap-2">
+              {turnosPendientes.map((turno) => (
+                <AppointCard
+                  data={turno}
+                  handleCancel={handleCancel}
+                  key={turno.id}
+                  isCancelable
+                />
+              ))}
+            </div>
+          ) : (
+            <p>Sin turnos activos en esta pagina</p>
+          )}
+        </section>
 
-          <hr className="border-2 my-10 mx-auto border-gray-400 w-2/3" />
+        <hr className="border-2 my-10 mx-auto border-gray-400 w-2/3" />
 
-          <section className="flex flex-col m-auto">
-            <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
-              Turnos Finalizados
-            </h3>
-            {turnos.length > 0 && turnosFinalizados.length > 0 ? (
-              <div className="flex flex-row flex-wrap justify-items-center gap-2">
-                {turnosFinalizados.map((turno) => (
-                  <AppointCard
-                    data={turno}
-                    handleCancel={handleCancel}
-                    key={turno.id}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p>Sin turnos finalizados</p>
-            )}
-          </section>
-        </>
-      </section>
+        <section className="flex flex-col m-auto">
+          <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
+            Turnos Finalizados
+          </h3>
+          {turnos.length > 0 && turnosFinalizados.length > 0 ? (
+            <div className="flex flex-row flex-wrap justify-items-center gap-2">
+              {turnosFinalizados.map((turno) => (
+                <AppointCard
+                  data={turno}
+                  handleCancel={handleCancel}
+                  key={turno.id}
+                />
+              ))}
+            </div>
+          ) : (
+            <p>Sin turnos finalizados en esta pagina</p>
+          )}
+        </section>
+      </>
 
       {turnos.length === 0 && <p>No hay turnos agendados</p>}
-
-      <ButtonCustom text="Agendar Turno" href={PATHROUTES.NEWAPPOINTMEN} />
     </Screen>
   );
 };
