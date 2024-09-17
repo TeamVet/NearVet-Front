@@ -25,9 +25,9 @@ const PetIndividual: React.FC = () => {
       router.push(PATHROUTES.USER_DASHBOARD);
       return;
     }
-    startLoading();
 
     const fetchMascota = async () => {
+      startLoading();
       try {
         const data = await fetchPetIdController(
           idUrl.idPet as string,
@@ -59,7 +59,7 @@ const PetIndividual: React.FC = () => {
             <PetSection idPet={idPet as string} />
           </div>
           <div className="md:w-1/4">
-            <PetClinical idPet={idPet as string} />
+            <PetClinical idPet={idPet as string} pet={mascota} />
           </div>
         </div>
       )}
