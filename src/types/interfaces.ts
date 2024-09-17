@@ -217,6 +217,15 @@ export interface ClinicalExamination {
   temperature: number;
   tllc: number;
   veterinarianId: string;
+  veterinarian?: {
+    id: string;
+    licence: number;
+    specialty: string;
+    description: string;
+    delayAtention: number;
+    userId: string;
+    user: User;
+  };
 }
 
 export interface Pendiente {

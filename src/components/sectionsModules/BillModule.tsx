@@ -5,7 +5,6 @@ import jsPDF from "jspdf";
 import { useUser } from "@/context/UserContext";
 import { BillsService } from "@/lib/Services/userService";
 import { Bill } from "@/types/interfaces";
-import { fetcher } from "@/lib/fetcher";
 const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 const BillModule: React.FC = () => {
   const [facturas, setFacturas] = useState<Bill[]>([]);
