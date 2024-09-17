@@ -19,7 +19,8 @@ const AppointsModule: React.FC = () => {
   const { loading, startLoading, stopLoading } = useLoading();
   const [turnosFinalizados, setTurnoFinalizados] = useState<Turnos[]>([]);
   const [turnosPendientes, setTurnoPendientes] = useState<Turnos[]>([]);
-  const { user, setUser } = useUser();
+  const [page, setPage] = useState(1);
+  const { user } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +29,8 @@ const AppointsModule: React.FC = () => {
         startLoading();
         const responseTurnos = await fetchAppointController(
           user?.id as string,
-          user?.token as string
+          user?.token as string,
+          page
         );
         setTurnos(responseTurnos);
       } finally {
@@ -38,7 +40,7 @@ const AppointsModule: React.FC = () => {
     if (user) {
       fetchTurnos();
     }
-  }, [user]);
+  }, [user, page]);
 
   useEffect(() => {
     if (turnos && turnos.length > 0) {
@@ -64,74 +66,96 @@ const AppointsModule: React.FC = () => {
   const handleCancel = async (idTurno: string) => {
     try {
       startLoading();
-      const responseCancel = await cancelAppointController(
+      await cancelAppointController(
         user?.id as string,
         user?.token as string,
         idTurno
       );
-      return responseCancel;
+      const newResponse = await fetchAppointController(
+        user?.id as string,
+        user?.token as string,
+        page
+      );
+      setTurnos(newResponse);
     } finally {
       stopLoading();
-      window.location.reload();
     }
   };
+
+  const handleNextPage = () => setPage((prevPage) => prevPage + 1);
+  const handlePrevPage = () =>
+    setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
 
   return (
     <Screen>
       {loading && <Loading />}
-      {!turnos && (
-        <h3 className="text-2xl font-semibold dark:text-darkHline">Turnos</h3>
-      )}
-      <section className="my-5 m-auto flex flex-col ">
-        {turnos && turnos.length > 0 ? (
-          <>
-            {turnosPendientes.length > 0 ? (
-              <section className="flex flex-col  m-auto">
-                <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
-                  Turnos Activos
-                </h3>
-                <div className="flex flex-row flex-wrap justify-items-center gap-2">
-                  {turnosPendientes.length > 0 &&
-                    turnosPendientes.map((turno) => (
-                      <AppointCard
-                        data={turno}
-                        handleCancel={handleCancel}
-                        key={turno.id}
-                        isCancelable
-                      />
-                    ))}
-                </div>
-              </section>
-            ) : null}
+      <div className="flex flex-row justify-around min-w-[80vw] mx-auto">
+        <button
+          onClick={handlePrevPage}
+          disabled={page === 1}
+          className={`p-2 bg-detail text-white rounded-lg ${
+            page === 1 ? "cursor-default opacity-0" : ""
+          }`}
+        >
+          Anterior Página
+        </button>
+        <p className="text-2xl text-detail ">{page}</p>
+        <button
+          onClick={handleNextPage}
+          className="p-2 bg-detail text-white rounded-lg"
+        >
+          Siguiente Página
+        </button>
+      </div>
 
-            {turnosPendientes.length > 0 && turnosFinalizados.length > 0 ? (
-              <hr className="border-2 my-10 mx-auto border-gray-400 w-2/3" />
-            ) : null}
+      <section className="mb-5 m-auto flex flex-col">
+        <>
+          <section className="flex flex-col m-auto">
+            <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
+              Turnos Activos
+            </h3>
 
-            {turnosFinalizados.length > 0 ? (
-              <section className="flex flex-col  m-auto">
-                <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
-                  Turnos Finalizados
-                </h3>
-                <div className="flex flex-row flex-wrap justify-items-center gap-2">
-                  {turnosFinalizados.length > 0 &&
-                    turnosFinalizados.map((turno) => (
-                      <AppointCard
-                        data={turno}
-                        handleCancel={handleCancel}
-                        key={turno.id}
-                      />
-                    ))}
-                </div>
-              </section>
-            ) : null}
-          </>
-        ) : (
-          <>
-            <p>No hay turnos agendados</p>
-          </>
-        )}
+            {turnos.length > 0 && turnosPendientes.length > 0 ? (
+              <div className="flex flex-row flex-wrap justify-items-center gap-2">
+                {turnosPendientes.map((turno) => (
+                  <AppointCard
+                    data={turno}
+                    handleCancel={handleCancel}
+                    key={turno.id}
+                    isCancelable
+                  />
+                ))}
+              </div>
+            ) : (
+              <p>Sin turnos activos</p>
+            )}
+          </section>
+
+          <hr className="border-2 my-10 mx-auto border-gray-400 w-2/3" />
+
+          <section className="flex flex-col m-auto">
+            <h3 className="text-2xl font-semibold italic mb-2 dark:text-darkHline">
+              Turnos Finalizados
+            </h3>
+            {turnos.length > 0 && turnosFinalizados.length > 0 ? (
+              <div className="flex flex-row flex-wrap justify-items-center gap-2">
+                {turnosFinalizados.map((turno) => (
+                  <AppointCard
+                    data={turno}
+                    handleCancel={handleCancel}
+                    key={turno.id}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p>Sin turnos finalizados</p>
+            )}
+          </section>
+        </>
       </section>
+
+      {turnos.length === 0 && <p>No hay turnos agendados</p>}
+
       <ButtonCustom text="Agendar Turno" href={PATHROUTES.NEWAPPOINTMEN} />
     </Screen>
   );

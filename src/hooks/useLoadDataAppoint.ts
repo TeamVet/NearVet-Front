@@ -6,7 +6,7 @@ import {
   serviceServices,
 } from "@/lib/Services/appointService";
 
-import { consulta, ErrorNotify } from "@/lib/toastyfy";
+import { consulta, ErrorNotify, InfoNotify } from "@/lib/toastyfy";
 import { fetchPetsController } from "@/lib/Controllers/petController";
 import { useRouter } from "next/navigation";
 import PATHROUTES from "@/helpers/path-routes";
@@ -34,6 +34,14 @@ export const useAppointmentData = (userId: string, token: string) => {
     price?: number;
   } | null>(null);
   const router = useRouter();
+  const today = new Date();
+
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,12 +84,20 @@ export const useAppointmentData = (userId: string, token: string) => {
   const fetchHorarios = async (serviceId: string) => {
     if (!serviceId) return;
 
-    const returnHorarios = await horariosService(serviceId, daySelect as Date);
-    console.log(returnHorarios);
-    const availibiryHorarios = returnHorarios.filter(
-      (hour: { id: string; hour: string }) => hour.hour > formattedTimeNow
-    );
-    setHorarios(availibiryHorarios);
+    if (daySelect) {
+      const daySelectDate = new Date(daySelect);
+      const normalizedDaySelect = daySelectDate.toISOString().split("T")[0];
+      const returnHorarios = await horariosService(serviceId, daySelect);
+      if (formatDate(today) === normalizedDaySelect) {
+        InfoNotify("Pueden no quedar horarios disponibles para hoy");
+        const availibiryHorarios = returnHorarios.filter(
+          (hour: { id: string; hour: string }) => hour.hour > formattedTimeNow
+        );
+        setHorarios(availibiryHorarios);
+      } else {
+        setHorarios(returnHorarios);
+      }
+    }
   };
 
   const handleOnChange = (value: string) => {
