@@ -19,9 +19,13 @@ const NEW_FILES = process.env.NEXT_PUBLIC_NEW_FILES;
 const PRODUCTS = process.env.NEXT_PUBLIC_PRODUCTS;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchAppointService = async (userId: string, token: string) => {
+export const fetchAppointService = async (
+  userId: string,
+  token: string,
+  page: number
+) => {
   const dataAppoint = {
-    url: `${APPOINTS_USER}/${userId}`,
+    url: `${APPOINTS_USER}/${userId}?page=${page}&limit=5`,
     method: "GET" as const,
     token,
   };

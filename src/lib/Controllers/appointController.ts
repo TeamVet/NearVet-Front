@@ -13,9 +13,13 @@ import { ErrorNotify, PromessNotify } from "../toastyfy";
 import { fetchTratmentPetService } from "../Services/tratmentsService";
 
 //appointControllers
-export const fetchAppointController = async (userId: string, token: string) => {
+export const fetchAppointController = async (
+  userId: string,
+  token: string,
+  page: number
+) => {
   try {
-    const response = await fetchAppointService(userId, token);
+    const response = await fetchAppointService(userId, token, page);
     return response;
   } catch (error: any) {
     ErrorNotify(`Error al cargar tus turnos: ${error.message}`);

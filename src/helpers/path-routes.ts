@@ -6,6 +6,7 @@ const PATHROUTES = {
   ADMIN_DASHBOARD: "/adminDashboard",
   VET_DASHBOARD: "/vetDashboard",
   PET: "/pet",
+  NEW_PET: "/pet/newpet",
   CART: "/cart",
   SEARCH: "/search",
   FAQ: "/Q&A",

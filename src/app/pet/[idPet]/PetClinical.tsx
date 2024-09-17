@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Link from "next/link";
 
-import { useUser } from "@/context/UserContext";
-
 interface Pendientes {
   id: string;
   description: string;
@@ -31,23 +29,39 @@ interface PetClinicaProps {
   idPet: string;
   pet?: Mascota;
 }
+const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   const [Pendientes, setPendientes] = useState<Pendientes[]>([]);
   const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
+  const [logoPag, setLogoPag] = useState<string>("");
+  useEffect(() => {
+    const fetchLogo = async () => {
+      const logo = await fetch(LOGO_URL as string);
+      const logoText = await logo.text();
+      setLogoPag(logoText);
+    };
+    if (idPet) {
+      fetchLogo();
+    }
+  }, []);
 
   const handleDownloadPdf = (
     idPet: any,
     his: ClinicalExamination,
+    logo: string,
     pet?: Mascota
   ) => {
-    if (!idPet || !his || !pet) return;
-    const doc = new jsPDF();
+    console.log(logo);
+    if (!idPet || !his || !pet || !logo) return;
 
+    const doc = new jsPDF();
+    doc.addImage(`${logo}`, "PNG", 10, 8, 40, 40);
     // Encabezado
     doc.setFontSize(16);
-    doc.text("NearVet", 75, 20);
+    doc.text("NearVet", 65, 20);
     doc.setFontSize(14);
-    doc.text("Clínica de Pequeños Animales", 80, 30);
+    doc.text("Clínica de Pequeños Animales", 65, 30);
+    doc.setFontSize(12);
     doc.text(
       "La misma reviste caracter provisorio y podria no contener todos los datos del examen",
       60,
@@ -59,29 +73,33 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     doc.line(10, 50, 200, 50);
 
     // Información de la mascota
-    doc.setFontSize(12);
     doc.text(`Fecha de descarga: ${new Date().toLocaleDateString()}`, 10, 60);
-    doc.text(`Veterinario a cargo: ___________`, 120, 60);
-
-    doc.text(`Datos del paciente`, 10, 80);
-    doc.text(`Especie: ${pet.specie.specie}`, 10, 90);
-    doc.text(`Raza: ${pet.race.race}`, 60, 90);
-    doc.text(`Sexo: ${pet.sex.sex}`, 120, 90);
-    doc.text(`Edad: ${calculateAge(pet.birthdate)}`, 10, 100);
-    doc.text(`Color: ${pet.color}`, 60, 100);
-    doc.text(`Nombre de la mascota: ${pet.name}`, 120, 100);
+    doc.text(
+      `Veterinario a cargo: ${his.veterinarian?.user.name} ${his.veterinarian?.user.lastname}`,
+      120,
+      60
+    );
+    doc.setFontSize(16);
+    doc.text(`Datos del paciente`, 10, 70);
+    doc.setFontSize(12);
+    doc.text(`Especie: ${pet.specie.specie}`, 10, 80);
+    doc.text(`Raza: ${pet.race.race}`, 60, 80);
+    doc.text(`Sexo: ${pet.sex.sex}`, 120, 80);
+    doc.text(`Edad: ${calculateAge(pet.birthdate)}`, 10, 90);
+    doc.text(`Color: ${pet.color}`, 60, 90);
+    doc.text(`Nombre de la mascota: ${pet.name}`, 120, 90);
 
     // Motivo de consulta
     doc.setFontSize(12);
-    doc.text("Motivo de consulta:", 10, 110);
-    doc.text(`${his.anamnesis}`, 10, 120);
+    const motivoConsultaLines = doc.splitTextToSize(his.anamnesis, 180); // El valor 180 es el ancho máximo en la página, ajústalo según necesites
+    doc.text(motivoConsultaLines, 10, 100);
 
     // Parámetros clínicos en tabla
     doc.setFontSize(14);
-    doc.text("Parámetros Clínicos:", 10, 130);
+    doc.text("Parámetros Clínicos:", 10, 120);
     doc.setFontSize(12);
-    doc.text("Parámetro", 60, 140);
-    doc.text("Valor", 100, 140);
+    doc.text("Parámetro", 60, 130);
+    doc.text("Valor", 100, 130);
 
     // Parámetros de la mascota
     doc.text("FC", 60, 150);
@@ -185,7 +203,7 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
             <div
               key={his.id}
               className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200"
-              onClick={() => handleDownloadPdf(idPet, his, pet)}
+              onClick={() => handleDownloadPdf(idPet, his, logoPag, pet)}
             >
               <p className="text-detail italic">{his.anamnesis}</p>
               <p>Diagnostico: {his.diagnosis}</p>

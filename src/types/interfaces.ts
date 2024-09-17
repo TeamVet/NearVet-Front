@@ -94,7 +94,6 @@ export interface User {
   lastname: string;
   dni?: number;
   email: string;
-  password?: string; //TODO viene por token?
   address?: string;
   city?: string;
   phone?: number;
@@ -105,7 +104,7 @@ export interface User {
   role: {
     id?: string;
     role: string;
-  }; //viene por token
+  };
   veterinariafavorita?: string;
   [key: string]: any;
 }
@@ -218,6 +217,15 @@ export interface ClinicalExamination {
   temperature: number;
   tllc: number;
   veterinarianId: string;
+  veterinarian?: {
+    id: string;
+    licence: number;
+    specialty: string;
+    description: string;
+    delayAtention: number;
+    userId: string;
+    user: User;
+  };
 }
 
 export interface Pendiente {
@@ -238,6 +246,50 @@ export interface Prescripcion {
   productoId: string;
 }
 
+export interface Bill {
+  id: string;
+  subtotal: number;
+  discount: number;
+  total: number;
+  date: string;
+  advancedPay: number;
+  finished: boolean;
+  sendClinical: boolean;
+  userId: string;
+  methodPayId: string | null;
+  user: User;
+  saleServices: {
+    serviceId: string;
+    saleId: string;
+    price: number;
+    acount: number;
+    service: {
+      id: string;
+      service: string;
+      description: string;
+      sendMesasge: boolean;
+      price: number;
+      durationMin: number;
+      veterinarianId: string;
+      categoryServiceId: string;
+    };
+  }[];
+  saleProducts: {
+    productId: string;
+    saleId: string;
+    price: number;
+    acount: number;
+    product: {
+      id: string;
+      name: string;
+      description: string;
+      image: string;
+      cost: string;
+      stock: number;
+      price: string;
+    };
+  }[];
+}
 // Control de values para formularios
 export interface FormValues {
   //login
