@@ -1,37 +1,162 @@
 import PATHROUTES from "@/helpers/path-routes";
-import Link from "next/link";
+import { TratmentsController } from "@/lib/Controllers/appointController";
+import {
+  fetchAppointIdService,
+  fetchExistingPendients,
+} from "@/lib/Services/appointService";
+import { ClinicalExamination, Mascota, Tratamiento } from "@/types/interfaces";
 import { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import Link from "next/link";
 
 interface Pendientes {
   id: string;
-  title: string;
-  date: string;
   description: string;
-}
-
-interface Historial {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
+  date: Date;
+  petId: string;
+  service: {
+    id: string;
+    service: string;
+    description: string;
+    price: number;
+    durationMin: number;
+    veterinarianId: string;
+    categoryServiceId: string;
+  };
 }
 
 interface PetClinicaProps {
-  Status?: string | null;
   idPet: string;
+  pet?: Mascota;
 }
-const PetClinical: React.FC<PetClinicaProps> = ({ Status, idPet }) => {
+const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
+const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   const [Pendientes, setPendientes] = useState<Pendientes[]>([]);
-  const [Historial, setHistorial] = useState<Historial[]>([]);
+  const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
+  const [logoPag, setLogoPag] = useState<string>("");
+  useEffect(() => {
+    const fetchLogo = async () => {
+      const logo = await fetch(LOGO_URL as string);
+      const logoText = await logo.text();
+      setLogoPag(logoText);
+    };
+    if (idPet) {
+      fetchLogo();
+    }
+  }, []);
+
+  const handleDownloadPdf = (
+    idPet: any,
+    his: ClinicalExamination,
+    logo: string,
+    pet?: Mascota
+  ) => {
+    console.log(logo);
+    if (!idPet || !his || !pet || !logo) return;
+
+    const doc = new jsPDF();
+    doc.addImage(`${logo}`, "PNG", 10, 8, 40, 40);
+    // Encabezado
+    doc.setFontSize(16);
+    doc.text("NearVet", 65, 20);
+    doc.setFontSize(14);
+    doc.text("Clínica de Pequeños Animales", 65, 30);
+    doc.setFontSize(12);
+    doc.text(
+      "La misma reviste caracter provisorio y podria no contener todos los datos del examen",
+      60,
+      40
+    );
+
+    // Línea separadora
+    doc.setLineWidth(0.5);
+    doc.line(10, 50, 200, 50);
+
+    // Información de la mascota
+    doc.text(`Fecha de descarga: ${new Date().toLocaleDateString()}`, 10, 60);
+    doc.text(
+      `Veterinario a cargo: ${his.veterinarian?.user.name} ${his.veterinarian?.user.lastname}`,
+      120,
+      60
+    );
+    doc.setFontSize(16);
+    doc.text(`Datos del paciente`, 10, 70);
+    doc.setFontSize(12);
+    doc.text(`Especie: ${pet.specie.specie}`, 10, 80);
+    doc.text(`Raza: ${pet.race.race}`, 60, 80);
+    doc.text(`Sexo: ${pet.sex.sex}`, 120, 80);
+    doc.text(`Edad: ${calculateAge(pet.birthdate)}`, 10, 90);
+    doc.text(`Color: ${pet.color}`, 60, 90);
+    doc.text(`Nombre de la mascota: ${pet.name}`, 120, 90);
+
+    // Motivo de consulta
+    doc.setFontSize(12);
+    const motivoConsultaLines = doc.splitTextToSize(his.anamnesis, 180); // El valor 180 es el ancho máximo en la página, ajústalo según necesites
+    doc.text(motivoConsultaLines, 10, 100);
+
+    // Parámetros clínicos en tabla
+    doc.setFontSize(14);
+    doc.text("Parámetros Clínicos:", 10, 120);
+    doc.setFontSize(12);
+    doc.text("Parámetro", 60, 130);
+    doc.text("Valor", 100, 130);
+
+    // Parámetros de la mascota
+    doc.text("FC", 60, 150);
+    doc.text(`${his.fc} lpm`, 100, 150);
+    doc.text("FR", 60, 160);
+    doc.text(`${his.fr} cpm`, 100, 160);
+    doc.text("TLLC", 60, 170);
+    doc.text(`${his.tllc} s`, 100, 170);
+    doc.text("Temperatura", 60, 180);
+    doc.text(`${his.temperature} °C`, 100, 180);
+    doc.text("Hidratación", 60, 190);
+    doc.text(`${his.hydration}%`, 100, 190);
+
+    // Línea separadora final
+    doc.setLineWidth(0.2);
+    doc.line(10, 200, 200, 200);
+
+    // Nota al pie
+    doc.setFontSize(10);
+    doc.text("Gracias por utilizar el servicio", 10, 270);
+    doc.text("NearVet S.A.", 150, 270);
+
+    // Descargar el PDF
+    doc.save(`Historia_Clinica_${his.id}_${his.petId}.pdf`);
+  };
+
+  // Función auxiliar para calcular la edad
+  const calculateAge = (birthdate: string) => {
+    const birth = new Date(birthdate);
+    const ageDifMs = Date.now() - birth.getTime();
+    const ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
   useEffect(() => {
-    //TODO logica para traer pendientes e historial
     const fetchPendientes = async () => {
-      //endpoint /pendings/pet/{petId}
-    };
+      const responsePendings = await fetchExistingPendients(idPet);
 
+      if (responsePendings.length > 0) {
+        setPendientes(responsePendings);
+      }
+    };
     const fetchHistorial = async () => {
-      //endpoint /clinical-examination/pet/{petId}
+      const responseHistorial = await TratmentsController(idPet);
+      if (responseHistorial.length > 0) {
+        const updatedHistorial = responseHistorial
+          .filter(
+            (tratamiento: Tratamiento) =>
+              tratamiento.clinicalExamination?.petId === idPet
+          )
+          .map((tratamiento: Tratamiento) => tratamiento.clinicalExamination);
+
+        setHistorial((prevHistorial) => [
+          ...prevHistorial,
+          ...updatedHistorial,
+        ]);
+      }
     };
 
     if (idPet) {
@@ -42,16 +167,28 @@ const PetClinical: React.FC<PetClinicaProps> = ({ Status, idPet }) => {
 
   return (
     <section className=" flex flex-col shadow-lg md:min-h-[99vh]">
-      <article className="flex flex-col min-h-[20vh] max-h-[30vh] m-2 p-2  items-center overflow-y-scroll">
+      <article className="flex flex-col min-h-[20vh] max-h-[30vh] m-2 p-2 gap-2 items-center overflow-y-scroll">
         <h3 className="text-xl text-detail">Pendientes</h3>
 
         {Pendientes.length > 0 ? (
           Pendientes.map((Pendiente) => (
-            <article className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg bg-red-300 hover:bg-slate-200 text-center">
-              <p className="italic">{Pendiente.title}</p>
-              <p>Fecha: {Pendiente.date}</p>
-              <p>{Pendiente.description}</p>
-            </article>
+            <Link
+              key={Pendiente.id}
+              href={PATHROUTES.NEWAPPOINTMEN}
+              className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg border border-red-400  text-center"
+            >
+              <p className="italic text-detail">{Pendiente.service.service}</p>
+              <p>
+                Fecha:{" "}
+                {new Date(Pendiente.date).toLocaleDateString("es-AR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </p>
+              <small>Descripcion: {Pendiente.description}</small>
+              <small>Click para reservar turno</small>
+            </Link>
           ))
         ) : (
           <p className="text-center text-sm p-2">
@@ -59,17 +196,18 @@ const PetClinical: React.FC<PetClinicaProps> = ({ Status, idPet }) => {
           </p>
         )}
       </article>
-      <article className="min-h-[80%] flex flex-col m-2 p-2 items-center text-center">
+      <article className="max-h-[80vh] flex flex-col m-2 p-2 gap-2 items-center text-center overflow-y-scroll">
         <h3 className=" text-xl text-detail">Historial</h3>
         {Historial.length > 0 ? (
           Historial.map((his) => (
             <div
+              key={his.id}
               className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200"
-              id={his.id}
+              onClick={() => handleDownloadPdf(idPet, his, logoPag, pet)}
             >
-              <p className="text-detail italic">{his.title}</p>
-              <p>{his.description}</p>
-              <p>Fecha: {his.date}</p>
+              <p className="text-detail italic">{his.anamnesis}</p>
+              <p>Diagnostico: {his.diagnosis}</p>
+
               <small>Click para descargar</small>
             </div>
           ))

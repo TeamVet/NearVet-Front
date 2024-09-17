@@ -48,7 +48,7 @@ export const NavItemUser: Array<NavItemProps> = [
   },
   {
     name: "Mensajes",
-    url: "", //TODO Deberiamos abrir la modal de mensajes
+    url: `${PATHROUTES.WHATSAPP}/3758488428?text=Hola,%20tengo%20una%20consulta`,
     icon: MailIcon,
   },
   {
@@ -74,11 +74,11 @@ export const NavItemAdmin: Array<NavItemProps> = [
     url: PATHROUTES.VET_DASHBOARD,
     icon: ClipboardIcon,
   },
-  {
-    name: "Mensajes",
-    url: "",
-    icon: MailIcon,
-  },
+  // {
+  //   name: "Mensajes",
+  //   url: `${PATHROUTES.WHATSAPP}/3758488428?text=Hola,%20tengo%20una%20consulta`,
+  //   icon: MailIcon,
+  // },
   {
     name: "Salir",
     url: "",
@@ -97,11 +97,11 @@ export const NavItemVet: Array<NavItemProps> = [
     url: PATHROUTES.VET_DASHBOARD,
     icon: ClipboardIcon,
   },
-  {
-    name: "Mensajes",
-    url: "",
-    icon: MailIcon,
-  },
+  // {
+  //   name: "Mensajes",
+  //   url: `${PATHROUTES.WHATSAPP}/3758488428?text=Hola,%20tengo%20una%20consulta`,
+  //   icon: MailIcon,
+  // },
   {
     name: "Salir",
     url: "",

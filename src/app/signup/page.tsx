@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import Screen from "@/components/Screen";
 import ReusableForm from "@/components/Form/FormCustom";
@@ -11,11 +11,29 @@ import Link from "next/link";
 import GoogleButton from "@/components/GoogleButton";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
+import { InfoNotify } from "@/lib/toastyfy";
 
 const RegisterForm: React.FC = () => {
-  const { registerWithCredentials } = useUser();
+  const { registerWithCredentials, user } = useUser();
   const { startLoading, stopLoading, loading } = useLoading();
+  const router = useRouter();
+  const [timePassed, setTimePassed] = useState(false);
 
+  useEffect(() => {
+    if (user) {
+      const timer = setTimeout(() => {
+        setTimePassed(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
+  useEffect(() => {
+    if (user && timePassed) {
+      InfoNotify("Ya te encuentras registrado");
+      router.push(PATHROUTES.HOME);
+    }
+  }, [user, timePassed, router]);
   const handleSubmit = async (values: FormRegisterValues) => {
     startLoading();
     registerWithCredentials(values);

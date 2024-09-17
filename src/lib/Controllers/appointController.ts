@@ -3,14 +3,23 @@ import {
   addAppointmentService,
   cancelAppointmentService,
   fetchAppointService,
+  newExaminationService,
+  newFilesService,
+  newPendingService,
+  newPrescriptionService,
+  newTratmentsService,
 } from "../Services/appointService";
 import { ErrorNotify, PromessNotify } from "../toastyfy";
 import { fetchTratmentPetService } from "../Services/tratmentsService";
 
 //appointControllers
-export const fetchAppointController = async (userId: string, token: string) => {
+export const fetchAppointController = async (
+  userId: string,
+  token: string,
+  page: number
+) => {
   try {
-    const response = await fetchAppointService(userId, token);
+    const response = await fetchAppointService(userId, token, page);
     return response;
   } catch (error: any) {
     ErrorNotify(`Error al cargar tus turnos: ${error.message}`);
@@ -53,5 +62,66 @@ export const TratmentsController = async (idPet: string) => {
     return responseTratamiento;
   } catch (error: any) {
     ErrorNotify(`Error al cargar tus tratamientos: ${error.message}`);
+  }
+};
+
+export const ExaminationController = async (values: any) => {
+  try {
+    const responseExamination = await PromessNotify(
+      "Registrando la Examinacion...",
+      "Registrado exitosamente",
+      newExaminationService(values)
+    );
+    return responseExamination;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrar tu turno: ${error.message}`);
+  }
+};
+export const NewTratmentsController = async (values: any) => {
+  try {
+    const responseExamination = await PromessNotify(
+      "Registrando la Examinacion...",
+      "Registrado exitosamente",
+      newTratmentsService(values)
+    );
+    return responseExamination;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrar tu turno: ${error.message}`);
+  }
+};
+export const NewPrescriptionController = async (values: any) => {
+  try {
+    const responseExamination = await PromessNotify(
+      "Registrando la EPrescripcion...",
+      "Registrado exitosamente",
+      newPrescriptionService(values)
+    );
+    return responseExamination;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrar tu turno: ${error.message}`);
+  }
+};
+export const NewPendingController = async (values: any) => {
+  try {
+    const responseExamination = await PromessNotify(
+      "Registrando la Examinacion...",
+      "Registrado exitosamente",
+      newPendingService(values)
+    );
+    return responseExamination;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrar tu turno: ${error.message}`);
+  }
+};
+export const NewFilesController = async (id: string, values: any) => {
+  try {
+    const responseExamination = await PromessNotify(
+      "Registrando la Examinacion...",
+      "Registrado exitosamente",
+      newFilesService(id, values)
+    );
+    return responseExamination;
+  } catch (error: any) {
+    ErrorNotify(`Error al registrar tu turno: ${error.message}`);
   }
 };

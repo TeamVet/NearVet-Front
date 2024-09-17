@@ -34,7 +34,7 @@ export const fetcherImg = async ({
     const response = await fetch(`${apiUrl}${url}`, {
       method,
       headers: {
-        Authorization: `Bearer ${token}`,
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
       body: data,
     });

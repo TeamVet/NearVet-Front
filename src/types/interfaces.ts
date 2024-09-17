@@ -95,7 +95,6 @@ export interface User {
   lastname: string;
   dni?: number;
   email: string;
-  password?: string; //TODO viene por token?
   address?: string;
   city?: string;
   phone?: number;
@@ -106,7 +105,7 @@ export interface User {
   role: {
     id?: string;
     role: string;
-  }; //viene por token
+  };
   veterinariafavorita?: string;
   [key: string]: any;
 }
@@ -183,6 +182,115 @@ export interface Mensajes {
   state: string;
 }
 
+export interface Tratamiento {
+  applicationProducts: any[];
+  clinicalExaminationId: string;
+  description: string;
+  id: string;
+  observation: string;
+  price: number;
+  service: Service;
+  serviceId: string;
+  clinicalExamination: ClinicalExamination;
+}
+
+export interface Service {
+  categoryServiceId: string;
+  description: string;
+  durationMin: number;
+  id: string;
+  price: number;
+  sendMesasge: string | null;
+  service: string;
+  veterinarianId: string;
+}
+export interface ClinicalExamination {
+  anamnesis: string;
+  diagnosis: string;
+  fc: number;
+  fr: number;
+  hydration: number;
+  id: string;
+  moodState: string;
+  mucous: string;
+  petId: string;
+  temper: string;
+  temperature: number;
+  tllc: number;
+  veterinarianId: string;
+  veterinarian?: {
+    id: string;
+    licence: number;
+    specialty: string;
+    description: string;
+    delayAtention: number;
+    userId: string;
+    user: User;
+  };
+}
+
+export interface Pendiente {
+  date: string;
+  description: string;
+  endPending: string | null;
+  id: string;
+  notification: boolean;
+  petId: string;
+  serviceId: string;
+  userId: string;
+}
+
+export interface Prescripcion {
+  clinicalExaminationId: string;
+  description: string;
+  id: string;
+  productoId: string;
+}
+
+export interface Bill {
+  id: string;
+  subtotal: number;
+  discount: number;
+  total: number;
+  date: string;
+  advancedPay: number;
+  finished: boolean;
+  sendClinical: boolean;
+  userId: string;
+  methodPayId: string | null;
+  user: User;
+  saleServices: {
+    serviceId: string;
+    saleId: string;
+    price: number;
+    acount: number;
+    service: {
+      id: string;
+      service: string;
+      description: string;
+      sendMesasge: boolean;
+      price: number;
+      durationMin: number;
+      veterinarianId: string;
+      categoryServiceId: string;
+    };
+  }[];
+  saleProducts: {
+    productId: string;
+    saleId: string;
+    price: number;
+    acount: number;
+    product: {
+      id: string;
+      name: string;
+      description: string;
+      image: string;
+      cost: string;
+      stock: number;
+      price: string;
+    };
+  }[];
+}
 // Control de values para formularios
 export interface FormValues {
   //login
@@ -267,13 +375,6 @@ export interface ReusableFormProps {
 }
 
 //! FOR MOCK
-export interface Tratamiento {
-  pktratamiento: number;
-  title: string;
-  DescripcionTrat: string;
-  ObservacionTrat: string;
-  frecuencia: string;
-}
 
 export interface Medicamento {
   pkprescripcion: number;

@@ -7,7 +7,7 @@ import { IoLogoWhatsapp } from "react-icons/io5";
 interface TableCustomProps {
   title: string;
   titulos: string[];
-  datos: any[];
+  datos?: any[];
   isCancelable?: boolean;
   onClick?: (id: string) => Promise<any>;
 }
@@ -38,60 +38,68 @@ const TableCustom: React.FC<TableCustomProps> = ({
             </tr>
           </thead>
           <tbody>
-            {datos.map((dato) => (
-              <tr key={dato.id} className="border border-gray-400">
-                {dato.pet ? <td>{dato.pet.name}</td> : <td>Sin mascota</td>}
-                <td>{dato.name}</td>
-                <td>{dato.phone}</td>
-                <td>{dato.email}</td>
-                <td className="flex flex-col items-center py-2">
-                  <Link
-                    href={`${LinkWhatsapp}/${dato.phone}`}
-                    aria-label="Boton para ir a whatsapp"
-                    target="_blank"
-                    className="rounded-full size-5 md:size-10 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
-                  >
-                    <IoLogoWhatsapp />
-                  </Link>
-                </td>
-              </tr>
-            ))}
+            {datos ? (
+              datos.map((dato) => (
+                <tr key={dato.id} className="border border-gray-400">
+                  {dato.pet ? <td>{dato.pet.name}</td> : <td>Sin mascota</td>}
+                  <td>{dato.name}</td>
+                  <td>{dato.phone}</td>
+                  <td>{dato.email}</td>
+                  <td className="flex flex-col items-center py-2">
+                    <Link
+                      href={`${LinkWhatsapp}/${dato.phone}`}
+                      aria-label="Boton para ir a whatsapp"
+                      target="_blank"
+                      className="rounded-full size-5 md:size-10 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
+                    >
+                      <IoLogoWhatsapp />
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <p>No hay datos</p>
+            )}
           </tbody>
         </table>
       </div>
 
       {/* Mobile Version */}
       <div className="block md:hidden">
-        {datos.map((dato) => (
-          <div key={dato.id} className="border-2 mb-4 p-4 rounded-lg shadow-sm">
-            <div className="flex justify-evenly">
-              <span className="font-semibold">Fecha:</span>
-              <span>{dato.mascota}</span>
+        {datos &&
+          datos.map((dato) => (
+            <div
+              key={dato.id}
+              className="border-2 mb-4 p-4 rounded-lg shadow-sm"
+            >
+              <div className="flex justify-evenly">
+                <span className="font-semibold">Fecha:</span>
+                <span>{dato.mascota}</span>
+              </div>
+              <div className="flex justify-evenly">
+                <span className="font-semibold">Hora:</span>
+                <span>{dato.user}</span>
+              </div>
+              <div className="flex justify-evenly">
+                <span className="font-semibold">Servicio:</span>
+                <span>{dato.phone}</span>
+              </div>
+              <div className="flex justify-evenly">
+                <span className="font-semibold">Estado:</span>
+                <span>{dato.email}</span>
+              </div>
+              <div className="mt-4 flex gap-4 justify-evenly">
+                <Link
+                  href={LinkWhatsapp}
+                  aria-label="Boton para ir a whatsapp"
+                  target="_blank"
+                  className="rounded-full w-12 h-12 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
+                >
+                  <IoLogoWhatsapp />
+                </Link>
+              </div>
             </div>
-            <div className="flex justify-evenly">
-              <span className="font-semibold">Hora:</span>
-              <span>{dato.user}</span>
-            </div>
-            <div className="flex justify-evenly">
-              <span className="font-semibold">Servicio:</span>
-              <span>{dato.phone}</span>
-            </div>
-            <div className="flex justify-evenly">
-              <span className="font-semibold">Estado:</span>
-              <span>{dato.email}</span>
-            </div>
-            <div className="mt-4 flex gap-4 justify-evenly">
-              <Link
-                href={LinkWhatsapp}
-                aria-label="Boton para ir a whatsapp"
-                target="_blank"
-                className="rounded-full w-12 h-12 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
-              >
-                <IoLogoWhatsapp />
-              </Link>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
