@@ -15,6 +15,7 @@ import {
   IoTicketSharp,
   IoMedicalSharp,
   IoPersonAddSharp,
+  IoPeopleOutline,
   IoPencilSharp,
 } from "react-icons/io5";
 export const PawIcon: React.FC<IconProps> = ({ size }) => (
@@ -25,6 +26,9 @@ export const HomeIcon: React.FC<IconProps> = ({ size }) => (
 );
 export const LoginIcon: React.FC<IconProps> = ({ size }) => (
   <IoPerson color="#8E44AD" className={`text-${size}`} />
+);
+export const PeopleIcon: React.FC<IconProps> = ({ size }) => (
+  <IoPeopleOutline color="#8E44AD" className={`text-${size}`} />
 );
 export const UserIcon: React.FC<IconProps> = ({ size }) => (
   <IoPersonCircle color="#8E44AD" className={`text-${size}`} />

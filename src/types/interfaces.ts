@@ -13,6 +13,7 @@ export interface ButtonCustomOptionalProps extends ButtonCustomProps {
   size: string;
   color: string;
   bgcolor: string;
+  className: string;
   type: "button" | "submit" | "reset";
   onClick: () => void;
 }
@@ -145,11 +146,11 @@ export interface Mascota {
   }[];
   [key: string]: any;
 }
-// Veterninarias [Missing info]
-export interface Veterinaria {
+
+export interface Servicio {
   id: number;
   name: string;
-  nameCompany: string;
+  description: string;
   logo: string;
 }
 
@@ -363,6 +364,7 @@ export interface InputField {
 }
 
 export interface ReusableFormProps {
+  className?: string;
   notLogo?: boolean;
   displayRow?: boolean;
   formTitle: string;

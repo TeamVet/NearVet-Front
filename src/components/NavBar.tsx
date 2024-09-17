@@ -9,7 +9,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import useLoading from "@/hooks/LoadingHook";
 import Image from "next/image";
 
 const NavBar: React.FC = () => {
@@ -90,9 +89,9 @@ const NavBar: React.FC = () => {
   const isMail = true; //TODO necesitamos un handler para el mail, para saber si hay un mail o no para el usuario
 
   return (
-    <nav className="dark:bg-navDarkBG dark:border-0 w-full flex flex-row justify-between px-5 py-2 border border-1 shadow-[rgba(0,_0,_0,_0.24)_0px_2px_4px]">
+    <nav className="dark:bg-darkBackgroundFront dark:border-0 w-full flex flex-row justify-between px-5 py-2 border border-1 shadow-[rgba(0,_0,_0,_0.24)_0px_2px_4px]">
       <Link
-        className="text-2xl font-bold text-detail text-center self-center"
+        className="text-4xl font-bold text-detail text-center self-center flex items-center"
         href={"/"}
       >
         <Image
@@ -102,6 +101,7 @@ const NavBar: React.FC = () => {
           height={64}
           priority
         />
+        NearVet
       </Link>
       <div className="flex flex-row items-center gap-4">
         {/* Button to toggle menu on mobile */}

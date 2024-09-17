@@ -7,6 +7,7 @@ import {
   ClipboardIcon,
   StoreIcon,
   MailIcon,
+  PeopleIcon
 } from "@/lib/icons";
 import PATHROUTES from "./path-routes";
 import { NavItemProps } from "@/types/interfaces";
@@ -21,6 +22,11 @@ export const NavItem: Array<NavItemProps> = [
     name: "Iniciar Sesion",
     url: PATHROUTES.LOGIN,
     icon: LoginIcon,
+  },
+  {
+    name: "Nosotros",
+    url: PATHROUTES.ABOUTUS,
+    icon: PeopleIcon,
   },
 ];
 
