@@ -238,6 +238,39 @@ export interface Prescripcion {
   productoId: string;
 }
 
+
+export interface Bill {
+  id: string;
+  subtotal: number;
+  discount: number;
+  total: number;
+  date: string;
+  advancedPay: number;
+  finished: boolean;
+  sendClinical: boolean;
+  userId: string;
+  methodPayId: string | null;
+  service: {
+    id: string;
+    service: string;
+  };
+  user: {
+    id: string;
+    name: string;
+    lastName: string;
+    email: string;
+    imgProfile: string;
+    dni: number;
+    password: string;
+    birthDate: string;
+    startDate: string;
+    endDate: string | null;
+    phone: number;
+    address: string;
+    city: string;
+    roleId: string;
+  };
+}
 // Control de values para formularios
 export interface FormValues {
   //login

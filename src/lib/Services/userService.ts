@@ -90,3 +90,17 @@ export const BillsService = async (
     throw new Error(error.message);
   }
 };
+
+export const BillsGeneralService = async () => {
+  const dataBills = {
+    url: "/sales/SalesByClinical",
+    method: "GET" as const,
+  };
+  try {
+    const responseBills = await fetcher(dataBills);
+    if (!responseBills) throw new Error(responseBills.message);
+    return responseBills;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

@@ -4,16 +4,8 @@ import { useEffect, useState } from "react";
 import { IoCutSharp, IoMedicalSharp } from "react-icons/io5";
 import jsPDF from "jspdf";
 import { useUser } from "@/context/UserContext";
-import { BillsService } from "@/lib/Services/userService";
-
-interface Bill {
-  service: string;
-  item: string;
-  price: number;
-  date: string;
-  user: string;
-  id: string;
-}
+import { BillsGeneralService, BillsService } from "@/lib/Services/userService";
+import { Bill } from "@/types/interfaces";
 
 const BillModule: React.FC = () => {
   const [facturas, setFacturas] = useState<Bill[]>([]);
@@ -63,7 +55,7 @@ const BillModule: React.FC = () => {
     // Detalles de la factura
     doc.setFontSize(16);
     doc.text(
-      `Factura de Servicio y Servicio en NearVet tipo: ${factura.service}`,
+      `Factura de Servicio y Servicio en NearVet tipo: ${factura.service.service}`,
       10,
       70
     );
@@ -74,16 +66,16 @@ const BillModule: React.FC = () => {
     doc.text("Precio", 150, 80);
     doc.setLineWidth(0.2);
     doc.line(30, 82, 180, 82);
-    doc.text(`${factura.item}`, 45, 90);
+    doc.text(`${factura.service.service}`, 45, 90);
     doc.text("1", 95, 90);
-    doc.text(`${factura.price}`, 155, 90);
-    doc.text(`Precio total: $${factura.price}`, 150, 110);
+    doc.text(`${factura.subtotal}`, 155, 90);
+    doc.text(`Precio total: $${factura.total}`, 150, 110);
     // Nota al pie
     doc.setFontSize(10);
     doc.text("Gracias por su compra lo esperamos pronto", 10, 270);
     doc.text("NearVet S.A.", 150, 270);
     // Descargar el PDF
-    doc.save(`Factura_${factura.item}_${factura.date}.pdf`);
+    doc.save(`Factura_${factura.date}.pdf`);
   };
   const handleNextPage = () => setPage((prevPage) => prevPage + 1);
   const handlePrevPage = () =>
@@ -117,22 +109,17 @@ const BillModule: React.FC = () => {
               onClick={() => handleDownloadPdf(factura)}
             >
               <div className="flex flex-row justify-between gap-2 items-center">
-                <h4 className="text-xl text-detail">{factura.service}</h4>
+                <h4 className="text-xl text-detail">
+                  {factura.service.service}
+                </h4>
                 <p>{factura.date}</p>
               </div>
               <div className="flex flex-row justify-evenly gap-2 items-center my-2">
-                <div className="text-detail">
-                  {factura.service === "Peluqueria" ? (
-                    <IoCutSharp />
-                  ) : (
-                    <IoMedicalSharp />
-                  )}
-                </div>
-                <p>{factura.item}</p>
+                <div className="text-detail"></div>
               </div>
               <div className="flex flex-row justify-between gap-2">
                 <p>Total</p>
-                <p>$ {factura.price}</p>
+                <p>$ {factura.total}</p>
               </div>
               <div className="flex flex-col mt-1">
                 <small>Comprobante no válido como factura.</small>
