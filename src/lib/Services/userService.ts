@@ -6,7 +6,7 @@ const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL;
 const SIGN_GOOGLE = process.env.NEXT_PUBLIC_SIGN_GOOGLE;
 const MODIFI_USER = process.env.NEXT_PUBLIC_MODIFI_USER;
 const BILLS_USER = process.env.NEXT_PUBLIC_BILLS_USER;
-
+const VETERINARIANS_URL = process.env.NEXT_PUBLIC_VETERINARIANS_URL;
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
     url: SIGNIN_URL as string,
@@ -100,6 +100,19 @@ export const BillsGeneralService = async () => {
     const responseBills = await fetcher(dataBills);
     if (!responseBills) throw new Error(responseBills.message);
     return responseBills;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const VeterinariesServices = async () => {
+  try {
+    const responseVeterinaries = await fetcher({
+      url: VETERINARIANS_URL as string,
+      method: "GET" as const,
+    });
+    if (!responseVeterinaries) throw new Error(responseVeterinaries.message);
+    return responseVeterinaries;
   } catch (error: any) {
     throw new Error(error.message);
   }

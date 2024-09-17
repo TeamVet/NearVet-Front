@@ -109,6 +109,16 @@ export interface User {
   [key: string]: any;
 }
 
+export interface Veterinario {
+  id: string;
+  licence: number;
+  specialty: string;
+  description: string;
+  delayAtention: number;
+  userId: string;
+  user: User;
+}
+
 export interface Mascota {
   id: string;
   name: string;
