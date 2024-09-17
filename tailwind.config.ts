@@ -17,14 +17,15 @@ const config: Config = {
       },
       backgroundColor: {
         lightBG: "#FFFFFF",
-        darkBG: "#111827",
+        darkBackground: "#111827",
+        darkBackgroundFront: "rgb(31 41 55 / var(--tw-bg-opacity))",
         navDarkBG: "#212121"
       },
       colors: {
         detail: "#8E44AD",
         primary: "#2ECC71",
         secondary: "#EEEEEE",
-        darkBorders: "#444444"
+        darkBorders: "#242424"
       },
       textColor: {
         lightHline: "#333333",

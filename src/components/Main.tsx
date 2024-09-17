@@ -45,7 +45,7 @@ const Main: React.FC = () => {
       </div>
 
       {/* Nuestros Servicios */}
-      <div className="bg-secondary dark:bg-gray-800 p-8 md:p-12 rounded-md shadow-md mx-4 md:mx-8">
+      <div className="bg-secondary dark:bg-darkBackgroundFront p-8 md:p-12 rounded-md shadow-md mx-4 md:mx-8 dark:border-darkBorders">
         <div className="max-w-6xl mx-auto">
           <span className="text-detail text-center font-extrabold text-lg md:text-xl lg:text-2xl dark:text-purple-400 block mb-4">
             Nuestros Servicios

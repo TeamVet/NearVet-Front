@@ -256,6 +256,7 @@ export interface InputField {
 }
 
 export interface ReusableFormProps {
+  className?: string;
   notLogo?: boolean;
   displayRow?: boolean;
   formTitle: string;

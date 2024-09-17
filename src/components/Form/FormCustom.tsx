@@ -37,7 +37,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
   });
 
   return (
-    <div className="dark:bg-darkBG  w-full flex flex-col items-center justify-center p-5 md:p-10 gap-5 text-sm mx-auto">
+    <div className="dark:bg-darkBackgroundFront  w-full flex flex-col items-center justify-center p-5 md:p-10 gap-5 text-sm mx-auto">
       {notLogo ? null : (
         <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center items-center">
           <Image src="/logo.svg" alt="Logo Nearvet" width={64} height={64} />{" "}

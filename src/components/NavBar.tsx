@@ -9,7 +9,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import useLoading from "@/hooks/LoadingHook";
 import Image from "next/image";
 
 const NavBar: React.FC = () => {
