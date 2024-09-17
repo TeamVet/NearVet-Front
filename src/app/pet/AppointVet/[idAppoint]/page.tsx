@@ -11,7 +11,10 @@ import PetSection from "../../[idPet]/petSection";
 import PetClinical from "../../[idPet]/PetClinical";
 import ModalForm from "@/components/modalForm";
 import { consulta, ErrorNotify } from "@/lib/toastyfy";
-import { fetchAppointIdService } from "@/lib/Services/appointService";
+import {
+  fetchAppointIdService,
+  fetchFinishAppoint,
+} from "@/lib/Services/appointService";
 
 const PetIndividual: React.FC = () => {
   const [mascota, setMascota] = useState<Mascota>();
@@ -39,6 +42,7 @@ const PetIndividual: React.FC = () => {
         if (data === undefined || data === null) {
           return;
         }
+
         setTurnoVet(data);
         setMascota(data.pet);
         setTurnoStatus(data.state.state);
@@ -57,15 +61,15 @@ const PetIndividual: React.FC = () => {
 
   const handleCloseTurn = async () => {
     consulta("Finalizará el turno, ¿Desea continuar?", () => {
-      fetchFinishAppoint(turnoVet?.id as string);
+      alert("aca llegamos");
+      fetchFinish(turnoVet?.id as string);
     });
   };
-  const fetchFinishAppoint = async (id: string) => {
+  const fetchFinish = async (id: string) => {
     setTurnoStatus("Finalizado");
     try {
       startLoading();
       const data = await fetchFinishAppoint(id);
-      console.log(data);
     } finally {
       stopLoading();
     }
@@ -78,6 +82,8 @@ const PetIndividual: React.FC = () => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         setTurno={() => setTurnoStatus("Finalizado")}
+        idPet={mascota?.id as string}
+        idUser={user?.id as string}
       />
       {mascota && idAppoint && (
         <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
@@ -88,7 +94,7 @@ const PetIndividual: React.FC = () => {
             <PetSection idPet={mascota.id as string} />
           </div>
           <div className="md:w-1/4">
-            <PetClinical idPet={mascota.id as string} />
+            <PetClinical idPet={mascota.id as string} pet={mascota} />
           </div>
           {turnoStatus === "Pendiente" && (
             <div className="fixed z-10 top-2 rigth-[50%] flex flex-row gap-2 shadow-md rounded-lg p-2">
@@ -102,7 +108,7 @@ const PetIndividual: React.FC = () => {
                 onClick={handleCloseTurn}
                 className=" bg-red-500 rounded p-2 text-white hover:scale-105"
               >
-                Cerrar turno
+                Finalizar turno
               </button>
             </div>
           )}

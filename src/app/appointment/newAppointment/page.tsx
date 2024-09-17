@@ -47,9 +47,9 @@ const Appointments: React.FC = () => {
   const inputsWithOptions = InputsRegisterAppoint.map((input) => {
     if (input.name === "category") {
       return { ...input, options: categories };
-    } else if (input.name === "pet_id") {
+    } else if (input.name === "petId") {
       return { ...input, options: mascotas };
-    } else if (input.name === "service_id") {
+    } else if (input.name === "serviceId") {
       return { ...input, options: services };
     } else if (input.name === "time") {
       return { ...input, options: horarios };

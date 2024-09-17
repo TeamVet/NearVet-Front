@@ -3,23 +3,41 @@ import Link from "next/link";
 import PATHROUTES from "@/helpers/path-routes";
 import { useUser } from "@/context/UserContext";
 import { fetchTurnosService } from "@/lib/Services/appointService";
-const today = new Date("2024-09-23");
+import useLoading from "@/hooks/LoadingHook";
+import Loading from "../Loading";
+const today = new Date();
 const todayString = today.toISOString().split("T")[0];
 
+export interface Turno {
+  id: string;
+  Subject: string;
+  description: string;
+  StartTime: string;
+  EndTime: string;
+  isAllDay: boolean;
+  stateAppointment: string;
+}
 const AppointsVetModule = () => {
-  const [turnos, setTurnos] = useState<any[]>([]);
+  const [turnos, setTurnos] = useState<Turno[]>([]);
   const { user } = useUser();
+  const { loading, startLoading, stopLoading } = useLoading();
   useEffect(() => {
     const fetchTurnos = async () => {
+      startLoading();
       if (!user?.id) return;
-      const response = await fetchTurnosService(user.id, today, today);
-      if (response.length > 0) {
-        const turnosConFormato = response.map((turno: any) => ({
-          ...turno,
-          StartTime: formatTime(turno.StartTime),
-          EndTime: formatTime(turno.EndTime),
-        }));
-        setTurnos(turnosConFormato);
+      try {
+        const response = await fetchTurnosService(user.id, today, today);
+        if (response.length > 0) {
+          console.log(response);
+          const turnosConFormato = response.map((turno: any) => ({
+            ...turno,
+            StartTime: formatTime(turno.StartTime),
+            EndTime: formatTime(turno.EndTime),
+          }));
+          setTurnos(turnosConFormato);
+        }
+      } finally {
+        stopLoading();
       }
     };
     if (user?.id) {
@@ -36,7 +54,7 @@ const AppointsVetModule = () => {
   return (
     <>
       <h3 className="text-xl text-detail">Atenciones del {todayString}</h3>
-
+      {loading && <Loading />}
       <section className="flex flex-col md:flex-row flex-wrap m-auto w-full md:w-3/4 my-2 gap-2">
         {turnos &&
           turnos.map((turno) => (
@@ -60,8 +78,8 @@ const AppointsVetModule = () => {
                 </Link>
               ) : (
                 <Link
-                  href={`${PATHROUTES.PET}/${turno.id}`}
-                  className="bg-transparent p-2 m-auto rounded-lg "
+                  href={`${PATHROUTES.PET}/AppointVet/${turno.id}`}
+                  className="bg-transparent p-2 m-auto rounded-lg shadow-lg"
                 >
                   Revisar Mascota
                 </Link>

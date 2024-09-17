@@ -185,7 +185,7 @@ export const InputsRegisterPet: InputField[] = [
     validation: petCreationValidationSchema.pesoActual,
   },
   {
-    name: "observaciones",
+    name: "observation",
     type: "text",
     label: "Observaciones",
     placeholder: "Muerde mucho...",
@@ -230,7 +230,7 @@ export const InputsModifyPet: InputField[] = [
 ];
 export const InputsRegisterAppoint: InputField[] = [
   {
-    name: "pet_id",
+    name: "petId",
     type: "select",
     label: "Mascota",
     validation: appointmentValidationSchema.pet,
@@ -246,7 +246,7 @@ export const InputsRegisterAppoint: InputField[] = [
     labelKey: "categoryService",
   },
   {
-    name: "service_id",
+    name: "serviceId",
     type: "select",
     label: "Servicio",
     validation: appointmentValidationSchema.service,
@@ -272,126 +272,111 @@ export const InputsRegisterAppoint: InputField[] = [
     type: "text",
     label: "Observación",
     placeholder: "Tiene sintomas de...",
-    validation: appointmentValidationSchema.messageUser,
   },
 ];
 
 export const InputsModifyAppoint = [];
 export const InputsAppointsVetClinical = [
   {
-    name: "FC",
-    type: "text",
+    name: "fc",
+    type: "number",
     label: "Frecuencia Cardiaca",
     placeholder: "",
   },
   {
-    name: "FR",
-    type: "text",
+    name: "fr",
+    type: "number",
     label: "Frecuencia Respiratoria",
     placeholder: "",
   },
   {
     name: "temperature",
-    type: "text",
+    type: "number",
     label: "Temperatura",
     placeholder: "",
   },
   {
-    name: "hidratation",
+    name: "hydration",
     type: "number",
     label: "Hidratacion",
     placeholder: "",
   },
   {
-    name: "TTLC",
-    type: "text",
+    name: "tllc",
+    type: "number",
     label: "TTLC",
     placeholder: "",
   },
   {
-    name: "mocous",
+    name: "mucous",
     type: "text",
-    label: "Mocous",
-    placeholder: "",
+    label: "Estado Mucosas",
+    placeholder: "max 30",
   },
   {
-    name: "temperamento",
+    name: "temper",
     type: "text",
     label: "Temperamento",
-    placeholder: "",
+    placeholder: "max 50",
+  },
+  {
+    name: "moodState",
+    type: "text",
+    label: "Estado de animo",
+    placeholder: "max 50",
   },
   {
     name: "diagnosis",
     type: "text",
     label: "Diagnostico",
-    placeholder: "",
-  },
-  {
-    name: "anamnesisH",
-    type: "textarea",
-    label: "Anamnesis Hereditario",
-    placeholder: "",
+    placeholder: "max 150",
   },
   {
     name: "anamnesis",
-    type: "textarea",
+    type: "text",
     label: "Anamnesis",
-    placeholder: "",
-  },
-  {
-    name: "file",
-    type: "file",
-    label: "Archivos",
     placeholder: "",
   },
 ];
 export const InputsAppointsVetTratamiento = [
-  //!necesito el id de examinacion clinica
   {
-    name: "fkservicio",
+    name: "serviceId",
     type: "select",
     label: "Nombre del servicio",
     placeholder: "",
     options: [],
-    labelKey: "",
+    labelKey: "service",
   },
   {
-    name: "DescriptionTrat",
+    name: "description",
     type: "text",
     label: "Descripción",
     placeholder: "",
   },
   {
-    name: "ObservacionTrat",
+    name: "observation",
     type: "text",
     label: "Observaciones",
     placeholder: "",
   },
   {
-    name: "fkproduct",
+    name: "productId",
     type: "select",
     label: "Droga a administrar",
     placeholder: "",
     options: [],
-    labelKey: "",
+    labelKey: "name",
     //TODO seleccion multiple y con filtro
-  },
-  {
-    name: "file",
-    type: "file",
-    label: "Archivos",
-    placeholder: "",
   },
 ];
 export const InputsAppointsVetPrescipciones = [
-  //!necesito el id de examinacion clinica
   {
-    name: "fkproducto",
+    name: "productId",
     type: "select",
     label: "Nombre del Medicamento",
     placeholder: "",
     options: [],
-    labelKey: "",
+    labelKey: "name",
   },
   {
     name: "description",
@@ -402,10 +387,12 @@ export const InputsAppointsVetPrescipciones = [
 ];
 export const InputsAppointsVetPendientes = [
   {
-    name: "fkservice",
-    type: "text",
-    label: "Motivo del Pendiente",
-    placeholder: "Aplicacion vacuna...",
+    name: "serviceId",
+    type: "select",
+    label: "Nombre del servicio",
+    placeholder: "",
+    options: [],
+    labelKey: "service",
   },
   {
     name: "description",
@@ -414,9 +401,17 @@ export const InputsAppointsVetPendientes = [
     placeholder: "Tener en cuenta que...",
   },
   {
-    name: "endPending",
+    name: "date",
     type: "date",
     label: "Fecha Limite del Pendiente",
     placeholder: "",
+  },
+];
+export const InputsFilesAppoints = [
+  {
+    name: "File",
+    type: "file",
+    label: "Cargar Archivo",
+    placeholder: "Seleccionar archivo",
   },
 ];

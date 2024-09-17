@@ -6,8 +6,15 @@ import {
   serviceServices,
 } from "@/lib/Services/appointService";
 
-import { ErrorNotify } from "@/lib/toastyfy";
+import { consulta, ErrorNotify, InfoNotify } from "@/lib/toastyfy";
 import { fetchPetsController } from "@/lib/Controllers/petController";
+import { useRouter } from "next/navigation";
+import PATHROUTES from "@/helpers/path-routes";
+const timeNow = new Date();
+const formattedTimeNow = `${String(timeNow.getHours()).padStart(
+  2,
+  "0"
+)}:${String(timeNow.getMinutes()).padStart(2, "0")}`;
 
 export const useAppointmentData = (userId: string, token: string) => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -15,9 +22,8 @@ export const useAppointmentData = (userId: string, token: string) => {
     { id: string; categoryService: string; description: string }[]
   >([]);
   const [services, setServices] = useState<any[]>([]);
-  const [horarios, setHorarios] = useState<any[]>([]);
+  const [horarios, setHorarios] = useState<{ id: string; hour: string }[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [categorySelect, setCategorySelect] = useState("");
   const [mascotaSelect, setMascotaSelect] = useState<Mascota | null>(null);
   const [daySelect, setDaySelect] = useState<Date | null>(null);
@@ -27,6 +33,15 @@ export const useAppointmentData = (userId: string, token: string) => {
     description?: string;
     price?: number;
   } | null>(null);
+  const router = useRouter();
+  const today = new Date();
+
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,8 +51,11 @@ export const useAppointmentData = (userId: string, token: string) => {
           fetchPetsController(userId, token),
           categoryServices(),
         ]);
-        if (responseMascotas.length === 0)
-          throw new Error("No tienes una mascota, primero deberías crearla");
+        if (responseMascotas.length === 0) {
+          consulta("No tienes una mascota, primero deberías crearla", () =>
+            router.push(PATHROUTES.NEW_PET)
+          );
+        }
         setMascotas(responseMascotas);
         setCategories(responseCategory);
       } catch (error) {
@@ -66,17 +84,20 @@ export const useAppointmentData = (userId: string, token: string) => {
   const fetchHorarios = async (serviceId: string) => {
     if (!serviceId) return;
 
-    const returnHorarios = await horariosService(serviceId);
-    console.log(returnHorarios); //!! ARREGLAR CON BACKEND
-    const nuevoshorarios = returnHorarios.map(
-      (horario: { id: string; startHour1: string }) => {
-        return {
-          id: horario.startHour1,
-          hour: horario.startHour1,
-        };
+    if (daySelect) {
+      const daySelectDate = new Date(daySelect);
+      const normalizedDaySelect = daySelectDate.toISOString().split("T")[0];
+      const returnHorarios = await horariosService(serviceId, daySelect);
+      if (formatDate(today) === normalizedDaySelect) {
+        InfoNotify("Pueden no quedar horarios disponibles para hoy");
+        const availibiryHorarios = returnHorarios.filter(
+          (hour: { id: string; hour: string }) => hour.hour > formattedTimeNow
+        );
+        setHorarios(availibiryHorarios);
+      } else {
+        setHorarios(returnHorarios);
       }
-    );
-    setHorarios(nuevoshorarios);
+    }
   };
 
   const handleOnChange = (value: string) => {
