@@ -24,7 +24,7 @@ const RegisterForm: React.FC = () => {
     if (user) {
       const timer = setTimeout(() => {
         setTimePassed(true);
-      }, 2000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [user]);
