@@ -24,7 +24,7 @@ const RegisterForm: React.FC = () => {
     if (user) {
       const timer = setTimeout(() => {
         setTimePassed(true);
-      }, 2000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [user]);
@@ -42,7 +42,7 @@ const RegisterForm: React.FC = () => {
   return (
     <Screen>
       {loading && <Loading />}
-      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+      <div className="dark:bg-darkBackgroundFront dark:border-darkBorders md:w-1/3 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
         <ReusableForm
           formTitle="Registrarse"
           inputs={InputsRegisterUser}
@@ -53,7 +53,7 @@ const RegisterForm: React.FC = () => {
           className="text-primary font-bold flex flex-row"
           href={PATHROUTES.LOGIN}
         >
-          <h3 className="px-1">¿Ya tienes cuenta? </h3>
+          <h3 className="px-1 dark:text-darkHline">¿Ya tienes cuenta? </h3>
           Iniciar sesión
         </Link>
         <span className="text-gray-400 font-bold">- OR -</span>

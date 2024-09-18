@@ -24,27 +24,29 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={inter.className}>
-        <Providers>
-          <UserProvider>
-            <NavBar />
-            {children}
-            <ChatbotButton />
-            <Footer />
-            <ToastContainer
-              position="top-center"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              draggable
-              rtl={false}
-              pauseOnFocusLoss
-              pauseOnHover
-              theme="colored"
-              limit={2}
-            />
-          </UserProvider>
-        </Providers>
+        <div className="min-h-screen bg-white">
+          <Providers>
+            <UserProvider>
+              <NavBar />
+              {children}
+              <ChatbotButton />
+              <Footer />
+              <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                draggable
+                rtl={false}
+                pauseOnFocusLoss
+                pauseOnHover
+                theme="colored"
+                limit={2}
+              />
+            </UserProvider>
+          </Providers>
+        </div>
       </body>
     </html>
   );

@@ -17,18 +17,20 @@ const config: Config = {
       },
       backgroundColor: {
         lightBG: "#FFFFFF",
-        darkBG: "#111827",
-        navDarkBG: "#212121"
+        darkBackground: "#111827",
+        darkBackgroundFront: "rgb(31 41 55 / var(--tw-bg-opacity))",
+        navDarkBG: "#212121",
+        purpleBackground: "#f8f2f9"
       },
       colors: {
         detail: "#8E44AD",
         primary: "#2ECC71",
         secondary: "#EEEEEE",
-        darkBorders: "#444444"
+        darkBorders: "#242424"
       },
       textColor: {
         lightHline: "#333333",
-        lightText: "#686868",
+        purpleTitles: "#6a4972",
         darkHline: "#CCCCCC",
         darkText: "#A3A3A3",
       },

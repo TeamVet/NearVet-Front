@@ -59,19 +59,23 @@ export const adminCards: UserCard[] = [
     icon: <InformationIcon size="2xl" />,
   },
   {
-    text: "Veterinaria",
+    text: "Ver Veterinaria",
     icon: <StoreIcon size="2xl" />,
   },
   {
-    text: "Calendario",
+    text: "Ver Calendario",
     icon: <StoreIcon size="2xl" />,
   },
   {
-    text: "Facturas",
+    text: "Ver Facturas",
     icon: <TicketIcon size="2xl" />,
   },
   {
-    text: "Empleados",
+    text: "Ver Cupones",
+    icon: <TicketIcon size="2xl" />,
+  },
+  {
+    text: "Ver Empleados",
     icon: <EmployeeIcon size="2xl" />,
   },
 ];
@@ -82,7 +86,7 @@ export const vetCards: UserCard[] = [
     icon: <InformationIcon size="2xl" />,
   },
   {
-    text: "Calendario",
+    text: "Ver Calendario",
     icon: <StoreIcon size="2xl" />,
   },
   {

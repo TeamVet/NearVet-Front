@@ -1,9 +1,14 @@
 import { Veterinaria } from "@/types/interfaces";
 import { FaRegStar } from "react-icons/fa6";
-import ButtonCustom from "./ButtonCustom";
-const VetCard: React.FC<Veterinaria> = (vet) => {
+interface VetExample {
+  id: number;
+  logo: string;
+  name: string;
+  nameCompany: string;
+}
+const VetCard: React.FC<VetExample> = (vet) => {
   return (
-    <div className="flex flex-col bg-secondary p-5 rounded-lg gap-5 md:w-[30em] shadow-lg dark:bg-navDarkBG">
+    <div className="flex flex-col bg-secondary p-5 rounded-lg gap-5 md:w-[30em] shadow-lg dark:bg-darkBG">
       <div className="flex justify-between">
         <div className="flex">
           <img src={vet.logo} alt="[vetLogo]" />
@@ -21,7 +26,9 @@ const VetCard: React.FC<Veterinaria> = (vet) => {
         voluptatibus. Ut laboriosam cupiditate tempore.
       </p>
       <div className="flex justify-end">
-        <ButtonCustom text="Agenda Ahora" className="rounded-lg text-white bg-detail p-2 shadow-md hover:scale-105" />
+        <button className="rounded-lg text-white bg-detail p-2 shadow-md hover:scale-105">
+          Agenda Ahora
+        </button>
       </div>
     </div>
   );

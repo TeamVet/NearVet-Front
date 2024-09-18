@@ -110,6 +110,16 @@ export interface User {
   [key: string]: any;
 }
 
+export interface Veterinario {
+  id: string;
+  licence: number;
+  specialty: string;
+  description: string;
+  delayAtention: number;
+  userId: string;
+  user: User;
+}
+
 export interface Mascota {
   id: string;
   name: string;
@@ -146,12 +156,23 @@ export interface Mascota {
   }[];
   [key: string]: any;
 }
-// Veterninarias [Missing info]
-export interface Veterinaria {
+
+export interface Servicio {
   id: number;
   name: string;
   nameCompany: string;
-  logo: string;
+  email: string;
+  passEmail: string;
+  serviceEmail: string;
+  urlWebPage: string;
+  cuit: string;
+  address: string;
+  city: string;
+  startDate: Date;
+  imgProfile: string;
+  imgBanner: string;
+  imgLogo: string;
+  userId: string;
 }
 
 export interface Turnos {
@@ -291,6 +312,18 @@ export interface Bill {
     };
   }[];
 }
+
+export interface Veterinaria {
+  name: string;
+  nameCompany: string;
+  email: string;
+  cuit: string;
+  address: string;
+  city: string;
+  imgProfile: string;
+  imgBanner: string;
+  imgLogo: string;
+}
 // Control de values para formularios
 export interface FormValues {
   //login
@@ -364,6 +397,7 @@ export interface InputField {
 }
 
 export interface ReusableFormProps {
+  className?: string;
   notLogo?: boolean;
   displayRow?: boolean;
   formTitle: string;
