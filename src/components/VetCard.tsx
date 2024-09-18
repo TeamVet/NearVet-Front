@@ -1,6 +1,12 @@
 import { Veterinaria } from "@/types/interfaces";
 import { FaRegStar } from "react-icons/fa6";
-const VetCard: React.FC<Veterinaria> = (vet) => {
+interface VetExample {
+  id: number;
+  logo: string;
+  name: string;
+  nameCompany: string;
+}
+const VetCard: React.FC<VetExample> = (vet) => {
   return (
     <div className="flex flex-col bg-secondary p-5 rounded-lg gap-5 md:w-[30em] shadow-lg dark:bg-darkBG">
       <div className="flex justify-between">
