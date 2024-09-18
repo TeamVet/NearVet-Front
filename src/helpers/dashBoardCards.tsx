@@ -67,7 +67,7 @@ export const adminCards: UserCard[] = [
     icon: <StoreIcon size="2xl" />,
   },
   {
-    text: "Facturas",
+    text: "Ver Facturas",
     icon: <TicketIcon size="2xl" />,
   },
   {

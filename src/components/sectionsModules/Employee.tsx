@@ -25,9 +25,12 @@ const EmployeeList: React.FC = () => {
 
   return (
     <section className="w-full md:w-2/3 my-5 mx-auto">
-      <button className="bg-detail p-2 m-auto rounded-lg text-white hover:scale-105">
+      <Link
+        href={PATHROUTES.NEW_VET}
+        className="bg-detail p-2 m-auto rounded-lg text-white hover:scale-105"
+      >
         Agregar Nuevo Empleado
-      </button>
+      </Link>
       <article className="flex flex-wrap gap-2 my-2">
         {veterinaries &&
           veterinaries.map((veterinary) => (
