@@ -4,6 +4,7 @@ import { fetcher, fetcherImg } from "../fetcher";
 const APPOINTS = process.env.NEXT_PUBLIC_APPOINTS;
 const APPOINTS_USER = process.env.NEXT_PUBLIC_APPOINTS_USER;
 const APPOINTS_VETERINIAN = process.env.NEXT_PUBLIC_APPOINTS_VETERINIAN;
+const APPOINTS_ADMIN = process.env.NEXT_PUBLIC_APPOINTS_ADMIN;
 const APPOINTS_CANCEL = process.env.NEXT_PUBLIC_APPOINTS_CANCEL;
 const APPOINTS_FINISH = process.env.NEXT_PUBLIC_APPOINTS_FINISH;
 const APPOINT_CREATE = process.env.NEXT_PUBLIC_APPOINTS_CREATE;
@@ -130,6 +131,20 @@ export const fetchTurnosService = async (
 ) => {
   const data = {
     url: `${APPOINTS_VETERINIAN}`,
+    method: "POST" as const,
+    data: { id, startDate, endDate },
+  };
+  const response = await fetcher(data);
+  if (!response) throw new Error(response.message);
+  return response;
+};
+export const fetchTurnosServiceAdmin = async (
+  id: string,
+  startDate: Date,
+  endDate: Date
+) => {
+  const data = {
+    url: `${APPOINTS_ADMIN}`,
     method: "POST" as const,
     data: { id, startDate, endDate },
   };

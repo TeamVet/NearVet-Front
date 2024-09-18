@@ -3,37 +3,55 @@ import { useEffect, useState } from "react";
 import { IoCutSharp, IoMedicalSharp } from "react-icons/io5";
 import jsPDF from "jspdf";
 import { useUser } from "@/context/UserContext";
-import { BillsService } from "@/lib/Services/userService";
+import { BillsGeneralService, BillsService } from "@/lib/Services/userService";
 import { Bill } from "@/types/interfaces";
+import Loading from "../Loading";
+import useLoading from "@/hooks/LoadingHook";
+import { useRouter } from "next/navigation";
+import PATHROUTES from "@/helpers/path-routes";
 const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 const BillModule: React.FC = () => {
   const [facturas, setFacturas] = useState<Bill[]>([]);
   const [page, setPage] = useState(1);
   const [logoPag, setLogoPag] = useState<string>("");
+  const { loading, startLoading, stopLoading } = useLoading();
+  const [admin, setAdmin] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
   const startDay = new Date(user?.startDate as Date);
   const endDay = new Date();
 
   useEffect(() => {
     const fetchBills = async () => {
       if (!user) return;
-      const formattedStartDay = startDay.toISOString().split("T")[0];
-      const formattedEndDay = endDay.toISOString().split("T")[0];
-      const responseBills = await BillsService(
-        page,
-        user.id as string,
-        formattedStartDay,
-        formattedEndDay
-      );
+      startLoading();
+      try {
+        const formattedStartDay = startDay.toISOString().split("T")[0];
+        const formattedEndDay = endDay.toISOString().split("T")[0];
+        if (user.role.role === "adminVet") {
+          setAdmin(true);
+          const responseBills = await BillsGeneralService();
+          if (responseBills.length > 0) {
+            setFacturas(responseBills);
+          }
+        } else {
+          const responseBills = await BillsService(
+            page,
+            user.id as string,
+            formattedStartDay,
+            formattedEndDay
+          );
+          if (responseBills.length > 0) {
+            setFacturas(responseBills);
+          }
+        }
 
-      if (responseBills.length > 0) {
-        console.log(responseBills);
-        setFacturas(responseBills);
+        const logo = await fetch(LOGO_URL as string);
+        const logoText = await logo.text();
+        setLogoPag(logoText);
+      } finally {
+        stopLoading();
       }
-
-      const logo = await fetch(LOGO_URL as string);
-      const logoText = await logo.text();
-      setLogoPag(logoText);
     };
 
     if (user) {
@@ -158,6 +176,7 @@ const BillModule: React.FC = () => {
 
   return (
     <section className="flex flex-col w-2/3 m-auto shadow-lg">
+      {loading && <Loading />}
       <div className="flex flex-row justify-around w-full m-auto">
         <button
           onClick={handlePrevPage}
@@ -175,33 +194,64 @@ const BillModule: React.FC = () => {
           Siguiente Página
         </button>
       </div>
-      <div className="flex flex-wrap gap-2 justify-center min-h-[80vh] ">
-        {facturas &&
-          facturas.map((factura, index) => (
-            <article
-              key={index}
-              className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer m-auto"
-              onClick={() => handleDownloadPdf(factura, logoPag)}
-            >
-              <div className="flex flex-row justify-between gap-2 items-center">
-                <h4 className="text-xl text-detail">
-                  {/* {factura.service.service} */}
-                </h4>
-                <p>{factura.date}</p>
-              </div>
-              <div className="flex flex-row justify-evenly gap-2 items-center my-2">
-                <div className="text-detail"></div>
-              </div>
-              <div className="flex flex-row justify-between gap-2">
-                <p>Total</p>
-                <p>$ {factura.total}</p>
-              </div>
-              <div className="flex flex-col mt-1">
-                <small>Comprobante no válido como factura.</small>
-                <small>Para descargarla, haga click</small>
-              </div>
-            </article>
-          ))}
+      <div className="flex flex-wrap gap-2 min-h-[80vh]">
+        {facturas && admin
+          ? facturas.map((factura) => (
+              <article
+                key={factura.id}
+                className="shadow-lg rounded-lg p-3 hover:scale-105 cursor-pointer m-auto relative flex flex-col gap-2 w-1/5"
+                onClick={() => {
+                  router.push(PATHROUTES.BILL + factura.id);
+                }}
+              >
+                <small className="absolute italic top-2 right-3">
+                  {factura.date}
+                </small>
+                <div className="flex flex-row justify-between gap-2 items-center mt-4">
+                  <h4 className="text-xl text-detail">
+                    Cliente: {factura.user.name}
+                  </h4>
+                </div>
+
+                <div className="flex flex-row justify-between gap-2">
+                  <p>Total</p>
+                  <p>$ {factura.total}</p>
+                </div>
+                <div className="flex flex-row justify-evenly gap-2 items-center my-2">
+                  <div className="text-detail">
+                    {factura.finished ? "Finalizada" : "Pendiente"}
+                  </div>
+                </div>
+                <div className="flex flex-col mt-1">
+                  <small>Click para visualizarla</small>
+                </div>
+              </article>
+            ))
+          : facturas.map((factura, index) => (
+              <article
+                key={index}
+                className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer m-auto"
+                onClick={() => handleDownloadPdf(factura, logoPag)}
+              >
+                <div className="flex flex-row justify-between gap-2 items-center">
+                  <h4 className="text-xl text-detail">
+                    {/* {factura.service.service} */}
+                  </h4>
+                  <p>{factura.date}</p>
+                </div>
+                <div className="flex flex-row justify-evenly gap-2 items-center my-2">
+                  <div className="text-detail"></div>
+                </div>
+                <div className="flex flex-row justify-between gap-2">
+                  <p>Total</p>
+                  <p>$ {factura.total}</p>
+                </div>
+                <div className="flex flex-col mt-1">
+                  <small>Comprobante no válido como factura.</small>
+                  <small>Para descargarla, haga click</small>
+                </div>
+              </article>
+            ))}
       </div>
     </section>
   );

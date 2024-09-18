@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ReusableFormProps } from "@/types/interfaces";
@@ -20,6 +20,8 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
     return acc;
   }, {} as Record<string, any>);
   const { loading } = useLoading();
+  const [logoPag, setLogoPag] = useState<string>("");
+  const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 
   const validationSchema = Yup.object().shape(
     inputs.reduce((acc, input) => {
@@ -29,7 +31,20 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
       return acc;
     }, {} as Record<string, Yup.AnySchema>)
   );
-
+  useEffect(() => {
+    const fetchLogo = async () => {
+      const storedLogo = localStorage.getItem("logo");
+      if (storedLogo) {
+        setLogoPag(storedLogo);
+      } else {
+        const logo = await fetch(LOGO_URL as string);
+        const logoText = await logo.text();
+        setLogoPag(logoText);
+        localStorage.setItem("logo", logoText);
+      }
+    };
+    fetchLogo();
+  }, []);
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -40,7 +55,13 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
     <div className="dark:bg-darkBackgroundFront w-full flex flex-col items-center justify-center gap-5 text-sm">
       {notLogo ? null : (
         <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center items-center">
-          <Image src="/logo.svg" alt="Logo Nearvet" width={64} height={64} />{" "}
+          <Image
+            src={logoPag}
+            alt="Logo Nearvet"
+            width={64}
+            height={64}
+            onError={() => setLogoPag("/logo.png")}
+          />{" "}
           NearVet
         </div>
       )}

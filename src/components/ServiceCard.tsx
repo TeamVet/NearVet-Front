@@ -1,8 +1,13 @@
 import { Servicio } from "@/types/interfaces";
 import ButtonCustom from "./ButtonCustom";
 import PATHROUTES from "@/helpers/path-routes";
-
-const VetCard: React.FC<Servicio> = (service) => {
+export interface Service {
+  id: number;
+  logo: string;
+  description: string;
+  name: string;
+}
+const VetCard: React.FC<Service> = (service) => {
   return (
     <div className="flex flex-col bg-purpleBackground p-5 rounded-lg gap-5 md:w-[16em] lg:w-[20em] w-[12em] shadow-lg dark:bg-darkBackgroundFront">
       <div className="flex justify-between">

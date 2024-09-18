@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
+const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 
 const NavBar: React.FC = () => {
   const { user, logout } = useUser();
@@ -17,6 +18,7 @@ const NavBar: React.FC = () => {
   const [navItems, setNavItems] = useState(NavItem);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [logoPag, setLogoPag] = useState<string>("");
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -41,6 +43,18 @@ const NavBar: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchLogo = async () => {
+      const storedLogo = localStorage.getItem("logo");
+      if (storedLogo) {
+        setLogoPag(storedLogo);
+      } else {
+        const logo = await fetch(LOGO_URL as string);
+        const logoText = await logo.text();
+        setLogoPag(logoText);
+        localStorage.setItem("logo", logoText);
+      }
+    };
+    fetchLogo();
     if (!user) {
       setNavItems(NavItem);
     } else if (user.role) {
@@ -95,11 +109,12 @@ const NavBar: React.FC = () => {
         href={"/"}
       >
         <Image
-          src="/logo.svg"
+          src={logoPag}
           alt="Logo Nearvet"
           width={64}
           height={64}
           priority
+          onError={() => setLogoPag("/logo.png")}
         />
         NearVet
       </Link>
