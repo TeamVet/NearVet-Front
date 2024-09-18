@@ -52,7 +52,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
   });
 
   return (
-    <div className="dark:bg-darkBG  w-full flex flex-col items-center justify-center p-5 md:p-10 gap-5 text-sm mx-auto">
+    <div className="dark:bg-darkBG w-full flex flex-col items-center justify-center p-5 gap-5 text-sm mx-auto">
       {notLogo ? null : (
         <div className="text-detail w-full sm:text-xl md:text-4xl flex gap-2 justify-center items-center">
           <Image
@@ -70,19 +70,19 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
       </h2>
       <form
         onSubmit={formik.handleSubmit}
-        className={`w-full mx-auto flex flex-col text-[1em]`}
+        className={`w-full flex flex-col items-center text-[1em]`}
       >
         <div
           className={`${
             displayRow
               ? "flex flex-row flex-wrap gap-1 justify-center items-center"
-              : "w-full md:w-1/2 lg:w-1/3 m-auto"
+              : "w-full md:w-2/3 lg:w-3/4"
           }`}
         >
           {inputs.map((input) => (
             <div
               className={` ${
-                displayRow ? "w-full md:w-1/3 p-2" : "w-full p-2"
+                displayRow ? "w-full md:w-2/3 lg:w-1/5 p-2" : "w-full p-2"
               }`}
               key={input.name}
             >

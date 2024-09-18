@@ -9,7 +9,7 @@ const InputField: React.FC<InputFieldProps> = ({
   formik,
   onInputChange,
 }) => {
-  const commonClasses = `w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders ${
+  const commonClasses = `"w-full md:w-2/3 lg:w-1/2" bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders ${
     formik.touched[input.name] && formik.errors[input.name]
       ? "border-red-500"
       : "border-gray-300"
