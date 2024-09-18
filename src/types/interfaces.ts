@@ -417,13 +417,18 @@ export interface ReusableFormProps {
 //! FOR MOCK
 
 export interface Medicamento {
-  pkprescripcion: number;
-  nombre: string;
-  title: string;
   description: string;
-  extraInfo: string;
-  droga: string;
-  aplicacion: string;
+  id: string;
+  clinicalExaminationId: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    cost: string;
+    stock: number;
+    price: string;
+  };
 }
 
 export interface Vacuna {

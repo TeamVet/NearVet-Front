@@ -10,7 +10,10 @@ import {
   newTratmentsService,
 } from "../Services/appointService";
 import { ErrorNotify, PromessNotify } from "../toastyfy";
-import { fetchTratmentPetService } from "../Services/tratmentsService";
+import {
+  fetchRecetaPetService,
+  fetchTratmentPetService,
+} from "../Services/tratmentsService";
 
 //appointControllers
 export const fetchAppointController = async (
@@ -61,7 +64,16 @@ export const TratmentsController = async (idPet: string) => {
     const responseTratamiento = await fetchTratmentPetService(idPet);
     return responseTratamiento;
   } catch (error: any) {
-    ErrorNotify(`Error al cargar tus tratamientos: ${error.message}`);
+    ErrorNotify(`Error al cargar los tratamientos: ${error.message}`);
+  }
+};
+
+export const RecetasController = async (idPet: string) => {
+  try {
+    const responseReceta = await fetchRecetaPetService(idPet);
+    return responseReceta;
+  } catch (error: any) {
+    ErrorNotify(`Error al cargar las Recetas: ${error.message}`);
   }
 };
 
