@@ -2,13 +2,15 @@ import ButtonCustom from "@/components/ButtonCustom";
 import { Modal } from "@/components/ModalImage";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
+import { fetcher } from "@/lib/fetcher";
+import { consulta, InfoNotify } from "@/lib/toastyfy";
 import { Mascota } from "@/types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { IoPencil } from "react-icons/io5";
-
+const URL_PETS = process.env.NEXT_PUBLIC_PETS;
 const PetInfo = (mascota: Mascota) => {
   if (!mascota) return null;
   const [modal, setModal] = useState<boolean>(false);
@@ -20,7 +22,27 @@ const PetInfo = (mascota: Mascota) => {
     setModal(false);
     // window.location.reload();
   };
+  const handleDeletePet = async () => {
+    consulta(
+      "Estas seguro de que deseas eliminar esta mascota? Esto es permanente",
+      () => {
+        delePet();
+      }
+    );
+  };
 
+  const delePet = async () => {
+    const dataFetcher = {
+      url: `${URL_PETS}/${idUrl.idPet}`,
+      method: "DELETE" as const,
+      token: user?.token as string,
+    };
+    const response = await fetcher(dataFetcher);
+
+    if (response) {
+      InfoNotify("Mascota Borrada");
+    }
+  };
   return (
     <div className="shadow-lg md:min-h-[99vh] p-3">
       <Modal
@@ -64,15 +86,21 @@ const PetInfo = (mascota: Mascota) => {
       </div>
       <br />
       <div className="flex flex-row">
+        <button
+          onClick={handleDeletePet}
+          className="bg-red-600 p-3 m-auto rounded-lg text-white hover:scale-105"
+        >
+          Eliminar
+        </button>
         <Link
           href={PATHROUTES.PET + `/modifyPet/${mascota.id}`}
-          className="bg-detail p-3 m-auto rounded-lg text-white"
+          className="bg-detail p-3 m-auto rounded-lg text-white hover:scale-105"
         >
           Editar
         </Link>
         <Link
           href={PATHROUTES.NEWAPPOINTMEN}
-          className="bg-detail p-3 m-auto rounded-lg text-white"
+          className="bg-detail p-3 m-auto rounded-lg text-white hover:scale-105"
         >
           Nuevo Turno
         </Link>

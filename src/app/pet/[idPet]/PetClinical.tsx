@@ -1,29 +1,15 @@
 import PATHROUTES from "@/helpers/path-routes";
 import { TratmentsController } from "@/lib/Controllers/appointController";
+import { fetchExistingPendients } from "@/lib/Services/appointService";
 import {
-  fetchAppointIdService,
-  fetchExistingPendients,
-} from "@/lib/Services/appointService";
-import { ClinicalExamination, Mascota, Tratamiento } from "@/types/interfaces";
+  ClinicalExamination,
+  Mascota,
+  Pendiente,
+  Tratamiento,
+} from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Link from "next/link";
-
-interface Pendientes {
-  id: string;
-  description: string;
-  date: Date;
-  petId: string;
-  service: {
-    id: string;
-    service: string;
-    description: string;
-    price: number;
-    durationMin: number;
-    veterinarianId: string;
-    categoryServiceId: string;
-  };
-}
 
 interface PetClinicaProps {
   idPet: string;
@@ -31,7 +17,7 @@ interface PetClinicaProps {
 }
 const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
-  const [Pendientes, setPendientes] = useState<Pendientes[]>([]);
+  const [Pendientes, setPendientes] = useState<Pendiente[]>([]);
   const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
   const [logoPag, setLogoPag] = useState<string>("");
   useEffect(() => {
@@ -51,7 +37,6 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     logo: string,
     pet?: Mascota
   ) => {
-    console.log(logo);
     if (!idPet || !his || !pet || !logo) return;
 
     const doc = new jsPDF();
@@ -63,10 +48,11 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     doc.text("Clínica de Pequeños Animales", 65, 30);
     doc.setFontSize(12);
     doc.text(
-      "La misma reviste caracter provisorio y podria no contener todos los datos del examen",
-      60,
+      "La misma reviste caracter provisorio y podria no contener",
+      65,
       40
     );
+    doc.text("todos los datos del Examen Clinico", 65, 45);
 
     // Línea separadora
     doc.setLineWidth(0.5);
@@ -75,10 +61,11 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     // Información de la mascota
     doc.text(`Fecha de descarga: ${new Date().toLocaleDateString()}`, 10, 60);
     doc.text(
-      `Veterinario a cargo: ${his.veterinarian?.user.name} ${his.veterinarian?.user.lastname}`,
+      `Veterinario a cargo: ${his.veterinarian?.user.name} ${his.veterinarian?.user.lastName}`,
       120,
       60
     );
+    doc.text(`Matricula Nº ${his.veterinarian?.licence}`, 120, 65);
     doc.setFontSize(16);
     doc.text(`Datos del paciente`, 10, 70);
     doc.setFontSize(12);
@@ -112,15 +99,35 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     doc.text(`${his.temperature} °C`, 100, 180);
     doc.text("Hidratación", 60, 190);
     doc.text(`${his.hydration}%`, 100, 190);
+    doc.text("Diagnostico", 60, 200);
+    const diagnostico = doc.splitTextToSize(his.diagnosis, 180);
+    doc.text(`${diagnostico}`, 60, 210);
 
+    // if (his..length > 0) {
+    //   currentY += 10; // Espacio entre las secciones
+    //   doc.setFontSize(14);
+    //   doc.text("Detalle de Servicios", 10, currentY);
+    //   doc.setFontSize(12);
+    //   doc.text("Descripción", 20, currentY + 10);
+    //   doc.text("Cantidad", 90, currentY + 10);
+    //   doc.text("Precio Unitario", 150, currentY + 10);
+
+    //   currentY += 20;
+    //   factura.saleServices.forEach((service) => {
+    //     doc.text(`${service.service.service}`, 20, currentY);
+    //     doc.text(`${service.acount}`, 90, currentY);
+    //     doc.text(`$${service.price.toFixed(2)}`, 150, currentY);
+    //     currentY += 10;
+    //   });
+    // }
     // Línea separadora final
     doc.setLineWidth(0.2);
-    doc.line(10, 200, 200, 200);
+    doc.line(10, 270, 200, 270);
 
     // Nota al pie
     doc.setFontSize(10);
-    doc.text("Gracias por utilizar el servicio", 10, 270);
-    doc.text("NearVet S.A.", 150, 270);
+    doc.text("Gracias por utilizar el servicio", 10, 280);
+    doc.text("NearVet S.A.", 150, 280);
 
     // Descargar el PDF
     doc.save(`Historia_Clinica_${his.id}_${his.petId}.pdf`);
@@ -144,6 +151,7 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     };
     const fetchHistorial = async () => {
       const responseHistorial = await TratmentsController(idPet);
+
       if (responseHistorial.length > 0) {
         const updatedHistorial = responseHistorial
           .filter(
@@ -202,10 +210,13 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
           Historial.map((his) => (
             <div
               key={his.id}
-              className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200"
+              className=" shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200 relative p-4"
               onClick={() => handleDownloadPdf(idPet, his, logoPag, pet)}
             >
-              <p className="text-detail italic">{his.anamnesis}</p>
+              <small className="absolute top-0 right-2">
+                Fecha: {new Date(his.date).toLocaleDateString()}
+              </small>
+              <p className="text-detail italic my-2">{his.anamnesis}</p>
               <p>Diagnostico: {his.diagnosis}</p>
 
               <small>Click para descargar</small>
