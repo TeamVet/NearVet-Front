@@ -51,14 +51,14 @@ const PetIndividual: React.FC = () => {
     <>
       {loading && <Loading />}
       {mascota && idUrl.idPet && (
-        <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
-          <div className="md:w-1/4">
+        <div className=" flex flex-col md:flex-row md:justify-evenly my-2 md:m-auto">
+          <div className="md:w-1/4 dark:bg-darkBackground">
             <PetInfo {...mascota} idPet />
           </div>
-          <div className="md:w-2/4">
+          <div className="md:w-2/4 dark:bg-darkBackgroundFront">
             <PetSection idPet={idPet as string} />
           </div>
-          <div className="md:w-1/4">
+          <div className="md:w-1/4 dark:bg-darkBackground">
             <PetClinical idPet={idPet as string} pet={mascota} />
           </div>
         </div>

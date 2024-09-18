@@ -92,7 +92,7 @@ const NewPetForm: React.FC = () => {
   return (
     <Screen>
       {loading && <Loading />}
-      <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+      <div className="w-2/3 dark:bg-darkBackgroundFront dark:border-darkBorders md:w-2/3 lg:w-1/3 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
         <ReusableForm
           formTitle="Registro de Mascota"
           inputs={formFields}

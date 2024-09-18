@@ -12,7 +12,7 @@ const Dashboard: React.FC<DashboardProps> = ({ cards, renderSection }) => {
 
   return (
     <>
-      <div className="flex flex-row flex-wrap m-auto my-2 justify-center">
+      <div className="flex flex-row flex-wrap m-auto my-2 justify-center gap-2">
         {cards.map((item) => (
           <CardCustom
             key={item.text}
@@ -23,9 +23,9 @@ const Dashboard: React.FC<DashboardProps> = ({ cards, renderSection }) => {
           />
         ))}
       </div>
-      <div className="min-h-[65lvh] mx-auto my-2 shadow-lg w-full rounded">
+      <div className="min-h-[65lvh] mx-auto my-2 w-full rounded">
         {section && (
-          <div className="mx-auto  dark:text-white ">
+          <div className="mx-auto dark:text-darkHline">
             {renderSection({ section })}
           </div>
         )}
