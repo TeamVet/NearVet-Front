@@ -10,6 +10,7 @@ const BILL_MODIFY = process.env.NEXT_PUBLIC_SALE_URL;
 const BILL_END = process.env.NEXT_PUBLIC_SALE_END_URL;
 const VETERINARIANS_URL = process.env.NEXT_PUBLIC_VETERINARIANS_URL;
 const NEW_VETERINARIAN = process.env.NEXT_PUBLIC_NEW_VETERINARIAN;
+const VET_MODIFY = process.env.NEXT_PUBLIC_VETS;
 
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
@@ -167,6 +168,22 @@ export const NewVetService = async (values: FormRegisterValues) => {
     const responseVet = await fetcher(dataVet);
     if (!responseVet) throw new Error(responseVet.message);
     return responseVet;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const ModifyVetService = async (values: any, idVet: string) => {
+  const dataModify = {
+    url: `${VET_MODIFY}/${idVet}`,
+    method: "PUT" as const,
+    data: values,
+  };
+  try {
+    const responseModifyVet = await fetcher(dataModify);
+    if (!responseModifyVet) throw new Error(responseModifyVet.message);
+    if (responseModifyVet.id) throw new Error(responseModifyVet.message);
+    return responseModifyVet;
   } catch (error: any) {
     throw new Error(error.message);
   }

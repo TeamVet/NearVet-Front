@@ -115,7 +115,7 @@ export const InputsModifyUser: InputField[] = [
     initialValue: "",
   },
 ];
-export const InputsLogin = [
+export const InputsLogin: InputField[] = [
   {
     name: "dni",
     type: "number",
@@ -276,7 +276,7 @@ export const InputsRegisterAppoint: InputField[] = [
 ];
 
 export const InputsModifyAppoint = [];
-export const InputsAppointsVetClinical = [
+export const InputsAppointsVetClinical: InputField[] = [
   {
     name: "fc",
     type: "number",
@@ -338,7 +338,7 @@ export const InputsAppointsVetClinical = [
     placeholder: "",
   },
 ];
-export const InputsAppointsVetTratamiento = [
+export const InputsAppointsVetTratamiento: InputField[] = [
   {
     name: "serviceId",
     type: "select",
@@ -369,7 +369,7 @@ export const InputsAppointsVetTratamiento = [
     //TODO seleccion multiple y con filtro
   },
 ];
-export const InputsAppointsVetPrescipciones = [
+export const InputsAppointsVetPrescipciones: InputField[] = [
   {
     name: "productId",
     type: "select",
@@ -385,7 +385,7 @@ export const InputsAppointsVetPrescipciones = [
     placeholder: "",
   },
 ];
-export const InputsAppointsVetPendientes = [
+export const InputsAppointsVetPendientes: InputField[] = [
   {
     name: "serviceId",
     type: "select",
@@ -407,7 +407,7 @@ export const InputsAppointsVetPendientes = [
     placeholder: "",
   },
 ];
-export const InputsFilesAppoints = [
+export const InputsFilesAppoints: InputField[] = [
   {
     name: "File",
     type: "file",
@@ -416,7 +416,7 @@ export const InputsFilesAppoints = [
   },
 ];
 
-export const InputsNewVet = [
+export const InputsNewVet: InputField[] = [
   ...InputsRegisterUser,
   {
     name: "licence",
@@ -435,5 +435,71 @@ export const InputsNewVet = [
     type: "text",
     label: "Descripcion del Veterinario",
     placeholder: "Antiguedad de experiencia, posgrados, etc",
+  },
+];
+
+export const InputsModifyVeterinaryShip: InputField[] = [
+  {
+    name: "name",
+    type: "text",
+    label: "Nombre simple",
+    placeholder: "Veterinaria Los Amigos",
+    initialValue: "",
+  },
+  {
+    name: "nameCompany",
+    type: "text",
+    label: "Nombre completo",
+    placeholder: "Los Amigos Company SRL",
+    initialValue: "",
+  },
+  {
+    name: "email",
+    type: "text",
+    label: "email",
+    placeholder: "teamlosAmigos@gmail.com",
+    initialValue: "",
+  },
+  {
+    name: "cuit",
+    type: "text",
+    label: "CUIT",
+    placeholder: "30222222220",
+    initialValue: "",
+  },
+  {
+    name: "address",
+    type: "text",
+    label: "Domicilio comercial ",
+    placeholder: "Las argelinas",
+    initialValue: "",
+  },
+  {
+    name: "city",
+    type: "text",
+    label: "Ciudad",
+    placeholder: "Rosario",
+    initialValue: "",
+  },
+  {
+    name: "imgProfile",
+    type: "file",
+    label: "Foto de Perfil",
+    placeholder: "",
+    initialValue: "",
+  },
+  {
+    name: "imgBanner",
+    type: "file",
+    label: "Foto Banner",
+    placeholder: "",
+    initialValue: "",
+  },
+  {
+    name: "imgLogo",
+    type: "file",
+    label: "Logo de la empresa",
+    placeholder: "",
+    initialValue: "",
   },
 ];

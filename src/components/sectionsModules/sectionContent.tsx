@@ -9,6 +9,7 @@ import CalendarioModule from "./CalendarioModule";
 import AppointsVetModule from "./AppointsVetModule";
 import PatientsListModule from "./PatientsListModule";
 import EmployeeList from "./Employee";
+import VeterinaryInfo from "./VeterinaryInfo";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   switch (section) {
@@ -45,18 +46,19 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     case "Visitas":
       return <>Visitas</>;
     ///# Secciones Admin
-    case "Cupones de descuento":
+    case "Ver Cupones":
       return (
         <div>
           <h3 className="text-xl">Cupones de descuento</h3>
           {/* Renderizar los Cupones de descuento */}
         </div>
       );
-    case "Empleados":
+    case "Ver Empleados":
       return <EmployeeList />;
-
+    case "Ver Veterinaria":
+      return <VeterinaryInfo />;
     ///# Secciones Veterinario
-    case "Calendario":
+    case "Ver Calendario":
       return <CalendarioModule />;
     case "Atenciones pendientes":
       return <AppointsVetModule />;

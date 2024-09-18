@@ -160,7 +160,18 @@ export interface Veterinaria {
   id: number;
   name: string;
   nameCompany: string;
-  logo: string;
+  email: string;
+  passEmail: string;
+  serviceEmail: string;
+  urlWebPage: string;
+  cuit: string;
+  address: string;
+  city: string;
+  startDate: Date;
+  imgProfile: string;
+  imgBanner: string;
+  imgLogo: string;
+  userId: string;
 }
 
 export interface Turnos {
