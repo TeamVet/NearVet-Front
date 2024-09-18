@@ -1,9 +1,6 @@
 import PATHROUTES from "@/helpers/path-routes";
 import { TratmentsController } from "@/lib/Controllers/appointController";
-import {
-  fetchAppointIdService,
-  fetchExistingPendients,
-} from "@/lib/Services/appointService";
+import { fetchExistingPendients } from "@/lib/Services/appointService";
 import {
   ClinicalExamination,
   Mascota,
@@ -40,7 +37,6 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     logo: string,
     pet?: Mascota
   ) => {
-    console.log(logo);
     if (!idPet || !his || !pet || !logo) return;
 
     const doc = new jsPDF();
@@ -126,14 +122,14 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   useEffect(() => {
     const fetchPendientes = async () => {
       const responsePendings = await fetchExistingPendients(idPet);
-      console.log(responsePendings);
+
       if (responsePendings.length > 0) {
         setPendientes(responsePendings);
       }
     };
     const fetchHistorial = async () => {
       const responseHistorial = await TratmentsController(idPet);
-      console.log(responseHistorial);
+
       if (responseHistorial.length > 0) {
         const updatedHistorial = responseHistorial
           .filter(
