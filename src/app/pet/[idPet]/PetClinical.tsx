@@ -48,10 +48,11 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     doc.text("Clínica de Pequeños Animales", 65, 30);
     doc.setFontSize(12);
     doc.text(
-      "La misma reviste caracter provisorio y podria no contener todos los datos del examen",
-      60,
+      "La misma reviste caracter provisorio y podria no contener",
+      65,
       40
     );
+    doc.text("todos los datos del Examen Clinico", 65, 45);
 
     // Línea separadora
     doc.setLineWidth(0.5);
@@ -60,10 +61,11 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     // Información de la mascota
     doc.text(`Fecha de descarga: ${new Date().toLocaleDateString()}`, 10, 60);
     doc.text(
-      `Veterinario a cargo: ${his.veterinarian?.user.name} ${his.veterinarian?.user.lastname}`,
+      `Veterinario a cargo: ${his.veterinarian?.user.name} ${his.veterinarian?.user.lastName}`,
       120,
       60
     );
+    doc.text(`Matricula Nº ${his.veterinarian?.licence}`, 120, 65);
     doc.setFontSize(16);
     doc.text(`Datos del paciente`, 10, 70);
     doc.setFontSize(12);
@@ -97,15 +99,35 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
     doc.text(`${his.temperature} °C`, 100, 180);
     doc.text("Hidratación", 60, 190);
     doc.text(`${his.hydration}%`, 100, 190);
+    doc.text("Diagnostico", 60, 200);
+    const diagnostico = doc.splitTextToSize(his.diagnosis, 180);
+    doc.text(`${diagnostico}`, 60, 210);
 
+    // if (his..length > 0) {
+    //   currentY += 10; // Espacio entre las secciones
+    //   doc.setFontSize(14);
+    //   doc.text("Detalle de Servicios", 10, currentY);
+    //   doc.setFontSize(12);
+    //   doc.text("Descripción", 20, currentY + 10);
+    //   doc.text("Cantidad", 90, currentY + 10);
+    //   doc.text("Precio Unitario", 150, currentY + 10);
+
+    //   currentY += 20;
+    //   factura.saleServices.forEach((service) => {
+    //     doc.text(`${service.service.service}`, 20, currentY);
+    //     doc.text(`${service.acount}`, 90, currentY);
+    //     doc.text(`$${service.price.toFixed(2)}`, 150, currentY);
+    //     currentY += 10;
+    //   });
+    // }
     // Línea separadora final
     doc.setLineWidth(0.2);
-    doc.line(10, 200, 200, 200);
+    doc.line(10, 270, 200, 270);
 
     // Nota al pie
     doc.setFontSize(10);
-    doc.text("Gracias por utilizar el servicio", 10, 270);
-    doc.text("NearVet S.A.", 150, 270);
+    doc.text("Gracias por utilizar el servicio", 10, 280);
+    doc.text("NearVet S.A.", 150, 280);
 
     // Descargar el PDF
     doc.save(`Historia_Clinica_${his.id}_${his.petId}.pdf`);
