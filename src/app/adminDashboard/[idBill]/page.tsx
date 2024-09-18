@@ -9,6 +9,7 @@ import {
   BillModifyController,
 } from "@/lib/Controllers/userController";
 import { fetcher } from "@/lib/fetcher";
+import { ErrorNotify } from "@/lib/toastyfy";
 import { Bill } from "@/types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,6 +34,8 @@ const idBill: React.FC = () => {
   const { loading, startLoading, stopLoading } = useLoading();
   const { user } = useUser();
   const [factura, setFactura] = useState<Bill>();
+  const [discountMount, setDiscountMount] = useState(0);
+  const [paySelect, setPaySelect] = useState("");
   const [payMethods, setPayMethods] =
     useState<{ id: string; method: string; interest: number }[]>();
   useEffect(() => {
@@ -73,14 +76,39 @@ const idBill: React.FC = () => {
       stopLoading();
     }
   };
-  const handleSubmit = async (values: any) => {
-    startLoading();
-    const responseBill = await BillModifyController(
-      values,
-      factura?.id as string
-    );
-    console.log(responseBill);
-    stopLoading();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!paySelect) {
+      alert("Por favor selecciona un método de pago");
+      return;
+    }
+
+    const values = {
+      discount: discountMount,
+      methodPayId: paySelect,
+      total: factura?.subtotal! - discountMount - factura?.advancedPay!,
+      finished: true,
+    };
+    if (values.total < 0) {
+      ErrorNotify("El monto total debe ser mayor a 0");
+      return;
+    }
+    console.log(values);
+    try {
+      startLoading();
+      const responseBill = await BillModifyController(
+        values,
+        factura?.id as string
+      );
+      console.log(responseBill);
+      if (responseBill.id)
+        setFactura((PrevFact: typeof factura) => ({
+          ...PrevFact,
+          ...responseBill,
+        }));
+    } finally {
+      stopLoading();
+    }
   };
   const handlePrint = async () => {
     window.print();
@@ -208,15 +236,19 @@ const idBill: React.FC = () => {
                     htmlFor="discount"
                     className="block text-sm font-semibold text-detail m-1"
                   >
-                    Aplicar Descuento:
+                    Aplicar Descuento en pesos:
                   </label>
                   <input
                     type="number"
                     id="discount"
                     name="discount"
-                    placeholder="$1000"
+                    placeholder="$100"
+                    onChange={(event) =>
+                      setDiscountMount(event.target.valueAsNumber)
+                    }
                     className="w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders"
                   />
+
                   <label
                     htmlFor="payMethod"
                     className="block text-sm font-semibold text-detail m-1"
@@ -225,6 +257,8 @@ const idBill: React.FC = () => {
                   </label>
                   <select
                     id="payMethod"
+                    name="methodPayId"
+                    onChange={(event) => setPaySelect(event.target.value)}
                     className="w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders"
                   >
                     <option label="Seleccione una opción" />
@@ -245,7 +279,10 @@ const idBill: React.FC = () => {
               </div>
 
               <p className="text-xl my-auto text-detail font-semibold">
-                Total: ${factura.total}
+                Total: $
+                {factura && typeof factura.subtotal === "number"
+                  ? factura.subtotal - factura.advancedPay - discountMount
+                  : "N/A"}
               </p>
             </div>
             <button
