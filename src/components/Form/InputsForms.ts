@@ -109,7 +109,7 @@ export const InputsModifyUser: InputField[] = [
     initialValue: "",
   },
   {
-    name: "birthday",
+    name: "birthDate",
     type: "date",
     label: "Fecha de Nacimiento",
     initialValue: "",

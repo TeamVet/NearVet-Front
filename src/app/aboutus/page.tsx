@@ -28,7 +28,6 @@ const About = () => {
         const data: Veterinaria = await responseVet.json();
 
         setVet(data);
-        console.log(data);
       } finally {
         stopLoading();
       }

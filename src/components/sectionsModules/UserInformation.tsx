@@ -27,6 +27,7 @@ const UserInformation: React.FC = () => {
           initialValue: user[input.name as keyof User] || "",
         };
       });
+
       setFormFields(updatedInputs);
       setTimeout(() => stopLoading(), 2000);
     }
