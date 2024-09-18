@@ -34,11 +34,11 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
 
   const [tratamientos, setTratamientos] = useState<Tratamiento[]>([]);
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
-  console.log(tratamientos);
+
   useEffect(() => {
     const fetchTratamientos = async () => {
       const responseTratamiento = await TratmentsController(idPet);
-      console.log(responseTratamiento);
+
       if (responseTratamiento.length > 0) {
         responseTratamiento.map((tratamiento: Tratamiento) => {
           tratamiento.clinicalExamination.petId === idPet;
@@ -76,7 +76,7 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
             ))}
           </div>
         );
-      case "Medicamentos":
+      case "Recetas Medicas":
         return (
           <div className="flex flex-wrap justify-center gap-2">
             {medicamentos.map((medicamento: Medicamento) => (
@@ -111,14 +111,14 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
         </button>
         <button
           className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
-            selectedSection === "Medicamentos"
+            selectedSection === "Recetas Medicas"
               ? "bg-detail text-white"
               : "bg-slate-500 text-white"
           }`}
-          onClick={() => setSelectedSection("Medicamentos")}
+          onClick={() => setSelectedSection("Recetas Medicas")}
         >
           <IoMedkitOutline />
-          Medicamentos
+          Recetas Medicas
         </button>
       </nav>
 

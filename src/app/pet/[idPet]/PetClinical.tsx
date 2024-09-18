@@ -4,26 +4,15 @@ import {
   fetchAppointIdService,
   fetchExistingPendients,
 } from "@/lib/Services/appointService";
-import { ClinicalExamination, Mascota, Tratamiento } from "@/types/interfaces";
+import {
+  ClinicalExamination,
+  Mascota,
+  Pendiente,
+  Tratamiento,
+} from "@/types/interfaces";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Link from "next/link";
-
-interface Pendientes {
-  id: string;
-  description: string;
-  date: Date;
-  petId: string;
-  service: {
-    id: string;
-    service: string;
-    description: string;
-    price: number;
-    durationMin: number;
-    veterinarianId: string;
-    categoryServiceId: string;
-  };
-}
 
 interface PetClinicaProps {
   idPet: string;
@@ -31,7 +20,7 @@ interface PetClinicaProps {
 }
 const LOGO_URL = process.env.NEXT_PUBLIC_LOGO;
 const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
-  const [Pendientes, setPendientes] = useState<Pendientes[]>([]);
+  const [Pendientes, setPendientes] = useState<Pendiente[]>([]);
   const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
   const [logoPag, setLogoPag] = useState<string>("");
   useEffect(() => {
@@ -137,13 +126,14 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   useEffect(() => {
     const fetchPendientes = async () => {
       const responsePendings = await fetchExistingPendients(idPet);
-
+      console.log(responsePendings);
       if (responsePendings.length > 0) {
         setPendientes(responsePendings);
       }
     };
     const fetchHistorial = async () => {
       const responseHistorial = await TratmentsController(idPet);
+      console.log(responseHistorial);
       if (responseHistorial.length > 0) {
         const updatedHistorial = responseHistorial
           .filter(
@@ -202,10 +192,13 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
           Historial.map((his) => (
             <div
               key={his.id}
-              className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200"
+              className=" shadow-lg flex flex-col cursor-pointer rounded-lg hover:bg-slate-200 relative p-4"
               onClick={() => handleDownloadPdf(idPet, his, logoPag, pet)}
             >
-              <p className="text-detail italic">{his.anamnesis}</p>
+              <small className="absolute top-0 right-2">
+                Fecha: {new Date(his.date).toLocaleDateString()}
+              </small>
+              <p className="text-detail italic my-2">{his.anamnesis}</p>
               <p>Diagnostico: {his.diagnosis}</p>
 
               <small>Click para descargar</small>

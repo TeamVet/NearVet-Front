@@ -226,6 +226,7 @@ export interface Service {
   veterinarianId: string;
 }
 export interface ClinicalExamination {
+  date: string;
   anamnesis: string;
   diagnosis: string;
   fc: number;
@@ -251,14 +252,19 @@ export interface ClinicalExamination {
 }
 
 export interface Pendiente {
-  date: string;
-  description: string;
-  endPending: string | null;
   id: string;
-  notification: boolean;
+  description: string;
+  date: Date;
   petId: string;
-  serviceId: string;
-  userId: string;
+  service: {
+    id: string;
+    service: string;
+    description: string;
+    price: number;
+    durationMin: number;
+    veterinarianId: string;
+    categoryServiceId: string;
+  };
 }
 
 export interface Prescripcion {
