@@ -82,7 +82,7 @@ const UserInformation: React.FC = () => {
     setModal(false);
   };
   return (
-    <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto my-2">
+    <div className="dark:bg-darkBackgroundFront dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto my-2 ">
       {loading && <Loading />}
       <Modal
         isOpen={modal}
@@ -94,7 +94,7 @@ const UserInformation: React.FC = () => {
       <h3 className="text-2xl font-semibold dark:text-darkHline">Tus Datos</h3>
       <div className="flex flex-col md:flex-row gap-5 items-center relative p-2">
         <button
-          className="font-semibold text-2xl absolute top-0 right-0"
+          className="text-2xl absolute bottom-2 right-60 bg-detail p-1 rounded-full text-primary shadow-lg"
           onClick={() => setModal(true)}
         >
           <IoPencil />
@@ -121,15 +121,18 @@ const UserInformation: React.FC = () => {
         </div>
       </div>
       <span className="text-gray-400 font-bold">_______________</span>
+
       {formFields && !loading && (
-        <ReusableForm
-          notLogo
-          displayRow
-          formTitle="Cambiar tus datos"
-          inputs={formFields}
-          onSubmit={handleSubmit}
-          submitButtonLabel="Modificar"
-        />
+        <div className="w-2/3 dark:bg-darkBackgroundFront md:w-2/3 lg:w-2/3 flex flex-col items-center justify-center p-5 md:p-10 gap-5 text-sm mx-auto">
+          <ReusableForm
+            notLogo
+            displayRow
+            formTitle="Cambiar tus datos"
+            inputs={formFields}
+            onSubmit={handleSubmit}
+            submitButtonLabel="Modificar"
+          />
+        </div>
       )}
     </div>
   );

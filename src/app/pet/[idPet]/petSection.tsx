@@ -99,7 +99,7 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
     <section className="shadow-lg md:min-h-[99vh]">
       <nav className="grid grid-flow-col text-center">
         <button
-          className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
+          className={`py-2 px-2 md:px-4 flex border-r justify-center items-center md:gap-2 ${
             selectedSection === "Tratamientos"
               ? "bg-detail text-white"
               : "bg-slate-500 text-white"
@@ -110,7 +110,7 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
           Tratamientos
         </button>
         <button
-          className={`py-2 px-2 md:px-4 border flex justify-center items-center md:gap-2 ${
+          className={`py-2 px-2 md:px-4 border-l flex justify-center items-center md:gap-2 ${
             selectedSection === "Medicamentos"
               ? "bg-detail text-white"
               : "bg-slate-500 text-white"
