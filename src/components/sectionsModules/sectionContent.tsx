@@ -11,13 +11,14 @@ import PatientsListModule from "./PatientsListModule";
 import EmployeeList from "./Employee";
 import VeterinaryInfo from "./VeterinaryInfo";
 import Cupones from "./Cupones";
+import VetInformation from "./VetInformation";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   switch (section) {
     case "sinUser":
       return <p>No hay datos de usuario</p>;
     ///# Secciones User
-    case "Ver Información":
+    case "Ver mi Información":
       return <UserInformation />;
     case "Ver Mascotas":
       return <PetsModule />;
@@ -54,6 +55,8 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
     case "Ver Veterinaria":
       return <VeterinaryInfo />;
     ///# Secciones Veterinario
+    case "Ver Información":
+      return <VetInformation />;
     case "Ver Calendario":
       return <CalendarioModule />;
     case "Atenciones pendientes":
