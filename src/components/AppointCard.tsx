@@ -7,15 +7,11 @@ import {
   IoLogoWhatsapp,
   IoTimeOutline,
 } from "react-icons/io5";
+import { Turno } from "./sectionsModules/AppointsVetModule";
+import { Turnos } from "@/types/interfaces";
 
 interface AppointCardProps {
-  data: {
-    id: string;
-    service: { service: string };
-    date: string;
-    time: string;
-    pet: { imgProfile: string; name: string };
-  };
+  data: Turnos;
   handleCancel?: (id: string) => Promise<any>;
   isCancelable?: boolean;
 }
@@ -105,16 +101,20 @@ const AppointCard: React.FC<AppointCardProps> = ({
             ) : (
               <div className="flex flex-col">
                 <small className="text-red-500 text-xs py-1">
-                  Turno Finalizado
+                  {data.state.state === "Cancelado"
+                    ? "Cancelado"
+                    : "Finalizado"}
                 </small>
-                <Link
-                  aria-label="Boton para calificar atención"
-                  className="p-2 m-auto rounded-lg bg-detail  text-white hover:bg-detail  hover:scale-105 "
-                  href={PATHROUTES.CALIFICAR}
-                  target="_blank"
-                >
-                  Calificar Servicio
-                </Link>
+                {data.state.state === "Finalizado" && (
+                  <Link
+                    aria-label="Boton para calificar atención"
+                    className="p-2 m-auto rounded-lg bg-detail  text-white hover:bg-detail  hover:scale-105 "
+                    href={PATHROUTES.CALIFICAR}
+                    target="_blank"
+                  >
+                    Calificar Servicio
+                  </Link>
+                )}
               </div>
             )}
           </div>

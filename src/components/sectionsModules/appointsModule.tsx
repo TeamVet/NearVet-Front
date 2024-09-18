@@ -22,7 +22,6 @@ const AppointsModule: React.FC = () => {
   const [turnosPendientes, setTurnoPendientes] = useState<Turnos[]>([]);
   const [page, setPage] = useState(1);
   const { user } = useUser();
-  const router = useRouter();
 
   useEffect(() => {
     const fetchTurnos = async () => {
