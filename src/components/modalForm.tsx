@@ -343,11 +343,11 @@ const ModalForm: React.FC<ModalProps> = ({
               <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
                 <h3 className="text-detail text-lg text-center">Pendiente</h3>
                 <div className="m-auto flex flex-row gap-2 my-2">
-                  <p>Fecha: {pendientes.date}</p>
+                  <p>Fecha: {pendientes.date.toString()}</p>
                   <p>Observacion: {pendientes.description}</p>
                 </div>
                 <p className="text-center">
-                  Tratamiento: {pendientes.serviceId}
+                  Tratamiento: {pendientes.service.service}
                 </p>
               </div>
             )}
