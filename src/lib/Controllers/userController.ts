@@ -4,6 +4,7 @@ import {
   BillEndService,
   BillModifyService,
   modifyUserService,
+  ModifyVetService,
   NewVetService,
 } from "../Services/userService";
 
@@ -71,5 +72,22 @@ export const newVet = async (values: FormRegisterValues) => {
     return responseVet;
   } catch (error: any) {
     ErrorNotify(`Error al registrar al veterinario: ${error.message}`);
+  }
+};
+
+export const ModifyVetController = async (values: any, idVet: string) => {
+  values = {
+    ...values,
+    cuit: Number(values.cuit),
+  };
+  try {
+    const responseVet = await PromessNotify(
+      "Modificando Veterinaria...",
+      "Modificada con exito",
+      ModifyVetService(values, idVet)
+    );
+    return responseVet;
+  } catch (error: any) {
+    ErrorNotify(`Error al modificar la veterinaria: ${error.message}`);
   }
 };

@@ -160,8 +160,19 @@ export interface Mascota {
 export interface Servicio {
   id: number;
   name: string;
-  description: string;
-  logo: string;
+  nameCompany: string;
+  email: string;
+  passEmail: string;
+  serviceEmail: string;
+  urlWebPage: string;
+  cuit: string;
+  address: string;
+  city: string;
+  startDate: Date;
+  imgProfile: string;
+  imgBanner: string;
+  imgLogo: string;
+  userId: string;
 }
 
 export interface Turnos {
@@ -300,6 +311,18 @@ export interface Bill {
       price: string;
     };
   }[];
+}
+
+export interface Veterinaria {
+  name: string;
+  nameCompany: string;
+  email: string;
+  cuit: string;
+  address: string;
+  city: string;
+  imgProfile: string;
+  imgBanner: string;
+  imgLogo: string;
 }
 // Control de values para formularios
 export interface FormValues {

@@ -19,6 +19,7 @@ const PATHROUTES = {
   CALIFICAR: "https://forms.gle/quKt5d1b7saptcyn9",
   BILL: "/adminDashboard/",
   NEW_VET: "/adminDashboard/newVet",
+  NEW_CUPON: "/adminDashboard/newCupon",
 };
 
 export default PATHROUTES;

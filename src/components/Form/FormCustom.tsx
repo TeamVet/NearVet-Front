@@ -33,9 +33,15 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
   );
   useEffect(() => {
     const fetchLogo = async () => {
-      const logo = await fetch(LOGO_URL as string);
-      const logoText = await logo.text();
-      setLogoPag(logoText);
+      const storedLogo = localStorage.getItem("logo");
+      if (storedLogo) {
+        setLogoPag(storedLogo);
+      } else {
+        const logo = await fetch(LOGO_URL as string);
+        const logoText = await logo.text();
+        setLogoPag(logoText);
+        localStorage.setItem("logo", logoText);
+      }
     };
     fetchLogo();
   }, []);
