@@ -312,6 +312,18 @@ export interface Bill {
     };
   }[];
 }
+
+export interface Veterinaria {
+  name: string;
+  nameCompany: string;
+  email: string;
+  cuit: string;
+  address: string;
+  city: string;
+  imgProfile: string;
+  imgBanner: string;
+  imgLogo: string;
+}
 // Control de values para formularios
 export interface FormValues {
   //login
