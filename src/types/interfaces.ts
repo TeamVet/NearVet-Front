@@ -323,6 +323,7 @@ export interface Veterinaria {
   imgProfile: string;
   imgBanner: string;
   imgLogo: string;
+  startDate: string;
 }
 // Control de values para formularios
 export interface FormValues {
