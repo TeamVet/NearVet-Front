@@ -17,6 +17,8 @@ const PATHROUTES = {
   NEWAPPOINTMEN: "/appointment/newAppointment",
   WHATSAPP: "https://wa.me/",
   CALIFICAR: "https://forms.gle/quKt5d1b7saptcyn9",
+  BILL: "/adminDashboard/",
+  NEW_VET: "/adminDashboard/newVet",
 };
 
 export default PATHROUTES;

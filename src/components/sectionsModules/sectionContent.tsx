@@ -8,6 +8,7 @@ import BillModule from "./BillModule";
 import CalendarioModule from "./CalendarioModule";
 import AppointsVetModule from "./AppointsVetModule";
 import PatientsListModule from "./PatientsListModule";
+import EmployeeList from "./Employee";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   switch (section) {
@@ -51,6 +52,9 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
           {/* Renderizar los Cupones de descuento */}
         </div>
       );
+    case "Empleados":
+      return <EmployeeList />;
+
     ///# Secciones Veterinario
     case "Calendario":
       return <CalendarioModule />;

@@ -20,7 +20,10 @@ import frtimeZoneData from "@syncfusion/ej2-cldr-data/main/es-AR/timeZoneNames.j
 import frGregorian from "@syncfusion/ej2-cldr-data/main/es-AR/ca-gregorian.json";
 import frNumberingSystem from "@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json";
 import { useUser } from "@/context/UserContext";
-import { fetchTurnosService } from "@/lib/Services/appointService";
+import {
+  fetchTurnosService,
+  fetchTurnosServiceAdmin,
+} from "@/lib/Services/appointService";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 
@@ -57,8 +60,21 @@ const CalendarioModule = () => {
       try {
         startLoading();
         if (!user?.id || !firstDate || !lastDate) return;
-        const response = await fetchTurnosService(user.id, firstDate, lastDate);
-        if (response.length > 0) setTurnos(response);
+        if (user.role.role === "adminVet") {
+          const response = await fetchTurnosServiceAdmin(
+            user.id,
+            firstDate,
+            lastDate
+          );
+          if (response.length > 0) setTurnos(response);
+        } else {
+          const response = await fetchTurnosService(
+            user.id,
+            firstDate,
+            lastDate
+          );
+          if (response.length > 0) setTurnos(response);
+        }
       } finally {
         stopLoading();
       }

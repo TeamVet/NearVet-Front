@@ -415,3 +415,25 @@ export const InputsFilesAppoints = [
     placeholder: "Seleccionar archivo",
   },
 ];
+
+export const InputsNewVet = [
+  ...InputsRegisterUser,
+  {
+    name: "licence",
+    type: "number",
+    label: "Número de licencia de veterinario",
+    placeholder: "1234",
+  },
+  {
+    name: "specialty",
+    type: "text",
+    label: "Escpecialidad",
+    placeholder: "Veterinario, Cirujano, etc",
+  },
+  {
+    name: "description",
+    type: "text",
+    label: "Descripcion del Veterinario",
+    placeholder: "Antiguedad de experiencia, posgrados, etc",
+  },
+];
