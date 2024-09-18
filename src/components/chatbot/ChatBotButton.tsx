@@ -34,7 +34,7 @@ const ChatbotButton = () => {
         >
           <div className="fixed bottom-16 right-5 bg-white p-4 rounded-lg shadow-lg w-[35vw] h-[80vh] ">
             <iframe
-              src="https://www.chatbase.co/chatbot-iframe/U_J7nNgzcuj9-E5yEmUB0"
+              src="https://www.chatbase.co/chatbot-iframe/spNkPAMNc-lLewwvc3u42"
               width="100%"
               className="size-full relative"
             ></iframe>

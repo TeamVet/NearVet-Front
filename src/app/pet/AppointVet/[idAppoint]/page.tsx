@@ -45,7 +45,9 @@ const PetIndividual: React.FC = () => {
 
         setTurnoVet(data);
         setMascota(data.pet);
-        setTurnoStatus(data.state.state);
+        if (data.state.state) {
+          setTurnoStatus(data.state.state);
+        }
       } finally {
         stopLoading();
       }

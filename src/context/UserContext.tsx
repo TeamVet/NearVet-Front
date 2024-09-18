@@ -82,6 +82,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     if (login) {
       localStorage.setItem("user", JSON.stringify(login));
       document.cookie = `auth-token=${JSON.stringify(login.token)}; path=/;`;
+      document.cookie = `role=${login.role.role}; path=/;`;
+
       setUser(login);
       if (login.role.role === "veterinarian") {
         router.push(PATHROUTES.VET_DASHBOARD);
@@ -101,6 +103,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     document.cookie =
       "next-auth.session-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     setUser(null);
     signOut();
     localStorage.clear();
