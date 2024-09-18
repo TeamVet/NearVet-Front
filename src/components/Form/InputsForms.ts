@@ -503,3 +503,19 @@ export const InputsModifyVeterinaryShip: InputField[] = [
     initialValue: "",
   },
 ];
+
+export const InputCupon: InputField[] = [
+  {
+    name: "code",
+    type: "text",
+    label: "Cupon",
+    placeholder: "NombreDeCupon",
+  },
+
+  {
+    name: "valorPorc",
+    type: "number",
+    label: "Valor de descuento en Porcentaje",
+    placeholder: "80%",
+  },
+];

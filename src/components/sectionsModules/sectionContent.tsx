@@ -10,6 +10,7 @@ import AppointsVetModule from "./AppointsVetModule";
 import PatientsListModule from "./PatientsListModule";
 import EmployeeList from "./Employee";
 import VeterinaryInfo from "./VeterinaryInfo";
+import Cupones from "./Cupones";
 
 export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
   switch (section) {
@@ -47,12 +48,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       return <>Visitas</>;
     ///# Secciones Admin
     case "Ver Cupones":
-      return (
-        <div>
-          <h3 className="text-xl">Cupones de descuento</h3>
-          {/* Renderizar los Cupones de descuento */}
-        </div>
-      );
+      return <Cupones />;
     case "Ver Empleados":
       return <EmployeeList />;
     case "Ver Veterinaria":
