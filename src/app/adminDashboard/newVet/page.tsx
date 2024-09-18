@@ -3,9 +3,9 @@ import ReusableForm from "@/components/Form/FormCustom";
 import { InputsNewVet } from "@/components/Form/InputsForms";
 import Loading from "@/components/Loading";
 import Screen from "@/components/Screen";
+import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import { newVet } from "@/lib/Controllers/userController";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -14,7 +14,10 @@ const Page = () => {
   const router = useRouter();
   const handleSubmit = async (values: any) => {
     startLoading();
-    newVet(values);
+    const response = await newVet(values);
+    if (response.id) {
+      router.push(PATHROUTES.ADMIN_DASHBOARD);
+    }
     stopLoading();
   };
   return (

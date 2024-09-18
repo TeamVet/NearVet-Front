@@ -2,6 +2,7 @@ import { FormRegisterValues } from "@/types/interfaces";
 import { ErrorNotify, PromessNotify } from "../toastyfy";
 import {
   BillEndService,
+  BillModifyService,
   modifyUserService,
   NewVetService,
 } from "../Services/userService";
@@ -34,6 +35,23 @@ export const BillEndController = async (billId: string) => {
     return responseEnd;
   } catch (error: any) {
     ErrorNotify(`Error al finalizar la factura: ${error.message}`);
+  }
+};
+
+export const BillModifyController = async (values: any, billId: string) => {
+  values = {
+    ...values,
+    discount: Number(values.discount),
+  };
+  try {
+    const responseModify = await PromessNotify(
+      "Aplicando datos a la factura...",
+      "Aplicación exitosa",
+      BillModifyService(values, billId)
+    );
+    return responseModify;
+  } catch (error: any) {
+    ErrorNotify(`Error al actualizar la factura: ${error.message}`);
   }
 };
 
