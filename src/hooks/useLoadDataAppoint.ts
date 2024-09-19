@@ -57,6 +57,7 @@ export const useAppointmentData = (userId: string, token: string) => {
           );
         }
         setMascotas(responseMascotas);
+
         setCategories(responseCategory);
       } catch (error) {
         ErrorNotify(`Estamos teniendo problemas: ${error}`);

@@ -227,6 +227,12 @@ export const InputsModifyPet: InputField[] = [
     placeholder: "0kg",
     validation: petCreationValidationSchema.pesoActual,
   },
+  {
+    name: "repCondition",
+    type: "string",
+    label: "Condicion de Reproduccion",
+    placeholder: "Entero..",
+  },
 ];
 export const InputsRegisterAppoint: InputField[] = [
   {
@@ -272,6 +278,12 @@ export const InputsRegisterAppoint: InputField[] = [
     type: "text",
     label: "Observación",
     placeholder: "Tiene sintomas de...",
+  },
+  {
+    name: "code",
+    type: "text",
+    label: "Tengo cupon de descuento:",
+    placeholder: "CuponDeDescuento",
   },
 ];
 

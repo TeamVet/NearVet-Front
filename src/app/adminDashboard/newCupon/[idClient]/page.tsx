@@ -2,39 +2,40 @@
 import ReusableForm from "@/components/Form/FormCustom";
 import { InputCupon } from "@/components/Form/InputsForms";
 import Screen from "@/components/Screen";
-import { useUser } from "@/context/UserContext";
+import PATHROUTES from "@/helpers/path-routes";
+
 import { fetcher } from "@/lib/fetcher";
-import { SuccessNotify } from "@/lib/toastyfy";
-import { useEffect } from "react";
+import { ErrorNotify, InfoNotify, SuccessNotify } from "@/lib/toastyfy";
+import { useParams, useRouter } from "next/navigation";
+
 const URL_CLIENTES = process.env.NEXT_PUBLIC_URL_CLIENTES;
 const Page = () => {
-  const { user } = useUser();
-
-  useEffect(() => {
-    const dataFetch = {
-      url: `${URL_CLIENTES}`,
-      method: "GET" as const,
-    };
-    const fetchClientes = async () => {
-      const response = await fetcher(dataFetch);
-      if (response) console.log(response);
-    };
-    fetchClientes();
-  }, []);
+  const idClient = useParams().idClient;
+  const router = useRouter();
   const handleSubmit = async (values: any) => {
+    if (!idClient) {
+      InfoNotify("No se encontro el cliente");
+      return;
+    }
     values = {
       ...values,
       valorPorc: Number(values.valorPorc),
-      userId: user?.id!,
+      userId: idClient as string,
     };
+
     const dataCupon = {
       url: `/coupons`,
       method: "POST" as const,
       data: values,
     };
     const response = await fetcher(dataCupon);
-    console.log(response);
-    if (response.id) SuccessNotify("Cupon Creado");
+
+    if (response.code) {
+      SuccessNotify("Cupon Creado");
+      router.push(PATHROUTES.ADMIN_DASHBOARD);
+    } else {
+      ErrorNotify(response.message);
+    }
   };
   return (
     <Screen>

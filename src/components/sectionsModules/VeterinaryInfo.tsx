@@ -1,17 +1,19 @@
 import Screen from "@/components/Screen";
 import ReusableForm from "../Form/FormCustom";
 import { InputsModifyVeterinaryShip } from "../Form/InputsForms";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { Veterinaria } from "@/types/interfaces";
 import { ModifyVetController } from "@/lib/Controllers/userController";
+import { useUser } from "@/context/UserContext";
 
 const VeterinaryInfo = () => {
   const { loading, startLoading, stopLoading } = useLoading();
   const [vet, setVet] = useState<Veterinaria>({} as Veterinaria);
   const [idVet, setIdVet] = useState<string>("");
   const [formFields, setFormFields] = useState([...InputsModifyVeterinaryShip]);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchActualData = async () => {
@@ -52,7 +54,12 @@ const VeterinaryInfo = () => {
   const handleSubmit = async (values: any) => {
     try {
       startLoading();
-      const modifyVet = await ModifyVetController(values, idVet as string);
+      if (!user) return;
+      const modifyVet = await ModifyVetController(
+        values,
+        idVet as string,
+        user.token as string
+      );
       if (modifyVet.id) {
         setVet(modifyVet);
       }

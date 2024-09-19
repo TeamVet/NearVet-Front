@@ -173,10 +173,15 @@ export const NewVetService = async (values: FormRegisterValues) => {
   }
 };
 
-export const ModifyVetService = async (values: any, idVet: string) => {
+export const ModifyVetService = async (
+  values: any,
+  idVet: string,
+  token: string
+) => {
   const dataModify = {
     url: `${VET_MODIFY}/${idVet}`,
     method: "PUT" as const,
+    token: token,
     data: values,
   };
   try {

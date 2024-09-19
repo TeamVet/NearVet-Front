@@ -60,7 +60,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
             alt="Logo Nearvet"
             width={64}
             height={64}
-            onError={() => setLogoPag("/logo.png")}
+            onError={() => setLogoPag("/logoNear.png")}
           />{" "}
           NearVet
         </div>

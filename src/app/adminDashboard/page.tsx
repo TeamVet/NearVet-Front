@@ -12,6 +12,7 @@ const AdminDashboard: React.FC = () => {
       <h2 className="text-3xl dark:text-darkHline">
         ¡Hola {user?.name}! ¿Qué quieres hacer?
       </h2>
+
       <Dashboard cards={adminCards} renderSection={SectionContent} />
     </Screen>
   );

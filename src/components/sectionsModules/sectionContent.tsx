@@ -54,6 +54,8 @@ export const SectionContent: React.FC<SectionContentProps> = ({ section }) => {
       return <EmployeeList />;
     case "Ver Veterinaria":
       return <VeterinaryInfo />;
+    case "Ver clientes":
+      return <PatientsListModule />;
     ///# Secciones Veterinario
     case "Ver Información":
       return <VetInformation />;

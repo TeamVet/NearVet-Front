@@ -7,7 +7,7 @@ import {
   ClipboardIcon,
   StoreIcon,
   MailIcon,
-  PeopleIcon
+  PeopleIcon,
 } from "@/lib/icons";
 import PATHROUTES from "./path-routes";
 import { NavItemProps } from "@/types/interfaces";
@@ -69,11 +69,7 @@ export const NavItemAdmin: Array<NavItemProps> = [
     url: PATHROUTES.ADMIN_DASHBOARD,
     icon: StoreIcon,
   },
-  {
-    name: "Veterinario",
-    url: PATHROUTES.VET_DASHBOARD,
-    icon: ClipboardIcon,
-  },
+
   // {
   //   name: "Mensajes",
   //   url: `${PATHROUTES.WHATSAPP}/3758488428?text=Hola,%20tengo%20una%20consulta`,

@@ -5,25 +5,31 @@ import {
   IoPulseOutline,
 } from "react-icons/io5";
 import { Tratamiento, Medicamento, Vacuna } from "@/types/interfaces";
-import { TratmentsController } from "@/lib/Controllers/appointController";
+import {
+  RecetasController,
+  TratmentsController,
+} from "@/lib/Controllers/appointController";
 
 const Tarjeta = ({
   title,
   description,
   extraInfo,
-  fecha,
+
+  id,
 }: {
   title: string;
+  id: string;
   description: string;
   extraInfo?: string;
-  fecha: string;
 }) => (
-  <div className="flex flex-col w-1/3 gap-2 p-2 text-center items-center bg-white rounded m-2 shadow-md cursor-default">
+  <div
+    className="flex flex-col w-1/3 gap-2 p-2 text-center items-center bg-white rounded m-2 shadow-md cursor-default"
+    key={id}
+  >
     <h3 className="text-detail font-semibold">{title}</h3>
+
     {extraInfo && <p>{extraInfo}</p>}
-    <small>
-      {description} - {fecha}
-    </small>
+    <small>{description}</small>
   </div>
 );
 interface PetSectionProps {
@@ -40,16 +46,12 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
       const responseTratamiento = await TratmentsController(idPet);
 
       if (responseTratamiento.length > 0) {
-        responseTratamiento.map((tratamiento: Tratamiento) => {
-          tratamiento.clinicalExamination.petId === idPet;
-          setTratamientos((prevHistorial) => [...prevHistorial, tratamiento]);
-        });
+        setTratamientos(responseTratamiento);
       }
-      responseTratamiento.map((tratamiento: Tratamiento) => {
-        tratamiento.applicationProducts.map((product: any) => {
-          setMedicamentos(product);
-        });
-      });
+      const responseRecetas = await RecetasController(idPet);
+      if (responseRecetas.length > 0) {
+        setMedicamentos(responseRecetas);
+      }
     };
 
     if (idPet) {
@@ -68,10 +70,7 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
                 title={tratamiento.description}
                 description={`Observación: ${tratamiento.observation}`}
                 extraInfo={`Servicio: ${tratamiento.service.service}`}
-                fecha={
-                  "Fecha: "
-                  // + tratamiento.clinicalExamination.date
-                }
+                id={tratamiento.id}
               />
             ))}
           </div>
@@ -81,11 +80,10 @@ const PetSection: React.FC<PetSectionProps> = ({ idPet }) => {
           <div className="flex flex-wrap justify-center gap-2">
             {medicamentos.map((medicamento: Medicamento) => (
               <Tarjeta
-                key={medicamento.pkprescripcion}
-                title={medicamento.nombre}
-                description={`Droga: ${medicamento.droga}`}
-                extraInfo={`Aplicación: ${medicamento.aplicacion}`}
-                fecha=""
+                key={medicamento.id}
+                title={medicamento.product.name}
+                description={`Aplicacion: ${medicamento.description}`}
+                id={medicamento.id}
               />
             ))}
           </div>
