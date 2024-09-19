@@ -104,7 +104,7 @@ export const NewTratmentsController = async (values: any) => {
 export const NewPrescriptionController = async (values: any) => {
   try {
     const responseExamination = await PromessNotify(
-      "Registrando la EPrescripcion...",
+      "Registrando la Prescripcion...",
       "Registrado exitosamente",
       newPrescriptionService(values)
     );
@@ -128,7 +128,7 @@ export const NewPendingController = async (values: any) => {
 export const NewFilesController = async (id: string, values: any) => {
   try {
     const responseExamination = await PromessNotify(
-      "Registrando la Examinacion...",
+      "Registrando el archivo...",
       "Registrado exitosamente",
       newFilesService(id, values)
     );
