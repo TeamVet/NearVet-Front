@@ -306,7 +306,6 @@ const ModalForm: React.FC<ModalProps> = ({
               formTitle="Nueva Prescripcion"
               inputs={NewInputsPrescriptions}
               onSubmit={handleSubmitPresciption}
-              displayRow
               notLogo
               submitButtonLabel="Guardar"
             />
@@ -360,7 +359,6 @@ const ModalForm: React.FC<ModalProps> = ({
               formTitle="Archivos del turno"
               inputs={InputsFilesAppoints}
               onSubmit={handleSubmitFiles}
-              displayRow
               notLogo
               submitButtonLabel="Cargar Archivos"
             />
