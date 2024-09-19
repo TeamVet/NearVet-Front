@@ -255,6 +255,7 @@ export interface Pendiente {
   id: string;
   description: string;
   date: Date;
+  endPending: Date;
   petId: string;
   service: {
     id: string;
@@ -265,6 +266,9 @@ export interface Pendiente {
     veterinarianId: string;
     categoryServiceId: string;
   };
+
+  notification: boolean;
+  serviceId: string;
 }
 
 export interface Prescripcion {
