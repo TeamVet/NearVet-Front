@@ -39,12 +39,7 @@ const Cupones = () => {
   return (
     <Screen>
       {loading && <Loading />}
-      <Link
-        href={PATHROUTES.NEW_CUPON}
-        className="bg-detail p-2 mx-auto my-2 rounded-lg text-white hover:scale-105 "
-      >
-        Nuevo Cupon
-      </Link>
+
       <h2 className="text-lg">Cupones existentes:</h2>
       <section className="shadow-lg rounded-lg flex flex-col md:w-2/3 gap-2 min-h-[80vh] items-center">
         <div className="flex flex-row justify-evenly gap-2 w-full items-center">
@@ -71,7 +66,7 @@ const Cupones = () => {
               return (
                 <div
                   key={cupon.code}
-                  className="shadow-lg rounded-lg p-2 mx-auto flex flex-row"
+                  className="shadow-lg rounded-lg p-4 mx-auto flex flex-col gap-4 min-w-[20vw] max-w-[20vw] hover:scale-105"
                 >
                   <p className="text-lg text-detail italic">{cupon.code}</p>
                   <p className="text-green-600"> {cupon.valorPorc} %</p>

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import TableCustom from "../TableCustom";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
+import { fetcher } from "@/lib/fetcher";
 const PatientsListModule = () => {
-  const URL_PATIENTS = process.env.NEXT_PUBLIC_PATIENTS;
+  const URL_PATIENTS = process.env.NEXT_PUBLIC_URL_CLIENTES;
   const [patientsList, setPatientsList] = useState([]);
   const [page, setPage] = useState(1);
   const { loading, startLoading, stopLoading } = useLoading();
@@ -13,10 +14,16 @@ const PatientsListModule = () => {
   const fetchData = async () => {
     try {
       startLoading();
-      const response = await fetch(`${URL_PATIENTS}${page}&limit=100`);
-      const data = await response.json();
-      if (!data || data === "undefined") return;
-      setPatientsList(data);
+      const dataFetcher = {
+        url: `${URL_PATIENTS}`,
+        method: "GET" as const,
+      };
+      const response = await fetcher(dataFetcher);
+      console.log(response);
+
+      if (response.length > 0) {
+        setPatientsList(response);
+      }
     } finally {
       stopLoading();
     }
@@ -49,8 +56,14 @@ const PatientsListModule = () => {
 
       {patientsList.length > 0 ? (
         <TableCustom
-          title="Lista de Pacientes"
-          titulos={["Mascota", "Dueño", "Telefono", "Email", "Accion"]}
+          title="Lista de Clientes"
+          titulos={[
+            "Cliente",
+            "Cant. de Mascota",
+            "Telefono",
+            "Email",
+            "Accion",
+          ]}
           datos={patientsList}
         />
       ) : (

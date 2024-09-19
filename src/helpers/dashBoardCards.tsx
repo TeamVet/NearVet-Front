@@ -55,7 +55,7 @@ export const userPetsCards: UserCard[] = [
 ];
 export const adminCards: UserCard[] = [
   {
-    text: "Ver Información",
+    text: "Ver mi Información",
     icon: <InformationIcon size="2xl" />,
   },
   {
@@ -77,6 +77,10 @@ export const adminCards: UserCard[] = [
   {
     text: "Ver Empleados",
     icon: <EmployeeIcon size="2xl" />,
+  },
+  {
+    text: "Ver clientes",
+    icon: <MedicalIcon size="2xl" />,
   },
 ];
 

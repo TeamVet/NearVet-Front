@@ -33,7 +33,7 @@ export const newAppointmentController = async (values: FormNewAppointment) => {
   try {
     const responseAppoitn = await PromessNotify(
       "Registrando tu turno...",
-      "Registrado exitosamente",
+      "Ya reservamos tu lugar, solo resta pagar! Vamos a redireccionarte",
       addAppointmentService(values)
     );
     return responseAppoitn;

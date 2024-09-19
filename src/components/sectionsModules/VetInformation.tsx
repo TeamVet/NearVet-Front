@@ -12,6 +12,11 @@ import { Modal } from "../ModalImage";
 import { IoPencil } from "react-icons/io5";
 import { InfoNotify } from "@/lib/toastyfy";
 import { fetcher } from "@/lib/fetcher";
+import { start } from "repl";
+import {
+  modifyUserService,
+  ModifyVetService,
+} from "@/lib/Services/userService";
 
 const VetInformation: React.FC = () => {
   const [formFields, setFormFields] = useState([...originalInputsModifyUser]);
@@ -20,33 +25,10 @@ const VetInformation: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const { loading, startLoading, stopLoading } = useLoading();
   const URL_VET = process.env.NEXT_PUBLIC_VETERINARIANS_URL;
-  useEffect(() => {
-    const fetchVeterinarian = async () => {
-      if (!user) return;
-      try {
-        const dataFetch = {
-          url: `${URL_VET}/${user.id}`,
-          method: "GET" as const,
-        };
-        const data = await fetcher(dataFetch);
-        console.log(data);
-        if (data.id) {
-          setUser(data);
-          setLoaded(true);
-        }
-      } finally {
-        stopLoading();
-      }
-    };
-
-    if (user) {
-      startLoading();
-      fetchVeterinarian();
-    }
-  }, [user]);
 
   useEffect(() => {
     if (!user) return;
+    startLoading();
     const updatedInputs = originalInputsModifyUser.map((input) => {
       return {
         ...input,
@@ -56,7 +38,7 @@ const VetInformation: React.FC = () => {
 
     setFormFields(updatedInputs);
     setTimeout(() => stopLoading(), 2000);
-  }, [loaded]);
+  }, [user]);
   const handleSubmit = async (values: FormRegisterValues) => {
     try {
       startLoading();
@@ -82,21 +64,22 @@ const VetInformation: React.FC = () => {
         return;
       }
 
-      // const response = await modifyVeterinarianService(
-      //   modifiedValues,
-      //   user!.id as string,
-      //   user!.token as string
-      // );
+      const response = await ModifyVetService(
+        modifiedValues,
+        user!.id as string,
+        user!.token as string
+      );
 
-      // if (response.id) {
-      //   InfoNotify("Hemos actualizado tus datos.");
-      //   const updateUser = {
-      //     ...user,
-      //     ...response,
-      //   };
-      //   localStorage.setItem("user", JSON.stringify(updateUser));
-      //   setUser(updateUser);
-      // }
+      if (response.id) {
+        InfoNotify("Hemos actualizado tus datos.");
+        const updateUser = {
+          ...user,
+          ...response,
+        };
+        localStorage.setItem("user", JSON.stringify(updateUser));
+        setUser(updateUser);
+        // window.location.reload();
+      }
     } finally {
       stopLoading();
     }
@@ -106,7 +89,7 @@ const VetInformation: React.FC = () => {
     setModal(false);
   };
   return (
-    loaded && (
+    !loading && (
       <div className="dark:bg-darkBG dark:border-darkBorders md:w-3/4 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto my-2">
         {loading && <Loading />}
 

@@ -22,6 +22,7 @@ const TableCustom: React.FC<TableCustomProps> = ({
   const { user } = useUser();
 
   const LinkWhatsapp = PATHROUTES.WHATSAPP;
+
   return (
     <div className="m-auto max-w-[95%] md:min-w-[80%] md:max-w-[80%] lg:min-w-[70%] lg:max-w-[70%]">
       <h2 className="text-xl italic my-4 font-semibold text-detail text-center">
@@ -41,11 +42,15 @@ const TableCustom: React.FC<TableCustomProps> = ({
             {datos ? (
               datos.map((dato) => (
                 <tr key={dato.id} className="border border-gray-400">
-                  {dato.pet ? <td>{dato.pet.name}</td> : <td>Sin mascota</td>}
                   <td>{dato.name}</td>
+                  {dato.pets ? (
+                    <td>{dato.pets.length}</td>
+                  ) : (
+                    <td>Sin mascota</td>
+                  )}
                   <td>{dato.phone}</td>
                   <td>{dato.email}</td>
-                  <td className="flex flex-col items-center py-2">
+                  <td className="flex flex-row items-center py-2 gap-2">
                     <Link
                       href={`${LinkWhatsapp}/${dato.phone}`}
                       aria-label="Boton para ir a whatsapp"
@@ -53,6 +58,12 @@ const TableCustom: React.FC<TableCustomProps> = ({
                       className="rounded-full size-5 md:size-10 flex items-center justify-center text-white text-2xl bg-green-700 hover:scale-105"
                     >
                       <IoLogoWhatsapp />
+                    </Link>
+                    <Link
+                      href={`${PATHROUTES.NEW_CUPON}/${dato.id}`}
+                      className="bg-detail p-1 rounded-lg text-white"
+                    >
+                      Nuevo Cupon
                     </Link>
                   </td>
                 </tr>
