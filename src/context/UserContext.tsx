@@ -34,7 +34,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!storedUser && !user && session) {
         const name = session?.user?.name?.split(" ")[0];
         const lastName = session?.user?.name?.split(" ")[1];
-        localStorage.setItem("prueba", JSON.stringify({ name, lastName }));
+
         const values = {
           name: name || session!.user!.name!,
           lastName: lastName,
@@ -49,6 +49,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           document.cookie = `auth-token=${JSON.stringify(
             register.token
           )}; path=/;`;
+          document.cookie = `role=${register.role.role}; path=/;`;
           setUser(register);
           router.push(PATHROUTES.USER_DASHBOARD);
         }
@@ -105,8 +106,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       "next-auth.session-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     setUser(null);
-    signOut();
     localStorage.clear();
+    signOut();
   };
 
   const registerWithCredentials = async (values: FormRegisterValues) => {

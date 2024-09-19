@@ -113,6 +113,7 @@ export const InputsModifyUser: InputField[] = [
     type: "date",
     label: "Fecha de Nacimiento",
     initialValue: "",
+    validation: registrationValidationSchema.birthDate,
   },
 ];
 export const InputsLogin: InputField[] = [
@@ -229,9 +230,20 @@ export const InputsModifyPet: InputField[] = [
   },
   {
     name: "repCondition",
-    type: "string",
+    type: "select",
     label: "Condicion de Reproduccion",
-    placeholder: "Entero..",
+    initialValue: "",
+    options: [
+      {
+        id: "82b1d569-658f-42da-a803-e1574f779edd",
+        repCondition: "entero",
+      },
+      {
+        id: "7d5e9d3f-50c2-4fe5-82d1-6d2126cbc180",
+        repCondition: "castrado",
+      },
+    ],
+    labelKey: "repCondition",
   },
 ];
 export const InputsRegisterAppoint: InputField[] = [

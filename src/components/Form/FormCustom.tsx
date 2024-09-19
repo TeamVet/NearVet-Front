@@ -75,14 +75,16 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
         <div
           className={`${
             displayRow
-              ? "flex flex-row flex-wrap gap-1 justify-center items-center"
-              : "w-full md:w-2/3 lg:w-3/4"
+              ? "flex flex-row flex-wrap gap-1 justify-center items-center mx-auto"
+              : "w-full md:w-2/3 "
           }`}
         >
           {inputs.map((input) => (
             <div
               className={` ${
-                displayRow ? "w-full md:w-2/3 lg:w-1/5 p-2" : "w-full p-2"
+                displayRow
+                  ? "w-full md:w-2/3 lg:w-2/5 p-2 flex flex-col items-center "
+                  : "w-full p-2 flex flex-col items-center"
               }`}
               key={input.name}
             >

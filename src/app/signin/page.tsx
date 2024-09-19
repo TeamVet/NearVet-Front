@@ -31,10 +31,13 @@ const SignIn: React.FC = () => {
 
   useEffect(() => {
     if (user && timePassed) {
-      InfoNotify("Ya te encuentras logueado");
-      router.push(PATHROUTES.HOME);
+      if (user.role.role === "user") router.push(PATHROUTES.USER_DASHBOARD);
+      if (user.role.role === "adminVet")
+        router.push(PATHROUTES.ADMIN_DASHBOARD);
+      if (user.role.role === "veterinarian")
+        router.push(PATHROUTES.VET_DASHBOARD);
     }
-  }, [user, timePassed, router]);
+  }, [user, timePassed]);
   const handleSubmit = async (values: FormValues) => {
     startLoading();
     await loginWithCredentials(values);
@@ -62,7 +65,7 @@ const SignIn: React.FC = () => {
         <span className="text-gray-400 font-bold dark:text-darkText">
           - OR -
         </span>
-        <GoogleButton/>
+        <GoogleButton />
       </div>
     </Screen>
   );

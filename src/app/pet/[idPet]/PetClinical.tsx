@@ -188,7 +188,7 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
               <p className="italic text-detail">{Pendiente.service.service}</p>
               <p>
                 Fecha:{" "}
-                {new Date(Pendiente.date).toLocaleDateString("es-AR", {
+                {new Date(Pendiente.endPending).toLocaleDateString("es-AR", {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",

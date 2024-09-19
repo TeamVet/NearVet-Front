@@ -10,7 +10,7 @@ const BILL_MODIFY = process.env.NEXT_PUBLIC_SALE_URL;
 const BILL_END = process.env.NEXT_PUBLIC_SALE_END_URL;
 const VETERINARIANS_URL = process.env.NEXT_PUBLIC_VETERINARIANS_URL;
 const NEW_VETERINARIAN = process.env.NEXT_PUBLIC_NEW_VETERINARIAN;
-const VET_MODIFY = process.env.NEXT_PUBLIC_VETS;
+const VET_MODIFY = process.env.NEXT_PUBLIC_NEW_VETERINARIAN;
 
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
@@ -66,7 +66,7 @@ export const modifyUserService = async (
     url: `${MODIFI_USER}/${id}`,
     method: "PUT" as const,
     data: values,
-    token,
+    token: token,
   };
   try {
     const responseModify = await fetcher(dataModify);

@@ -20,7 +20,7 @@ const PetInfo = (mascota: Mascota) => {
 
   const onCloseModal = () => {
     setModal(false);
-    // window.location.reload();
+    window.location.reload();
   };
   const handleDeletePet = async () => {
     consulta(
@@ -41,6 +41,7 @@ const PetInfo = (mascota: Mascota) => {
 
     if (response) {
       InfoNotify("Mascota Borrada");
+      router.push(PATHROUTES.PET);
     }
   };
   return (

@@ -11,6 +11,7 @@ import { fetchPetsController } from "@/lib/Controllers/petController";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
+import Screen from "../Screen";
 
 const PetsModule: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -25,7 +26,13 @@ const PetsModule: React.FC = () => {
           user?.id as string,
           user?.token as string
         );
-        setMascotas(data);
+        if (data === undefined || data === null) {
+          return;
+        }
+        const mascotasDisponibles = data.filter(
+          (mascota: Mascota) => mascota.endDate === null
+        );
+        setMascotas(mascotasDisponibles);
       } finally {
         stopLoading();
       }
@@ -39,7 +46,7 @@ const PetsModule: React.FC = () => {
     router.push(PATHROUTES.PET + `/${id}`);
   };
   return (
-    <>
+    <Screen>
       {loading && <Loading />}
       <h3 className="text-2xl font-semibold dark:text-darkHline">
         Tus Mascotas
@@ -86,7 +93,7 @@ const PetsModule: React.FC = () => {
         )}
       </div>
       <ButtonCustom text="Añadir mascota" href={PATHROUTES.PET + "/newpet"} />
-    </>
+    </Screen>
   );
 };
 

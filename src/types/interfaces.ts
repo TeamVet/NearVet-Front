@@ -255,6 +255,7 @@ export interface Pendiente {
   id: string;
   description: string;
   date: Date;
+  endPending: Date;
   petId: string;
   service: {
     id: string;
@@ -265,6 +266,9 @@ export interface Pendiente {
     veterinarianId: string;
     categoryServiceId: string;
   };
+
+  notification: boolean;
+  serviceId: string;
 }
 
 export interface Prescripcion {
@@ -272,6 +276,7 @@ export interface Prescripcion {
   description: string;
   id: string;
   productoId: string;
+  product: Product;
 }
 
 export interface Bill {
@@ -307,18 +312,19 @@ export interface Bill {
     saleId: string;
     price: number;
     acount: number;
-    product: {
-      id: string;
-      name: string;
-      description: string;
-      image: string;
-      cost: string;
-      stock: number;
-      price: string;
-    };
+    product: Product;
   }[];
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  cost: string;
+  stock: number;
+  price: string;
+}
 export interface Veterinaria {
   name: string;
   nameCompany: string;

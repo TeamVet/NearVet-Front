@@ -10,7 +10,7 @@ import Loading from "../Loading";
 import { modifyUserService } from "@/lib/Services/userService";
 import { Modal } from "../ModalImage";
 import { IoPencil } from "react-icons/io5";
-import { InfoNotify } from "@/lib/toastyfy";
+import { InfoNotify, PromessNotify } from "@/lib/toastyfy";
 
 const UserInformation: React.FC = () => {
   const [formFields, setFormFields] = useState([...originalInputsModifyUser]);
@@ -58,10 +58,14 @@ const UserInformation: React.FC = () => {
         return;
       }
 
-      const response = await modifyUserService(
-        modifiedValues,
-        user!.id as string,
-        user!.token as string
+      const response = await PromessNotify(
+        "Actualizando tus datos",
+        "Actualizado exitosamente",
+        modifyUserService(
+          modifiedValues,
+          user!.id as string,
+          user!.token as string
+        )
       );
 
       if (response.id) {
@@ -72,7 +76,7 @@ const UserInformation: React.FC = () => {
         };
         localStorage.setItem("user", JSON.stringify(updateUser));
         setUser(updateUser);
-        // window.location.reload();
+        window.location.reload();
       }
     } finally {
       stopLoading();

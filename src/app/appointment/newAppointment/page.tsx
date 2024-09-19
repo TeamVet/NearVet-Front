@@ -45,14 +45,18 @@ const Appointments: React.FC = () => {
         return;
       } else {
         const response = await newAppointmentController(values);
+        startLoading();
         setTimeout(() => {
           handleCheckout("price_1Q0cCvG7LObgRzJ9yL3b490B");
-        }, 5000);
+        }, 2000);
         stopLoading();
       }
     } else {
       const response = await newAppointmentController(values);
-      handleCheckout("price_1Q0cCvG7LObgRzJ9yL3b490B");
+      startLoading();
+      setTimeout(() => {
+        handleCheckout("price_1PxepLG7LObgRzJ9FJDUYGxW");
+      }, 2000);
       stopLoading();
     }
   };
@@ -67,6 +71,19 @@ const Appointments: React.FC = () => {
 
     if (response.code) {
       SuccessNotify("Cupon correcto");
+      const dataActualizarCupon = {
+        url: `/coupons/${response.id}`,
+        method: "PUT" as const,
+        data: {
+          id: response.id,
+          code: response.code,
+          valorPorc: Number(response.valorPorc),
+          used: true,
+          userId: response.userId,
+        },
+      };
+      const actualizarCupon = await fetcher(dataActualizarCupon);
+
       return true;
     } else {
       ErrorNotify("El cupon no existe");
@@ -83,7 +100,7 @@ const Appointments: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          priceId: price, // Aquí debes pasar el ID del precio
+          priceId: price,
         }),
       }
     );

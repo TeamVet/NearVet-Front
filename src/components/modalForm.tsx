@@ -165,6 +165,7 @@ const ModalForm: React.FC<ModalProps> = ({
       clinicalExaminationId: localStorage.getItem("examination"),
     }))(values);
     const response = await NewPrescriptionController(prescriptionValues);
+
     if (response) {
       setPrescripciones((prevPres) => [...prevPres, response]);
     }
@@ -184,6 +185,7 @@ const ModalForm: React.FC<ModalProps> = ({
       endPending: date,
     }))(values);
     const response = await NewPendingController(PendingsValues);
+
     if (response) {
       setPendientes(response);
     }
@@ -267,11 +269,11 @@ const ModalForm: React.FC<ModalProps> = ({
             {tratamiento && (
               <div className="flex flex-row flex-wrap m-auto gap-1 w-full md:w-3/4">
                 {tratamiento.map((tratamiento) => (
-                  <div className="w-1/3 shadow-lg rounded-lg flex flex-col p-2 m-auto">
+                  <div className="w-1/3 shadow-lg rounded-lg flex flex-col p-2 m-auto ">
                     <h3 className="text-detail text-lg text-center">
                       Tratamiento
                     </h3>
-                    <div className="m-auto flex flex-row gap-2 my-2">
+                    <div className="m-auto flex flex-col gap-2 my-2">
                       <p>
                         <strong>Descripcion:</strong> {tratamiento.description}
                       </p>
@@ -280,7 +282,7 @@ const ModalForm: React.FC<ModalProps> = ({
                         <strong>Precio:</strong> {tratamiento.price}
                       </p>
                     </div>
-                    <div className="m-auto flex flex-row gap-2 my-2">
+                    <div className="m-auto flex flex-row gap-2 my-2 items-center text-center">
                       {tratamiento.observation && (
                         <p>Observacion: {tratamiento.observation}</p>
                       )}
@@ -306,7 +308,6 @@ const ModalForm: React.FC<ModalProps> = ({
               formTitle="Nueva Prescripcion"
               inputs={NewInputsPrescriptions}
               onSubmit={handleSubmitPresciption}
-              displayRow
               notLogo
               submitButtonLabel="Guardar"
             />
@@ -315,10 +316,14 @@ const ModalForm: React.FC<ModalProps> = ({
                 {prescripciones.map((prescripcion) => (
                   <div className="w-1/3 shadow-lg rounded-lg flex flex-col p-2 m-auto">
                     <h3 className="text-detail text-lg text-center">
-                      Prescripcion Nombre de la droga
+                      {prescripcion.product.name}
                     </h3>
-                    <div className="m-auto flex flex-col gap-2 my-2">
-                      <p>Descripcion: {prescripcion.description}</p>
+                    <small className="text-center">
+                      {prescripcion.product.description}
+                    </small>
+                    <div className="m-auto flex flex-col gap-2 my-2 text-center">
+                      <p>Descripcion: </p>
+                      <p>{prescripcion.description}</p>
                     </div>
                   </div>
                 ))}
@@ -339,18 +344,6 @@ const ModalForm: React.FC<ModalProps> = ({
               notLogo
               submitButtonLabel="Guardar"
             />
-            {pendientes && (
-              <div className="w-2/3 shadow-lg rounded-lg flex flex-col my-2 p-2">
-                <h3 className="text-detail text-lg text-center">Pendiente</h3>
-                <div className="m-auto flex flex-row gap-2 my-2">
-                  <p>Fecha: {pendientes.date.toString()}</p>
-                  <p>Observacion: {pendientes.description}</p>
-                </div>
-                <p className="text-center">
-                  Tratamiento: {pendientes.service.service}
-                </p>
-              </div>
-            )}
           </>
         );
       case "Archivos":
@@ -360,19 +353,19 @@ const ModalForm: React.FC<ModalProps> = ({
               formTitle="Archivos del turno"
               inputs={InputsFilesAppoints}
               onSubmit={handleSubmitFiles}
-              displayRow
               notLogo
               submitButtonLabel="Cargar Archivos"
             />
             {File && (
               <div className="flex flex-col md:flex-row items-center">
                 {File.map((Fil) => (
-                  <div className="shadow-lg rounded-lg m-2">
+                  <div className="shadow-lg rounded-lg mx-2 p-2">
                     <Image
                       src={Fil.image}
                       width={100}
                       height={100}
-                      alt="Imagen del archivo"
+                      alt={`Imagen del archivo ${Fil.id}`}
+                      className="rounded-lg"
                     />
                   </div>
                 ))}

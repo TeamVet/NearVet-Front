@@ -27,13 +27,13 @@ const AppointCard: React.FC<AppointCardProps> = ({
   const whatDayIs = (day: string): string => {
     const date = new Date(day);
     const daysOfWeek = [
-      "Domingo",
       "Lunes",
       "Martes",
       "Miércoles",
       "Jueves",
       "Viernes",
       "Sábado",
+      "Domingo",
     ];
     const dayIndex = date.getDay();
     return daysOfWeek[dayIndex];

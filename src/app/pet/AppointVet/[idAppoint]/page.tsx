@@ -63,7 +63,6 @@ const PetIndividual: React.FC = () => {
 
   const handleCloseTurn = async () => {
     consulta("Finalizará el turno, ¿Desea continuar?", () => {
-      alert("aca llegamos");
       fetchFinish(turnoVet?.id as string);
     });
   };
@@ -74,6 +73,7 @@ const PetIndividual: React.FC = () => {
       const data = await fetchFinishAppoint(id);
     } finally {
       stopLoading();
+      router.push(PATHROUTES.VET_DASHBOARD);
     }
   };
 

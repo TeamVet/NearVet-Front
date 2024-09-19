@@ -30,10 +30,13 @@ const RegisterForm: React.FC = () => {
   }, [user]);
   useEffect(() => {
     if (user && timePassed) {
-      InfoNotify("Ya te encuentras registrado");
-      router.push(PATHROUTES.HOME);
+      if (user.role.role === "user") router.push(PATHROUTES.USER_DASHBOARD);
+      if (user.role.role === "adminVet")
+        router.push(PATHROUTES.ADMIN_DASHBOARD);
+      if (user.role.role === "veterinarian")
+        router.push(PATHROUTES.VET_DASHBOARD);
     }
-  }, [user, timePassed, router]);
+  }, [user, timePassed]);
   const handleSubmit = async (values: FormRegisterValues) => {
     startLoading();
     registerWithCredentials(values);
@@ -42,7 +45,7 @@ const RegisterForm: React.FC = () => {
   return (
     <Screen>
       {loading && <Loading />}
-      <div className="dark:bg-darkBackgroundFront dark:border-darkBorders md:w-1/3 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
+      <div className="dark:bg-darkBackgroundFront dark:border-darkBorders md:w-2/3 flex flex-col items-center justify-center border border-1 rounded-md p-5 md:p-10 gap-5 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm mx-auto">
         <ReusableForm
           formTitle="Registrarse"
           inputs={InputsRegisterUser}
