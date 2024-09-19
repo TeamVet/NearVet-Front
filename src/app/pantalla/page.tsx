@@ -1,11 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import { useUser } from "@/context/UserContext";
 import { fetcher } from "@/lib/fetcher";
 import { Turnos } from "@/types/interfaces";
 import useLoading from "@/hooks/LoadingHook";
-import Loading from "@/components/Loading";
 
 const POLLING_INTERVAL = 5000; // 5000ms = 5 segundos
 
@@ -13,16 +11,19 @@ const Page = () => {
   const [turnoLlamado, setTurnoLlamado] = useState<Turnos | null>(null);
   const { loading, startLoading, stopLoading } = useLoading();
 
-  let turno = localStorage.getItem("turno");
   useEffect(() => {
-    fetchTurno();
-    setInterval(() => {
-      turno = localStorage.getItem("turno");
-      fetchTurno();
-    }, POLLING_INTERVAL);
+    if (typeof window !== "undefined") {
+      let turno = localStorage.getItem("turno");
+      fetchTurno(turno);
+
+      setInterval(() => {
+        turno = localStorage.getItem("turno");
+        fetchTurno(turno);
+      }, POLLING_INTERVAL);
+    }
   }, []);
 
-  const fetchTurno = async () => {
+  const fetchTurno = async (turno: any) => {
     if (turno === null) return;
 
     if (turno === "null") {
