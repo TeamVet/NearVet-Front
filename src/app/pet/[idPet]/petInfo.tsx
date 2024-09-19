@@ -41,6 +41,7 @@ const PetInfo = (mascota: Mascota) => {
 
     if (response) {
       InfoNotify("Mascota Borrada");
+      router.push(PATHROUTES.PET);
     }
   };
   return (
