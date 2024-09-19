@@ -75,7 +75,11 @@ export const newVet = async (values: FormRegisterValues) => {
   }
 };
 
-export const ModifyVetController = async (values: any, idVet: string) => {
+export const ModifyVetController = async (
+  values: any,
+  idVet: string,
+  token: string
+) => {
   values = {
     ...values,
     cuit: Number(values.cuit),
@@ -84,7 +88,7 @@ export const ModifyVetController = async (values: any, idVet: string) => {
     const responseVet = await PromessNotify(
       "Modificando Veterinaria...",
       "Modificada con exito",
-      ModifyVetService(values, idVet)
+      ModifyVetService(values, idVet, token)
     );
     return responseVet;
   } catch (error: any) {
