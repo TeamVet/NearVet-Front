@@ -26,7 +26,13 @@ const PetsModule: React.FC = () => {
           user?.id as string,
           user?.token as string
         );
-        setMascotas(data);
+        if (data === undefined || data === null) {
+          return;
+        }
+        const mascotasDisponibles = data.filter(
+          (mascota: Mascota) => mascota.endDate === null
+        );
+        setMascotas(mascotasDisponibles);
       } finally {
         stopLoading();
       }
