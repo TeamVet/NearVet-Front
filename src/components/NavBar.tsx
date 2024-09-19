@@ -114,7 +114,7 @@ const NavBar: React.FC = () => {
           width={64}
           height={64}
           priority
-          onError={() => setLogoPag("/logo.png")}
+          onError={() => setLogoPag("/logoNear.png")}
         />
         NearVet
       </Link>

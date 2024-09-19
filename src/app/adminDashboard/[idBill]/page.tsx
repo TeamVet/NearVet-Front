@@ -13,7 +13,7 @@ import { ErrorNotify } from "@/lib/toastyfy";
 import { Bill } from "@/types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ImCoinDollar } from "react-icons/im";
 import {
@@ -38,6 +38,7 @@ const idBill: React.FC = () => {
   const [paySelect, setPaySelect] = useState("");
   const [payMethods, setPayMethods] =
     useState<{ id: string; method: string; interest: number }[]>();
+  const router = useRouter();
   useEffect(() => {
     const fetchBill = async () => {
       if (!id) return;
@@ -64,18 +65,6 @@ const idBill: React.FC = () => {
     }
   }, [user]);
 
-  const handleFinalizar = async () => {
-    try {
-      startLoading();
-      const responseFinalizar = await BillEndController(factura?.id as string);
-      if (responseFinalizar.id) {
-        alert("Factura finalizada");
-        window.location.reload();
-      }
-    } finally {
-      stopLoading();
-    }
-  };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!paySelect) {
@@ -87,13 +76,12 @@ const idBill: React.FC = () => {
       discount: discountMount,
       methodPayId: paySelect,
       total: factura?.subtotal! - discountMount - factura?.advancedPay!,
-      finished: true,
     };
     if (values.total < 0) {
       ErrorNotify("El monto total debe ser mayor a 0");
       return;
     }
-    console.log(values);
+
     try {
       startLoading();
       const responseBill = await BillModifyController(
@@ -108,6 +96,7 @@ const idBill: React.FC = () => {
         }));
     } finally {
       stopLoading();
+      router.push(PATHROUTES.ADMIN_DASHBOARD);
     }
   };
   const handlePrint = async () => {
