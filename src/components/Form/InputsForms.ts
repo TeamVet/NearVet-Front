@@ -113,6 +113,7 @@ export const InputsModifyUser: InputField[] = [
     type: "date",
     label: "Fecha de Nacimiento",
     initialValue: "",
+    validation: registrationValidationSchema.birthDate,
   },
 ];
 export const InputsLogin: InputField[] = [

@@ -20,7 +20,7 @@ const PetInfo = (mascota: Mascota) => {
 
   const onCloseModal = () => {
     setModal(false);
-    // window.location.reload();
+    window.location.reload();
   };
   const handleDeletePet = async () => {
     consulta(

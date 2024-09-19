@@ -45,14 +45,19 @@ const Appointments: React.FC = () => {
         return;
       } else {
         const response = await newAppointmentController(values);
+        startLoading();
         setTimeout(() => {
           handleCheckout("price_1Q0cCvG7LObgRzJ9yL3b490B");
-        }, 5000);
+          // handleCheckout("price_1PxepLG7LObgRzJ9FJDUYGxW");
+        }, 2000);
         stopLoading();
       }
     } else {
       const response = await newAppointmentController(values);
-      handleCheckout("price_1Q0cCvG7LObgRzJ9yL3b490B");
+      startLoading();
+      setTimeout(() => {
+        handleCheckout("price_1Q0cCvG7LObgRzJ9yL3b490B");
+      }, 2000);
       stopLoading();
     }
   };

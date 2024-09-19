@@ -66,7 +66,7 @@ export const modifyUserService = async (
     url: `${MODIFI_USER}/${id}`,
     method: "PUT" as const,
     data: values,
-    token,
+    token: token,
   };
   try {
     const responseModify = await fetcher(dataModify);

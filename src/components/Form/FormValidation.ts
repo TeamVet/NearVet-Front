@@ -48,6 +48,10 @@ export const registrationValidationSchema = {
   ),
   address: Yup.string().min(1, "La dirección debe tener 1 o más caracteres"),
   city: Yup.string().min(1, "La ciudad debe tener 1 o más caracteres"),
+  birthDate: Yup.date().max(
+    today,
+    "La fecha de nacimiento no puede ser en el futuro"
+  ),
 };
 
 // Esquema de validación para login
