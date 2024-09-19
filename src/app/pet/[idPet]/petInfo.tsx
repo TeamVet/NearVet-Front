@@ -30,7 +30,7 @@ const PetInfo = (mascota: Mascota) => {
       }
     );
   };
-
+  console.log(mascota);
   const delePet = async () => {
     const dataFetcher = {
       url: `${URL_PETS}/${idUrl.idPet}`,
@@ -80,6 +80,12 @@ const PetInfo = (mascota: Mascota) => {
             : ""}
           , sus colores son {mascota.color} y su sexo es {mascota.sex.sex}.
         </p>
+        {mascota.repCondition && (
+          <div className="flex flex-row gap-2">
+            <p>Condicion de organos reproductores:</p>
+            <p className="capitalize">{mascota.repCondition}</p>
+          </div>
+        )}
         <p className="py-2">
           Observaciones:{" "}
           {mascota.observation ? mascota.observation : "Sin observaciones"}{" "}

@@ -191,7 +191,7 @@ export interface Turnos {
     service: string;
     price: number;
     description: string;
-    duration: number;
+    durationMin: number;
   };
 }
 
