@@ -17,7 +17,7 @@ const ChatbotButton = () => {
     }
   };
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-5 right-5 z-40">
       <button
         onClick={toggleChatbot}
         className="p-3 rounded-full bg-detail text-white hover:bg-violet-900 focus:outline-none shadow-lg"

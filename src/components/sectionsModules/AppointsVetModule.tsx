@@ -5,6 +5,7 @@ import { useUser } from "@/context/UserContext";
 import { fetchTurnosService } from "@/lib/Services/appointService";
 import useLoading from "@/hooks/LoadingHook";
 import Loading from "../Loading";
+import { InfoNotify } from "@/lib/toastyfy";
 const today = new Date();
 const todayString = today.toISOString().split("T")[0];
 
@@ -51,10 +52,15 @@ const AppointsVetModule = () => {
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   };
+  const handlePantalla = (idTurno: string) => {
+    localStorage.setItem("turno", idTurno);
+    InfoNotify(`Se llamo correctamente`);
+  };
   return (
     <>
       <h3 className="text-xl text-detail">Atenciones del {todayString}</h3>
       {loading && <Loading />}
+
       <section className="flex flex-col md:flex-row flex-wrap m-auto w-full md:w-3/4 my-2 gap-2">
         {turnos &&
           turnos.map((turno) => (
@@ -70,12 +76,20 @@ const AppointsVetModule = () => {
               <small>{turno.description}</small>
 
               {turno.stateAppointment === "Pendiente" ? (
-                <Link
-                  href={`${PATHROUTES.PET}/AppointVet/${turno.id}`}
-                  className="bg-detail p-2 m-auto rounded-lg text-white"
-                >
-                  Iniciar turno
-                </Link>
+                <div className="flex flex-row gap-2 justify evenly">
+                  <button
+                    className="bg-transparent p-2 m-auto rounded-lg shadow-lg"
+                    onClick={() => handlePantalla(turno.id)}
+                  >
+                    Llamar por pantalla
+                  </button>
+                  <Link
+                    href={`${PATHROUTES.PET}/AppointVet/${turno.id}`}
+                    className="bg-detail p-2 m-auto rounded-lg text-white"
+                  >
+                    Iniciar turno
+                  </Link>
+                </div>
               ) : (
                 <Link
                   href={`${PATHROUTES.PET}/AppointVet/${turno.id}`}
@@ -87,6 +101,12 @@ const AppointsVetModule = () => {
             </article>
           ))}
       </section>
+      <button
+        className="bg-transparent p-2 m-auto rounded-lg shadow-lg"
+        onClick={() => localStorage.setItem("turno", "null")}
+      >
+        Limpiar Pantalla de llamado
+      </button>
     </>
   );
 };
