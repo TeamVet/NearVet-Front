@@ -4,8 +4,38 @@ import ButtonCustom from "./ButtonCustom";
 import PATHROUTES from "@/helpers/path-routes";
 import ServiceCard from "./ServiceCard";
 import Title from "@/components/Title";
+import { useEffect, useState } from "react";
+
+import { fetcher } from "@/lib/fetcher";
+
+import CategoryCard from "./CategoryCard";
+import Link from "next/link";
 
 const Main: React.FC = () => {
+  const [category, setCategory] = useState<any[]>([]);
+  const [services, setServices] = useState<any[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataCategory = {
+        url: "/category-services",
+        method: "GET" as const,
+      };
+      const responseCategory: any = await fetcher(dataCategory);
+      if (responseCategory) {
+        console.log(responseCategory);
+        setCategory(responseCategory);
+
+        const fechtService = {
+          url: `/services/category/${responseCategory[0].id}`,
+          method: "GET" as const,
+        };
+        const responseServices = await fetcher(fechtService);
+        console.log(responseServices);
+        setServices(responseServices);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="flex flex-col w-full gap-16 dark:bg-gray-900 justify-center items-center">
       {/* Introducción */}
@@ -58,30 +88,21 @@ const Main: React.FC = () => {
           confiable, donde el bienestar de tu mascota es siempre nuestra
           prioridad.
         </p>
+        <h3 className="text-2xl text-primary font-extrabold">Categorias:</h3>
         <div className="flex flex-row flex-wrap gap-8 md:gap-10 justify-center">
-          {/* 
-            GET SERVICIOS
-
-          */}
-          <ServiceCard
-            id={1}
-            logo="/logo.svg"
-            description=""
-            name="Consulta General"
-          />
-          <ServiceCard
-            id={2}
-            logo="/logo.svg"
-            description=""
-            name="Vacunación"
-          />
-          <ServiceCard id={3} logo="/logo.svg" description="" name="Cirugía" />
-          <ServiceCard
-            id={4}
-            logo="/logo.svg"
-            description=""
-            name="Emergencia"
-          />
+          {category &&
+            category.map((category) => (
+              <CategoryCard key={category.id} data={category} />
+            ))}
+        </div>
+        <h3 className="text-2xl text-primary font-extrabold hidden md:block">
+          Servicios:
+        </h3>
+        <div className=" flex-row flex-wrap gap-8 md:gap-10 justify-center hidden md:flex">
+          {services &&
+            services.map((service) => (
+              <ServiceCard key={service.id} data={service} />
+            ))}
         </div>
       </div>
 
@@ -101,7 +122,6 @@ const Main: React.FC = () => {
               </span>
             </p>
           </div>
-
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
             <div className="w-full lg:w-1/2">
               <ul className="space-y-8 md:space-y-4 lg:space-y-8">
@@ -149,6 +169,12 @@ const Main: React.FC = () => {
               />
             </div>
           </div>
+          <Link
+            href={PATHROUTES.ABOUTUS}
+            className="bg-detail px-4 py-2 rounded-lg text-white m-auto hover:scale-105 duration-300"
+          >
+            Saber más
+          </Link>
         </div>
       </div>
     </div>

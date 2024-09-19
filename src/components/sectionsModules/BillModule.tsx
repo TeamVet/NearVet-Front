@@ -57,7 +57,6 @@ const BillModule: React.FC = () => {
     };
 
     if (user) {
-      console.log("SE ingrewso");
       fetchBills();
     }
   }, [user, page]);
@@ -234,7 +233,7 @@ const BillModule: React.FC = () => {
           : facturas.map((factura, index) => (
               <article
                 key={index}
-                className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer m-auto relative min-w-[20vw] max-w-[20vw]"
+                className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer m-auto relative min-w-[20vw] "
                 onClick={() => handleDownloadPdf(factura, logoPag)}
               >
                 <p className="absolute top-1 right-1">{factura.date}</p>
