@@ -59,12 +59,14 @@ const TableCustom: React.FC<TableCustomProps> = ({
                     >
                       <IoLogoWhatsapp />
                     </Link>
-                    <Link
-                      href={`${PATHROUTES.NEW_CUPON}/${dato.id}`}
-                      className="bg-detail p-1 rounded-lg text-white"
-                    >
-                      Nuevo Cupon
-                    </Link>
+                    {user?.role.role === "adminVet" && (
+                      <Link
+                        href={`${PATHROUTES.NEW_CUPON}/${dato.id}`}
+                        className="bg-detail p-1 rounded-lg text-white"
+                      >
+                        Nuevo Cupon
+                      </Link>
+                    )}
                   </td>
                 </tr>
               ))
