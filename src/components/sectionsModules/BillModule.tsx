@@ -31,6 +31,7 @@ const BillModule: React.FC = () => {
         if (user.role.role === "adminVet") {
           setAdmin(true);
           const responseBills = await BillsGeneralService();
+
           if (responseBills.length > 0) {
             setFacturas(responseBills);
           }
@@ -41,6 +42,7 @@ const BillModule: React.FC = () => {
             formattedStartDay,
             formattedEndDay
           );
+
           if (responseBills.length > 0) {
             setFacturas(responseBills);
           }
@@ -55,6 +57,7 @@ const BillModule: React.FC = () => {
     };
 
     if (user) {
+      console.log("SE ingrewso");
       fetchBills();
     }
   }, [user, page]);
@@ -187,6 +190,7 @@ const BillModule: React.FC = () => {
         >
           Anterior Página
         </button>
+        <p>{page}</p>
         <button
           onClick={handleNextPage}
           className="p-2 bg-detail text-white rounded-lg"
@@ -194,7 +198,7 @@ const BillModule: React.FC = () => {
           Siguiente Página
         </button>
       </div>
-      <div className="flex flex-wrap gap-2 min-h-[80vh]">
+      <div className="flex flex-wrap gap-2 min-h-[80vh] ">
         {facturas && admin
           ? facturas.map((factura) => (
               <article
@@ -230,21 +234,43 @@ const BillModule: React.FC = () => {
           : facturas.map((factura, index) => (
               <article
                 key={index}
-                className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer m-auto"
+                className="shadow-lg rounded-lg bg-slate-200 dark:bg-slate-700 p-4 hover:scale-105 cursor-pointer m-auto relative min-w-[20vw] max-w-[20vw]"
                 onClick={() => handleDownloadPdf(factura, logoPag)}
               >
-                <div className="flex flex-row justify-between gap-2 items-center">
-                  <h4 className="text-xl text-detail">
-                    {/* {factura.service.service} */}
-                  </h4>
-                  <p>{factura.date}</p>
+                <p className="absolute top-1 right-1">{factura.date}</p>
+                <div className="flex flex-row justify-between gap-2 items-start ">
+                  <div>
+                    <small>Servicios:</small>
+                    <h4 className="text-lg font-semibold text-detail">
+                      {factura.saleServices.map((service) => (
+                        <p className="text-wrap">{service.service.service}</p>
+                      ))}
+                    </h4>
+                  </div>
+                  <div>
+                    <small>Productos:</small>
+                    <h4 className="text-lg font-semibold text-detail">
+                      {factura.saleProducts.map((product) => (
+                        <p className="text-wrap">{product.product.name}</p>
+                      ))}
+                    </h4>
+                  </div>
                 </div>
                 <div className="flex flex-row justify-evenly gap-2 items-center my-2">
                   <div className="text-detail"></div>
                 </div>
                 <div className="flex flex-row justify-between gap-2">
-                  <p>Total</p>
-                  <p>$ {factura.total}</p>
+                  <p>Subtotal:</p>
+                  <p>{factura.subtotal}</p>
+                </div>
+                <div className="flex flex-row justify-between gap-2">
+                  <p>Pagado:</p>
+                  <p>{factura.advancedPay}</p>
+                </div>
+
+                <div className="flex flex-row justify-between gap-2">
+                  <p className="text-detail text-lg">Saldo:</p>
+                  <p className="text-detail text-lg">$ {factura.total}</p>
                 </div>
                 <div className="flex flex-col mt-1">
                   <small>Comprobante no válido como factura.</small>
