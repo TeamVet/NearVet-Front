@@ -42,7 +42,7 @@ const VetInformation: React.FC = () => {
   const handleSubmit = async (values: FormRegisterValues) => {
     try {
       startLoading();
-      const modifiedValues = Object.keys(values).reduce((acc, key) => {
+      let modifiedValues = Object.keys(values).reduce((acc, key) => {
         const initialValue = formFields.find(
           (field) => field.name === key
         )?.initialValue;
@@ -64,21 +64,52 @@ const VetInformation: React.FC = () => {
         return;
       }
 
-      const response = await ModifyVetService(
-        modifiedValues,
-        user!.id as string,
-        user!.token as string
-      );
-
-      if (response.id) {
-        InfoNotify("Hemos actualizado tus datos.");
-        const updateUser = {
-          ...user,
-          ...response,
+      if (
+        modifiedValues.licence ||
+        modifiedValues.specialty ||
+        modifiedValues.description
+      ) {
+        modifiedValues = {
+          ...modifiedValues,
+          licence: Number(modifiedValues.licence),
         };
-        localStorage.setItem("user", JSON.stringify(updateUser));
-        setUser(updateUser);
-        // window.location.reload();
+
+        const response = await ModifyVetService(
+          modifiedValues,
+          user!.id as string,
+          user!.token as string
+        );
+        if (response.id) {
+          InfoNotify("Hemos actualizado tus datos.");
+        }
+      }
+      if (
+        modifiedValues.name ||
+        modifiedValues.email ||
+        modifiedValues.lastName ||
+        modifiedValues.dni ||
+        modifiedValues.phone ||
+        modifiedValues.address ||
+        modifiedValues.city ||
+        modifiedValues.birthDate
+      ) {
+        console.log("Se entro");
+        const response = await modifyUserService(
+          modifiedValues,
+          user!.id as string,
+          user!.token as string
+        );
+
+        if (response.id) {
+          InfoNotify("Hemos actualizado tus datos.");
+          const updateUser = {
+            ...user,
+            ...response,
+          };
+          localStorage.setItem("user", JSON.stringify(updateUser));
+          setUser(updateUser);
+          // window.location.reload();
+        }
       }
     } finally {
       stopLoading();
