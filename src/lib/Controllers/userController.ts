@@ -80,10 +80,6 @@ export const ModifyVetController = async (
   idVet: string,
   token: string
 ) => {
-  values = {
-    ...values,
-    cuit: Number(values.cuit),
-  };
   try {
     const responseVet = await PromessNotify(
       "Modificando Veterinaria...",

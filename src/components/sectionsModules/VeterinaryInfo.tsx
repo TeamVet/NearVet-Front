@@ -7,6 +7,7 @@ import Loading from "../Loading";
 import { Veterinaria } from "@/types/interfaces";
 import { ModifyVetController } from "@/lib/Controllers/userController";
 import { useUser } from "@/context/UserContext";
+import { InfoNotify } from "@/lib/toastyfy";
 
 const VeterinaryInfo = () => {
   const { loading, startLoading, stopLoading } = useLoading();
@@ -52,11 +53,28 @@ const VeterinaryInfo = () => {
   }, [vet]);
 
   const handleSubmit = async (values: any) => {
+    const modifiedValues = Object.keys(values).reduce((acc, key) => {
+      const initialValue = formFields.find(
+        (field) => field.name === key
+      )?.initialValue;
+
+      if (values[key] !== initialValue) {
+        acc[key] = values[key];
+      }
+      return acc;
+    }, {} as Record<string, any>);
+    if (Object.keys(modifiedValues).length === 0) {
+      InfoNotify("No realizaste ningun cambio.");
+      return;
+    }
+    if (modifiedValues.cuit) {
+      modifiedValues.cuit = Number(modifiedValues.cuit);
+    }
     try {
       startLoading();
       if (!user) return;
       const modifyVet = await ModifyVetController(
-        values,
+        modifiedValues,
         idVet as string,
         user.token as string
       );
@@ -65,6 +83,7 @@ const VeterinaryInfo = () => {
       }
     } finally {
       stopLoading();
+      window.location.reload();
     }
   };
   return (
