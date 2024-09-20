@@ -11,6 +11,7 @@ const BILL_END = process.env.NEXT_PUBLIC_SALE_END_URL;
 const VETERINARIANS_URL = process.env.NEXT_PUBLIC_VETERINARIANS_URL;
 const NEW_VETERINARIAN = process.env.NEXT_PUBLIC_NEW_VETERINARIAN;
 const VET_MODIFY = process.env.NEXT_PUBLIC_VETS;
+const NEW_USER_VETERINARIA = process.env.NEXT_PUBLIC_NEW_USER_VETERINARIA;
 
 export const LoginService = async (userData: FormValues) => {
   const dataLogin = {
@@ -151,9 +152,16 @@ export const BillModifyService = async (values: any, billId: string) => {
   }
 };
 
-export const NewVetService = async (values: FormRegisterValues) => {
+export const NewVetService = async (values: FormRegisterValues, token: string) => {
   try {
-    const CreateUser = await registerService(values);
+    const dataRegister = {
+      url: NEW_USER_VETERINARIA as string,
+      method: "POST" as const,
+      data: values,
+      token: token
+    };
+    const CreateUser = await fetcher(dataRegister);
+
     if (!CreateUser.id) throw new Error(CreateUser.message);
     const dataVet = {
       url: NEW_VETERINARIAN as string,
