@@ -17,6 +17,7 @@ import {
   IoPersonAddSharp,
   IoPeopleOutline,
   IoPencilSharp,
+  IoLogoWhatsapp,
 } from "react-icons/io5";
 export const PawIcon: React.FC<IconProps> = ({ size }) => (
   <IoPawSharp color="#8E44AD" className={`text-${size}`} />
@@ -64,6 +65,9 @@ export const MailIcon: React.FC<IconProps> = ({ size, isMail }) => {
   ) : (
     <IoMailSharp color="#8E44AD" className={`text-${size}`} />
   );
+};
+export const WhatsappIcon: React.FC<IconProps> = ({ size }) => {
+  return <IoLogoWhatsapp color="#8E44AD" className={`text-${size}`} />;
 };
 
 export const InformationIcon: React.FC<IconProps> = ({ size }) => {

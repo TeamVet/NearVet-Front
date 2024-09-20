@@ -8,6 +8,7 @@ import {
   StoreIcon,
   MailIcon,
   PeopleIcon,
+  WhatsappIcon,
 } from "@/lib/icons";
 import PATHROUTES from "./path-routes";
 import { NavItemProps } from "@/types/interfaces";
@@ -42,14 +43,14 @@ export const NavItemUser: Array<NavItemProps> = [
     icon: PawIcon,
   },
   {
-    name: "Usuario",
+    name: "Mi Cuenta",
     url: PATHROUTES.USER_DASHBOARD,
     icon: UserIcon,
   },
   {
-    name: "Mensajes",
+    name: "NearVet",
     url: `${PATHROUTES.WHATSAPP}/3758488428?text=Hola,%20tengo%20una%20consulta`,
-    icon: MailIcon,
+    icon: WhatsappIcon,
   },
   {
     name: "Salir",

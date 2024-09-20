@@ -75,8 +75,7 @@ const UserInformation: React.FC = () => {
           ...response,
         };
         localStorage.setItem("user", JSON.stringify(updateUser));
-        setUser(updateUser);
-        window.location.reload();
+        setTimeout(() => window.location.reload(), 2000);
       }
     } finally {
       stopLoading();

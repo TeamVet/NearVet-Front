@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 interface PetClinicaProps {
   idPet: string;
@@ -20,6 +21,7 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
   const [Pendientes, setPendientes] = useState<Pendiente[]>([]);
   const [Historial, setHistorial] = useState<ClinicalExamination[]>([]);
   const [logoPag, setLogoPag] = useState<string>("");
+  const { user } = useUser();
   useEffect(() => {
     const fetchLogo = async () => {
       const logo = await fetch(LOGO_URL as string);
@@ -179,25 +181,45 @@ const PetClinical: React.FC<PetClinicaProps> = ({ idPet, pet }) => {
         <h3 className="text-xl text-detail">Pendientes</h3>
 
         {Pendientes.length > 0 ? (
-          Pendientes.map((Pendiente) => (
-            <Link
-              key={Pendiente.id}
-              href={PATHROUTES.NEWAPPOINTMEN}
-              className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg border border-red-400  text-center"
-            >
-              <p className="italic text-detail">{Pendiente.service.service}</p>
-              <p>
-                Fecha:{" "}
-                {new Date(Pendiente.endPending).toLocaleDateString("es-AR", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
-              </p>
-              <small>Descripcion: {Pendiente.description}</small>
-              <small>Click para reservar turno</small>
-            </Link>
-          ))
+          Pendientes.map((Pendiente) =>
+            user?.role.role === "veterinarian" ? (
+              <div className="p-2 shadow-lg flex flex-col cursor-default rounded-lg border border-red-400  text-center">
+                {" "}
+                <p className="italic text-detail">
+                  {Pendiente.service.service}
+                </p>
+                <p>
+                  Fecha:{" "}
+                  {new Date(Pendiente.endPending).toLocaleDateString("es-AR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </p>
+                <small>Descripcion: {Pendiente.description}</small>
+              </div>
+            ) : (
+              <Link
+                key={Pendiente.id}
+                href={PATHROUTES.NEWAPPOINTMEN}
+                className="p-2 shadow-lg flex flex-col cursor-pointer rounded-lg border border-red-400  text-center"
+              >
+                <p className="italic text-detail">
+                  {Pendiente.service.service}
+                </p>
+                <p>
+                  Fecha:{" "}
+                  {new Date(Pendiente.endPending).toLocaleDateString("es-AR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </p>
+                <small>Descripcion: {Pendiente.description}</small>
+                <small>Click para reservar turno</small>
+              </Link>
+            )
+          )
         ) : (
           <p className="text-center text-sm p-2">
             No hay atenciones pendientes

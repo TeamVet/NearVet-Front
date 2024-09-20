@@ -192,6 +192,7 @@ export interface Turnos {
     price: number;
     description: string;
     durationMin: number;
+    veterinarian: Veterinario;
   };
 }
 

@@ -228,23 +228,6 @@ export const InputsModifyPet: InputField[] = [
     placeholder: "0kg",
     validation: petCreationValidationSchema.pesoActual,
   },
-  {
-    name: "repCondition",
-    type: "select",
-    label: "Condicion de Reproduccion",
-    initialValue: "",
-    options: [
-      {
-        id: "82b1d569-658f-42da-a803-e1574f779edd",
-        repCondition: "entero",
-      },
-      {
-        id: "7d5e9d3f-50c2-4fe5-82d1-6d2126cbc180",
-        repCondition: "castrado",
-      },
-    ],
-    labelKey: "repCondition",
-  },
 ];
 export const InputsRegisterAppoint: InputField[] = [
   {
