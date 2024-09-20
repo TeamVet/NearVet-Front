@@ -21,6 +21,7 @@ const UserInformation: React.FC = () => {
   useEffect(() => {
     if (user) {
       startLoading();
+
       const updatedInputs = originalInputsModifyUser.map((input) => {
         return {
           ...input,

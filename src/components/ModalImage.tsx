@@ -92,7 +92,7 @@ export const Modal: React.FC<ModalProps> = ({
         type
       );
       if (responseImagen && responseImagen.id && responseImagen.imgProfile) {
-        window.location.reload();
+        setUser({ ...user!, imgProfile: responseImagen.imgProfile });
       }
     } finally {
       setFile(null);
