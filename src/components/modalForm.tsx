@@ -203,8 +203,9 @@ const ModalForm: React.FC<ModalProps> = ({
       examenPracticado?.id as string,
       formData
     );
+
     if (response) {
-      setFile((prevFiles) => [prevFiles, response]);
+      setFile((prevFiles) => [...prevFiles, response]);
     }
   };
 
@@ -357,17 +358,28 @@ const ModalForm: React.FC<ModalProps> = ({
               notLogo
               submitButtonLabel="Cargar Archivos"
             />
-            {File && (
-              <div className="flex flex-col md:flex-row items-center">
+            {File.length > 0 && (
+              <div className="flex flex-wrap items-center justify-center">
                 {File.map((Fil) => (
                   <div className="shadow-lg rounded-lg mx-2 p-2">
-                    <Image
-                      src={Fil.image}
-                      width={100}
-                      height={100}
-                      alt={`Imagen del archivo ${Fil.id}`}
-                      className="rounded-lg"
-                    />
+                    {Fil.image === undefined ? null : (
+                      <>
+                        <Image
+                          src={Fil.image}
+                          width={100}
+                          height={100}
+                          alt={`Imagen del archivo ${Fil.id}`}
+                          className="rounded-lg"
+                          onError={() => {
+                            Fil.image = "/logoNear.png";
+                          }}
+                        />
+                        <p className="text-center">
+                          Archivo:
+                          {Fil.image.split(".").pop()}
+                        </p>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
