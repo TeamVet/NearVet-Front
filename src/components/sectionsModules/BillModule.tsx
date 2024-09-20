@@ -155,12 +155,6 @@ const BillModule: React.FC = () => {
         150,
         currentY
       );
-      currentY += 10;
-      doc.text(
-        `Total restante: $${(factura.total - factura.advancedPay).toFixed(2)}`,
-        150,
-        currentY
-      );
     }
 
     // Nota al pie

@@ -4,12 +4,13 @@ import Screen from "@/components/Screen";
 import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
+import jsPDF from "jspdf";
 import {
   BillEndController,
   BillModifyController,
 } from "@/lib/Controllers/userController";
 import { fetcher } from "@/lib/fetcher";
-import { ErrorNotify } from "@/lib/toastyfy";
+import { consulta, ErrorNotify, InfoNotify } from "@/lib/toastyfy";
 import { Bill } from "@/types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,10 +69,9 @@ const idBill: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!paySelect) {
-      alert("Por favor selecciona un método de pago");
+      ErrorNotify("Selecciona un metodo de pago");
       return;
     }
-
     const values = {
       discount: discountMount,
       methodPayId: paySelect,
@@ -81,14 +81,25 @@ const idBill: React.FC = () => {
       ErrorNotify("El monto total debe ser mayor a 0");
       return;
     }
-
+    consulta(
+      "¿Estas seguro de cerrar la factura? A continuacion se descargará la misma",
+      () => {
+        generatePDF(factura!);
+        CloseBill(values);
+      },
+      () => {
+        return;
+      }
+    );
+  };
+  const CloseBill = async (values: any) => {
     try {
       startLoading();
       const responseBill = await BillModifyController(
         values,
         factura?.id as string
       );
-      console.log(responseBill);
+
       if (responseBill.id)
         setFactura((PrevFact: typeof factura) => ({
           ...PrevFact,
@@ -96,11 +107,80 @@ const idBill: React.FC = () => {
         }));
     } finally {
       stopLoading();
-      router.push(PATHROUTES.ADMIN_DASHBOARD);
+      // router.push(PATHROUTES.ADMIN_DASHBOARD);
     }
   };
   const handlePrint = async () => {
-    window.print();
+    if (factura?.finished === false) {
+      InfoNotify("La factura no ha sido cerrada");
+      return;
+    }
+    generatePDF(factura!);
+  };
+
+  const generatePDF = (factura: Bill) => {
+    const doc = new jsPDF();
+
+    // Titulo de la factura
+    doc.setFontSize(18);
+    doc.text(`Factura Nº-${factura.id}`, 20, 20);
+
+    // Datos del cliente
+    doc.setFontSize(14);
+    doc.text("Datos del cliente:", 20, 30);
+    doc.setFontSize(12);
+    doc.text(`Nombre: ${factura.user.name} ${factura.user.lastName}`, 20, 40);
+    doc.text(`Email: ${factura.user.email}`, 20, 50);
+    doc.text(
+      `Dirección: ${factura.user.address}, ${factura.user.city}`,
+      20,
+      60
+    );
+    doc.text(`Teléfono: ${factura.user.phone}`, 20, 70);
+    doc.line(10, 75, 200, 75);
+    // Detalles de los productos
+    doc.setFontSize(14);
+    doc.text("Detalle de Productos:", 20, 80);
+    factura.saleProducts.forEach((product, index) => {
+      const yPosition = 90 + index * 10;
+      doc.setFontSize(12);
+      doc.text(
+        `${product.product.name} - Precio: $${product.price} - Cantidad: ${product.acount}`,
+        20,
+        yPosition
+      );
+    });
+    doc.line(10, 105, 200, 105);
+    // Detalles de los servicios
+    if (factura.saleServices.length > 0) {
+      doc.setFontSize(14);
+      doc.text("Detalle de Servicios:", 20, 110);
+      factura.saleServices.forEach((service, index) => {
+        const yPosition = 120 + index * 10;
+        doc.setFontSize(12);
+        doc.text(
+          `${service.service.service} - Precio: $${service.price}`,
+          20,
+          yPosition
+        );
+      });
+    }
+    doc.line(10, 125, 200, 125);
+    // Resumen de la factura
+    const lastYPosition = 130 + factura.saleProducts.length * 10;
+    doc.setFontSize(14);
+    doc.text("Resumen de la Factura:", 20, lastYPosition + 10);
+    doc.setFontSize(12);
+    doc.text(`Subtotal: $${factura.subtotal}`, 20, lastYPosition + 20);
+    doc.text(`Adelanto: $${factura.advancedPay}`, 20, lastYPosition + 30);
+    doc.text(
+      `Total: $${factura.subtotal - factura.advancedPay}`,
+      20,
+      lastYPosition + 40
+    );
+    doc.text("Gracias por su compra en NearVet", 50, 250);
+    // Descargar PDF
+    doc.save(`Factura-${factura.id}.pdf`);
   };
 
   return (
@@ -220,51 +300,57 @@ const idBill: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-2 items-center">
-                <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-                  <label
-                    htmlFor="discount"
-                    className="block text-sm font-semibold text-detail m-1"
-                  >
-                    Aplicar Descuento en pesos:
-                  </label>
-                  <input
-                    type="number"
-                    id="discount"
-                    name="discount"
-                    placeholder="$100"
-                    onChange={(event) =>
-                      setDiscountMount(event.target.valueAsNumber)
-                    }
-                    className="w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders"
-                  />
+                {factura.finished ? (
+                  <>
+                    <p>Descuento Aplicado: $ {factura.discount}</p>
+                  </>
+                ) : (
+                  <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                    <label
+                      htmlFor="discount"
+                      className="block text-sm font-semibold text-detail m-1"
+                    >
+                      Aplicar Descuento en pesos:
+                    </label>
+                    <input
+                      type="number"
+                      id="discount"
+                      name="discount"
+                      placeholder="$100"
+                      onChange={(event) =>
+                        setDiscountMount(event.target.valueAsNumber)
+                      }
+                      className="w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders"
+                    />
 
-                  <label
-                    htmlFor="payMethod"
-                    className="block text-sm font-semibold text-detail m-1"
-                  >
-                    Medio de pago:
-                  </label>
-                  <select
-                    id="payMethod"
-                    name="methodPayId"
-                    onChange={(event) => setPaySelect(event.target.value)}
-                    className="w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders"
-                  >
-                    <option label="Seleccione una opción" />
-                    {payMethods &&
-                      payMethods.map((payMethod) => (
-                        <option key={payMethod.id} value={payMethod.id}>
-                          {payMethod.method}
-                        </option>
-                      ))}
-                  </select>
-                  <button
-                    className="bg-detail text-white p-2 rounded-lg m-auto"
-                    type="submit"
-                  >
-                    Aplicar
-                  </button>
-                </form>
+                    <label
+                      htmlFor="payMethod"
+                      className="block text-sm font-semibold text-detail m-1"
+                    >
+                      Medio de pago:
+                    </label>
+                    <select
+                      id="payMethod"
+                      name="methodPayId"
+                      onChange={(event) => setPaySelect(event.target.value)}
+                      className="w-full bg-transparent border-[.2em] border-1 placeholder:text-gray-400 dark:placeholder:text-gray-400 dark:text-white p-1 rounded-md text-center text-darkBorders"
+                    >
+                      <option label="Seleccione una opción" />
+                      {payMethods &&
+                        payMethods.map((payMethod) => (
+                          <option key={payMethod.id} value={payMethod.id}>
+                            {payMethod.method}
+                          </option>
+                        ))}
+                    </select>
+                    <button
+                      className="bg-detail text-white p-2 rounded-lg m-auto"
+                      type="submit"
+                    >
+                      Aplicar
+                    </button>
+                  </form>
+                )}
               </div>
 
               <p className="text-xl my-auto text-detail font-semibold">
