@@ -4,6 +4,7 @@ interface ModalProps {
   setTurno: () => void;
   idPet: string;
   idUser: string;
+  finish: () => void;
 }
 import React, { useReducer, useEffect, useState } from "react";
 import ReusableForm from "./Form/FormCustom";
@@ -61,6 +62,7 @@ const ModalForm: React.FC<ModalProps> = ({
   setTurno,
   idPet,
   idUser,
+  finish,
 }) => {
   const [state, dispatch] = useReducer(modalReducer, initialState);
   const { services, products, loading, error } = useServices();
@@ -90,8 +92,7 @@ const ModalForm: React.FC<ModalProps> = ({
     consulta("Se perderán los cambios, ¿Desea continuar?", onClose);
   const handleOnEndTurn = () => {
     consulta("Se cerrará el turno, ¿Desea continuar?", () => {
-      setTurno();
-      InfoNotify("Turno finalizado");
+      finish();
       onClose();
     });
   };

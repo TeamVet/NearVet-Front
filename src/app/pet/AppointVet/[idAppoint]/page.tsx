@@ -63,14 +63,14 @@ const PetIndividual: React.FC = () => {
 
   const handleCloseTurn = async () => {
     consulta("Finalizará el turno, ¿Desea continuar?", () => {
-      fetchFinish(turnoVet?.id as string);
+      fetchFinish();
     });
   };
-  const fetchFinish = async (id: string) => {
+  const fetchFinish = async () => {
     setTurnoStatus("Finalizado");
     try {
       startLoading();
-      const data = await fetchFinishAppoint(id);
+      const data = await fetchFinishAppoint(turnoVet?.id as string);
     } finally {
       stopLoading();
       router.push(PATHROUTES.VET_DASHBOARD);
@@ -86,6 +86,7 @@ const PetIndividual: React.FC = () => {
         setTurno={() => setTurnoStatus("Finalizado")}
         idPet={mascota?.id as string}
         idUser={user?.id as string}
+        finish={fetchFinish}
       />
       {mascota && idAppoint && (
         <div className=" flex flex-col md:flex-row md:justify-evenly gap-1 my-2 md:m-auto">
