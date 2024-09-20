@@ -105,12 +105,14 @@ const PetInfo = (mascota: Mascota) => {
         >
           Editar
         </Link>
-        <Link
-          href={PATHROUTES.NEWAPPOINTMEN}
-          className="bg-detail p-3 m-auto rounded-lg text-white hover:scale-105"
-        >
-          Nuevo Turno
-        </Link>
+        {user?.role.role != "veterinarian" && (
+          <Link
+            href={PATHROUTES.NEWAPPOINTMEN}
+            className="bg-detail p-3 m-auto rounded-lg text-white hover:scale-105"
+          >
+            Nuevo Turno
+          </Link>
+        )}
       </div>
     </div>
   );

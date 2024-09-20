@@ -61,12 +61,12 @@ const AppointsVetModule = () => {
       <h3 className="text-xl text-detail">Atenciones del {todayString}</h3>
       {loading && <Loading />}
 
-      <section className="flex flex-col md:flex-row flex-wrap m-auto w-full md:w-3/4 my-2 gap-2">
+      <section className="flex flex-col md:flex-row flex-wrap m-auto w-full md:w-4/5 my-2 gap-2">
         {turnos &&
           turnos.map((turno) => (
             <article
               key={turno.id}
-              className="flex flex-col p-5 m-auto w-1/4 border border-gray-300 gap-2 items-center cursor-default rounded-lg"
+              className="flex flex-col p-5 m-auto md:w-2/6 border border-gray-300 gap-2 items-center cursor-default rounded-lg"
             >
               <h4 className="text-detail">{turno.Subject}</h4>
               <hr className="border-2 border-gray-400 w-full" />
