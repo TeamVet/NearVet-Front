@@ -70,7 +70,9 @@ const VeterinaryInfo = () => {
   return (
     <Screen>
       {loading && <Loading />}
-      <p>Info de la veterinaria</p>
+      <p className="text-xl text-detail font-semibold">
+        Info de la veterinaria
+      </p>
       {formFields && !loading && (
         <ReusableForm
           formTitle="Modificar informacion de la veterinaria"
