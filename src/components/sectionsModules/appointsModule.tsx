@@ -60,9 +60,6 @@ const AppointsModule: React.FC = () => {
     }
   }, [turnos]);
 
-  //TODO -->cupones de descuento
-  //TODO--> Pagar el turno
-
   const handleCancel = async (idTurno: string) => {
     try {
       startLoading();
@@ -120,7 +117,7 @@ const AppointsModule: React.FC = () => {
             Turnos Activos
           </h3>
 
-          {turnos.length > 0 && turnosPendientes.length > 0 ? (
+          {turnos && turnos.length > 0 && turnosPendientes.length > 0 ? (
             <div className="flex flex-row flex-wrap justify-items-center gap-2">
               {turnosPendientes.map((turno) => (
                 <AppointCard
