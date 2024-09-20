@@ -56,7 +56,7 @@ export const BillModifyController = async (values: any, billId: string) => {
   }
 };
 
-export const newVet = async (values: FormRegisterValues) => {
+export const newVet = async (values: FormRegisterValues, token: string) => {
   values = {
     ...values,
     dni: Number(values.dni),
@@ -67,7 +67,7 @@ export const newVet = async (values: FormRegisterValues) => {
     const responseVet = await PromessNotify(
       "Registrando nuevo veterinario...",
       "Registrado con exito",
-      NewVetService(values)
+      NewVetService(values, token)
     );
     return responseVet;
   } catch (error: any) {

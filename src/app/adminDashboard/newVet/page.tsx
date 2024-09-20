@@ -3,6 +3,7 @@ import ReusableForm from "@/components/Form/FormCustom";
 import { InputsNewVet } from "@/components/Form/InputsForms";
 import Loading from "@/components/Loading";
 import Screen from "@/components/Screen";
+import { useUser } from "@/context/UserContext";
 import PATHROUTES from "@/helpers/path-routes";
 import useLoading from "@/hooks/LoadingHook";
 import { newVet } from "@/lib/Controllers/userController";
@@ -11,10 +12,14 @@ import React from "react";
 
 const Page = () => {
   const { startLoading, stopLoading, loading } = useLoading();
+  const { user } = useUser();
   const router = useRouter();
   const handleSubmit = async (values: any) => {
+    if (!user?.token) {
+      return;
+    }
     startLoading();
-    const response = await newVet(values);
+    const response = await newVet(values, user?.token as string);
     if (response.id) {
       router.push(PATHROUTES.ADMIN_DASHBOARD);
     }
